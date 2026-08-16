@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import { signup } from "../api/signup";
 import { SignupPayload, SignupResponse } from "../types";
 
 export function SignupPage() {
+	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
@@ -27,7 +28,27 @@ export function SignupPage() {
 		ServerResponse<SignupResponse>
 	>(signup, {
 		onStart: () => console.log("Request started"),
-		onSuccess: (res) => console.log("Request succeeded", res),
+		onSuccess: (res) => {
+			console.log("Request succeeded", res);
+			const payload = res.data;
+
+			if (!payload) {
+				return;
+			}
+
+			const nextState = {
+				email: form.email,
+				expiresInSeconds: payload.expiresInSeconds,
+				resendAvailableInSeconds: payload.resendAvailableInSeconds,
+				devCode: payload.devCode,
+			} as any;
+
+			sessionStorage.setItem("verify-email-state", JSON.stringify(nextState));
+
+			navigate({
+				to: "/auth/verify-email",
+			});
+		},
 		onError: (err) => console.log("Request failed", err),
 	});
 
