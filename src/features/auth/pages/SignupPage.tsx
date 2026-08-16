@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -102,6 +103,16 @@ export function SignupPage() {
 						<Button disabled={isLoading} type="submit" className="w-full">
 							Create account
 						</Button>
+
+						<p className="text-center text-sm text-muted-foreground">
+							Already have an account?{" "}
+							<Link
+								to="/auth/login"
+								className="font-medium text-primary underline-offset-4 hover:underline"
+							>
+								Login
+							</Link>
+						</p>
 					</form>
 				</CardContent>
 			</Card>

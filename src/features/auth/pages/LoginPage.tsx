@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,6 +71,16 @@ export function LoginPage() {
 						<Button type="submit" className="w-full">
 							Login
 						</Button>
+
+						<p className="text-center text-sm text-muted-foreground">
+							Don't have an account?{" "}
+							<Link
+								to="/auth/signup"
+								className="font-medium text-primary underline-offset-4 hover:underline"
+							>
+								Create one
+							</Link>
+						</p>
 					</form>
 				</CardContent>
 			</Card>

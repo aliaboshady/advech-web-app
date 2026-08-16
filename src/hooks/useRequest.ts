@@ -1,8 +1,7 @@
-// import { useTopLoader } from "nextjs-toploader";
+import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { ErrorResponse } from "@/types";
-
-// import { toast } from "react-toastify";
 
 type RequestOptions<R> = {
 	onSuccess?: (data: R) => void;
@@ -23,15 +22,15 @@ const useRequest = <P, R>(
 		onStart,
 		onFinish,
 		fetchOnMount = false,
-		// showTopLoader = true,
-		// showSuccessToast = false,
-		// showErrorToast = true,
+		showTopLoader = true,
+		showSuccessToast = false,
+		showErrorToast = true,
 	}: RequestOptions<R> = {},
 ) => {
 	const [data, setData] = useState<R | null>(null);
 	const [isLoading, setIsLoading] = useState(fetchOnMount);
 	const [error, setError] = useState<Error | null>(null);
-	// const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
+	const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
 
 	const request = async (payload: P): Promise<R> => {
 		// Browser-only: Check internet connection
@@ -40,11 +39,11 @@ const useRequest = <P, R>(
 			setError(offlineError);
 			onError?.(offlineError);
 
-			// if (showErrorToast) {
-			//   toast.error(
-			//     "No internet connection. Please check your network and try again.",
-			//   );
-			// }
+			if (showErrorToast) {
+				toast.error(
+					"No internet connection. Please check your network and try again.",
+				);
+			}
 
 			throw offlineError;
 		}
@@ -54,22 +53,22 @@ const useRequest = <P, R>(
 		setError(null);
 
 		try {
-			// if (showTopLoader) startTopLoader();
+			if (showTopLoader) startTopLoader();
 
 			const result = await queryFn(payload);
 
 			const errors: ErrorResponse = (result as any)?.error;
 			if (errors) {
-				// if (showErrorToast) {
-				//   errors?.general?.forEach((error) => toast.error(error));
-				// }
+				if (showErrorToast) {
+					errors?.general?.forEach((error) => toast.error(error));
+				}
 			} else {
 				setData(result);
 				onSuccess?.(result);
 
-				// if (showSuccessToast && (result as any)?.message) {
-				//   toast.success((result as any)?.message);
-				// }
+				if (showSuccessToast && (result as any)?.message) {
+					toast.success((result as any)?.message);
+				}
 			}
 
 			return result;
@@ -79,13 +78,13 @@ const useRequest = <P, R>(
 			setError(typedError);
 			onError?.(typedError);
 
-			// if (showErrorToast) {
-			//   toast.error(typedError.message);
-			// }
+			if (showErrorToast) {
+				toast.error(typedError.message);
+			}
 
 			throw typedError;
 		} finally {
-			// doneTopLoader();
+			doneTopLoader();
 			setIsLoading(false);
 			onFinish?.();
 		}
