@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,11 +10,26 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useRequest from "@/hooks/useRequest";
+import { ServerResponse } from "@/types";
+import { login } from "../api/login";
+import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
+	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
+	});
+
+	const { request, isLoading } = useRequest<
+		LoginPayload,
+		ServerResponse<LoginResponse>
+	>(login, {
+		onSuccess: () => {
+			navigate({ to: "/" });
+		},
+		onError: (err) => console.log("Request failed", err),
 	});
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -26,10 +41,13 @@ export function LoginPage() {
 		}));
 	}
 
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log(form);
+		await request({
+			email: form.email,
+			password: form.password,
+		});
 	}
 
 	return (
@@ -68,8 +86,8 @@ export function LoginPage() {
 							/>
 						</div>
 
-						<Button type="submit" className="w-full">
-							Login
+						<Button type="submit" className="w-full" disabled={isLoading}>
+							{isLoading ? "Logging in..." : "Login"}
 						</Button>
 
 						<p className="text-center text-sm text-muted-foreground">
