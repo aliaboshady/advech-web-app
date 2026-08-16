@@ -3,11 +3,11 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import NextTopLoaderImport from "nextjs-toploader";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles.css";
+import { Navbar } from "@/components/Navbar";
 
 const NextTopLoader =
 	(NextTopLoaderImport as { default?: typeof NextTopLoaderImport }).default ??
@@ -31,6 +31,7 @@ function RootComponent() {
 				speed={200}
 			/>
 
+			<Navbar />
 			<ToastContainer />
 			<Outlet />
 
