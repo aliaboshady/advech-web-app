@@ -7,7 +7,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles.css";
+import { useSetAtom } from "jotai";
+import { meAtom } from "@/atoms/meAtom";
 import { Navbar } from "@/components/Navbar";
+import { getAccessToken, getUserIdFromToken } from "@/lib/tokenUtils";
 
 const NextTopLoader =
 	(NextTopLoaderImport as { default?: typeof NextTopLoaderImport }).default ??
@@ -18,6 +21,16 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+	const setMe = useSetAtom(meAtom);
+	const accessToken = getAccessToken();
+	if (accessToken) {
+		const id = getUserIdFromToken(accessToken);
+		setMe((prev) => ({
+			...prev,
+			name: id ?? "",
+		}));
+	}
+
 	return (
 		<>
 			<NextTopLoader

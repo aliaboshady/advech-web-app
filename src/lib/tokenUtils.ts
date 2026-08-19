@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { COOKIES_KEYS } from "./staticKeys";
 
@@ -7,21 +8,21 @@ interface JwtPayload {
 }
 
 export function getAccessToken(): string | null {
-	return localStorage.getItem(COOKIES_KEYS.accessToken);
+	return Cookies.get(COOKIES_KEYS.accessToken) ?? null;
 }
 
 export function getRefreshToken(): string | null {
-	return localStorage.getItem(COOKIES_KEYS.refreshToken);
+	return Cookies.get(COOKIES_KEYS.refreshToken) ?? null;
 }
 
 export function saveTokens(accessToken: string, refreshToken: string): void {
-	localStorage.setItem(COOKIES_KEYS.accessToken, accessToken);
-	localStorage.setItem(COOKIES_KEYS.refreshToken, refreshToken);
+	Cookies.set(COOKIES_KEYS.accessToken, accessToken);
+	Cookies.set(COOKIES_KEYS.refreshToken, refreshToken);
 }
 
 export function clearTokens(): void {
-	localStorage.removeItem(COOKIES_KEYS.accessToken);
-	localStorage.removeItem(COOKIES_KEYS.refreshToken);
+	Cookies.remove(COOKIES_KEYS.accessToken);
+	Cookies.remove(COOKIES_KEYS.refreshToken);
 }
 
 export function getUserIdFromToken(token: string): string | null {
@@ -37,7 +38,6 @@ export function isTokenExpired(token: string): boolean {
 	try {
 		const { exp } = jwtDecode<JwtPayload>(token);
 
-		// Consider expired 10 seconds early.
 		return exp * 1000 < Date.now() + 10_000;
 	} catch {
 		return true;
@@ -61,17 +61,13 @@ export async function refreshAccessToken(): Promise<boolean> {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({
-					refreshToken,
-				}),
+				body: JSON.stringify({ refreshToken }),
 			},
 		);
 
 		if (!response.ok) {
 			console.log("🔴 ➡️ Error refreshing tokens");
-
 			clearTokens();
-
 			return false;
 		}
 
@@ -84,9 +80,7 @@ export async function refreshAccessToken(): Promise<boolean> {
 		return true;
 	} catch (error) {
 		console.error("🔴 ➡️ Failed to refresh tokens:", error);
-
 		clearTokens();
-
 		return false;
 	}
 }

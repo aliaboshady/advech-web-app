@@ -1,14 +1,16 @@
 import { useNavigate } from "@tanstack/react-router";
-
-import { clearTokens, getAccessToken, getRefreshToken } from "@/lib/tokenUtils";
+import { useAtom } from "jotai";
+import { meAtom } from "@/atoms/meAtom";
+import { clearTokens } from "@/lib/tokenUtils";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 
 export function Navbar() {
 	const navigate = useNavigate();
-	const isLoggedIn = Boolean(getAccessToken() || getRefreshToken());
+	const [me, setMe] = useAtom(meAtom);
 
 	const handleLogout = () => {
+		setMe(null);
 		clearTokens();
 		navigate({ to: "/auth/login" });
 	};
@@ -21,7 +23,9 @@ export function Navbar() {
 				</div>
 
 				<div className="flex items-center gap-2">
-					{isLoggedIn && (
+					{me?.name}
+
+					{me && (
 						<Button
 							type="button"
 							variant="outline"

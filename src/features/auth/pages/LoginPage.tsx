@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useSetAtom } from "jotai";
 import { useState } from "react";
+import { meAtom } from "@/atoms/meAtom";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -11,12 +13,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useRequest from "@/hooks/useRequest";
+import { getUserIdFromToken, saveTokens } from "@/lib/tokenUtils";
 import { ServerResponse } from "@/types";
 import { login } from "../api/login";
 import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
 	const navigate = useNavigate();
+	const setMe = useSetAtom(meAtom);
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
@@ -26,7 +30,17 @@ export function LoginPage() {
 		LoginPayload,
 		ServerResponse<LoginResponse>
 	>(login, {
-		onSuccess: () => {
+		onSuccess: async (res: ServerResponse<LoginResponse>) => {
+			const { refreshToken, accessToken } = res?.data ?? {};
+			if (refreshToken && accessToken) {
+				await Promise.all([saveTokens(accessToken, refreshToken)]);
+				const id = getUserIdFromToken(accessToken);
+				setMe((prev) => ({
+					...prev,
+					name: id ?? "",
+				}));
+			}
+
 			navigate({ to: "/" });
 		},
 		onError: (err) => console.log("Request failed", err),
@@ -43,7 +57,6 @@ export function LoginPage() {
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
 		await request({
 			email: form.email,
 			password: form.password,
