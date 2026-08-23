@@ -1,18 +1,25 @@
-import { useNavigate } from "@tanstack/react-router";
-import { useAtom } from "jotai";
-import { meAtom } from "@/atoms/meAtom";
+import {
+	useNavigate,
+	useRouteContext,
+	useRouter,
+} from "@tanstack/react-router";
 import { clearTokens } from "@/lib/tokenUtils";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 
 export function Navbar() {
 	const navigate = useNavigate();
-	const [me, setMe] = useAtom(meAtom);
+	const router = useRouter();
+	const { me } = useRouteContext({ from: "__root__" });
 
-	const handleLogout = () => {
-		setMe(null);
+	const handleLogout = async () => {
 		clearTokens();
-		navigate({ to: "/auth/login" });
+
+		await router.invalidate();
+
+		await navigate({
+			to: "/auth/login",
+		});
 	};
 
 	return (
@@ -36,6 +43,7 @@ export function Navbar() {
 							Logout
 						</Button>
 					)}
+
 					<ThemeToggle />
 				</div>
 			</div>

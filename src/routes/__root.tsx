@@ -7,30 +7,26 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles.css";
-import { useSetAtom } from "jotai";
-import { meAtom } from "@/atoms/meAtom";
 import { Navbar } from "@/components/Navbar";
-import { getAccessToken, getUserIdFromToken } from "@/lib/tokenUtils";
+import { me } from "@/features/auth/api/me";
 
 const NextTopLoader =
 	(NextTopLoaderImport as { default?: typeof NextTopLoaderImport }).default ??
 	NextTopLoaderImport;
 
 export const Route = createRootRoute({
+	beforeLoad: async () => {
+		const response = await me();
+
+		return {
+			me: response?.data ?? null,
+		};
+	},
+
 	component: RootComponent,
 });
 
 function RootComponent() {
-	const setMe = useSetAtom(meAtom);
-	const accessToken = getAccessToken();
-	if (accessToken) {
-		const id = getUserIdFromToken(accessToken);
-		setMe((prev) => ({
-			...prev,
-			name: id ?? "",
-		}));
-	}
-
 	return (
 		<>
 			<NextTopLoader
@@ -44,7 +40,6 @@ function RootComponent() {
 				speed={200}
 			/>
 
-			<Navbar />
 			<ToastContainer />
 			<Outlet />
 

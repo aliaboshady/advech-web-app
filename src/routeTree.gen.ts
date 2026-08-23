@@ -9,104 +9,161 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthLoginRouteImport } from './routes/auth/login'
-import { Route as AuthSignupRouteImport } from './routes/auth/signup'
-import { Route as AuthVerifyEmailRouteImport } from './routes/auth/verify-email'
+import { Route as PrivateRouteRouteImport } from './routes/_private/route'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
+import { Route as PrivateIndexRouteImport } from './routes/_private/index'
+import { Route as PublicAuthLoginRouteImport } from './routes/_public/auth/login'
+import { Route as PublicAuthSignupRouteImport } from './routes/_public/auth/signup'
+import { Route as PublicAuthVerifyEmailRouteImport } from './routes/_public/auth/verify-email'
 
-const IndexRoute = IndexRouteImport.update({
+const PrivateRouteRoute = PrivateRouteRouteImport.update({
+  id: '/_private',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivateIndexRoute = PrivateIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PrivateRouteRoute,
 } as any)
-const AuthLoginRoute = AuthLoginRouteImport.update({
+const PublicAuthLoginRoute = PublicAuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
-const AuthSignupRoute = AuthSignupRouteImport.update({
+const PublicAuthSignupRoute = PublicAuthSignupRouteImport.update({
   id: '/auth/signup',
   path: '/auth/signup',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
-const AuthVerifyEmailRoute = AuthVerifyEmailRouteImport.update({
+const PublicAuthVerifyEmailRoute = PublicAuthVerifyEmailRouteImport.update({
   id: '/auth/verify-email',
   path: '/auth/verify-email',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/signup': typeof AuthSignupRoute
-  '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/': typeof PrivateIndexRoute
+  '/auth/login': typeof PublicAuthLoginRoute
+  '/auth/signup': typeof PublicAuthSignupRoute
+  '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/signup': typeof AuthSignupRoute
-  '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/': typeof PrivateIndexRoute
+  '/auth/login': typeof PublicAuthLoginRoute
+  '/auth/signup': typeof PublicAuthSignupRoute
+  '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/signup': typeof AuthSignupRoute
-  '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/_private': typeof PrivateRouteRouteWithChildren
+  '/_public': typeof PublicRouteRouteWithChildren
+  '/_private/': typeof PrivateIndexRoute
+  '/_public/auth/login': typeof PublicAuthLoginRoute
+  '/_public/auth/signup': typeof PublicAuthSignupRoute
+  '/_public/auth/verify-email': typeof PublicAuthVerifyEmailRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/auth/login' | '/auth/signup' | '/auth/verify-email'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/auth/login' | '/auth/signup' | '/auth/verify-email'
-  id: '__root__' | '/' | '/auth/login' | '/auth/signup' | '/auth/verify-email'
+  id:
+    | '__root__'
+    | '/_private'
+    | '/_public'
+    | '/_private/'
+    | '/_public/auth/login'
+    | '/_public/auth/signup'
+    | '/_public/auth/verify-email'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthLoginRoute: typeof AuthLoginRoute
-  AuthSignupRoute: typeof AuthSignupRoute
-  AuthVerifyEmailRoute: typeof AuthVerifyEmailRoute
+  PrivateRouteRoute: typeof PrivateRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_private': {
+      id: '/_private'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PrivateRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_private/': {
+      id: '/_private/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PrivateIndexRouteImport
+      parentRoute: typeof PrivateRouteRoute
     }
-    '/auth/login': {
-      id: '/auth/login'
+    '/_public/auth/login': {
+      id: '/_public/auth/login'
       path: '/auth/login'
       fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicAuthLoginRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
-    '/auth/signup': {
-      id: '/auth/signup'
+    '/_public/auth/signup': {
+      id: '/_public/auth/signup'
       path: '/auth/signup'
       fullPath: '/auth/signup'
-      preLoaderRoute: typeof AuthSignupRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicAuthSignupRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
-    '/auth/verify-email': {
-      id: '/auth/verify-email'
+    '/_public/auth/verify-email': {
+      id: '/_public/auth/verify-email'
       path: '/auth/verify-email'
       fullPath: '/auth/verify-email'
-      preLoaderRoute: typeof AuthVerifyEmailRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicAuthVerifyEmailRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
   }
 }
 
+interface PrivateRouteRouteChildren {
+  PrivateIndexRoute: typeof PrivateIndexRoute
+}
+
+const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
+  PrivateIndexRoute: PrivateIndexRoute,
+}
+
+const PrivateRouteRouteWithChildren = PrivateRouteRoute._addFileChildren(
+  PrivateRouteRouteChildren,
+)
+
+interface PublicRouteRouteChildren {
+  PublicAuthLoginRoute: typeof PublicAuthLoginRoute
+  PublicAuthSignupRoute: typeof PublicAuthSignupRoute
+  PublicAuthVerifyEmailRoute: typeof PublicAuthVerifyEmailRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicAuthLoginRoute: PublicAuthLoginRoute,
+  PublicAuthSignupRoute: PublicAuthSignupRoute,
+  PublicAuthVerifyEmailRoute: PublicAuthVerifyEmailRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AuthLoginRoute: AuthLoginRoute,
-  AuthSignupRoute: AuthSignupRoute,
-  AuthVerifyEmailRoute: AuthVerifyEmailRoute,
+  PrivateRouteRoute: PrivateRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

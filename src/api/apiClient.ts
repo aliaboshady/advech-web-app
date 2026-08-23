@@ -9,26 +9,18 @@ import { getRouter } from "@/router";
 interface FetchOptions extends RequestInit {
 	skipAuth?: boolean;
 	refreshTokens?: boolean;
-	redirectToLogin?: boolean;
+	allowUnauthenticated?: boolean;
 	skipParseJson?: boolean;
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function redirectToLogin() {
+function redirectToLogin(): never {
 	clearTokens();
 
 	getRouter().navigate({
 		to: "/auth/login",
 	});
-}
-
-async function handleAuthenticationFailure(
-	shouldRedirectToLogin: boolean,
-): Promise<never> {
-	if (shouldRedirectToLogin) {
-		redirectToLogin();
-	}
 
 	throw new Error("Authentication expired");
 }
@@ -60,7 +52,7 @@ export async function apiClient<T>(
 	const {
 		skipAuth = false,
 		refreshTokens: shouldRefreshTokens = true,
-		redirectToLogin: shouldRedirectToLogin = true,
+		allowUnauthenticated = false,
 		skipParseJson = false,
 		...fetchOptions
 	} = options;
@@ -80,7 +72,11 @@ export async function apiClient<T>(
 		}
 
 		if (!accessToken) {
-			return handleAuthenticationFailure(shouldRedirectToLogin);
+			if (allowUnauthenticated) {
+				return null as T;
+			}
+
+			return redirectToLogin();
 		}
 
 		headers.set("Authorization", `Bearer ${accessToken}`);
@@ -127,7 +123,11 @@ export async function apiClient<T>(
 
 			// Refresh failed or retry still returned an error.
 			if (!response.ok) {
-				return handleAuthenticationFailure(shouldRedirectToLogin);
+				if (allowUnauthenticated) {
+					return null as T;
+				}
+
+				return redirectToLogin();
 			}
 		}
 

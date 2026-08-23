@@ -1,3 +1,9 @@
+export type MeResponse = {
+	id: string;
+	name: string;
+	email: string;
+};
+
 export type SignupPayload = {
 	email: string;
 	password: string;

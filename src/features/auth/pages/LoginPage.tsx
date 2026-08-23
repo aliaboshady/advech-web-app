@@ -1,7 +1,5 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useSetAtom } from "jotai";
+import { Link, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-import { meAtom } from "@/atoms/meAtom";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -13,14 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useRequest from "@/hooks/useRequest";
-import { getUserIdFromToken, saveTokens } from "@/lib/tokenUtils";
+import { saveTokens } from "@/lib/tokenUtils";
 import { ServerResponse } from "@/types";
 import { login } from "../api/login";
 import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
-	const navigate = useNavigate();
-	const setMe = useSetAtom(meAtom);
+	const router = useRouter();
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
@@ -33,15 +30,12 @@ export function LoginPage() {
 		onSuccess: async (res: ServerResponse<LoginResponse>) => {
 			const { refreshToken, accessToken } = res?.data ?? {};
 			if (refreshToken && accessToken) {
-				await Promise.all([saveTokens(accessToken, refreshToken)]);
-				const id = getUserIdFromToken(accessToken);
-				setMe((prev) => ({
-					...prev,
-					name: id ?? "",
-				}));
+				saveTokens(accessToken, refreshToken);
+				await router.invalidate();
+				await router.navigate({
+					to: "/",
+				});
 			}
-
-			navigate({ to: "/" });
 		},
 		onError: (err) => console.log("Request failed", err),
 	});

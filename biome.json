@@ -30,7 +30,8 @@
 				"noUnsafeOptionalChaining": "off"
 			},
 			"style": {
-				"useImportType": "off"
+				"useImportType": "off",
+				"noNonNullAssertion": "off"
 			},
 			"suspicious": {
 				"noExplicitAny": "off",
