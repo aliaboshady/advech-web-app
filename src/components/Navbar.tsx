@@ -4,6 +4,7 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import { clearTokens } from "@/lib/tokenUtils";
+import { LanguageToggle } from "./LanguageToggle";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 
@@ -44,6 +45,7 @@ export function Navbar() {
 						</Button>
 					)}
 
+					<LanguageToggle />
 					<ThemeToggle />
 				</div>
 			</div>

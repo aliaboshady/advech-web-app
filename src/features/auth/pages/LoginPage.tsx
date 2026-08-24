@@ -2,6 +2,7 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { useTopLoader } from "nextjs-toploader";
+import { useTranslation } from "react-i18next";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +22,7 @@ import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
 	const router = useRouter();
+	const { t } = useTranslation();
 	const { start: startTopLoader } = useTopLoader();
 
 	const { request, isLoading, isSuccess } = useRequest<
@@ -69,7 +71,7 @@ export function LoginPage() {
 					<form onSubmit={formik.handleSubmit} className="space-y-4">
 						<FormikTextInput
 							formik={formik}
-							label={"Email"}
+							label={t("login.email")}
 							placeholder={"you@example.com"}
 							name="email"
 							labelClassName="text-lg text-primary"
