@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles.css";
-import { Navbar } from "@/components/Navbar";
 import { me } from "@/features/auth/api/me";
 
 const NextTopLoader =
@@ -30,7 +29,7 @@ function RootComponent() {
 	return (
 		<>
 			<NextTopLoader
-				color="#000000"
+				color="#FF5001"
 				initialPosition={0.08}
 				crawlSpeed={200}
 				height={3}
