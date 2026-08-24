@@ -13,14 +13,17 @@ export type QueryParam = {
 
 export type ServerResponse<T> = {
 	data?: T;
-	message?: string;
+	success?: boolean;
 	error?: ErrorResponse;
 };
 
 export type ErrorResponse = {
-	general: string[];
-} & {
-	[key: string]: string[];
+	code: string;
+	message: string;
+	details: {
+		field?: string;
+		constraints?: string[];
+	}[];
 };
 
 export type PaginatedPayload = {

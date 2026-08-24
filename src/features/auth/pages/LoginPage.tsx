@@ -1,6 +1,7 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
+import { useTopLoader } from "nextjs-toploader";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,12 +13,15 @@ import {
 } from "@/components/ui/card";
 import useRequest from "@/hooks/useRequest";
 import { saveTokens } from "@/lib/tokenUtils";
+import { handleFormikError } from "@/lib/utils";
+import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { login } from "../api/login";
 import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
 	const router = useRouter();
+	const { start: startTopLoader } = useTopLoader();
 
 	const { request, isLoading, isSuccess } = useRequest<
 		LoginPayload,
@@ -26,6 +30,7 @@ export function LoginPage() {
 		onSuccess: async (res: ServerResponse<LoginResponse>) => {
 			const { refreshToken, accessToken } = res?.data ?? {};
 			if (refreshToken && accessToken) {
+				startTopLoader();
 				saveTokens(accessToken, refreshToken);
 				await router.invalidate();
 				await router.navigate({
@@ -33,22 +38,20 @@ export function LoginPage() {
 				});
 			}
 		},
-		onError: (err) => console.log("Request failed", err),
 	});
 
 	const formik = useFormik({
 		initialValues: { email: "", password: "" },
-		// validationSchema: validationSchema.login,
+		validationSchema: validationSchema.login,
 		onSubmit: async (values) => {
-			await request({
-				email: values.email,
-				password: values.password,
-			});
-			// if (res?.data) {
-			//   toast.success(res?.message);
-			//   startTopLoader();
-			//   setTimeout(() => router.push(ROUTES.root.url), 200);
-			// }
+			try {
+				await request({
+					email: values.email,
+					password: values.password,
+				});
+			} catch (error) {
+				handleFormikError(error, formik);
+			}
 		},
 	});
 

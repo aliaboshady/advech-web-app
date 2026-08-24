@@ -69,7 +69,7 @@ const TextInput = ({
 
 			<div className="relative">
 				{icon && (
-					<div className="absolute start-4 top-1/2 -translate-y-1/2">
+					<div className="absolute inset-s-4 top-1/2 -translate-y-1/2">
 						{icon}
 					</div>
 				)}
@@ -122,7 +122,7 @@ const TextInput = ({
 
 				{isPassword && (
 					<button
-						className={`absolute end-4 top-1/2 -translate-y-1/2 ${disabled && "opacity-50"}`}
+						className={`absolute inset-e-4 top-1/2 -translate-y-1/2 ${disabled && "opacity-50"}`}
 						onClick={() => setIsPasswordShown(!isPasswordShown)}
 						type="button"
 						disabled={disabled}
@@ -136,8 +136,8 @@ const TextInput = ({
 				)}
 
 				{error && (
-					<div className="absolute start-3 bottom-2 translate-y-full px-2 max-w-[calc(100%-2rem)]">
-						<div className="absolute bottom-2 start-0 end-0 bg-white h-1 -z-10" />
+					<div className="absolute inset-s-3 bottom-2 translate-y-full px-2 max-w-[calc(100%-2rem)]">
+						<div className="absolute bottom-2 inset-s-0 inset-e-0 bg-white h-1 -z-10" />
 						<p className="text-xs text-danger font-medium whitespace-nowrap truncate">
 							{error}
 						</p>

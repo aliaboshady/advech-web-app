@@ -1,11 +1,12 @@
 import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { isErrorResponse } from "@/lib/utils";
 import { ErrorResponse } from "@/types";
 
 type RequestOptions<R> = {
 	onSuccess?: (data: R) => void;
-	onError?: (error: Error) => void;
+	onError?: (error: Error | ErrorResponse) => void;
 	onStart?: () => void;
 	onFinish?: () => void;
 	fetchOnMount?: boolean;
@@ -30,7 +31,8 @@ const useRequest = <P, R>(
 	const [data, setData] = useState<R | null>(null);
 	const [isLoading, setIsLoading] = useState(fetchOnMount);
 	const [isSuccess, setIsSuccess] = useState(false);
-	const [error, setError] = useState<Error | null>(null);
+	const [error, setError] = useState<Error | ErrorResponse | null>(null);
+
 	const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
 
 	const request = async (payload: P): Promise<R> => {
@@ -38,51 +40,68 @@ const useRequest = <P, R>(
 		if (typeof navigator !== "undefined" && !navigator.onLine) {
 			const offlineError = new Error("No internet connection.");
 			setError(offlineError);
+			setIsSuccess(false);
 			onError?.(offlineError);
 
 			if (showErrorToast) {
-				toast.error(
-					"No internet connection. Please check your network and try again.",
-				);
+				toast.error(offlineError.message);
 			}
 
 			throw offlineError;
 		}
 
 		setIsLoading(true);
-		onStart?.();
+		setIsSuccess(false);
 		setError(null);
+		onStart?.();
 
 		try {
-			if (showTopLoader) startTopLoader();
+			if (showTopLoader) {
+				startTopLoader();
+			}
 
 			const result = await queryFn(payload);
 
-			const errors: ErrorResponse = (result as any)?.error;
-			if (errors) {
-				if (showErrorToast) {
-					errors?.general?.forEach((error) => toast.error(error));
-				}
-			} else {
-				setData(result);
-				setIsSuccess(true);
-				onSuccess?.(result);
+			const serverError = (result as { error?: ErrorResponse })?.error;
 
-				if (showSuccessToast && (result as any)?.message) {
-					toast.success((result as any)?.message);
+			if (serverError) {
+				setError(serverError);
+				setIsSuccess(false);
+
+				onError?.(serverError);
+
+				if (showErrorToast) {
+					toast.error(serverError.message);
 				}
+
+				throw serverError;
+			}
+
+			setData(result);
+			setIsSuccess(true);
+			onSuccess?.(result);
+
+			if (showSuccessToast && (result as { message?: string })?.message) {
+				toast.success((result as { message?: string }).message);
 			}
 
 			return result;
-		} catch (err: any) {
-			const typedError = err instanceof Error ? err : new Error(String(err));
+		} catch (err) {
+			const typedError =
+				err instanceof Error || isErrorResponse(err)
+					? err
+					: new Error(String(err));
 
 			setError(typedError);
 			setIsSuccess(false);
-			onError?.(typedError);
 
-			if (showErrorToast) {
-				toast.error(typedError.message);
+			// Don't call onError twice for backend errors.
+			if (!isErrorResponse(typedError)) {
+				onError?.(typedError);
+
+				if (showErrorToast) {
+					toast.error(typedError.message);
+				}
 			}
 
 			throw typedError;
@@ -106,7 +125,14 @@ const useRequest = <P, R>(
 		}
 	}, [fetchOnMount]);
 
-	return { request, data, isLoading, isSuccess, error, reset };
+	return {
+		request,
+		data,
+		isLoading,
+		isSuccess,
+		error,
+		reset,
+	};
 };
 
 export default useRequest;
