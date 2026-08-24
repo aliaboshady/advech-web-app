@@ -29,6 +29,7 @@ const useRequest = <P, R>(
 ) => {
 	const [data, setData] = useState<R | null>(null);
 	const [isLoading, setIsLoading] = useState(fetchOnMount);
+	const [isSuccess, setIsSuccess] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 	const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
 
@@ -64,6 +65,7 @@ const useRequest = <P, R>(
 				}
 			} else {
 				setData(result);
+				setIsSuccess(true);
 				onSuccess?.(result);
 
 				if (showSuccessToast && (result as any)?.message) {
@@ -76,6 +78,7 @@ const useRequest = <P, R>(
 			const typedError = err instanceof Error ? err : new Error(String(err));
 
 			setError(typedError);
+			setIsSuccess(false);
 			onError?.(typedError);
 
 			if (showErrorToast) {
@@ -94,6 +97,7 @@ const useRequest = <P, R>(
 		setData(null);
 		setError(null);
 		setIsLoading(false);
+		setIsSuccess(false);
 	};
 
 	useEffect(() => {
@@ -102,7 +106,7 @@ const useRequest = <P, R>(
 		}
 	}, [fetchOnMount]);
 
-	return { request, data, isLoading, error, reset };
+	return { request, data, isLoading, isSuccess, error, reset };
 };
 
 export default useRequest;

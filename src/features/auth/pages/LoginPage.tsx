@@ -1,5 +1,7 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { useFormik } from "formik";
+import { KeyRoundIcon, MailIcon } from "lucide-react";
+import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -8,8 +10,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import useRequest from "@/hooks/useRequest";
 import { saveTokens } from "@/lib/tokenUtils";
 import { ServerResponse } from "@/types";
@@ -18,12 +18,8 @@ import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
 	const router = useRouter();
-	const [form, setForm] = useState({
-		email: "",
-		password: "",
-	});
 
-	const { request, isLoading } = useRequest<
+	const { request, isLoading, isSuccess } = useRequest<
 		LoginPayload,
 		ServerResponse<LoginResponse>
 	>(login, {
@@ -40,22 +36,21 @@ export function LoginPage() {
 		onError: (err) => console.log("Request failed", err),
 	});
 
-	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-		const { name, value } = event.target;
-
-		setForm((prev) => ({
-			...prev,
-			[name]: value,
-		}));
-	}
-
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-		await request({
-			email: form.email,
-			password: form.password,
-		});
-	}
+	const formik = useFormik({
+		initialValues: { email: "", password: "" },
+		// validationSchema: validationSchema.login,
+		onSubmit: async (values) => {
+			await request({
+				email: values.email,
+				password: values.password,
+			});
+			// if (res?.data) {
+			//   toast.success(res?.message);
+			//   startTopLoader();
+			//   setTimeout(() => router.push(ROUTES.root.url), 200);
+			// }
+		},
+	});
 
 	return (
 		<div className="flex min-h-screen items-center justify-center p-6">
@@ -68,32 +63,35 @@ export function LoginPage() {
 				</CardHeader>
 
 				<CardContent>
-					<form onSubmit={handleSubmit} className="space-y-4">
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								name="email"
-								type="email"
-								value={form.email}
-								onChange={handleChange}
-								placeholder="you@example.com"
-							/>
-						</div>
+					<form onSubmit={formik.handleSubmit} className="space-y-4">
+						<FormikTextInput
+							formik={formik}
+							label={"Email"}
+							placeholder={"you@example.com"}
+							name="email"
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+							icon={<MailIcon size={25} className="text-primary" />}
+						/>
 
-						<div className="space-y-2">
-							<Label htmlFor="password">Password</Label>
-							<Input
-								id="password"
-								name="password"
-								type="password"
-								value={form.password}
-								onChange={handleChange}
-								placeholder="••••••••"
-							/>
-						</div>
+						<FormikTextInput
+							formik={formik}
+							label={"Password"}
+							placeholder={"Enter your password"}
+							name="password"
+							icon={<KeyRoundIcon size={25} className="text-primary" />}
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+							isPassword
+						/>
 
-						<Button type="submit" className="w-full" disabled={isLoading}>
+						<Button
+							type="submit"
+							className="w-full"
+							disabled={!formik.isValid || isLoading || isSuccess}
+						>
 							{isLoading ? "Logging in..." : "Login"}
 						</Button>
 
