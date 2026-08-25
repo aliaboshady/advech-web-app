@@ -31,7 +31,9 @@ export function Navbar() {
 				</div>
 
 				<div className="flex items-center gap-2">
-					{me?.name}
+					<span className="text-sm font-medium text-foreground">
+						{me?.firstName ?? me?.email}
+					</span>
 
 					{me && (
 						<Button
