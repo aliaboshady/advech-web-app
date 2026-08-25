@@ -8,6 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "../styles.css";
 import { me } from "@/features/users/api/me";
+import { getAccessToken } from "@/lib/tokenUtils";
+
+let cachedAccessToken: string | null | undefined;
+let cachedMeResponse: Awaited<ReturnType<typeof me>> | undefined;
 
 const NextTopLoader =
 	(NextTopLoaderImport as { default?: typeof NextTopLoaderImport }).default ??
@@ -15,7 +19,18 @@ const NextTopLoader =
 
 export const Route = createRootRoute({
 	beforeLoad: async () => {
-		const response = await me();
+		const accessToken = getAccessToken();
+		let response: Awaited<ReturnType<typeof me>>;
+
+		if (accessToken === cachedAccessToken && cachedMeResponse !== undefined) {
+			console.log("[auth] Reusing cached users/me response for route context");
+			response = cachedMeResponse;
+		} else {
+			console.log("[auth] Loading users/me for route context");
+			response = await me();
+			cachedAccessToken = accessToken;
+			cachedMeResponse = response;
+		}
 
 		return {
 			me: response?.data ?? null,

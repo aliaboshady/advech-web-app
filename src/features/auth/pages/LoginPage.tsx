@@ -35,9 +35,6 @@ export function LoginPage() {
 				startTopLoader();
 				saveTokens(accessToken, refreshToken);
 				await router.invalidate();
-				await router.navigate({
-					to: "/",
-				});
 			}
 		},
 	});

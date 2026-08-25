@@ -55,7 +55,7 @@ export async function refreshAccessToken(): Promise<boolean> {
 		}
 
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/users/refresh-token`,
+			`${import.meta.env.VITE_API_URL}/auth/refresh`,
 			{
 				method: "POST",
 				headers: {
