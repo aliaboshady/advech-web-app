@@ -1,8 +1,8 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
 import NextTopLoaderImport from "nextjs-toploader";
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,6 +41,15 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+	useEffect(() => {
+		const savedTheme = localStorage.getItem("theme");
+		const isDark = savedTheme
+			? savedTheme === "dark"
+			: window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+		document.documentElement.classList.toggle("dark", isDark);
+	}, []);
+
 	return (
 		<>
 			<NextTopLoader
