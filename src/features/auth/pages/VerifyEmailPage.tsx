@@ -15,6 +15,7 @@ import useRequest from "@/hooks/useRequest";
 import { ServerResponse } from "@/types";
 import { resendCode } from "../api/resend-code";
 import { verifyEmail } from "../api/verify-email";
+import { LanguageAndTheme } from "../components/LanguageAndTheme";
 import {
 	ResendCodePayload,
 	ResendCodeResponse,
@@ -219,6 +220,8 @@ export function VerifyEmailPage() {
 								{isLoadingResend ? "Sending..." : "Resend code"}
 							</Button>
 						)}
+
+						<LanguageAndTheme />
 					</form>
 				</CardContent>
 			</Card>

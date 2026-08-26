@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import useRequest from "@/hooks/useRequest";
 import { ServerResponse } from "@/types";
 import { signup } from "../api/signup";
+import { LanguageAndTheme } from "../components/LanguageAndTheme";
 import { SignupPayload, SignupResponse } from "../types";
 
 export function SignupPage() {
@@ -134,6 +135,8 @@ export function SignupPage() {
 								Login
 							</Link>
 						</p>
+
+						<LanguageAndTheme />
 					</form>
 				</CardContent>
 			</Card>

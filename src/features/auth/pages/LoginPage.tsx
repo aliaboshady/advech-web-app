@@ -18,6 +18,7 @@ import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { login } from "../api/login";
+import { LanguageAndTheme } from "../components/LanguageAndTheme";
 import { LoginPayload, LoginResponse } from "../types";
 
 export function LoginPage() {
@@ -106,6 +107,8 @@ export function LoginPage() {
 								Create one
 							</Link>
 						</p>
+
+						<LanguageAndTheme />
 					</form>
 				</CardContent>
 			</Card>
