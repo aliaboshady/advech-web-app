@@ -6,7 +6,7 @@ import { isErrorResponse } from "@/lib/utils";
 import { ErrorResponse } from "@/types";
 
 type RequestOptions<R> = {
-	onSuccess?: (data: R) => void;
+	onSuccess?: (data: R) => void | Promise<void>;
 	onError?: (error: Error | ErrorResponse) => void;
 	onStart?: () => void;
 	onFinish?: () => void;
@@ -80,7 +80,7 @@ const useRequest = <P, R>(
 
 			setData(result);
 			setIsSuccess(true);
-			onSuccess?.(result);
+			await onSuccess?.(result);
 
 			if (showSuccessToast && (result as { message?: string })?.message) {
 				toast.success((result as { message?: string }).message);
