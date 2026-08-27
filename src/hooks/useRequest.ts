@@ -66,16 +66,21 @@ const useRequest = <P, R>(
 			const serverError = (result as { error?: ErrorResponse })?.error;
 
 			if (serverError) {
-				setError(serverError);
+				const normalizedError: ErrorResponse = {
+					...serverError,
+					details: serverError.details ?? [],
+				};
+
+				setError(normalizedError);
 				setIsSuccess(false);
 
-				onError?.(serverError);
+				onError?.(normalizedError);
 
 				if (showErrorToast) {
-					toast.error(serverError.message);
+					toast.error(normalizedError.message);
 				}
 
-				throw serverError;
+				throw normalizedError;
 			}
 
 			setData(result);
