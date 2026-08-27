@@ -17,6 +17,7 @@ export type TextInputProps = {
 	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	type?: HTMLInputTypeAttribute;
+	autoComplete?: React.InputHTMLAttributes<HTMLInputElement>["autoComplete"];
 	label?: string;
 	placeholder?: string;
 	icon?: React.ReactNode;
@@ -41,6 +42,7 @@ const TextInput = ({
 	onBlur,
 	onFocus,
 	type = "text",
+	autoComplete,
 	label,
 	placeholder,
 	icon,
@@ -104,7 +106,9 @@ const TextInput = ({
 						}}
 						onBlur={onBlur}
 						onFocus={onFocus}
-						autoComplete={enableAutofill ? "" : "new-password"}
+						autoComplete={
+							autoComplete ?? (enableAutofill ? "" : "new-password")
+						}
 						type={isPassword && !isPasswordShown ? "password" : type}
 						placeholder={placeholder}
 						className={twMerge(

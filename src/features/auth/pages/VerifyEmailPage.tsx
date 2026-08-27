@@ -1,6 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
+import { useFormik } from "formik";
+import { MailIcon, SquareAsteriskIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { useTranslation } from "react-i18next";
+import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -9,9 +12,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import useRequest from "@/hooks/useRequest";
+import { handleFormikError } from "@/lib/utils";
+import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { resendCode } from "../api/resend-code";
 import { verifyEmail } from "../api/verify-email";
@@ -42,6 +45,7 @@ function formatCountdown(seconds: number) {
 
 export function VerifyEmailPage() {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 	const [email, setEmail] = useState("");
 	const [code, setCode] = useState("");
 	const [expiresIn, setExpiresIn] = useState(0);
@@ -146,13 +150,20 @@ export function VerifyEmailPage() {
 		});
 	};
 
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-		if (!email || !code) return;
-
-		await requestVerify({ email, code });
-	};
+	const formik = useFormik({
+		initialValues: { email: "", code: "" },
+		validationSchema: validationSchema.verifyEmail,
+		onSubmit: async (values) => {
+			try {
+				await requestVerify({
+					email: values.email,
+					code: values.code,
+				});
+			} catch (error) {
+				handleFormikError(error, formik);
+			}
+		},
+	});
 
 	return (
 		<div className="flex min-h-screen items-center justify-center p-6">
@@ -166,29 +177,28 @@ export function VerifyEmailPage() {
 				</CardHeader>
 
 				<CardContent>
-					<form onSubmit={handleSubmit} className="space-y-4">
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								name="email"
-								type="email"
-								value={email}
-								onChange={(event) => setEmail(event.target.value)}
-								placeholder="you@example.com"
-							/>
-						</div>
+					<form onSubmit={formik.handleSubmit} className="space-y-4">
+						<FormikTextInput
+							formik={formik}
+							label={t("login.email")}
+							placeholder={"you@example.com"}
+							name="email"
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+							icon={<MailIcon size={25} className="text-primary" />}
+						/>
 
-						<div className="space-y-2">
-							<Label htmlFor="code">Verification code</Label>
-							<Input
-								id="code"
-								name="code"
-								value={code}
-								onChange={(event) => setCode(event.target.value)}
-								placeholder="Enter code"
-							/>
-						</div>
+						<FormikTextInput
+							formik={formik}
+							label={"Verification code"}
+							placeholder={"Enter verification code"}
+							name="code"
+							icon={<SquareAsteriskIcon size={25} className="text-primary" />}
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+						/>
 
 						<div className="space-y-2 rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
 							<div className="flex items-center justify-between gap-2">
@@ -205,7 +215,11 @@ export function VerifyEmailPage() {
 							</div>
 						</div>
 
-						<Button type="submit" className="w-full" disabled={isLoadingVerify}>
+						<Button
+							type="submit"
+							className="w-full"
+							disabled={!formik.isValid || isLoadingVerify || isLoadingResend}
+						>
 							{isLoadingVerify ? "Verifying..." : "Verify email"}
 						</Button>
 
@@ -214,7 +228,12 @@ export function VerifyEmailPage() {
 								type="button"
 								variant="outline"
 								className="w-full"
-								disabled={isLoadingResend || !email}
+								disabled={
+									!formik.values.email ||
+									!!formik.errors.email ||
+									isLoadingVerify ||
+									isLoadingResend
+								}
 								onClick={handleResend}
 							>
 								{isLoadingResend ? "Sending..." : "Resend code"}

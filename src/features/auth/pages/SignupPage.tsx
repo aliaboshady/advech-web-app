@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useFormik } from "formik";
+import { KeyRoundIcon, MailIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -8,9 +11,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import useRequest from "@/hooks/useRequest";
+import { handleFormikError } from "@/lib/utils";
+import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { signup } from "../api/signup";
 import { LanguageAndTheme } from "../components/LanguageAndTheme";
@@ -18,13 +21,9 @@ import { SignupPayload, SignupResponse } from "../types";
 
 export function SignupPage() {
 	const navigate = useNavigate();
-	const [form, setForm] = useState({
-		email: "",
-		password: "",
-		confirmPassword: "",
-	});
+	const { t } = useTranslation();
 
-	const { request, isLoading } = useRequest<
+	const { request, isLoading, isSuccess } = useRequest<
 		SignupPayload,
 		ServerResponse<SignupResponse>
 	>(signup, {
@@ -38,7 +37,7 @@ export function SignupPage() {
 			}
 
 			const nextState = {
-				email: form.email,
+				email: formik.values.email,
 				expiresInSeconds: payload.expiresInSeconds,
 				resendAvailableInSeconds: payload.resendAvailableInSeconds,
 				devCode: payload.devCode,
@@ -53,26 +52,20 @@ export function SignupPage() {
 		onError: (err) => console.log("Request failed", err),
 	});
 
-	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-		const { name, value } = event.target;
-
-		setForm((prev) => ({
-			...prev,
-			[name]: value,
-		}));
-	}
-
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-
-		const res = await request({
-			email: form.email,
-			password: form.password,
-		});
-
-		console.log(res);
-		console.log(form);
-	}
+	const formik = useFormik({
+		initialValues: { email: "", password: "", confirmPassword: "" },
+		validationSchema: validationSchema.signup,
+		onSubmit: async (values) => {
+			try {
+				await request({
+					email: values.email,
+					password: values.password,
+				});
+			} catch (error) {
+				handleFormikError(error, formik);
+			}
+		},
+	});
 
 	return (
 		<div className="flex min-h-screen items-center justify-center p-6">
@@ -85,44 +78,49 @@ export function SignupPage() {
 				</CardHeader>
 
 				<CardContent>
-					<form onSubmit={handleSubmit} className="space-y-4">
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								name="email"
-								type="email"
-								value={form.email}
-								onChange={handleChange}
-								placeholder="you@example.com"
-							/>
-						</div>
+					<form onSubmit={formik.handleSubmit} className="space-y-4">
+						<FormikTextInput
+							formik={formik}
+							label={t("login.email")}
+							placeholder={"you@example.com"}
+							name="email"
+							autoComplete="username"
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+							icon={<MailIcon size={25} className="text-primary" />}
+						/>
 
-						<div className="space-y-2">
-							<Label htmlFor="password">Password</Label>
-							<Input
-								id="password"
-								name="password"
-								type="password"
-								value={form.password}
-								onChange={handleChange}
-								placeholder="••••••••"
-							/>
-						</div>
+						<FormikTextInput
+							formik={formik}
+							label={"Password"}
+							placeholder={"Enter your password"}
+							name="password"
+							autoComplete="current-password"
+							icon={<KeyRoundIcon size={25} className="text-primary" />}
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+							isPassword
+						/>
 
-						<div className="space-y-2">
-							<Label htmlFor="confirmPassword">Confirm password</Label>
-							<Input
-								id="confirmPassword"
-								name="confirmPassword"
-								type="password"
-								value={form.confirmPassword}
-								onChange={handleChange}
-								placeholder="••••••••"
-							/>
-						</div>
+						<FormikTextInput
+							formik={formik}
+							label={"Confirm Password"}
+							placeholder={"Confirm your password"}
+							name="confirmPassword"
+							icon={<KeyRoundIcon size={25} className="text-primary" />}
+							labelClassName="text-lg text-primary"
+							inputClassName="h-14 focus:border-primary"
+							fontSize={20}
+							isPassword
+						/>
 
-						<Button disabled={isLoading} type="submit" className="w-full">
+						<Button
+							disabled={!formik.isValid || isLoading || isSuccess}
+							type="submit"
+							className="w-full"
+						>
 							Create account
 						</Button>
 

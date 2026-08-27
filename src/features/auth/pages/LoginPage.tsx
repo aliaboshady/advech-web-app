@@ -72,6 +72,7 @@ export function LoginPage() {
 							label={t("login.email")}
 							placeholder={"you@example.com"}
 							name="email"
+							autoComplete="username"
 							labelClassName="text-lg text-primary"
 							inputClassName="h-14 focus:border-primary"
 							fontSize={20}
@@ -83,6 +84,7 @@ export function LoginPage() {
 							label={"Password"}
 							placeholder={"Enter your password"}
 							name="password"
+							autoComplete="current-password"
 							icon={<KeyRoundIcon size={25} className="text-primary" />}
 							labelClassName="text-lg text-primary"
 							inputClassName="h-14 focus:border-primary"
