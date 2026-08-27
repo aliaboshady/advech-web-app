@@ -85,10 +85,7 @@ export function SignupPage() {
 							placeholder={t("login.emailPlaceholder")}
 							name="email"
 							autoComplete="username"
-							labelClassName="text-lg text-primary"
-							inputClassName="h-14 focus:border-primary"
-							fontSize={20}
-							icon={<MailIcon size={25} className="text-primary" />}
+							icon={<MailIcon size={15} />}
 						/>
 
 						<FormikTextInput
@@ -97,10 +94,7 @@ export function SignupPage() {
 							placeholder={t("login.passwordPlaceholder")}
 							name="password"
 							autoComplete="current-password"
-							icon={<KeyRoundIcon size={25} className="text-primary" />}
-							labelClassName="text-lg text-primary"
-							inputClassName="h-14 focus:border-primary"
-							fontSize={20}
+							icon={<KeyRoundIcon size={15} />}
 							isPassword
 						/>
 
@@ -109,10 +103,7 @@ export function SignupPage() {
 							label={t("signup.confirmPassword")}
 							placeholder={t("signup.confirmPasswordPlaceholder")}
 							name="confirmPassword"
-							icon={<KeyRoundIcon size={25} className="text-primary" />}
-							labelClassName="text-lg text-primary"
-							inputClassName="h-14 focus:border-primary"
-							fontSize={20}
+							icon={<KeyRoundIcon size={15} />}
 							isPassword
 						/>
 

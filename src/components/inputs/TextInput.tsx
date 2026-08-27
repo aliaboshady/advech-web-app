@@ -8,6 +8,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dir } from "@/types";
 
+const autoFillStyles = `
+	text-foreground
+	caret-black dark:caret-white
+	bg-white dark:bg-background
+	[&:-webkit-autofill]:bg-background!
+	[&:-webkit-autofill]:border-[var(--ring-auto-fill)]!
+	[&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_color-mix(in_oklab,var(--input)_2%,var(--background))]!
+	[&:-webkit-autofill]:[-webkit-text-fill-color:var(--foreground)]!
+`;
+
 export type TextInputProps = {
 	name?: string;
 	value: string;
@@ -50,7 +60,7 @@ const TextInput = ({
 	className,
 	inputClassName,
 	labelClassName,
-	fontSize = 16,
+	fontSize = 13,
 	error,
 	dir = "ltr",
 	disabled,
@@ -111,12 +121,13 @@ const TextInput = ({
 						type={isPassword && !isPasswordShown ? "password" : type}
 						placeholder={placeholder}
 						className={twMerge(
-							`h-12 bg-white border-2 rounded-lg focus-visible:outline-none focus-visible:ring-0 transition-colors ${
+							`focus-visible:outline-none focus-visible:ring-0 transition-colors ${
 								icon ? "ps-12" : ""
 							} ${isPassword ? "pe-12" : ""} ${
-								error ? "border-danger focus:border-danger" : ""
+								error ? "border-destructive! focus:border-destructive!" : ""
 							}`,
 							inputClassName,
+							autoFillStyles,
 						)}
 						style={{ fontSize }}
 						disabled={disabled}
@@ -130,23 +141,16 @@ const TextInput = ({
 						type="button"
 						disabled={disabled}
 					>
-						{isPasswordShown ? (
-							<EyeIcon size={25} className="text-primary" />
-						) : (
-							<EyeOffIcon size={25} className="text-primary" />
-						)}
+						{isPasswordShown ? <EyeIcon size={15} /> : <EyeOffIcon size={15} />}
 					</button>
 				)}
-
-				{error && (
-					<div className="absolute inset-s-3 bottom-2 translate-y-full px-2 max-w-[calc(100%-2rem)]">
-						<div className="absolute bottom-2 inset-s-0 inset-e-0 bg-white h-1 -z-10" />
-						<p className="text-xs text-danger font-medium whitespace-nowrap truncate">
-							{t(`errors.${error}`, { defaultValue: error })}
-						</p>
-					</div>
-				)}
 			</div>
+
+			{error && (
+				<p className="text-xs text-destructive font-medium whitespace-nowrap truncate">
+					{t(`errors.${error}`, { defaultValue: error })}
+				</p>
+			)}
 		</div>
 	);
 };

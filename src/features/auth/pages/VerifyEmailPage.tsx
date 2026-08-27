@@ -182,10 +182,7 @@ export function VerifyEmailPage() {
 							label={t("login.email")}
 							placeholder={t("login.emailPlaceholder")}
 							name="email"
-							labelClassName="text-lg text-primary"
-							inputClassName="h-14 focus:border-primary"
-							fontSize={20}
-							icon={<MailIcon size={25} className="text-primary" />}
+							icon={<MailIcon size={15} />}
 						/>
 
 						<FormikTextInput
@@ -193,10 +190,7 @@ export function VerifyEmailPage() {
 							label={t("verifyEmail.code")}
 							placeholder={t("verifyEmail.codePlaceholder")}
 							name="code"
-							icon={<SquareAsteriskIcon size={25} className="text-primary" />}
-							labelClassName="text-lg text-primary"
-							inputClassName="h-14 focus:border-primary"
-							fontSize={20}
+							icon={<SquareAsteriskIcon size={15} />}
 						/>
 
 						<div className="space-y-2 rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
