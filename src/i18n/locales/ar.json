@@ -1,7 +1,58 @@
 {
 	"login": {
 		"title": "تسجيل الدخول",
+		"description": "أدخل معلوماتك أدناه لتسجيل الدخول إلى حسابك.",
 		"email": "البريد الإلكتروني",
-		"password": "كلمة المرور"
+		"password": "كلمة المرور",
+		"emailPlaceholder": "you@example.com",
+		"passwordPlaceholder": "أدخل كلمة المرور",
+		"submit": "تسجيل الدخول",
+		"submitting": "جارٍ تسجيل الدخول...",
+		"noAccount": "ليس لديك حساب؟",
+		"createAccount": "أنشئ حسابًا"
+	},
+	"signup": {
+		"title": "إنشاء حساب",
+		"description": "أدخل معلوماتك أدناه لإنشاء حسابك.",
+		"confirmPassword": "تأكيد كلمة المرور",
+		"confirmPasswordPlaceholder": "أكد كلمة المرور",
+		"submit": "إنشاء حساب",
+		"alreadyAccount": "لديك حساب بالفعل؟"
+	},
+	"verifyEmail": {
+		"title": "تأكيد بريدك الإلكتروني",
+		"description": "أدخل البريد الإلكتروني والرمز المرسل إلى صندوق الوارد لإكمال التأكيد.",
+		"code": "رمز التأكيد",
+		"codePlaceholder": "أدخل رمز التأكيد",
+		"expiresIn": "تنتهي صلاحية الرمز خلال",
+		"resendAvailableIn": "يمكن إعادة الإرسال خلال",
+		"submit": "تأكيد البريد الإلكتروني",
+		"submitting": "جارٍ التأكيد...",
+		"resend": "إعادة إرسال الرمز",
+		"sending": "جارٍ الإرسال..."
+	},
+	"home": {
+		"welcome": "مرحبًا بك في Advech",
+		"loggedIn": "لقد سجلت الدخول وأنت الآن في الصفحة الرئيسية."
+	},
+	"common": {
+		"logout": "تسجيل الخروج",
+		"close": "إغلاق",
+		"english": "English",
+		"arabic": "العربية",
+		"lightMode": "الوضع الفاتح",
+		"darkMode": "الوضع الداكن",
+		"switchToLightMode": "التبديل إلى الوضع الفاتح",
+		"switchToDarkMode": "التبديل إلى الوضع الداكن"
+	},
+	"errors": {
+		"invalidEmail": "يرجى إدخال بريد إلكتروني صالح.",
+		"emailRequired": "البريد الإلكتروني مطلوب.",
+		"passwordRequired": "كلمة المرور مطلوبة.",
+		"passwordMin": "يجب ألا تقل كلمة المرور عن 12 حرفًا.",
+		"confirmPasswordRequired": "يرجى تأكيد كلمة المرور.",
+		"passwordsMustMatch": "يجب أن تتطابق كلمتا المرور.",
+		"codeRequired": "رمز التأكيد مطلوب.",
+		"offline": "لا يوجد اتصال بالإنترنت."
 	}
 }

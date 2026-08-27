@@ -59,10 +59,8 @@ export function LoginPage() {
 		<div className="flex min-h-screen items-center justify-center p-6">
 			<Card className="w-full max-w-md">
 				<CardHeader>
-					<CardTitle>Login</CardTitle>
-					<CardDescription>
-						Enter your information below to login to your account.
-					</CardDescription>
+					<CardTitle>{t("login.title")}</CardTitle>
+					<CardDescription>{t("login.description")}</CardDescription>
 				</CardHeader>
 
 				<CardContent>
@@ -70,7 +68,7 @@ export function LoginPage() {
 						<FormikTextInput
 							formik={formik}
 							label={t("login.email")}
-							placeholder={"you@example.com"}
+							placeholder={t("login.emailPlaceholder")}
 							name="email"
 							autoComplete="username"
 							labelClassName="text-lg text-primary"
@@ -81,8 +79,8 @@ export function LoginPage() {
 
 						<FormikTextInput
 							formik={formik}
-							label={"Password"}
-							placeholder={"Enter your password"}
+							label={t("login.password")}
+							placeholder={t("login.passwordPlaceholder")}
 							name="password"
 							autoComplete="current-password"
 							icon={<KeyRoundIcon size={25} className="text-primary" />}
@@ -97,16 +95,16 @@ export function LoginPage() {
 							className="w-full"
 							disabled={!formik.isValid || isLoading || isSuccess}
 						>
-							{isLoading ? "Logging in..." : "Login"}
+							{isLoading ? t("login.submitting") : t("login.submit")}
 						</Button>
 
 						<p className="text-center text-sm text-muted-foreground">
-							Don't have an account?{" "}
+							{t("login.noAccount")}{" "}
 							<Link
 								to="/auth/signup"
 								className="font-medium text-primary underline-offset-4 hover:underline"
 							>
-								Create one
+								{t("login.createAccount")}
 							</Link>
 						</p>
 

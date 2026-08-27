@@ -1,6 +1,7 @@
 import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import i18n from "@/i18n";
 import { isErrorResponse } from "@/lib/utils";
 import { ErrorResponse } from "@/types";
 
@@ -38,7 +39,7 @@ const useRequest = <P, R>(
 	const request = async (payload: P): Promise<R> => {
 		// Browser-only: Check internet connection
 		if (typeof navigator !== "undefined" && !navigator.onLine) {
-			const offlineError = new Error("No internet connection.");
+			const offlineError = new Error(i18n.t("errors.offline"));
 			setError(offlineError);
 			setIsSuccess(false);
 			onError?.(offlineError);

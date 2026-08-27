@@ -3,6 +3,7 @@ import {
 	useRouteContext,
 	useRouter,
 } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { clearTokens } from "@/lib/tokenUtils";
 import { LanguageToggle } from "./LanguageToggle";
 import { ThemeToggle } from "./ThemeToggle";
@@ -12,6 +13,7 @@ export function Navbar() {
 	const navigate = useNavigate();
 	const router = useRouter();
 	const { me } = useRouteContext({ from: "__root__" });
+	const { t } = useTranslation();
 
 	const handleLogout = async () => {
 		clearTokens();
@@ -43,7 +45,7 @@ export function Navbar() {
 							onClick={handleLogout}
 							className="rounded-full"
 						>
-							Logout
+							{t("common.logout")}
 						</Button>
 					)}
 

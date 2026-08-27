@@ -1,7 +1,58 @@
 {
 	"login": {
 		"title": "Login",
+		"description": "Enter your information below to login to your account.",
 		"email": "Email",
-		"password": "Password"
+		"password": "Password",
+		"emailPlaceholder": "you@example.com",
+		"passwordPlaceholder": "Enter your password",
+		"submit": "Login",
+		"submitting": "Logging in...",
+		"noAccount": "Don't have an account?",
+		"createAccount": "Create one"
+	},
+	"signup": {
+		"title": "Create an account",
+		"description": "Enter your information below to create your account.",
+		"confirmPassword": "Confirm Password",
+		"confirmPasswordPlaceholder": "Confirm your password",
+		"submit": "Create account",
+		"alreadyAccount": "Already have an account?"
+	},
+	"verifyEmail": {
+		"title": "Verify your email",
+		"description": "Enter the email and code sent to your inbox to complete verification.",
+		"code": "Verification code",
+		"codePlaceholder": "Enter verification code",
+		"expiresIn": "Code expires in",
+		"resendAvailableIn": "Resend available in",
+		"submit": "Verify email",
+		"submitting": "Verifying...",
+		"resend": "Resend code",
+		"sending": "Sending..."
+	},
+	"home": {
+		"welcome": "Welcome to Advech",
+		"loggedIn": "You are logged in and on the home page."
+	},
+	"common": {
+		"logout": "Logout",
+		"close": "Close",
+		"english": "English",
+		"arabic": "العربية",
+		"lightMode": "Light Mode",
+		"darkMode": "Dark Mode",
+		"switchToLightMode": "Switch to light mode",
+		"switchToDarkMode": "Switch to dark mode"
+	},
+	"errors": {
+		"invalidEmail": "Please enter a valid email address.",
+		"emailRequired": "Email is required.",
+		"passwordRequired": "Password is required.",
+		"passwordMin": "Password must be at least 12 characters.",
+		"confirmPasswordRequired": "Please confirm your password.",
+		"passwordsMustMatch": "Passwords must match.",
+		"codeRequired": "Verification code is required.",
+		"offline": "No internet connection."
 	}
 }

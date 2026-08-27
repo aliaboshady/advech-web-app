@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 
 export function LanguageToggle() {
-	const { i18n } = useTranslation();
+	const { i18n, t } = useTranslation();
 
 	const isArabic = i18n.language === "ar";
 
@@ -22,7 +22,7 @@ export function LanguageToggle() {
 			size="sm"
 			onClick={handleLanguageChange}
 		>
-			{isArabic ? "English" : "العربية"}
+			{isArabic ? t("common.english") : t("common.arabic")}
 		</Button>
 	);
 }

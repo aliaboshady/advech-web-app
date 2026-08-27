@@ -71,10 +71,8 @@ export function SignupPage() {
 		<div className="flex min-h-screen items-center justify-center p-6">
 			<Card className="w-full max-w-md">
 				<CardHeader>
-					<CardTitle>Create an account</CardTitle>
-					<CardDescription>
-						Enter your information below to create your account.
-					</CardDescription>
+					<CardTitle>{t("signup.title")}</CardTitle>
+					<CardDescription>{t("signup.description")}</CardDescription>
 				</CardHeader>
 
 				<CardContent>
@@ -82,7 +80,7 @@ export function SignupPage() {
 						<FormikTextInput
 							formik={formik}
 							label={t("login.email")}
-							placeholder={"you@example.com"}
+							placeholder={t("login.emailPlaceholder")}
 							name="email"
 							autoComplete="username"
 							labelClassName="text-lg text-primary"
@@ -93,8 +91,8 @@ export function SignupPage() {
 
 						<FormikTextInput
 							formik={formik}
-							label={"Password"}
-							placeholder={"Enter your password"}
+							label={t("login.password")}
+							placeholder={t("login.passwordPlaceholder")}
 							name="password"
 							autoComplete="current-password"
 							icon={<KeyRoundIcon size={25} className="text-primary" />}
@@ -106,8 +104,8 @@ export function SignupPage() {
 
 						<FormikTextInput
 							formik={formik}
-							label={"Confirm Password"}
-							placeholder={"Confirm your password"}
+							label={t("signup.confirmPassword")}
+							placeholder={t("signup.confirmPasswordPlaceholder")}
 							name="confirmPassword"
 							icon={<KeyRoundIcon size={25} className="text-primary" />}
 							labelClassName="text-lg text-primary"
@@ -121,16 +119,16 @@ export function SignupPage() {
 							type="submit"
 							className="w-full"
 						>
-							Create account
+							{t("signup.submit")}
 						</Button>
 
 						<p className="text-center text-sm text-muted-foreground">
-							Already have an account?{" "}
+							{t("signup.alreadyAccount")}{" "}
 							<Link
 								to="/auth/login"
 								className="font-medium text-primary underline-offset-4 hover:underline"
 							>
-								Login
+								{t("login.submit")}
 							</Link>
 						</p>
 

@@ -1,8 +1,10 @@
 import { Moon, SunMedium } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 
 export function ThemeToggle() {
+	const { t } = useTranslation();
 	const [isDark, setIsDark] = useState(() => {
 		const savedTheme = localStorage.getItem("theme");
 
@@ -23,13 +25,15 @@ export function ThemeToggle() {
 			type="button"
 			variant="outline"
 			size="sm"
-			aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+			aria-label={
+				isDark ? t("common.switchToLightMode") : t("common.switchToDarkMode")
+			}
 			aria-pressed={isDark}
 			onClick={() => setIsDark((current) => !current)}
 			className="inline-flex items-center gap-2 rounded-full"
 		>
 			{isDark ? <SunMedium className="size-4" /> : <Moon className="size-4" />}
-			<span>{isDark ? "Light Mode" : "Dark Mode"}</span>
+			<span>{isDark ? t("common.lightMode") : t("common.darkMode")}</span>
 		</Button>
 	);
 }

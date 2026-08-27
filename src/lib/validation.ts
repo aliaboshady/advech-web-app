@@ -2,24 +2,20 @@ import * as Yup from "yup";
 
 export const validationSchema = {
 	login: Yup.object({
-		email: Yup.string().email("INVALID_EMAIL").required("EMAIL_REQUIRED"),
-		password: Yup.string()
-			.required("PASSWORD_REQUIRED")
-			.min(12, "PASSWORD_MIN"),
+		email: Yup.string().email("invalidEmail").required("emailRequired"),
+		password: Yup.string().required("passwordRequired").min(12, "passwordMin"),
 	}),
 
 	signup: Yup.object({
-		email: Yup.string().email("INVALID_EMAIL").required("EMAIL_REQUIRED"),
-		password: Yup.string()
-			.required("PASSWORD_REQUIRED")
-			.min(12, "PASSWORD_MIN"),
+		email: Yup.string().email("invalidEmail").required("emailRequired"),
+		password: Yup.string().required("passwordRequired").min(12, "passwordMin"),
 		confirmPassword: Yup.string()
-			.required("CONFIRM_PASSWORD_REQUIRED")
-			.oneOf([Yup.ref("password")], "PASSWORDS_MUST_MATCH"),
+			.required("confirmPasswordRequired")
+			.oneOf([Yup.ref("password")], "passwordsMustMatch"),
 	}),
 
 	verifyEmail: Yup.object({
-		email: Yup.string().email("INVALID_EMAIL").required("EMAIL_REQUIRED"),
-		code: Yup.string().required("CODE_REQUIRED"),
+		email: Yup.string().email("invalidEmail").required("emailRequired"),
+		code: Yup.string().required("codeRequired"),
 	}),
 };

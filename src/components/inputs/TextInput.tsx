@@ -2,11 +2,10 @@
 
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { HTMLInputTypeAttribute, useState } from "react";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { getTailwindColor } from "@/lib/utils";
 import { Dir } from "@/types";
 
 export type TextInputProps = {
@@ -58,7 +57,7 @@ const TextInput = ({
 	isTextArea = false,
 	textAreaClassName,
 }: TextInputProps) => {
-	// const { t } = useTranslation();
+	const { t } = useTranslation();
 	const [isPasswordShown, setIsPasswordShown] = useState(false);
 
 	return (
@@ -143,7 +142,7 @@ const TextInput = ({
 					<div className="absolute inset-s-3 bottom-2 translate-y-full px-2 max-w-[calc(100%-2rem)]">
 						<div className="absolute bottom-2 inset-s-0 inset-e-0 bg-white h-1 -z-10" />
 						<p className="text-xs text-danger font-medium whitespace-nowrap truncate">
-							{error}
+							{t(`errors.${error}`, { defaultValue: error })}
 						</p>
 					</div>
 				)}

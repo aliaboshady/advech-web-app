@@ -169,11 +169,8 @@ export function VerifyEmailPage() {
 		<div className="flex min-h-screen items-center justify-center p-6">
 			<Card className="w-full max-w-md">
 				<CardHeader>
-					<CardTitle>Verify your email</CardTitle>
-					<CardDescription>
-						Enter the email and code sent to your inbox to complete
-						verification.
-					</CardDescription>
+					<CardTitle>{t("verifyEmail.title")}</CardTitle>
+					<CardDescription>{t("verifyEmail.description")}</CardDescription>
 				</CardHeader>
 
 				<CardContent>
@@ -181,7 +178,7 @@ export function VerifyEmailPage() {
 						<FormikTextInput
 							formik={formik}
 							label={t("login.email")}
-							placeholder={"you@example.com"}
+							placeholder={t("login.emailPlaceholder")}
 							name="email"
 							labelClassName="text-lg text-primary"
 							inputClassName="h-14 focus:border-primary"
@@ -191,8 +188,8 @@ export function VerifyEmailPage() {
 
 						<FormikTextInput
 							formik={formik}
-							label={"Verification code"}
-							placeholder={"Enter verification code"}
+							label={t("verifyEmail.code")}
+							placeholder={t("verifyEmail.codePlaceholder")}
 							name="code"
 							icon={<SquareAsteriskIcon size={25} className="text-primary" />}
 							labelClassName="text-lg text-primary"
@@ -202,13 +199,13 @@ export function VerifyEmailPage() {
 
 						<div className="space-y-2 rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
 							<div className="flex items-center justify-between gap-2">
-								<span>Code expires in</span>
+								<span>{t("verifyEmail.expiresIn")}</span>
 								<strong className="font-medium text-foreground">
 									{formatCountdown(expiresIn)}
 								</strong>
 							</div>
 							<div className="flex items-center justify-between gap-2">
-								<span>Resend available in</span>
+								<span>{t("verifyEmail.resendAvailableIn")}</span>
 								<strong className="font-medium text-foreground">
 									{formatCountdown(resendAvailableIn)}
 								</strong>
@@ -220,7 +217,9 @@ export function VerifyEmailPage() {
 							className="w-full"
 							disabled={!formik.isValid || isLoadingVerify || isLoadingResend}
 						>
-							{isLoadingVerify ? "Verifying..." : "Verify email"}
+							{isLoadingVerify
+								? t("verifyEmail.submitting")
+								: t("verifyEmail.submit")}
 						</Button>
 
 						{resendAvailableIn <= 0 && (
@@ -236,7 +235,9 @@ export function VerifyEmailPage() {
 								}
 								onClick={handleResend}
 							>
-								{isLoadingResend ? "Sending..." : "Resend code"}
+								{isLoadingResend
+									? t("verifyEmail.sending")
+									: t("verifyEmail.resend")}
 							</Button>
 						)}
 
