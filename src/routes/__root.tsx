@@ -56,14 +56,18 @@ function RootComponent() {
 				color="#FF5001"
 				initialPosition={0.08}
 				crawlSpeed={200}
-				height={3}
+				height={5}
 				crawl={true}
 				showSpinner={false}
 				easing="ease"
 				speed={200}
 			/>
 
-			<ToastContainer />
+			<ToastContainer
+				position="bottom-center"
+				className="app-toast-container"
+				toastClassName="app-toast"
+			/>
 			<Outlet />
 
 			<TanStackDevtools
