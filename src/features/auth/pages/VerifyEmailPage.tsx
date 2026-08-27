@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { MailIcon, SquareAsteriskIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import logoLockup from "@/assets/logo/lockup/advech-lockup-orange.svg";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import {
@@ -169,6 +170,7 @@ export function VerifyEmailPage() {
 		<div className="flex min-h-screen items-center justify-center p-6">
 			<Card className="w-full max-w-md">
 				<CardHeader>
+					<img src={logoLockup} alt="Advech" className="mb-4 h-10 w-auto" />
 					<CardTitle>{t("verifyEmail.title")}</CardTitle>
 					<CardDescription>{t("verifyEmail.description")}</CardDescription>
 				</CardHeader>
