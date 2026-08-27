@@ -25,14 +25,16 @@ function redirectToLogin(): never {
 	throw new Error("Authentication expired");
 }
 
-async function getValidAccessToken(): Promise<string | null> {
+async function getValidAccessToken(
+	forceRefresh = false,
+): Promise<string | null> {
 	const accessToken = getAccessToken();
 
 	if (!accessToken) {
 		return null;
 	}
 
-	if (!isTokenExpired(accessToken)) {
+	if (!forceRefresh && !isTokenExpired(accessToken)) {
 		return accessToken;
 	}
 
@@ -42,7 +44,9 @@ async function getValidAccessToken(): Promise<string | null> {
 		return null;
 	}
 
-	return getAccessToken();
+	const refreshedAccessToken = getAccessToken();
+
+	return refreshedAccessToken;
 }
 
 export async function apiClient<T>(
@@ -110,7 +114,7 @@ export async function apiClient<T>(
 		// --------------------------------
 
 		if (response.status === 401 && !skipAuth && shouldRefreshTokens) {
-			const accessToken = await getValidAccessToken();
+			const accessToken = await getValidAccessToken(true);
 
 			if (accessToken) {
 				headers.set("Authorization", `Bearer ${accessToken}`);
