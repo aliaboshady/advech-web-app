@@ -1,12 +1,17 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import {
+	createRootRoute,
+	Outlet,
+	useRouterState,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import NextTopLoaderImport from "nextjs-toploader";
+import NextTopLoaderImport, { useTopLoader } from "nextjs-toploader";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles.css";
+import { NotFoundPage } from "@/components/NotFoundPage";
 import { me } from "@/features/users/api/me";
 import { getAccessToken } from "@/lib/tokenUtils";
 
@@ -23,10 +28,8 @@ export const Route = createRootRoute({
 		let response: Awaited<ReturnType<typeof me>>;
 
 		if (accessToken === cachedAccessToken && cachedMeResponse !== undefined) {
-			console.log("[auth] Reusing cached users/me response for route context");
 			response = cachedMeResponse;
 		} else {
-			console.log("[auth] Loading users/me for route context");
 			response = await me();
 			cachedAccessToken = accessToken;
 			cachedMeResponse = response;
@@ -36,11 +39,14 @@ export const Route = createRootRoute({
 			me: response?.data ?? null,
 		};
 	},
-
+	notFoundComponent: NotFoundPage,
 	component: RootComponent,
 });
 
 function RootComponent() {
+	const routerStatus = useRouterState({ select: (state) => state.status });
+	const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
+
 	useEffect(() => {
 		const savedTheme = localStorage.getItem("theme");
 		const isDark = savedTheme
@@ -49,6 +55,14 @@ function RootComponent() {
 
 		document.documentElement.classList.toggle("dark", isDark);
 	}, []);
+
+	useEffect(() => {
+		if (routerStatus === "pending") {
+			startTopLoader();
+		} else {
+			doneTopLoader();
+		}
+	}, [routerStatus, startTopLoader, doneTopLoader]);
 
 	return (
 		<>
