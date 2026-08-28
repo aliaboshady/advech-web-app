@@ -1,6 +1,7 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import {
 	createRootRoute,
+	HeadContent,
 	Outlet,
 	useRouterState,
 } from "@tanstack/react-router";
@@ -23,6 +24,14 @@ const NextTopLoader =
 	NextTopLoaderImport;
 
 export const Route = createRootRoute({
+	head: () => ({
+		meta: [
+			{
+				title: "Advech",
+			},
+		],
+	}),
+
 	beforeLoad: async () => {
 		const accessToken = getAccessToken();
 		let response: Awaited<ReturnType<typeof me>>;
@@ -39,6 +48,7 @@ export const Route = createRootRoute({
 			me: response?.data ?? null,
 		};
 	},
+
 	notFoundComponent: NotFoundPage,
 	component: RootComponent,
 });
@@ -66,6 +76,7 @@ function RootComponent() {
 
 	return (
 		<>
+			<HeadContent />
 			<NextTopLoader
 				color="#FF5001"
 				initialPosition={0.08}

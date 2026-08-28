@@ -1,11 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LoginPage } from "@/features/auth/pages/LoginPage";
+import i18n from "@/i18n";
 
 interface LoginSearch {
 	redirectUrl?: string;
 }
 
 export const Route = createFileRoute("/_public/auth/login")({
+	head: () => ({
+		meta: [
+			{
+				title: `Advech - ${i18n.t("login.title")}`,
+			},
+		],
+	}),
+
 	validateSearch: (search: Record<string, unknown>): LoginSearch => {
 		if (
 			typeof search.redirectUrl === "string" &&
