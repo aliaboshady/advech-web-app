@@ -18,8 +18,12 @@ const API_URL = import.meta.env.VITE_API_URL;
 function redirectToLogin(): never {
 	clearTokens();
 
+	const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+	const redirectUrl = window.location.pathname === "/" ? undefined : currentUrl;
+
 	getRouter().navigate({
 		to: "/auth/login",
+		search: { redirectUrl },
 	});
 
 	throw new Error("Authentication expired");

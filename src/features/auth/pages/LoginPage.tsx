@@ -1,4 +1,4 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { getRouteApi, Link, useRouter } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { useTopLoader } from "nextjs-toploader";
@@ -22,8 +22,17 @@ import { login } from "../api/login";
 import { LanguageAndTheme } from "../components/LanguageAndTheme";
 import { LoginPayload, LoginResponse } from "../types";
 
+const loginRoute = getRouteApi("/_public/auth/login");
+
+function getSafeRedirectUrl(redirectUrl: string | undefined): string {
+	return redirectUrl?.startsWith("/") && !redirectUrl.startsWith("//")
+		? redirectUrl
+		: "/";
+}
+
 export function LoginPage() {
 	const router = useRouter();
+	const { redirectUrl } = loginRoute.useSearch();
 	const { t } = useTranslation();
 	const { start: startTopLoader } = useTopLoader();
 
@@ -37,6 +46,7 @@ export function LoginPage() {
 				startTopLoader();
 				saveTokens(accessToken, refreshToken);
 				await router.invalidate();
+				await router.navigate({ to: getSafeRedirectUrl(redirectUrl) });
 			}
 		},
 	});
