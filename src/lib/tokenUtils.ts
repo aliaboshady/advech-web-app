@@ -15,14 +15,21 @@ export function getRefreshToken(): string | null {
 	return Cookies.get(COOKIES_KEYS.refreshToken) ?? null;
 }
 
+const TOKEN_COOKIE_OPTIONS = {
+	path: "/",
+	expires: 30,
+	sameSite: "Lax" as const,
+	secure: window.location.protocol === "https:",
+};
+
 export function saveTokens(accessToken: string, refreshToken: string): void {
-	Cookies.set(COOKIES_KEYS.accessToken, accessToken);
-	Cookies.set(COOKIES_KEYS.refreshToken, refreshToken);
+	Cookies.set(COOKIES_KEYS.accessToken, accessToken, TOKEN_COOKIE_OPTIONS);
+	Cookies.set(COOKIES_KEYS.refreshToken, refreshToken, TOKEN_COOKIE_OPTIONS);
 }
 
 export function clearTokens(): void {
-	Cookies.remove(COOKIES_KEYS.accessToken);
-	Cookies.remove(COOKIES_KEYS.refreshToken);
+	Cookies.remove(COOKIES_KEYS.accessToken, { path: "/" });
+	Cookies.remove(COOKIES_KEYS.refreshToken, { path: "/" });
 }
 
 export function getUserIdFromToken(token: string): string | null {
