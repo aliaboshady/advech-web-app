@@ -4,6 +4,7 @@ export type UserResponse = {
 	email: string;
 	firstName: string;
 	lastName: string;
+	imagePath: string;
 	status: "ACTIVE" | "INACTIVE" | "SUSPENDED" | "DELETED";
 	createdAt: string;
 	updatedAt: string;
