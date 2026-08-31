@@ -36,7 +36,8 @@
 		"loggedIn": "You are logged in and on the home page."
 	},
 	"common": {
-		"logout": "Logout",
+		"account": "Account",
+		"logout": "Log out",
 		"close": "Close",
 		"english": "English",
 		"arabic": "العربية",

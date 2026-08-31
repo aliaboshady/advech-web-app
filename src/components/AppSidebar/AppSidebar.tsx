@@ -1,9 +1,4 @@
 import {
-	useNavigate,
-	useRouteContext,
-	useRouter,
-} from "@tanstack/react-router";
-import {
 	AudioWaveformIcon,
 	BookOpenIcon,
 	BotIcon,
@@ -21,29 +16,13 @@ import {
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
-	SidebarRail,
 } from "@/components/ui/sidebar";
-import { me } from "@/features/users/api/me";
-import { clearTokens } from "@/lib/tokenUtils";
-import { LanguageToggle } from "../LanguageToggle";
-import { ThemeToggle } from "../ThemeToggle";
-import { Button } from "../ui/button";
-import { NavMain } from "./NavMain";
+import { AppSidebarFooter } from "./AppSidebarFooter";
+import { AppSidebarHeader } from "./AppSidebarHeader";
 import { NavProjects } from "./NavProjects";
-import { NavUser } from "./NavUser";
-import { TeamSwitcher } from "./TeamSwitcher";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-	const { t } = useTranslation();
-	const navigate = useNavigate();
-	const router = useRouter();
-	const { me } = useRouteContext({ from: "__root__" });
-
-	const handleLogout = async () => {
-		clearTokens();
-		await router.invalidate();
-		await navigate({ to: "/auth/login" });
-	};
+	const { i18n } = useTranslation();
 
 	const data = {
 		teams: [
@@ -170,18 +149,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	};
 
 	return (
-		<Sidebar collapsible="icon" {...props}>
+		<Sidebar
+			dir={i18n.dir() === "rtl" ? "rtl" : "ltr"}
+			side={i18n.dir() === "rtl" ? "right" : "left"}
+			collapsible="icon"
+			{...props}
+		>
 			<SidebarHeader>
-				<TeamSwitcher teams={data.teams} />
+				<AppSidebarHeader />
 			</SidebarHeader>
+
 			<SidebarContent>
-				<NavMain items={data.navMain} />
 				<NavProjects projects={data.projects} />
 			</SidebarContent>
+
 			<SidebarFooter>
-				<NavUser />
+				<AppSidebarFooter />
 			</SidebarFooter>
-			<SidebarRail />
 		</Sidebar>
 	);
 }
