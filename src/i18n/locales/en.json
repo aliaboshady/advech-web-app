@@ -31,6 +31,12 @@
 		"resend": "Resend code",
 		"sending": "Sending..."
 	},
+	"sidebar": {
+		"dashboard": "Dashboard",
+		"campaigns": "Campaigns",
+		"billing": "Billing",
+		"settings": "Settings"
+	},
 	"home": {
 		"welcome": "Welcome to Advech",
 		"loggedIn": "You are logged in and on the home page."
