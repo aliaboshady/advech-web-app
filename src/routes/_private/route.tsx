@@ -8,6 +8,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/_private")({
 	beforeLoad: ({ context, location }) => {
@@ -27,11 +28,12 @@ export const Route = createFileRoute("/_private")({
 
 function PrivateLayout() {
 	return (
-		<SidebarProvider>
-			<AppSidebar />
+		<TooltipProvider>
+			<SidebarProvider>
+				<AppSidebar />
 
-			<SidebarInset>
-				{/* <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur-sm">
+				<SidebarInset>
+					{/* <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur-sm">
 					<SidebarTrigger className="md:hidden" />
 					<div className="flex-1" />
 					<div className="hidden items-center gap-2 md:flex">
@@ -39,11 +41,12 @@ function PrivateLayout() {
 						<LanguageToggle />
 					</div>
 				</header> */}
-				<Navbar />
-				<main className="flex flex-1 flex-col">
-					<Outlet />
-				</main>
-			</SidebarInset>
-		</SidebarProvider>
+					<Navbar />
+					<main className="flex flex-1 flex-col">
+						<Outlet />
+					</main>
+				</SidebarInset>
+			</SidebarProvider>
+		</TooltipProvider>
 	);
 }
