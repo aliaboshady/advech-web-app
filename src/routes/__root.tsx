@@ -64,6 +64,7 @@ function RootComponent() {
 			: window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 		document.documentElement.classList.toggle("dark", isDark);
+		document.getElementById("app-splash")?.remove();
 	}, []);
 
 	useEffect(() => {
