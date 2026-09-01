@@ -18,4 +18,16 @@ export const validationSchema = {
 		email: Yup.string().email("invalidEmail").required("emailRequired"),
 		code: Yup.string().required("codeRequired"),
 	}),
+
+	requestPasswordReset: Yup.object({
+		email: Yup.string().email("invalidEmail").required("emailRequired"),
+	}),
+
+	confirmPasswordReset: Yup.object({
+		email: Yup.string().email("invalidEmail").required("emailRequired"),
+		code: Yup.string().required("codeRequired"),
+		newPassword: Yup.string()
+			.required("passwordRequired")
+			.min(12, "passwordMin"),
+	}),
 };

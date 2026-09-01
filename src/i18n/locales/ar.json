@@ -9,7 +9,8 @@
 		"submit": "تسجيل الدخول",
 		"submitting": "جارٍ تسجيل الدخول...",
 		"noAccount": "ليس لديك حساب؟",
-		"createAccount": "أنشئ حسابًا"
+		"createAccount": "أنشئ حسابًا",
+		"forgotPassword": "هل نسيت كلمة المرور؟"
 	},
 	"signup": {
 		"title": "إنشاء حساب",
@@ -30,6 +31,37 @@
 		"submitting": "جارٍ التأكيد...",
 		"resend": "إعادة إرسال الرمز",
 		"sending": "جارٍ الإرسال..."
+	},
+	"passwordReset": {
+		"request": {
+			"title": "إعادة تعيين كلمة المرور",
+			"description": "أدخل بريدك الإلكتروني لاستلام رمز إعادة التعيين.",
+			"email": "البريد الإلكتروني",
+			"emailPlaceholder": "you@example.com",
+			"expiresIn": "تنتهي صلاحية الرمز خلال",
+			"resendAvailableIn": "يمكن إعادة الإرسال خلال",
+			"submit": "إرسال رمز التعيين",
+			"submitting": "جارٍ الإرسال...",
+			"resend": "إعادة إرسال الرمز",
+			"sending": "جارٍ الإرسال...",
+			"backToLogin": "العودة إلى تسجيل الدخول"
+		},
+		"confirm": {
+			"title": "تعيين كلمة مرور جديدة",
+			"description": "أدخل الرمز الذي تم إرساله إلى بريدك الإلكتروني واختر كلمة مرور جديدة.",
+			"email": "البريد الإلكتروني",
+			"emailPlaceholder": "you@example.com",
+			"code": "رمز إعادة التعيين",
+			"codePlaceholder": "أدخل رمز إعادة التعيين",
+			"newPassword": "كلمة المرور الجديدة",
+			"newPasswordPlaceholder": "أدخل كلمة المرور الجديدة",
+			"expiresIn": "تنتهي صلاحية الرمز خلال",
+			"resendAvailableIn": "يمكن إعادة الإرسال خلال",
+			"submit": "إعادة تعيين كلمة المرور",
+			"submitting": "جارٍ إعادة التعيين...",
+			"resend": "إعادة إرسال الرمز",
+			"sending": "جارٍ الإرسال..."
+		}
 	},
 	"sidebar": {
 		"dashboard": "لوحة القيادة",

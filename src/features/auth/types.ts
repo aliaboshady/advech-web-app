@@ -33,3 +33,19 @@ export type VerifyEmailPayload = {
 	email: string;
 	code: string;
 };
+
+export type RequestPasswordResetPayload = {
+	email: string;
+};
+
+export type RequestPasswordResetResponse = {
+	expiresInSeconds: number;
+	resendAvailableInSeconds: number;
+	devCode: string;
+};
+
+export type ConfirmPasswordResetPayload = {
+	email: string;
+	code: string;
+	newPassword: string;
+};

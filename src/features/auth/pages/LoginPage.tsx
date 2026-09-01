@@ -96,6 +96,15 @@ export function LoginPage() {
 							isPassword
 						/>
 
+						<p className="text-end text-sm text-muted-foreground">
+							<Link
+								to="/auth/request-password-reset"
+								className="font-medium text-primary underline-offset-4 hover:underline"
+							>
+								{t("login.forgotPassword")}
+							</Link>
+						</p>
+
 						<Button
 							type="submit"
 							className="w-full"
