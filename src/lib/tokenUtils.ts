@@ -2,6 +2,9 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { COOKIES_KEYS } from "./staticKeys";
 
+const API_URL = import.meta.env.VITE_API_URL;
+const ENV = import.meta.env.ENV;
+
 interface JwtPayload {
 	sub: string;
 	exp: number;
@@ -53,7 +56,7 @@ export function isTokenExpired(token: string): boolean {
 
 export async function refreshAccessToken(): Promise<boolean> {
 	try {
-		console.log("🟡 ⬅️ Trying to refresh tokens");
+		if (ENV === "DEV") console.log("🟡 ⬅️ Trying to refresh tokens");
 
 		const refreshToken = getRefreshToken();
 
@@ -61,27 +64,22 @@ export async function refreshAccessToken(): Promise<boolean> {
 			return false;
 		}
 
-		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/auth/refresh`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ refreshToken }),
+		const response = await fetch(`${API_URL}/auth/refresh`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
 			},
-		);
+			body: JSON.stringify({ refreshToken }),
+		});
 
 		if (!response.ok) {
-			console.log("🔴 ➡️ Error refreshing tokens");
+			if (ENV === "DEV") console.log("🔴 ➡️ Error refreshing tokens");
 			clearTokens();
 			return false;
 		}
 
 		const result = await response.json();
-
 		const { accessToken, refreshToken: newRefreshToken } = result.data;
-
 		saveTokens(accessToken, newRefreshToken || refreshToken);
 
 		return true;

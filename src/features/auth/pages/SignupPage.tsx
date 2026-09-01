@@ -28,9 +28,7 @@ export function SignupPage() {
 		SignupPayload,
 		ServerResponse<SignupResponse>
 	>(signup, {
-		onStart: () => console.log("Request started"),
 		onSuccess: (res) => {
-			console.log("Request succeeded", res);
 			const payload = res.data;
 
 			if (!payload) {
@@ -50,7 +48,6 @@ export function SignupPage() {
 				to: "/auth/verify-email",
 			});
 		},
-		onError: (err) => console.log("Request failed", err),
 	});
 
 	const formik = useFormik({

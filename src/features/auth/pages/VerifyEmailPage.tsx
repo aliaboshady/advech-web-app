@@ -69,20 +69,15 @@ export function VerifyEmailPage() {
 	const { request: requestResend, isLoading: isLoadingResend } = useRequest<
 		ResendCodePayload,
 		ServerResponse<ResendCodeResponse>
-	>(resendCode, {
-		onStart: () => console.log("Request started"),
-		onError: (err) => console.log("Request failed", err),
-	});
+	>(resendCode, {});
 
 	const { request: requestVerify, isLoading: isLoadingVerify } = useRequest<
 		VerifyEmailPayload,
 		void
 	>(verifyEmail, {
-		onStart: () => console.log("Request started"),
 		onSuccess: () => {
 			navigate({ to: "/auth/login" });
 		},
-		onError: (err) => console.log("Request failed", err),
 	});
 
 	useEffect(() => {

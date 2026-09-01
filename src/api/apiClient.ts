@@ -14,6 +14,7 @@ interface FetchOptions extends RequestInit {
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
+const ENV = import.meta.env.ENV;
 
 function redirectToLogin(): never {
 	clearTokens();
@@ -109,7 +110,7 @@ export async function apiClient<T>(
 	};
 
 	try {
-		console.log("🔵 ⬅️ Request:", endpoint, finalOptions);
+		if (ENV === "DEV") console.log("🔵 ⬅️ Request:", endpoint, finalOptions);
 
 		let response = await fetch(`${API_URL}/${endpoint}`, finalOptions);
 
@@ -149,7 +150,7 @@ export async function apiClient<T>(
 
 		const json = await response.json();
 
-		console.log("🟢 ➡️ Response:", endpoint, json);
+		if (ENV === "DEV") console.log("🟢 ➡️ Response:", endpoint, json);
 
 		return json as T;
 	} catch (error) {
