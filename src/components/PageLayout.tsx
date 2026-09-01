@@ -14,7 +14,7 @@ export function PageLayout({ title, children, className }: Props) {
 				className,
 			)}
 		>
-			{title && <p className="w-full text-xl font-semibold">{title}</p>}
+			{title && <p className="w-full text-xl font-semibold mb-4">{title}</p>}
 			{children}
 		</div>
 	);
