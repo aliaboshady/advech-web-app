@@ -4,7 +4,7 @@ import { SidebarTrigger } from "./ui/sidebar";
 
 export function Navbar() {
 	return (
-		<nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
+		<header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
 			<div className="flex items-center justify-between py-3">
 				<SidebarTrigger />
 
@@ -13,6 +13,6 @@ export function Navbar() {
 					<LanguageToggle />
 				</div>
 			</div>
-		</nav>
+		</header>
 	);
 }

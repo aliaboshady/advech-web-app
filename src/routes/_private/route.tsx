@@ -28,9 +28,7 @@ function PrivateLayout() {
 
 				<SidebarInset>
 					<Navbar />
-					<main className="flex flex-1 flex-col">
-						<Outlet />
-					</main>
+					<Outlet />
 				</SidebarInset>
 			</SidebarProvider>
 		</TooltipProvider>
