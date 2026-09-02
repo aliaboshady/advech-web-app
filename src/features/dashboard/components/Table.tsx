@@ -1,5 +1,6 @@
 import { PencilLineIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
@@ -103,54 +104,59 @@ const campaigns = [
 	},
 ];
 
-const campaignColumns: Column[] = [
-	{
-		header: () => "Campaign Name",
-		value: (campaign) => campaign.name,
-		sortKey: "name",
-	},
-	{
-		header: () => "Status",
-		value: (campaign) => (
-			<span
-				className={`rounded-full ${getStatusColor(campaign.status)} px-3 py-1 text-xs text-muted`}
-			>
-				{campaign.status}
-			</span>
-		),
-	},
-	{
-		header: () => "Budget",
-		value: (campaign) => `$${campaign.budget.toLocaleString()}`,
-		sortKey: "budget",
-	},
-	{
-		header: () => "Impressions",
-		value: (campaign) => campaign.impressions.toLocaleString(),
-		sortKey: "impressions",
-	},
-];
-
-const dropdownActions: DropdownAction[] = [
-	{
-		label: "Edit",
-		icon: <PencilLineIcon className="text-muted-foreground" />,
-	},
-	{
-		label: "Delete",
-		icon: <TrashIcon className="text-red-600" />,
-	},
-];
-
 export function Table({ className }: Props) {
+	const { t } = useTranslation();
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(10);
+	const statusLabels: Record<string, string> = {
+		Active: t("dashboard.status.active"),
+		Scheduled: t("dashboard.status.scheduled"),
+		Paused: t("dashboard.status.paused"),
+		Completed: t("dashboard.status.completed"),
+	};
+	const campaignColumns: Column[] = [
+		{
+			header: () => t("dashboard.table.campaignName"),
+			value: (campaign) => campaign.name,
+			sortKey: "name",
+		},
+		{
+			header: () => t("dashboard.table.status"),
+			value: (campaign) => (
+				<span
+					className={`rounded-full ${getStatusColor(campaign.status)} px-3 py-1 text-xs text-muted`}
+				>
+					{statusLabels[campaign.status] ?? campaign.status}
+				</span>
+			),
+		},
+		{
+			header: () => t("dashboard.table.budget"),
+			value: (campaign) => `$${campaign.budget.toLocaleString()}`,
+			sortKey: "budget",
+		},
+		{
+			header: () => t("dashboard.table.impressions"),
+			value: (campaign) => campaign.impressions.toLocaleString(),
+			sortKey: "impressions",
+		},
+	];
+	const dropdownActions: DropdownAction[] = [
+		{
+			label: t("dashboard.table.edit"),
+			icon: <PencilLineIcon className="text-muted-foreground" />,
+		},
+		{
+			label: t("dashboard.table.delete"),
+			icon: <TrashIcon className="text-red-600" />,
+		},
+	];
 
 	return (
 		<Card className={twMerge("w-full h-full", className)}>
 			<CardHeader>
-				<CardTitle>Recent Campaigns</CardTitle>
-				<CardDescription>Manage your advertising campaigns</CardDescription>
+				<CardTitle>{t("dashboard.table.recentCampaigns")}</CardTitle>
+				<CardDescription>{t("dashboard.table.description")}</CardDescription>
 			</CardHeader>
 
 			<CardContent className="min-h-0 flex-1 overflow-hidden p-0">

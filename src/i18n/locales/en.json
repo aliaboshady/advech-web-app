@@ -73,6 +73,35 @@
 		"welcome": "Welcome to Advech",
 		"loggedIn": "You are logged in and on the home page."
 	},
+	"dashboard": {
+		"status": {
+			"active": "Active",
+			"scheduled": "Scheduled",
+			"paused": "Paused",
+			"completed": "Completed"
+		},
+		"statistics": {
+			"totalImpressions": "Total Impressions",
+			"activeCampaigns": "Active Campaigns",
+			"reachByDistrict": "Reach by District",
+			"budgetSpent": "Budget Spent"
+		},
+		"chart": {
+			"impressions": "Impressions",
+			"period": "January - December 2026",
+			"desktop": "Desktop"
+		},
+		"table": {
+			"recentCampaigns": "Recent Campaigns",
+			"description": "Manage your advertising campaigns",
+			"campaignName": "Campaign Name",
+			"status": "Status",
+			"budget": "Budget",
+			"impressions": "Impressions",
+			"edit": "Edit",
+			"delete": "Delete"
+		}
+	},
 	"common": {
 		"account": "Account",
 		"logout": "Log out",

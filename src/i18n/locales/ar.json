@@ -73,6 +73,35 @@
 		"welcome": "مرحبًا بك في Advech",
 		"loggedIn": "لقد سجلت الدخول وأنت الآن في الصفحة الرئيسية."
 	},
+	"dashboard": {
+		"status": {
+			"active": "نشطة",
+			"scheduled": "مجدولة",
+			"paused": "متوقفة مؤقتًا",
+			"completed": "مكتملة"
+		},
+		"statistics": {
+			"totalImpressions": "إجمالي مرات الظهور",
+			"activeCampaigns": "الحملات النشطة",
+			"reachByDistrict": "الوصول حسب المنطقة",
+			"budgetSpent": "الميزانية المنفقة"
+		},
+		"chart": {
+			"impressions": "مرات الظهور",
+			"period": "يناير - ديسمبر 2026",
+			"desktop": "سطح المكتب"
+		},
+		"table": {
+			"recentCampaigns": "الحملات الأخيرة",
+			"description": "إدارة حملاتك الإعلانية",
+			"campaignName": "اسم الحملة",
+			"status": "الحالة",
+			"budget": "الميزانية",
+			"impressions": "مرات الظهور",
+			"edit": "تعديل",
+			"delete": "حذف"
+		}
+	},
 	"common": {
 		"account": "الحساب",
 		"logout": "تسجيل الخروج",

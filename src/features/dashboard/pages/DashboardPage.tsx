@@ -12,22 +12,22 @@ export function DashboardPage() {
 		<PageLayout title={t("sidebar.dashboard")}>
 			<div className="w-full gap-4 grid grid-cols-1 @sm/pageLayout:grid-cols-2 @3xl/pageLayout:grid-cols-4">
 				<StatisticCard
-					title="Total Impressions"
+					title={t("dashboard.statistics.totalImpressions")}
 					description="12.4M"
 					icon={<EyeIcon className="text-primary" />}
 				/>
 				<StatisticCard
-					title="Active Campaigns"
+					title={t("dashboard.statistics.activeCampaigns")}
 					description="8"
 					icon={<RocketIcon className="text-primary" />}
 				/>
 				<StatisticCard
-					title="Reach by District"
+					title={t("dashboard.statistics.reachByDistrict")}
 					description="450K"
 					icon={<MapIcon className="text-primary" />}
 				/>
 				<StatisticCard
-					title="Budget Spent"
+					title={t("dashboard.statistics.budgetSpent")}
 					description="$24.5K"
 					icon={<WalletIcon className="text-primary" />}
 				/>
