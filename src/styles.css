@@ -65,8 +65,12 @@ body {
 }
 
 :root {
+  color-scheme: light;
   --background: oklch(1 0 0);
   --foreground: #08090A;
+  --scrollbar-track: var(--background);
+  --scrollbar-thumb: color-mix(in oklab, var(--foreground) 35%, var(--background));
+  --scrollbar-thumb-hover: var(--muted-foreground);
   --card: oklch(1 0 0);
   --card-foreground: #08090A;
   --popover: oklch(1 0 0);
@@ -101,8 +105,12 @@ body {
 }
 
 .dark {
+  color-scheme: dark;
   --background: #08090A;
   --foreground: oklch(0.985 0 0);
+  --scrollbar-track: var(--background);
+  --scrollbar-thumb: color-mix(in oklab, var(--foreground) 35%, var(--background));
+  --scrollbar-thumb-hover: var(--muted-foreground);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -133,6 +141,30 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid var(--scrollbar-track);
+  border-radius: 999px;
+  background: var(--scrollbar-thumb);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 @layer base {
