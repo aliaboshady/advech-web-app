@@ -68,7 +68,7 @@ const Pagination = ({
 					/>
 				)}
 
-				<span className="text-sm">
+				<span className="text-sm text-muted-foreground">
 					{startItem || 0} - {endItem || 0} {t("common.of")} {totalItems || 0}
 				</span>
 			</div>
@@ -76,26 +76,30 @@ const Pagination = ({
 			<div className="flex items-center order-1 sm:order-2">
 				<button
 					type="button"
-					className="p-2 group"
+					className="p-2 group text-foreground/70 disabled:pointer-events-none hover:text-foreground"
 					disabled={currentPage === 1}
 					onClick={() => setPage?.(1)}
 				>
 					<ChevronLastIcon
 						className={`w-3 h-3 ltr:rotate-180 ${
-							currentPage === 1 ? "opacity-30" : "group-hover:fill-neutral-500"
+							currentPage === 1
+								? "text-foreground/55"
+								: "text-foreground/75 group-hover:text-foreground"
 						}`}
 					/>
 				</button>
 
 				<button
 					type="button"
-					className="p-2 group"
+					className="p-2 group text-foreground/70 disabled:pointer-events-none hover:text-foreground"
 					disabled={currentPage === 1}
 					onClick={() => setPage?.(currentPage - 1)}
 				>
 					<ChevronRightIcon
 						className={`w-3 h-3 ltr:rotate-180 ${
-							currentPage === 1 ? "opacity-30" : "group-hover:fill-neutral-500"
+							currentPage === 1
+								? "text-foreground/55"
+								: "text-foreground/75 group-hover:text-foreground"
 						}`}
 					/>
 				</button>
@@ -108,7 +112,7 @@ const Pagination = ({
 						className={`px-2 h-8 rounded transition-all ${
 							currentPage === pageNumber
 								? "bg-secondary text-primary"
-								: "hover:text-primary text-neutral-500"
+								: "text-muted-foreground hover:text-foreground hover:bg-muted"
 						}`}
 					>
 						{pageNumber}
@@ -117,30 +121,30 @@ const Pagination = ({
 
 				<button
 					type="button"
-					className="p-2 group"
+					className="p-2 group text-foreground/70 disabled:pointer-events-none hover:text-foreground"
 					disabled={currentPage >= totalPages}
 					onClick={() => setPage?.(currentPage + 1)}
 				>
 					<ChevronRightIcon
 						className={`w-3 h-3 rtl:rotate-180 ${
 							currentPage >= totalPages
-								? "opacity-30"
-								: "group-hover:fill-neutral-500"
+								? "text-foreground/55"
+								: "text-foreground/75 group-hover:text-foreground"
 						}`}
 					/>
 				</button>
 
 				<button
 					type="button"
-					className="p-2 group"
+					className="p-2 group text-foreground/70 disabled:pointer-events-none hover:text-foreground"
 					disabled={currentPage >= totalPages}
 					onClick={() => setPage?.(totalPages)}
 				>
 					<ChevronLastIcon
 						className={`w-3 h-3 rtl:rotate-180 ${
 							currentPage >= totalPages
-								? "opacity-30"
-								: "group-hover:fill-neutral-500"
+								? "text-foreground/55"
+								: "text-foreground/75 group-hover:text-foreground"
 						}`}
 					/>
 				</button>

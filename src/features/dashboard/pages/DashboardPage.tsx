@@ -1,9 +1,9 @@
 import { EyeIcon, MapIcon, RocketIcon, WalletIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import logoLockup from "@/assets/logo/lockup/advech-lockup-orange.svg";
 import { PageLayout } from "@/components/PageLayout";
 import { Chart } from "../components/Chart";
 import { StatisticCard } from "../components/StatisticCard";
+import { Table } from "../components/Table";
 
 export function DashboardPage() {
 	const { t } = useTranslation();
@@ -33,20 +33,9 @@ export function DashboardPage() {
 				/>
 			</div>
 
-			<div className="flex w-full items-center justify-center pt-6">
+			<div className="flex flex-col @3xl/pageLayout:flex-row h-250 @3xl/pageLayout:h-110 w-full items-center justify-center gap-4 pt-4">
 				<Chart />
-
-				<div className="space-y-4 w-full text-center">
-					<img
-						src={logoLockup}
-						alt="Advech"
-						className="mx-auto h-auto w-full max-w-xs"
-					/>
-					<h1 className="text-4xl font-bold tracking-tight text-primary">
-						{t("home.welcome")}
-					</h1>
-					<p className="text-lg text-muted-foreground">{t("home.loggedIn")}</p>
-				</div>
+				<Table />
 			</div>
 		</PageLayout>
 	);

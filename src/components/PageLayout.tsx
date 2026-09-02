@@ -10,7 +10,7 @@ export function PageLayout({ title, children, className }: Props) {
 	return (
 		<div
 			className={twMerge(
-				"@container/pageLayout flex w-full flex-col items-center px-4 pt-4",
+				"@container/pageLayout flex w-full flex-col items-center p-4",
 				className,
 			)}
 		>

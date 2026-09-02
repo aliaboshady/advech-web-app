@@ -83,28 +83,28 @@ export default function DropdownActions({
 						<Button
 							variant="outline"
 							className={twMerge(
-								"relative group min-h-12 h-fit shadow-none max-w-full min-w-0 justify-between outline-none font-normal border-2 focus-visible:outline-none focus-visible:ring-0",
+								"relative group min-h-12 h-fit shadow-none max-w-full min-w-0 justify-between outline-none font-normal border-2 border-border bg-background text-foreground focus-visible:outline-none focus-visible:ring-0",
 								className,
 							)}
 						>
 							{label}
 
 							<ChevronDownIcon
-								className="fill-primary ms-2 text-neutral-500 transition-transform duration-200 group-data-[state=open]:rotate-180"
+								className="fill-primary ms-2 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180"
 								aria-hidden="true"
 							/>
 						</Button>
 					) : (
 						<Button
 							variant="ghost"
-							className="text-neutral-4 font-medium bg-transparent hover:bg-transparent focus:outline-none focus-visible:outline-none"
+							className="text-muted-foreground font-medium bg-transparent hover:bg-muted focus:outline-none focus-visible:outline-none"
 						>
 							<EllipsisVerticalIcon className="w-5! h-5! font-bold" />
 						</Button>
 					)}
 				</DropdownMenuTrigger>
 
-				<DropdownMenuContent className="min-w-(--radix-dropdown-menu-trigger-width)">
+				<DropdownMenuContent className="w-max min-w-(--radix-dropdown-menu-trigger-width) border-border bg-popover text-popover-foreground">
 					<DropdownMenuRadioGroup>
 						{extractedActions.map((setting, settingIndex) => {
 							const isDisabled =
@@ -115,7 +115,7 @@ export default function DropdownActions({
 							return (
 								<DropdownMenuItem
 									key={settingIndex}
-									className="rtl:justify-end"
+									className="rtl:justify-end whitespace-nowrap"
 									disabled={loading[settingIndex] || isDisabled}
 									onClick={
 										isDisabled
@@ -139,7 +139,7 @@ export default function DropdownActions({
 													? setting?.href
 													: setting?.href(item)
 											}
-											className="flex flex-row gap-1.5"
+											className="flex flex-row gap-1.5 whitespace-nowrap"
 										>
 											{loading[settingIndex] ? (
 												<LoaderIcon className="animate-spin fill-primary" />

@@ -36,16 +36,14 @@ export function DropdownItemsPerPage({
 			<DropdownMenuTrigger asChild className="pointer-events-auto">
 				<Button
 					variant="ghost"
-					className="p-2 text-white hover:text-white font-medium rounded-md bg-primary hover:bg-primary/80 focus:outline-none focus-visible:outline-none"
+					className="p-2 text-primary-foreground! font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary"
 				>
 					{t(itemsPerPageList[itemsPerPage?.toString()]?.toString() as any)}
-					<div className="bg-white rounded-full p-0.5">
-						<ChevronDownIcon
-							className={`fill-primary transition-transform ${
-								open ? "rotate-180" : ""
-							}`}
-						/>
-					</div>
+					<ChevronDownIcon
+						className={`text-background transition-transform ${
+							open ? "rotate-180" : ""
+						}`}
+					/>
 				</Button>
 			</DropdownMenuTrigger>
 
@@ -58,7 +56,7 @@ export function DropdownItemsPerPage({
 						<DropdownMenuRadioItem
 							key={item}
 							value={item}
-							className="text-neutral-600 font-medium"
+							className="text-foreground font-medium"
 						>
 							{t(item as any)}
 						</DropdownMenuRadioItem>

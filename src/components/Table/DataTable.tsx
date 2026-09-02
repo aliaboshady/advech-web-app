@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon, ChevronUpIcon, LoaderIcon } from "lucide-react";
+import { ChevronDownIcon, ChevronsUpDownIcon, LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -41,6 +41,7 @@ type Props = {
 	dataPagination?: PaginatedResponse<any>;
 	dropdownActions?: DropdownAction[];
 	loading?: boolean;
+	className?: string;
 };
 
 const DataTable = ({
@@ -59,6 +60,7 @@ const DataTable = ({
 	dataPagination,
 	dropdownActions,
 	loading,
+	className,
 }: Props) => {
 	const [selectedAll, setSelectedAll] = useState<"indeterminate" | boolean>(
 		false,
@@ -126,100 +128,109 @@ const DataTable = ({
 	}, [items]);
 
 	return (
-		<div className="relative h-full flex flex-col justify-between border border-neutral-200 rounded-xl overflow-hidden">
-			<Table>
-				<TableHeader className="bg-neutral-100 h-12 sticky top-0 z-10">
-					<TableRow>
-						{selection && (
-							<TableHead className="w-10 h-10 text-center">
-								<Checkbox
-									checked={selectedAll}
-									onCheckedChange={handleSelectAllRows}
-								/>
-							</TableHead>
-						)}
-						{columns.map((column, i) => (
-							<TableHead
-								key={i}
-								className={twMerge(
-									`w-24 text-black text-nowrap ps-5 ${
-										sortBy === column.sortKey ? "font-semibold" : "font-medium"
-									}`,
-									column.headerClassName,
-								)}
-							>
-								<button
-									type="button"
-									disabled={!column.sortKey}
-									onClick={() => handleSort(column.sortKey)}
-									className="w-full h-full flex items-center gap-2"
-								>
-									{column.header(column)}
-
-									{column.sortKey ? (
-										sortBy && sortBy === column.sortKey ? (
-											<ChevronDownIcon
-												className={`w-3 h-3 fill-black font-bold ${
-													sortType === "desc" ? "rotate-0" : "rotate-180"
-												}`}
-											/>
-										) : (
-											<ChevronUpIcon
-												className={`w-4 h-4 fill-black ${
-													sortType === "desc" ? "rotate-0" : "rotate-180"
-												}`}
-											/>
-										)
-									) : null}
-								</button>
-							</TableHead>
-						))}
-
-						{dropdownActions && (
-							<TableHead className="w-20 text-black text-nowrap" />
-						)}
-					</TableRow>
-				</TableHeader>
-
-				<TableBody>
-					{items?.map((item, i) => (
-						<TableRow key={i}>
+		<div
+			className={twMerge(
+				"relative w-full h-full flex flex-col justify-between border border-border rounded-xl overflow-hidden bg-card shadow-sm",
+				className,
+			)}
+		>
+			<div className="min-h-0 flex-1 overflow-auto">
+				<Table>
+					<TableHeader className="bg-muted/80 h-12 sticky top-0 z-10">
+						<TableRow className="border-border/60">
 							{selection && (
-								<TableCell className="w-10 h-10 text-center">
+								<TableHead className="w-10 h-10 text-center text-foreground">
 									<Checkbox
-										id={item.id}
-										checked={selected.includes(item.id)}
-										onCheckedChange={(checked) =>
-											handleSelectRow(item.id, checked as boolean)
-										}
+										checked={selectedAll}
+										onCheckedChange={handleSelectAllRows}
 									/>
-								</TableCell>
+								</TableHead>
 							)}
-
 							{columns.map((column, i) => (
-								<TableCell
+								<TableHead
 									key={i}
 									className={twMerge(
-										"text-nowrap font-medium ps-5",
-										column.cellClassName,
+										`w-24 text-foreground text-nowrap ps-5 ${
+											sortBy && sortBy === column.sortKey
+												? "font-semibold"
+												: "font-normal"
+										}`,
+										column.headerClassName,
 									)}
 								>
-									{column.value(item)}
-								</TableCell>
+									<button
+										type="button"
+										disabled={!column.sortKey}
+										onClick={() => handleSort(column.sortKey)}
+										className="w-full h-full flex items-center gap-2 text-foreground/80 hover:text-foreground"
+									>
+										{column.header(column)}
+
+										{column.sortKey ? (
+											sortBy && sortBy === column.sortKey ? (
+												<ChevronDownIcon
+													className={`w-4 h-4 text-current transition-transform ${
+														sortType === "desc" ? "rotate-0" : "rotate-180"
+													}`}
+												/>
+											) : (
+												<ChevronsUpDownIcon
+													className={`w-3 h-3 text-current transition-transform ${
+														sortType === "desc" ? "rotate-0" : "rotate-180"
+													}`}
+												/>
+											)
+										) : null}
+									</button>
+								</TableHead>
 							))}
 
 							{dropdownActions && (
-								<TableCell>
-									<DropdownActions
-										dropdownActions={dropdownActions}
-										item={item}
-									/>
-								</TableCell>
+								<TableHead className="w-20 text-muted-foreground text-nowrap" />
 							)}
 						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+					</TableHeader>
+
+					<TableBody>
+						{items?.map((item, i) => (
+							<TableRow key={i} className="border-border/60 hover:bg-muted/60">
+								{selection && (
+									<TableCell className="w-10 h-10 text-center text-foreground">
+										<Checkbox
+											id={item.id}
+											checked={selected.includes(item.id)}
+											onCheckedChange={(checked) =>
+												handleSelectRow(item.id, checked as boolean)
+											}
+										/>
+									</TableCell>
+								)}
+
+								{columns.map((column, i) => (
+									<TableCell
+										key={i}
+										className={twMerge(
+											"text-nowrap font-medium ps-5 text-foreground",
+											column.cellClassName,
+										)}
+									>
+										{column.value(item)}
+									</TableCell>
+								))}
+
+								{dropdownActions && (
+									<TableCell>
+										<DropdownActions
+											dropdownActions={dropdownActions}
+											item={item}
+										/>
+									</TableCell>
+								)}
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</div>
 
 			<div className="w-full p-4 flex justify-center sm:justify-end items-center">
 				{/* {selection && <div className="text-sm">Selected {selected.length}</div>} */}
@@ -244,7 +255,7 @@ const DataTable = ({
 			)}
 
 			{loading && (
-				<div className="absolute top-0 bottom-0 inset-s-0 inset-e-0 bg-white/50 flex justify-center items-center">
+				<div className="absolute top-0 bottom-0 inset-s-0 inset-e-0 bg-background/70 flex justify-center items-center backdrop-blur-[1px]">
 					<div className="absolute top-[30%] inset-s-1/2 -translate-x-1/2">
 						<LoaderIcon className="fill-primary animate-spin w-20 h-20" />
 					</div>

@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
+import { twMerge } from "tailwind-merge";
 import {
 	Card,
 	CardContent,
@@ -15,9 +15,14 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Separator } from "@/components/ui/separator";
 import i18n from "@/i18n";
 
-export function Chart() {
+type Props = {
+	className?: string;
+};
+
+export function Chart({ className }: Props) {
 	const chartData = [
 		{ month: "January", desktop: 186 },
 		{ month: "February", desktop: 305 },
@@ -34,14 +39,17 @@ export function Chart() {
 	} satisfies ChartConfig;
 
 	return (
-		<Card className="w-full h-96s">
+		<Card className={twMerge("w-full h-full", className)}>
 			<CardHeader>
-				<CardTitle>Bar Chart</CardTitle>
+				<CardTitle>Impressions</CardTitle>
 				<CardDescription>January - June 2024</CardDescription>
 			</CardHeader>
-			<CardContent>
+
+			<Separator />
+
+			<CardContent className="flex-1 min-h-0">
 				<ChartContainer
-					className="h-72 w-full"
+					className="h-full w-full"
 					config={chartConfig}
 					dir={i18n.dir() === "rtl" ? "rtl" : "ltr"}
 				>
