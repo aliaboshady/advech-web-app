@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles.css";
 import { NotFoundPage } from "@/components/NotFoundPage";
 import { me } from "@/features/users/api/me";
+import { mockMe } from "@/lib/staticKeys";
 import { getAccessToken } from "@/lib/tokenUtils";
 
 let cachedAccessToken: string | null | undefined;
@@ -33,6 +34,17 @@ export const Route = createRootRoute({
 	}),
 
 	beforeLoad: async () => {
+		const bypassAuth =
+			import.meta.env.MODE === "development" &&
+			import.meta.env.VITE_BYPASS_AUTH === "true";
+
+		// DEV_ME is a mock user object used for development purposes when bypassing authentication.
+		if (bypassAuth) {
+			return {
+				me: mockMe,
+			};
+		}
+
 		const accessToken = getAccessToken();
 		let response: Awaited<ReturnType<typeof me>>;
 
