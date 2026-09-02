@@ -2,6 +2,7 @@ import { EyeIcon, MapIcon, RocketIcon, WalletIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logoLockup from "@/assets/logo/lockup/advech-lockup-orange.svg";
 import { PageLayout } from "@/components/PageLayout";
+import { Chart } from "../components/Chart";
 import { StatisticCard } from "../components/StatisticCard";
 
 export function DashboardPage() {
@@ -32,8 +33,10 @@ export function DashboardPage() {
 				/>
 			</div>
 
-			<div className="flex w-full items-center justify-center p-8">
-				<div className="space-y-4 text-center">
+			<div className="flex w-full items-center justify-center pt-6">
+				<Chart />
+
+				<div className="space-y-4 w-full text-center">
 					<img
 						src={logoLockup}
 						alt="Advech"
