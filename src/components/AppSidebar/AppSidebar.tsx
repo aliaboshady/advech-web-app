@@ -1,5 +1,6 @@
 import {
 	LayoutDashboardIcon,
+	LucideIcon,
 	MegaphoneIcon,
 	ReceiptIcon,
 	SettingsIcon,
@@ -11,14 +12,21 @@ import {
 	SidebarFooter,
 	SidebarHeader,
 } from "@/components/ui/sidebar";
+import { Route } from "@/lib/staticKeys";
 import { AppSidebarFooter } from "./AppSidebarFooter";
 import { AppSidebarHeader } from "./AppSidebarHeader";
 import { AppSidebarPages } from "./AppSidebarPages";
 
+type Page = {
+	name: string;
+	url: Route;
+	icon: LucideIcon;
+};
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { i18n, t } = useTranslation();
 
-	const pages = [
+	const pages: Page[] = [
 		{
 			name: t("sidebar.dashboard"),
 			url: "/",
