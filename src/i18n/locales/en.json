@@ -82,7 +82,8 @@
 		"lightMode": "Light Mode",
 		"darkMode": "Dark Mode",
 		"switchToLightMode": "Switch to light mode",
-		"switchToDarkMode": "Switch to dark mode"
+		"switchToDarkMode": "Switch to dark mode",
+		"of": "of"
 	},
 	"errors": {
 		"invalidEmail": "Please enter a valid email address.",

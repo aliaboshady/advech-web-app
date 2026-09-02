@@ -82,7 +82,8 @@
 		"lightMode": "الوضع الفاتح",
 		"darkMode": "الوضع الداكن",
 		"switchToLightMode": "التبديل إلى الوضع الفاتح",
-		"switchToDarkMode": "التبديل إلى الوضع الداكن"
+		"switchToDarkMode": "التبديل إلى الوضع الداكن",
+		"of": "من"
 	},
 	"errors": {
 		"invalidEmail": "يرجى إدخال بريد إلكتروني صالح.",
