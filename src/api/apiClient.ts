@@ -1,3 +1,4 @@
+import { ENV_MODES } from "@/lib/staticKeys";
 import {
 	clearTokens,
 	getAccessToken,
@@ -14,7 +15,7 @@ interface FetchOptions extends RequestInit {
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
-const ENV = import.meta.env.ENV;
+const ENV = import.meta.env.MODE;
 
 function redirectToLogin(): never {
 	clearTokens();
@@ -110,7 +111,8 @@ export async function apiClient<T>(
 	};
 
 	try {
-		if (ENV === "DEV") console.log("🔵 ⬅️ Request:", endpoint, finalOptions);
+		if (ENV === ENV_MODES.dev)
+			console.log("🔵 ⬅️ Request:", endpoint, finalOptions);
 
 		let response = await fetch(`${API_URL}/${endpoint}`, finalOptions);
 
@@ -150,7 +152,7 @@ export async function apiClient<T>(
 
 		const json = await response.json();
 
-		if (ENV === "DEV") console.log("🟢 ➡️ Response:", endpoint, json);
+		if (ENV === ENV_MODES.dev) console.log("🟢 ➡️ Response:", endpoint, json);
 
 		return json as T;
 	} catch (error) {

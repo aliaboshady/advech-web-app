@@ -1,7 +1,6 @@
-export const COOKIES_KEYS = {
-	accessToken: "accessToken",
-	refreshToken: "refreshToken",
-	locale: "NEXT_LOCALE",
+export const ENV_MODES = {
+	dev: "development",
+	prod: "production",
 };
 
 export type RoutesType = Record<string, { url: string; displayName: string }>;

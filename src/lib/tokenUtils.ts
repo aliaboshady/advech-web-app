@@ -1,9 +1,14 @@
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { COOKIES_KEYS } from "./staticKeys";
+import { ENV_MODES } from "./staticKeys";
+
+export const COOKIES_KEYS = {
+	accessToken: "accessToken",
+	refreshToken: "refreshToken",
+};
 
 const API_URL = import.meta.env.VITE_API_URL;
-const ENV = import.meta.env.ENV;
+const ENV = import.meta.env.MODE;
 
 interface JwtPayload {
 	sub: string;
@@ -56,7 +61,7 @@ export function isTokenExpired(token: string): boolean {
 
 export async function refreshAccessToken(): Promise<boolean> {
 	try {
-		if (ENV === "DEV") console.log("🟡 ⬅️ Trying to refresh tokens");
+		if (ENV === ENV_MODES.dev) console.log("🟡 ⬅️ Trying to refresh tokens");
 
 		const refreshToken = getRefreshToken();
 
@@ -73,7 +78,7 @@ export async function refreshAccessToken(): Promise<boolean> {
 		});
 
 		if (!response.ok) {
-			if (ENV === "DEV") console.log("🔴 ➡️ Error refreshing tokens");
+			if (ENV === ENV_MODES.dev) console.log("🔴 ➡️ Error refreshing tokens");
 			clearTokens();
 			return false;
 		}
