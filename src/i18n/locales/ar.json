@@ -78,7 +78,8 @@
 			"active": "نشطة",
 			"scheduled": "مجدولة",
 			"paused": "متوقفة مؤقتًا",
-			"completed": "مكتملة"
+			"completed": "مكتملة",
+			"cancelled": "ملغاة"
 		},
 		"statistics": {
 			"totalImpressions": "إجمالي مرات الظهور",

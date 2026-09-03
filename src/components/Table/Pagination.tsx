@@ -111,7 +111,7 @@ const Pagination = ({
 						onClick={() => setPage?.(pageNumber)}
 						className={`px-2 h-8 rounded transition-all ${
 							currentPage === pageNumber
-								? "bg-secondary text-primary"
+								? "bg-secondary text-secondary-foreground"
 								: "text-muted-foreground hover:text-foreground hover:bg-muted"
 						}`}
 					>

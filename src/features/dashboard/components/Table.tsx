@@ -19,15 +19,17 @@ type Props = {
 function getStatusColor(status: string) {
 	switch (status) {
 		case "Active":
-			return "bg-green-500";
+			return "bg-emerald-600";
 		case "Scheduled":
-			return "bg-yellow-500";
+			return "bg-sky-600";
 		case "Paused":
-			return "bg-orange-500";
+			return "bg-amber-600";
 		case "Completed":
-			return "bg-gray-500";
+			return "bg-slate-600";
+		case "Cancelled":
+			return "bg-rose-600";
 		default:
-			return "bg-gray-500";
+			return "bg-slate-600";
 	}
 }
 
@@ -56,7 +58,7 @@ const campaigns = [
 	{
 		id: "4",
 		name: "City Nights",
-		status: "Active",
+		status: "Cancelled",
 		budget: 22400,
 		impressions: 1780000,
 	},
@@ -113,6 +115,7 @@ export function Table({ className }: Props) {
 		Scheduled: t("dashboard.status.scheduled"),
 		Paused: t("dashboard.status.paused"),
 		Completed: t("dashboard.status.completed"),
+		Cancelled: t("dashboard.status.cancelled"),
 	};
 	const campaignColumns: Column[] = [
 		{
@@ -124,7 +127,7 @@ export function Table({ className }: Props) {
 			header: () => t("dashboard.table.status"),
 			value: (campaign) => (
 				<span
-					className={`rounded-full ${getStatusColor(campaign.status)} px-3 py-1 text-xs text-muted`}
+					className={`rounded-sm text-white ${getStatusColor(campaign.status)} p-1.5 text-xs text-muted`}
 				>
 					{statusLabels[campaign.status] ?? campaign.status}
 				</span>

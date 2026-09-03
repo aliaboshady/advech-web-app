@@ -36,11 +36,11 @@ export function DropdownItemsPerPage({
 			<DropdownMenuTrigger asChild className="pointer-events-auto">
 				<Button
 					variant="ghost"
-					className="p-2 text-primary-foreground! font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary"
+					className="p-2 text-white font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary"
 				>
 					{t(itemsPerPageList[itemsPerPage?.toString()]?.toString() as any)}
 					<ChevronDownIcon
-						className={`text-background transition-transform ${
+						className={`text-white transition-transform ${
 							open ? "rotate-180" : ""
 						}`}
 					/>

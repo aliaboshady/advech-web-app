@@ -78,7 +78,8 @@
 			"active": "Active",
 			"scheduled": "Scheduled",
 			"paused": "Paused",
-			"completed": "Completed"
+			"completed": "Completed",
+			"cancelled": "Cancelled"
 		},
 		"statistics": {
 			"totalImpressions": "Total Impressions",

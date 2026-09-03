@@ -77,8 +77,8 @@ body {
   --popover-foreground: #08090A;
   --primary: #FF5001;
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary: #FFDCCC;
+  --secondary-foreground: #FF5001;
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -117,8 +117,8 @@ body {
   --popover-foreground: oklch(0.985 0 0);
   --primary: #FF5001;
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary: #50332b;
+  --secondary-foreground: #FFD3BF;
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
