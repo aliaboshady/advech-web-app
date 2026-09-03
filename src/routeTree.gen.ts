@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivateRouteRouteImport } from './routes/_private/route'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
+import { Route as PrivateCampaignsRouteImport } from './routes/_private/campaigns'
 import { Route as PublicAuthConfirmPasswordResetRouteImport } from './routes/_public/auth/confirm-password-reset'
 import { Route as PublicAuthLoginRouteImport } from './routes/_public/auth/login'
 import { Route as PublicAuthRequestPasswordResetRouteImport } from './routes/_public/auth/request-password-reset'
@@ -29,6 +30,11 @@ const PublicRouteRoute = PublicRouteRouteImport.update({
 const PrivateIndexRoute = PrivateIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PrivateRouteRoute,
+} as any)
+const PrivateCampaignsRoute = PrivateCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
   getParentRoute: () => PrivateRouteRoute,
 } as any)
 const PublicAuthConfirmPasswordResetRoute =
@@ -61,6 +67,7 @@ const PublicAuthVerifyEmailRoute = PublicAuthVerifyEmailRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
+  '/campaigns': typeof PrivateCampaignsRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
   '/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
@@ -69,6 +76,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
+  '/campaigns': typeof PrivateCampaignsRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
   '/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_private': typeof PrivateRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
+  '/_private/campaigns': typeof PrivateCampaignsRoute
   '/_private/': typeof PrivateIndexRoute
   '/_public/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/_public/auth/login': typeof PublicAuthLoginRoute
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/campaigns'
     | '/auth/confirm-password-reset'
     | '/auth/login'
     | '/auth/request-password-reset'
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/campaigns'
     | '/auth/confirm-password-reset'
     | '/auth/login'
     | '/auth/request-password-reset'
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_private'
     | '/_public'
+    | '/_private/campaigns'
     | '/_private/'
     | '/_public/auth/confirm-password-reset'
     | '/_public/auth/login'
@@ -141,6 +153,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PrivateIndexRouteImport
+      parentRoute: typeof PrivateRouteRoute
+    }
+    '/_private/campaigns': {
+      id: '/_private/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof PrivateCampaignsRouteImport
       parentRoute: typeof PrivateRouteRoute
     }
     '/_public/auth/confirm-password-reset': {
@@ -182,10 +201,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface PrivateRouteRouteChildren {
+  PrivateCampaignsRoute: typeof PrivateCampaignsRoute
   PrivateIndexRoute: typeof PrivateIndexRoute
 }
 
 const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
+  PrivateCampaignsRoute: PrivateCampaignsRoute,
   PrivateIndexRoute: PrivateIndexRoute,
 }
 

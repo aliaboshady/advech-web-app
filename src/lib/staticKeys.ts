@@ -1,5 +1,5 @@
 import type { RegisteredRouter } from "@tanstack/react-router";
-import { UserResponse } from "@/features/users/types";
+import { User } from "@/features/users/types";
 
 export const ENV_MODES = {
 	dev: "development",
@@ -8,7 +8,7 @@ export const ENV_MODES = {
 
 export type Route = keyof RegisteredRouter["routesByPath"];
 
-export const mockMe: UserResponse = {
+export const mockMe: User = {
 	id: "string",
 	phone: "01234567890",
 	email: "John.Doe@example.com",

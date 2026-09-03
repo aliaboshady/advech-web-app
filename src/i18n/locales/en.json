@@ -74,13 +74,6 @@
 		"loggedIn": "You are logged in and on the home page."
 	},
 	"dashboard": {
-		"status": {
-			"active": "Active",
-			"scheduled": "Scheduled",
-			"paused": "Paused",
-			"completed": "Completed",
-			"cancelled": "Cancelled"
-		},
 		"statistics": {
 			"totalImpressions": "Total Impressions",
 			"activeCampaigns": "Active Campaigns",
@@ -98,15 +91,27 @@
 			"campaignName": "Campaign Name",
 			"status": "Status",
 			"budget": "Budget",
-			"impressions": "Impressions",
-			"edit": "Edit",
-			"delete": "Delete"
+			"impressions": "Impressions"
+		}
+	},
+	"campaigns": {
+		"status": {
+			"active": "Active",
+			"scheduled": "Scheduled",
+			"paused": "Paused",
+			"completed": "Completed",
+			"cancelled": "Cancelled"
 		}
 	},
 	"common": {
 		"account": "Account",
 		"logout": "Log out",
 		"close": "Close",
+		"areYouSure": "Are you sure?",
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"submit": "Submit",
+		"edit": "Edit",
 		"english": "English",
 		"arabic": "العربية",
 		"lightMode": "Light Mode",

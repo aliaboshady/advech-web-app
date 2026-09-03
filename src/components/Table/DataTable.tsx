@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronDownIcon, ChevronsUpDownIcon, LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -139,7 +137,7 @@ const DataTable = ({
 					<TableHeader className="bg-muted/80 h-12 sticky top-0 z-10">
 						<TableRow className="border-border/60">
 							{selection && (
-								<TableHead className="w-10 h-10 text-center text-foreground">
+								<TableHead className="w-10 h-10 ps-2! text-center text-foreground">
 									<Checkbox
 										checked={selectedAll}
 										onCheckedChange={handleSelectAllRows}
@@ -195,7 +193,7 @@ const DataTable = ({
 						{items?.map((item, i) => (
 							<TableRow key={i} className="border-border/60 hover:bg-muted/60">
 								{selection && (
-									<TableCell className="w-10 h-10 text-center text-foreground">
+									<TableCell className="w-10 h-10 ps-2! text-center text-foreground">
 										<Checkbox
 											id={item.id}
 											checked={selected.includes(item.id)}

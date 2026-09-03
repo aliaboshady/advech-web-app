@@ -37,6 +37,10 @@
 				"noExplicitAny": "off",
 				"useIterableCallbackReturn": "off",
 				"noArrayIndexKey": "off"
+			},
+			"a11y": {
+				"useSemanticElements": "off",
+				"noPositiveTabindex": "off"
 			}
 		}
 	},

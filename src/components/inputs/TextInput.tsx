@@ -1,5 +1,3 @@
-"use client";
-
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { HTMLInputTypeAttribute, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -80,7 +78,7 @@ const TextInput = ({
 
 			<div className="relative">
 				{icon && (
-					<div className="absolute inset-s-4 top-1/2 -translate-y-1/2">
+					<div className="absolute inset-s-3 top-1/2 -translate-y-1/2">
 						{icon}
 					</div>
 				)}
@@ -122,8 +120,8 @@ const TextInput = ({
 						placeholder={placeholder}
 						className={twMerge(
 							`focus-visible:outline-none focus-visible:ring-0 transition-colors ${
-								icon ? "ps-12" : ""
-							} ${isPassword ? "pe-12" : ""} ${
+								icon ? "ps-10" : ""
+							} ${isPassword ? "pe-10" : ""} ${
 								error ? "border-destructive! focus:border-destructive!" : ""
 							}`,
 							inputClassName,

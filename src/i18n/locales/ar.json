@@ -74,13 +74,6 @@
 		"loggedIn": "لقد سجلت الدخول وأنت الآن في الصفحة الرئيسية."
 	},
 	"dashboard": {
-		"status": {
-			"active": "نشطة",
-			"scheduled": "مجدولة",
-			"paused": "متوقفة مؤقتًا",
-			"completed": "مكتملة",
-			"cancelled": "ملغاة"
-		},
 		"statistics": {
 			"totalImpressions": "إجمالي مرات الظهور",
 			"activeCampaigns": "الحملات النشطة",
@@ -98,15 +91,27 @@
 			"campaignName": "اسم الحملة",
 			"status": "الحالة",
 			"budget": "الميزانية",
-			"impressions": "مرات الظهور",
-			"edit": "تعديل",
-			"delete": "حذف"
+			"impressions": "مرات الظهور"
+		}
+	},
+	"campaigns": {
+		"status": {
+			"active": "نشطة",
+			"scheduled": "مجدولة",
+			"paused": "متوقفة مؤقتًا",
+			"completed": "مكتملة",
+			"cancelled": "ملغاة"
 		}
 	},
 	"common": {
 		"account": "الحساب",
 		"logout": "تسجيل الخروج",
 		"close": "إغلاق",
+		"areYouSure": "هل أنت متأكد؟",
+		"cancel": "إلغاء",
+		"delete": "حذف",
+		"submit": "إرسال",
+		"edit": "تعديل",
 		"english": "English",
 		"arabic": "العربية",
 		"lightMode": "الوضع الفاتح",

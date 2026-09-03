@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { FormikHelpers } from "formik";
+import { DateTime } from "luxon";
 import { twMerge } from "tailwind-merge";
 import { ErrorResponse } from "@/types";
 
@@ -47,4 +48,16 @@ export function getUserInitials(
 	}
 
 	return "";
+}
+
+export function formatDate(
+	date: string,
+	mode: "dateTime" | "date" | "time" = "dateTime",
+): string {
+	if (!date) return "";
+	let format = "dd MMM yyyy, hh:mm a";
+
+	if (mode === "date") format = "dd MMM yyyy";
+	else if (mode === "time") format = "hh:mm a";
+	return DateTime.fromISO(date).toFormat(format);
 }

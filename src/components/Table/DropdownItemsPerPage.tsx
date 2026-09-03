@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -36,7 +34,7 @@ export function DropdownItemsPerPage({
 			<DropdownMenuTrigger asChild className="pointer-events-auto">
 				<Button
 					variant="ghost"
-					className="p-2 text-white font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary"
+					className="p-2 text-white hover:text-white font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary data-[state=open]:text-white"
 				>
 					{t(itemsPerPageList[itemsPerPage?.toString()]?.toString() as any)}
 					<ChevronDownIcon

@@ -109,13 +109,12 @@ const campaigns = [
 export function Table({ className }: Props) {
 	const { t } = useTranslation();
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(10);
 	const statusLabels: Record<string, string> = {
-		Active: t("dashboard.status.active"),
-		Scheduled: t("dashboard.status.scheduled"),
-		Paused: t("dashboard.status.paused"),
-		Completed: t("dashboard.status.completed"),
-		Cancelled: t("dashboard.status.cancelled"),
+		Active: t("campaigns.status.active"),
+		Scheduled: t("campaigns.status.scheduled"),
+		Paused: t("campaigns.status.paused"),
+		Completed: t("campaigns.status.completed"),
+		Cancelled: t("campaigns.status.cancelled"),
 	};
 	const campaignColumns: Column[] = [
 		{
@@ -146,11 +145,11 @@ export function Table({ className }: Props) {
 	];
 	const dropdownActions: DropdownAction[] = [
 		{
-			label: t("dashboard.table.edit"),
+			label: t("common.edit"),
 			icon: <PencilLineIcon className="text-muted-foreground" />,
 		},
 		{
-			label: t("dashboard.table.delete"),
+			label: t("common.delete"),
 			icon: <TrashIcon className="text-red-600" />,
 		},
 	];
@@ -168,21 +167,8 @@ export function Table({ className }: Props) {
 					columns={campaignColumns}
 					className="h-full rounded-none border-x-0 border-b-0 border-t"
 					dropdownActions={dropdownActions}
-					dataPagination={{
-						data: {
-							docs: campaigns,
-							page: page,
-							hasNextPage: false,
-							hasPreviousPage: false,
-							totalPages: Math.ceil(campaigns.length / limit),
-							totalItems: campaigns.length,
-							limit: limit,
-						},
-					}}
 					page={page}
 					setPage={setPage}
-					setItemsPerPage={setLimit}
-					itemsPerPage={limit}
 				/>
 			</CardContent>
 		</Card>

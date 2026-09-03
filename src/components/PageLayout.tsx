@@ -8,14 +8,11 @@ type Props = {
 
 export function PageLayout({ title, children, className }: Props) {
 	return (
-		<div
-			className={twMerge(
-				"@container/pageLayout flex w-full flex-col items-center p-4",
-				className,
-			)}
-		>
+		<div className="@container/pageLayout flex w-full flex-col items-center p-4">
 			{title && <p className="w-full text-xl font-semibold mb-4">{title}</p>}
-			{children}
+			<div className={twMerge("w-full flex flex-col", className)}>
+				{children}
+			</div>
 		</div>
 	);
 }

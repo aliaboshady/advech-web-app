@@ -1,5 +1,5 @@
 import { FormikProps } from "formik";
-import TextInput, { TextInputProps } from "../inputs/TextInput";
+import TextInput, { TextInputProps } from "../Inputs/TextInput";
 
 type Props = Omit<
 	TextInputProps,

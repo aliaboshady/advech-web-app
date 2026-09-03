@@ -37,7 +37,7 @@ export function AppSidebarPages({
 								className={
 									!isActive
 										? "hover:bg-primary/20"
-										: "hover:bg-primary hover:text-white dark:hover:text-black pointer-events-none"
+										: "hover:bg-primary text-white! hover:text-white dark:hover:text-black pointer-events-none"
 								}
 							>
 								<Link to={item.url}>
