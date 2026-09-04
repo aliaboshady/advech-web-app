@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivateRouteRouteImport } from './routes/_private/route'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
-import { Route as PrivateCampaignsRouteImport } from './routes/_private/campaigns'
+import { Route as PrivateCampaignsIndexRouteImport } from './routes/_private/campaigns/index'
+import { Route as PrivateCampaignsIdRouteImport } from './routes/_private/campaigns/$id'
+import { Route as PrivateCampaignsNewRouteImport } from './routes/_private/campaigns/new'
 import { Route as PublicAuthConfirmPasswordResetRouteImport } from './routes/_public/auth/confirm-password-reset'
 import { Route as PublicAuthLoginRouteImport } from './routes/_public/auth/login'
 import { Route as PublicAuthRequestPasswordResetRouteImport } from './routes/_public/auth/request-password-reset'
@@ -32,9 +34,19 @@ const PrivateIndexRoute = PrivateIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PrivateRouteRoute,
 } as any)
-const PrivateCampaignsRoute = PrivateCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
+const PrivateCampaignsIndexRoute = PrivateCampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => PrivateRouteRoute,
+} as any)
+const PrivateCampaignsIdRoute = PrivateCampaignsIdRouteImport.update({
+  id: '/campaigns/$id',
+  path: '/campaigns/$id',
+  getParentRoute: () => PrivateRouteRoute,
+} as any)
+const PrivateCampaignsNewRoute = PrivateCampaignsNewRouteImport.update({
+  id: '/campaigns/new',
+  path: '/campaigns/new',
   getParentRoute: () => PrivateRouteRoute,
 } as any)
 const PublicAuthConfirmPasswordResetRoute =
@@ -67,64 +79,76 @@ const PublicAuthVerifyEmailRoute = PublicAuthVerifyEmailRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
-  '/campaigns': typeof PrivateCampaignsRoute
+  '/campaigns/$id': typeof PrivateCampaignsIdRoute
+  '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
   '/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
   '/auth/signup': typeof PublicAuthSignupRoute
   '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
+  '/campaigns/': typeof PrivateCampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
-  '/campaigns': typeof PrivateCampaignsRoute
+  '/campaigns/$id': typeof PrivateCampaignsIdRoute
+  '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
   '/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
   '/auth/signup': typeof PublicAuthSignupRoute
   '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
+  '/campaigns': typeof PrivateCampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_private': typeof PrivateRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
-  '/_private/campaigns': typeof PrivateCampaignsRoute
   '/_private/': typeof PrivateIndexRoute
+  '/_private/campaigns/$id': typeof PrivateCampaignsIdRoute
+  '/_private/campaigns/new': typeof PrivateCampaignsNewRoute
   '/_public/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/_public/auth/login': typeof PublicAuthLoginRoute
   '/_public/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
   '/_public/auth/signup': typeof PublicAuthSignupRoute
   '/_public/auth/verify-email': typeof PublicAuthVerifyEmailRoute
+  '/_private/campaigns/': typeof PrivateCampaignsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/campaigns'
+    | '/campaigns/$id'
+    | '/campaigns/new'
     | '/auth/confirm-password-reset'
     | '/auth/login'
     | '/auth/request-password-reset'
     | '/auth/signup'
     | '/auth/verify-email'
+    | '/campaigns/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/campaigns'
+    | '/campaigns/$id'
+    | '/campaigns/new'
     | '/auth/confirm-password-reset'
     | '/auth/login'
     | '/auth/request-password-reset'
     | '/auth/signup'
     | '/auth/verify-email'
+    | '/campaigns'
   id:
     | '__root__'
     | '/_private'
     | '/_public'
-    | '/_private/campaigns'
     | '/_private/'
+    | '/_private/campaigns/$id'
+    | '/_private/campaigns/new'
     | '/_public/auth/confirm-password-reset'
     | '/_public/auth/login'
     | '/_public/auth/request-password-reset'
     | '/_public/auth/signup'
     | '/_public/auth/verify-email'
+    | '/_private/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -155,11 +179,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateIndexRouteImport
       parentRoute: typeof PrivateRouteRoute
     }
-    '/_private/campaigns': {
-      id: '/_private/campaigns'
+    '/_private/campaigns/': {
+      id: '/_private/campaigns/'
       path: '/campaigns'
-      fullPath: '/campaigns'
-      preLoaderRoute: typeof PrivateCampaignsRouteImport
+      fullPath: '/campaigns/'
+      preLoaderRoute: typeof PrivateCampaignsIndexRouteImport
+      parentRoute: typeof PrivateRouteRoute
+    }
+    '/_private/campaigns/$id': {
+      id: '/_private/campaigns/$id'
+      path: '/campaigns/$id'
+      fullPath: '/campaigns/$id'
+      preLoaderRoute: typeof PrivateCampaignsIdRouteImport
+      parentRoute: typeof PrivateRouteRoute
+    }
+    '/_private/campaigns/new': {
+      id: '/_private/campaigns/new'
+      path: '/campaigns/new'
+      fullPath: '/campaigns/new'
+      preLoaderRoute: typeof PrivateCampaignsNewRouteImport
       parentRoute: typeof PrivateRouteRoute
     }
     '/_public/auth/confirm-password-reset': {
@@ -201,13 +239,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface PrivateRouteRouteChildren {
-  PrivateCampaignsRoute: typeof PrivateCampaignsRoute
   PrivateIndexRoute: typeof PrivateIndexRoute
+  PrivateCampaignsIdRoute: typeof PrivateCampaignsIdRoute
+  PrivateCampaignsNewRoute: typeof PrivateCampaignsNewRoute
+  PrivateCampaignsIndexRoute: typeof PrivateCampaignsIndexRoute
 }
 
 const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
-  PrivateCampaignsRoute: PrivateCampaignsRoute,
   PrivateIndexRoute: PrivateIndexRoute,
+  PrivateCampaignsIdRoute: PrivateCampaignsIdRoute,
+  PrivateCampaignsNewRoute: PrivateCampaignsNewRoute,
+  PrivateCampaignsIndexRoute: PrivateCampaignsIndexRoute,
 }
 
 const PrivateRouteRouteWithChildren = PrivateRouteRoute._addFileChildren(
