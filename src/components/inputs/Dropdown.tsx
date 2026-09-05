@@ -163,7 +163,7 @@ export default function Dropdown({
 				<Button
 					variant="outline"
 					className={twMerge(
-						`text-xs relative group min-h-9 h-fit shadow-none max-w-full min-w-0 justify-between outline-none font-normal border focus-visible:outline-none focus-visible:ring-0 ${
+						`cursor-pointer text-xs relative group min-h-9 h-fit shadow-none max-w-full min-w-0 justify-between outline-none font-normal border focus-visible:outline-none focus-visible:ring-0 ${
 							!selected && "text-neutral-500"
 						} ${error ? "border-danger focus:border-danger" : ""} `,
 						multiSelectExpandMode === "showAll" ? "min-h-9 h-fit" : "",

@@ -1,3 +1,4 @@
+import { useRouter } from "@tanstack/react-router";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -26,7 +27,7 @@ const Filter = ({
 	setStatus,
 }: Props) => {
 	const { t } = useTranslation();
-
+	const router = useRouter();
 	const [openAssessmentDialog, setOpenAssessmentDialog] = useState(false);
 
 	return (
@@ -59,7 +60,10 @@ const Filter = ({
 					/>
 				</div>
 
-				<Button className="h-9 rounded-xls text-lg w-full @lg/pageLayout:w-fit">
+				<Button
+					onClick={async () => await router.navigate({ to: "/campaigns/new" })}
+					className="h-9 text-lg w-full @lg/pageLayout:w-fit"
+				>
 					<PlusIcon className="text-white" />
 					{t("locale:CREATE_CAMPAIGN")}
 				</Button>

@@ -1,3 +1,4 @@
+import { useRouter } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { IdCardIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -12,6 +13,7 @@ type Props = {
 
 export function IdentityForm({ submitButtonTitle }: Props) {
 	const { t } = useTranslation();
+	const router = useRouter();
 
 	const formik = useFormik({
 		initialValues: { campaignName: "", primaryObjective: "" },
@@ -43,7 +45,14 @@ export function IdentityForm({ submitButtonTitle }: Props) {
 			<PrimaryObjective formik={formik} />
 
 			<div className="w-full h-full flex justify-end items-end">
-				<Button className="w-full @sm:w-fit">{submitButtonTitle}</Button>
+				<Button
+					onClick={async () =>
+						await router.navigate({ to: "/campaigns/id/targeting" })
+					}
+					className="w-full @sm:w-fit"
+				>
+					{submitButtonTitle}
+				</Button>
 			</div>
 		</div>
 	);

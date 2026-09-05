@@ -128,7 +128,7 @@ const DataTable = ({
 	return (
 		<div
 			className={twMerge(
-				"relative w-full h-full flex flex-col justify-between border border-border rounded-xl overflow-hidden bg-card shadow-sm",
+				"relative w-full h-full flex flex-col justify-between border border-border rounded-md overflow-hidden bg-card shadow-sm",
 				className,
 			)}
 		>

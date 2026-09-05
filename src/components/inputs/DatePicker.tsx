@@ -55,7 +55,7 @@ export function DatePicker({
 				<Button
 					variant="outline"
 					className={cn(
-						"h-9 border justify-between items-center text-xs font-normal",
+						"h-9 cursor-pointer border justify-between items-center text-xs font-normal",
 						!date && "text-muted-foreground",
 						className,
 					)}
