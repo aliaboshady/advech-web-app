@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { IdentityForm } from "../components/Forms/IdentityForm";
 
 const tabs = [
 	{
@@ -48,7 +49,7 @@ export function NewCampaignPage() {
 			className="flex flex-col gap-4"
 		>
 			<HeaderTabs tabs={tabs} activeTabId={1} />
-			Hello "/_private/campaigns/new"!
+			<IdentityForm submitButtonTitle="Create and continue" />
 		</PageLayout>
 	);
 }

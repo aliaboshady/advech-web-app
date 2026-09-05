@@ -18,7 +18,7 @@ const Breadcrumb = ({ breadcrumbs }: Props) => {
 					{i < breadcrumbs.length - 1 && breadcrumb.link ? (
 						<Link
 							to={breadcrumb.link || ""}
-							className="text-xs md:text-base text-nowrap text-neutral-700 underline underline-offset-2"
+							className="text-xs md:text-base text-nowrap text-muted-foreground underline underline-offset-2"
 						>
 							{breadcrumb?.label}
 						</Link>
@@ -27,7 +27,7 @@ const Breadcrumb = ({ breadcrumbs }: Props) => {
 							className={`text-xs md:text-base truncate text-nowrap ${
 								i === breadcrumbs.length - 1
 									? "font-semibold"
-									: "text-neutral-700"
+									: "text-muted-foreground"
 							}`}
 						>
 							{breadcrumb?.label}

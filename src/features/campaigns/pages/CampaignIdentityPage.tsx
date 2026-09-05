@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { IdentityForm } from "../components/Forms/IdentityForm";
 
 const tabs = [
 	{
@@ -48,7 +49,7 @@ export function CampaignIdentityPage({ id }: Props) {
 			className="flex flex-col gap-4"
 		>
 			<HeaderTabs url={`/campaigns/${id}`} tabs={tabs} activeTabId={1} />
-			Hello "/_private/campaigns/{id}"!
+			<IdentityForm submitButtonTitle="Save and continue" />
 		</PageLayout>
 	);
 }
