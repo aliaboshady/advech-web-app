@@ -1,12 +1,9 @@
 import { FormikProps } from "formik";
 import {
 	Building2Icon,
-	ChartNoAxesCombined,
 	DownloadIcon,
 	EyeIcon,
-	Globe2Icon,
 	ShoppingCartIcon,
-	Users,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -59,25 +56,19 @@ export function PrimaryObjective({ formik }: Props) {
 									? "border-primary bg-primary/5 ring-2 ring-primary"
 									: "hover:border-primary/50"
 							}`}
+							onClick={() =>
+								formik.setFieldValue("primaryObjective", option.value)
+							}
 						>
-							<button
-								type="button"
-								aria-pressed={isSelected}
-								className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-								onClick={() =>
-									formik.setFieldValue("primaryObjective", option.value)
-								}
-							>
-								<CardContent className="gap-1 p-0">
-									<div className="flex items-center gap-2 font-medium">
-										<Icon size={18} aria-hidden="true" />
-										<span>{option.label}</span>
-									</div>
-									<p className="pl-6.5 text-sm text-muted-foreground">
-										{option.description}
-									</p>
-								</CardContent>
-							</button>
+							<CardContent className="gap-1 p-0">
+								<div className="flex items-center gap-2 font-medium">
+									<Icon size={18} aria-hidden="true" />
+									<span>{option.label}</span>
+								</div>
+								<p className="pl-6.5 text-sm text-muted-foreground">
+									{option.description}
+								</p>
+							</CardContent>
 						</Card>
 					);
 				})}
