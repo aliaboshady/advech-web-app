@@ -177,6 +177,14 @@ body {
   html {
     @apply font-sans;
   }
+
+  .gm-style,
+  .gm-style *,
+  .gm-style > div {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
 
 .app-toast-container {

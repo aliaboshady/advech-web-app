@@ -47,7 +47,7 @@ export function IdentityForm({ submitButtonTitle }: Props) {
 			<div className="w-full h-full flex justify-end items-end">
 				<Button
 					onClick={async () =>
-						await router.navigate({ to: "/campaigns/id/targeting" })
+						await router.navigate({ to: "/campaigns/$id/targeting" })
 					}
 					className="w-full @sm:w-fit"
 				>

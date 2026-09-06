@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { TargetingForm } from "../components/Forms/TargetingForm";
 
 const tabs = [
 	{
@@ -48,7 +49,7 @@ export function CampaignTargetingPage({ id }: Props) {
 			className="flex flex-col gap-4"
 		>
 			<HeaderTabs url={`/campaigns/${id}`} tabs={tabs} activeTabId={2} />
-			Hello "/_private/campaigns/{id}"!
+			<TargetingForm />
 		</PageLayout>
 	);
 }
