@@ -101,6 +101,13 @@
 			"paused": "Paused",
 			"completed": "Completed",
 			"cancelled": "Cancelled"
+		},
+		"targeting": {
+			"dates": "Campaign dates",
+			"selectDates": "Select dates",
+			"startHour": "Start hour",
+			"endHour": "End hour",
+			"cars": "Cars"
 		}
 	},
 	"common": {

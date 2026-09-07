@@ -101,6 +101,13 @@
 			"paused": "متوقفة مؤقتًا",
 			"completed": "مكتملة",
 			"cancelled": "ملغاة"
+		},
+		"targeting": {
+			"dates": "تواريخ الحملة",
+			"selectDates": "اختر التواريخ",
+			"startHour": "ساعة البدء",
+			"endHour": "ساعة الانتهاء",
+			"cars": "السيارات"
 		}
 	},
 	"common": {
