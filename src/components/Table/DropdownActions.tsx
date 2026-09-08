@@ -1,9 +1,9 @@
+import { Link } from "@tanstack/react-router";
 import {
 	ChevronDownIcon,
 	EllipsisVerticalIcon,
 	LoaderIcon,
 } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/ui/button";
@@ -132,7 +132,7 @@ export default function DropdownActions({
 								>
 									{setting?.href ? (
 										<Link
-											href={
+											to={
 												typeof setting?.href === "string"
 													? setting?.href
 													: setting?.href(item)

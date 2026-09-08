@@ -107,7 +107,9 @@
 			"selectDates": "اختر التواريخ",
 			"startHour": "ساعة البدء",
 			"endHour": "ساعة الانتهاء",
-			"cars": "السيارات"
+			"cars": "السيارات",
+			"totalBudget": "إجمالي الميزانية",
+			"totalImpressions": "إجمالي مرات الظهور"
 		}
 	},
 	"common": {

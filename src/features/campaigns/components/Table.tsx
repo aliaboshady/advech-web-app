@@ -85,7 +85,7 @@ const Table = ({
 		{
 			label: t("common.edit"),
 			icon: <PencilLineIcon className="text-muted-foreground" />,
-			href: "#",
+			href: "/campaigns/$id/identity",
 		},
 		{
 			label: t("common.delete"),

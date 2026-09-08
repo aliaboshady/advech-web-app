@@ -5,13 +5,14 @@ import {
 	type MapMouseEvent,
 } from "@vis.gl/react-google-maps";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 import { SearchBox } from "./SearchBox";
 import { SearchController } from "./SearchController";
 
 const MIN_MARK_DISTANCE_METERS = 10 * 500; // 10K meters
+const MARKER_COVERAGE_RADIUS_METERS = 1000;
 const MAP_ID = import.meta.env.VITE_GOOGLE_MAPS_MAP_ID;
 
 export type Place = {
@@ -41,11 +42,19 @@ const calculateDistanceInMeters = (from: Place, to: Place) => {
 
 type Props = {
 	className?: string;
+	onCoverageAreaChange?: (areaKm2: number) => void;
 };
 
-export function GoogleMaps({ className }: Props) {
+export function GoogleMaps({ className, onCoverageAreaChange }: Props) {
 	const [places, setPlaces] = useState<Place[]>([]);
 	const [searchedPlace, setSearchedPlace] = useState<Place | null>(null);
+
+	useEffect(() => {
+		const markerAreaKm2 =
+			(Math.PI * MARKER_COVERAGE_RADIUS_METERS ** 2) / 1_000_000;
+
+		onCoverageAreaChange?.(places.length * markerAreaKm2);
+	}, [onCoverageAreaChange, places.length]);
 
 	const addPlace = (place: Place) => {
 		setPlaces((current) => {

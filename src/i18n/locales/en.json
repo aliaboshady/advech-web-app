@@ -107,7 +107,9 @@
 			"selectDates": "Select dates",
 			"startHour": "Start hour",
 			"endHour": "End hour",
-			"cars": "Cars"
+			"cars": "Cars",
+			"totalBudget": "Total budget",
+			"totalImpressions": "Total impressions"
 		}
 	},
 	"common": {

@@ -19,6 +19,7 @@ export function TargetingForm() {
 	const router = useRouter();
 	const [date, setDate] = useState<DateRange | undefined>();
 	const [carCount, setCarCount] = useState([1]);
+	const [coverageAreaKm2, setCoverageAreaKm2] = useState(0);
 
 	const formik = useFormik({
 		initialValues: {
@@ -44,11 +45,37 @@ export function TargetingForm() {
 		},
 	});
 
+	const startDate = formik.values.startDate;
+	const endDate = formik.values.endDate;
+	const campaignDays =
+		startDate && endDate
+			? Math.floor(
+					(endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000),
+				) + 1
+			: 0;
+	const startHour = formik.values.startHour
+		? Number(formik.values.startHour.split(":")[0]) +
+			Number(formik.values.startHour.split(":")[1]) / 60
+		: 0;
+	const endHour = formik.values.endHour
+		? Number(formik.values.endHour.split(":")[0]) +
+			Number(formik.values.endHour.split(":")[1]) / 60
+		: 0;
+	const hoursPerDay = endHour > startHour ? endHour - startHour : 0;
+	const totalHours = campaignDays * hoursPerDay;
+	const totalBudget = totalHours * formik.values.carCount * 12;
+	const totalImpressions = Math.round(
+		totalHours * formik.values.carCount * coverageAreaKm2 * 1000,
+	);
+
 	return (
 		<div className="@container bg-primary-foreground w-full sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
 			<div className="w-full flex flex-row flex-1 gap-4">
-				<GoogleMaps />
-				{/* <div className="w-full h-full rounded-lg bg-gray-300" /> */}
+				{/* <GoogleMaps
+					className="rounded-lg overflow-hidden"
+					onCoverageAreaChange={setCoverageAreaKm2}
+				/> */}
+				<div className="w-full h-full rounded-lg bg-gray-300" />
 
 				<Card className="rounded-lg transition-colors p-6 w-1/3">
 					<CardContent className="p-0">
@@ -136,6 +163,28 @@ export function TargetingForm() {
 									formik.setFieldValue("carCount", value[0]);
 								}}
 							/>
+						</div>
+
+						<div className="grid grid-cols-2 gap-3 border-t pt-4">
+							<div className="flex flex-col gap-1">
+								<span className="text-muted-foreground text-xs">
+									{t("campaigns.targeting.totalBudget")}
+								</span>
+								<strong className="text-base tabular-nums">
+									{totalBudget.toLocaleString(undefined, {
+										style: "currency",
+										currency: "USD",
+									})}
+								</strong>
+							</div>
+							<div className="flex flex-col gap-1">
+								<span className="text-muted-foreground text-xs">
+									{t("campaigns.targeting.totalImpressions")}
+								</span>
+								<strong className="text-base tabular-nums">
+									{totalImpressions.toLocaleString()}
+								</strong>
+							</div>
 						</div>
 					</CardContent>
 				</Card>
