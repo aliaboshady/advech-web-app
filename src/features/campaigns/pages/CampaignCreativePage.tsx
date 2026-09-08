@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { CreativeForm } from "../components/Forms/CreativeForm";
 
 const tabs = [
 	{
@@ -48,7 +49,7 @@ export function CampaignCreativePage({ id }: Props) {
 			className="flex flex-col gap-4"
 		>
 			<HeaderTabs url={`/campaigns/${id}`} tabs={tabs} activeTabId={3} />
-			Hello "/_private/campaigns/{id}"!
+			<CreativeForm />
 		</PageLayout>
 	);
 }
