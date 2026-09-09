@@ -1,5 +1,5 @@
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import { Info } from "lucide-react";
+import { Info, MapPinPlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
@@ -89,8 +89,8 @@ export function SearchBox({
 	};
 
 	return (
-		<div className="relative w-87.5">
-			<div className="flex flex-row items-center gap-2">
+		<div className="relative w-full @md/map:w-87.5">
+			<div className="flex flex-row w-full items-center gap-2">
 				<input
 					value={input}
 					onChange={(e) => handleChange(e.target.value)}
@@ -134,13 +134,10 @@ export function SearchBox({
 								</div>
 							</button>
 
-							<button
-								type="button"
+							<MapPinPlusIcon
 								onClick={() => handleMark(prediction)}
-								className="me-2 shrink-0 rounded-md px-2.5 py-1.5 text-xs font-medium transition hover:bg-accent text-primary focus:outline-none"
-							>
-								Mark
-							</button>
+								className="me-2 shrink-0 rounded-md w-7 h-7 p-1 font-medium transition hover:bg-accent text-primary focus:outline-none"
+							/>
 						</div>
 					))}
 				</div>

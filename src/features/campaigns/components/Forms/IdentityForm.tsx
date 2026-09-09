@@ -32,7 +32,7 @@ export function IdentityForm({ submitButtonTitle }: Props) {
 	});
 
 	return (
-		<div className="@container bg-primary-foreground w-full sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
+		<div className="@container bg-primary-foreground w-full @sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
 			<FormikTextInput
 				formik={formik}
 				label={t("locale:Campaign Name")}

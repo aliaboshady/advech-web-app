@@ -10,7 +10,7 @@ export function CreativeForm() {
 	const [file, setFile] = useState<File | null>(null);
 
 	return (
-		<div className="@container bg-primary-foreground w-full h-full sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
+		<div className="@container bg-primary-foreground w-full h-full @sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
 			<div className="flex flex-col gap-4 items-center h-full max-h-90">
 				<FileUploadDropzone
 					file={file}

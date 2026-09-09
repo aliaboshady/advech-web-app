@@ -30,6 +30,8 @@ export function TargetingForm() {
 			startHour: "",
 			endHour: "",
 			carCount: 1,
+			markerRadiusKm: 5,
+			isMoving: true,
 		},
 		// validationSchema: validationSchema.login,
 		onSubmit: async (_values) => {
@@ -69,15 +71,21 @@ export function TargetingForm() {
 	);
 
 	return (
-		<div className="@container bg-primary-foreground w-full sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
-			<div className="w-full flex flex-row flex-1 gap-4">
+		<div className="@container bg-primary-foreground flex h-full w-full flex-col gap-4 rounded-xl border p-4 shadow-md">
+			<div className="flex min-h-0 w-full flex-1 flex-col gap-4 @4xl:flex-row">
 				<GoogleMaps
-					className="rounded-lg overflow-hidden"
+					className="h-100 shrink-0 overflow-hidden rounded-lg @4xl:h-auto @4xl:min-h-0 @4xl:flex-1"
+					markerRadiusKm={formik.values.markerRadiusKm}
+					onMarkerRadiusKmChange={(value) =>
+						formik.setFieldValue("markerRadiusKm", value)
+					}
 					onCoverageAreaChange={setCoverageAreaKm2}
+					onMovementChange={(value) => formik.setFieldValue("isMoving", value)}
+					isMoving={formik.values.isMoving}
 				/>
-				{/* <div className="w-full h-full rounded-lg bg-gray-300" /> */}
+				{/* <div className="h-100 shrink-0 overflow-hidden rounded-lg @4xl:h-auto @4xl:min-h-0 @4xl:flex-1 bg-gray-300" /> */}
 
-				<Card className="rounded-lg transition-colors p-6 w-1/3">
+				<Card className="w-full shrink-0 rounded-lg p-6 transition-colors @4xl:h-auto @4xl:w-100">
 					<CardContent className="p-0">
 						<FormikTextInput
 							formik={formik}
@@ -190,7 +198,7 @@ export function TargetingForm() {
 				</Card>
 			</div>
 
-			<div className="w-full flex justify-between items-end">
+			<div className="w-full flex flex-col-reverse @sm:flex-row gap-2 justify-between items-end">
 				<Button
 					variant="secondary"
 					onClick={async () =>
