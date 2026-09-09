@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
-import { formatDate } from "@/lib/utils";
+import { statusLabels } from "@/lib/staticKeys";
+import { getStatusColor } from "@/lib/utils";
 import { PaginatedResponse, SortType } from "@/types";
 import { Campaign } from "../types";
 
@@ -55,29 +56,29 @@ const Table = ({
 
 	const columns: Column[] = [
 		{
-			header: () => t("ID"),
-			value: (campaign: Campaign) => campaign?.id,
-		},
-		{
-			header: () => t("Name"),
-			value: (campaign: Campaign) => campaign?.name,
+			header: () => t("dashboard.table.campaignName"),
+			value: (campaign) => campaign.name,
+			sortKey: "name",
 		},
 		{
 			header: () => t("dashboard.table.status"),
-			value: (campaign: Campaign) => campaign?.status,
-		},
-		{
-			header: () => t("Flight Dates"),
-			value: (campaign: Campaign) =>
-				`${formatDate(campaign?.fromDate)} - ${formatDate(campaign?.toDate)}`,
+			value: (campaign) => (
+				<span
+					className={`rounded-sm text-white ${getStatusColor(campaign.status)} p-1.5 text-xs text-muted`}
+				>
+					{t(statusLabels[campaign.status] as any) ?? campaign.status}
+				</span>
+			),
 		},
 		{
 			header: () => t("dashboard.table.budget"),
-			value: (campaign: Campaign) => `$${campaign?.budget?.toString()}`,
+			value: (campaign) => `$${campaign.budget.toLocaleString()}`,
+			sortKey: "budget",
 		},
 		{
-			header: () => t("Est. Impressions"),
-			value: (campaign: Campaign) => campaign?.impressions?.toString(),
+			header: () => t("dashboard.table.impressions"),
+			value: (campaign) => campaign.impressions.toLocaleString(),
+			sortKey: "impressions",
 		},
 	];
 

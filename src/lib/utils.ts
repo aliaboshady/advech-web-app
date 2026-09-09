@@ -61,3 +61,20 @@ export function formatDate(
 	else if (mode === "time") format = "hh:mm a";
 	return DateTime.fromISO(date).toFormat(format);
 }
+
+export function getStatusColor(status: string) {
+	switch (status) {
+		case "Active":
+			return "bg-emerald-600";
+		case "Scheduled":
+			return "bg-sky-600";
+		case "Paused":
+			return "bg-amber-600";
+		case "Completed":
+			return "bg-slate-600";
+		case "Cancelled":
+			return "bg-rose-600";
+		default:
+			return "bg-slate-600";
+	}
+}

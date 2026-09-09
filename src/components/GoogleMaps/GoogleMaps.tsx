@@ -11,7 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { SearchBox } from "./SearchBox";
 import { SearchController } from "./SearchController";
 
-const MIN_MARK_DISTANCE_METERS = 10 * 500; // 10K meters
+const MIN_MARK_DISTANCE_METERS = 10 * 500; // 5K meters
 const MARKER_COVERAGE_RADIUS_METERS = 1000;
 const MAP_ID = import.meta.env.VITE_GOOGLE_MAPS_MAP_ID;
 

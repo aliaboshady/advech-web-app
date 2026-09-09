@@ -11,27 +11,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { statusLabels } from "@/lib/staticKeys";
+import { getStatusColor } from "@/lib/utils";
 
 type Props = {
 	className?: string;
 };
-
-function getStatusColor(status: string) {
-	switch (status) {
-		case "Active":
-			return "bg-emerald-600";
-		case "Scheduled":
-			return "bg-sky-600";
-		case "Paused":
-			return "bg-amber-600";
-		case "Completed":
-			return "bg-slate-600";
-		case "Cancelled":
-			return "bg-rose-600";
-		default:
-			return "bg-slate-600";
-	}
-}
 
 const campaigns = [
 	{
@@ -109,13 +94,7 @@ const campaigns = [
 export function Table({ className }: Props) {
 	const { t } = useTranslation();
 	const [page, setPage] = useState(1);
-	const statusLabels: Record<string, string> = {
-		Active: t("campaigns.status.active"),
-		Scheduled: t("campaigns.status.scheduled"),
-		Paused: t("campaigns.status.paused"),
-		Completed: t("campaigns.status.completed"),
-		Cancelled: t("campaigns.status.cancelled"),
-	};
+
 	const campaignColumns: Column[] = [
 		{
 			header: () => t("dashboard.table.campaignName"),
@@ -128,7 +107,7 @@ export function Table({ className }: Props) {
 				<span
 					className={`rounded-sm text-white ${getStatusColor(campaign.status)} p-1.5 text-xs text-muted`}
 				>
-					{statusLabels[campaign.status] ?? campaign.status}
+					{t(statusLabels[campaign.status] as any) ?? campaign.status}
 				</span>
 			),
 		},

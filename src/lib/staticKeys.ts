@@ -21,3 +21,11 @@ export const mockMe: User = {
 	updatedAt: "2026-09-02T18:13:47.591Z",
 	actorType: "ADVERTISER",
 };
+
+export const statusLabels: Record<string, string> = {
+	Active: "campaigns.status.active",
+	Scheduled: "campaigns.status.scheduled",
+	Paused: "campaigns.status.paused",
+	Completed: "campaigns.status.completed",
+	Cancelled: "campaigns.status.cancelled",
+};

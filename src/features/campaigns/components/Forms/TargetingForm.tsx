@@ -71,11 +71,11 @@ export function TargetingForm() {
 	return (
 		<div className="@container bg-primary-foreground w-full sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
 			<div className="w-full flex flex-row flex-1 gap-4">
-				{/* <GoogleMaps
+				<GoogleMaps
 					className="rounded-lg overflow-hidden"
 					onCoverageAreaChange={setCoverageAreaKm2}
-				/> */}
-				<div className="w-full h-full rounded-lg bg-gray-300" />
+				/>
+				{/* <div className="w-full h-full rounded-lg bg-gray-300" /> */}
 
 				<Card className="rounded-lg transition-colors p-6 w-1/3">
 					<CardContent className="p-0">
