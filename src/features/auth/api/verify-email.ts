@@ -1,5 +1,3 @@
-"use server";
-
 import { apiClient } from "@/api/apiClient";
 import { ServerResponse } from "@/types";
 import { VerifyEmailPayload } from "../types";
