@@ -9,22 +9,52 @@ import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
 import { ServerResponse } from "@/types";
 import { createCampaign } from "../../api/create-campaign";
-import { Campaign, CreateCampaignPayload } from "../../types";
+import { editCampaign } from "../../api/edit-campaign";
+import {
+	Campaign,
+	CreateCampaignPayload,
+	EditCampaignPayload,
+} from "../../types";
 import { PrimaryObjective } from "./PrimaryObjective";
 
 type Props = {
 	submitButtonTitle: string;
 	objectives: Objective[];
+	campaign?: Campaign;
 };
 
-export function IdentityForm({ submitButtonTitle, objectives }: Props) {
+export function IdentityForm({
+	submitButtonTitle,
+	objectives,
+	campaign,
+}: Props) {
 	const { t } = useTranslation();
 	const router = useRouter();
 
-	const { request, isLoading, isSuccess } = useRequest<
-		CreateCampaignPayload,
-		ServerResponse<Campaign>
-	>(createCampaign, {
+	const {
+		request: requestCreateCampaign,
+		isLoading: isLoadingCreateCampaign,
+		isSuccess: isSuccessCreateCampaign,
+	} = useRequest<CreateCampaignPayload, ServerResponse<Campaign>>(
+		createCampaign,
+		{
+			onSuccess: async (res: ServerResponse<Campaign>) => {
+				const { id } = res?.data ?? {};
+				if (id) {
+					await router.navigate({
+						to: "/campaigns/$id/targeting",
+						params: { id },
+					});
+				}
+			},
+		},
+	);
+
+	const {
+		request: requestEditCampaign,
+		isLoading: isLoadingEditCampaign,
+		isSuccess: isSuccessEditCampaign,
+	} = useRequest<EditCampaignPayload, ServerResponse<Campaign>>(editCampaign, {
 		onSuccess: async (res: ServerResponse<Campaign>) => {
 			const { id } = res?.data ?? {};
 			if (id) {
@@ -37,14 +67,25 @@ export function IdentityForm({ submitButtonTitle, objectives }: Props) {
 	});
 
 	const formik = useFormik({
-		initialValues: { name: "", objectiveCode: "" },
+		initialValues: {
+			name: campaign?.name ?? "",
+			objectiveCode: campaign?.objective?.id ?? "",
+		},
 		// validationSchema: validationSchema.login,
 		onSubmit: async (values) => {
 			try {
-				await request({
-					name: values.name,
-					objectiveCode: values.objectiveCode,
-				});
+				if (campaign) {
+					await requestEditCampaign({
+						id: campaign?.id,
+						name: values.name,
+						objectiveCode: values.objectiveCode,
+					});
+				} else {
+					await requestCreateCampaign({
+						name: values.name,
+						objectiveCode: values.objectiveCode,
+					});
+				}
 			} catch (error) {
 				handleFormikError(error, formik);
 			}
@@ -71,7 +112,12 @@ export function IdentityForm({ submitButtonTitle, objectives }: Props) {
 				<Button
 					type="submit"
 					className="w-full @sm:w-fit"
-					disabled={isLoading || isSuccess}
+					disabled={
+						isLoadingCreateCampaign ||
+						isSuccessCreateCampaign ||
+						isLoadingEditCampaign ||
+						isSuccessEditCampaign
+					}
 				>
 					{submitButtonTitle}
 				</Button>

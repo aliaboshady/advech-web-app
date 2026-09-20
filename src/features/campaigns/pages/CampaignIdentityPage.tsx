@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { Objective } from "@/features/Objectives/types";
 import { IdentityForm } from "../components/Forms/IdentityForm";
+import { Campaign } from "../types";
 
 const tabs = [
 	{
@@ -32,9 +34,11 @@ const tabs = [
 
 type Props = {
 	id: string;
+	objectives: Objective[];
+	campaign: Campaign;
 };
 
-export function CampaignIdentityPage({ id }: Props) {
+export function CampaignIdentityPage({ id, objectives, campaign }: Props) {
 	const { t } = useTranslation();
 
 	return (
@@ -44,12 +48,16 @@ export function CampaignIdentityPage({ id }: Props) {
 					label: t("sidebar.campaigns"),
 					link: "/campaigns",
 				},
-				{ label: id },
+				{ label: campaign?.name },
 			]}
 			className="flex flex-col gap-4"
 		>
 			<HeaderTabs url={`/campaigns/${id}`} tabs={tabs} activeTabId={1} />
-			<IdentityForm submitButtonTitle="Save and continue" />
+			<IdentityForm
+				submitButtonTitle="Save and continue"
+				objectives={objectives}
+				campaign={campaign}
+			/>
 		</PageLayout>
 	);
 }
