@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { Objective } from "@/features/Objectives/types";
 import { IdentityForm } from "../components/Forms/IdentityForm";
 
 const tabs = [
@@ -34,7 +35,11 @@ const tabs = [
 	},
 ];
 
-export function NewCampaignPage() {
+type Props = {
+	objectives: Objective[];
+};
+
+export function NewCampaignPage({ objectives }: Props) {
 	const { t } = useTranslation();
 
 	return (
@@ -49,7 +54,10 @@ export function NewCampaignPage() {
 			className="flex flex-col gap-4"
 		>
 			<HeaderTabs tabs={tabs} activeTabId={1} />
-			<IdentityForm submitButtonTitle="Create and continue" />
+			<IdentityForm
+				submitButtonTitle="Create and continue"
+				objectives={objectives}
+			/>
 		</PageLayout>
 	);
 }

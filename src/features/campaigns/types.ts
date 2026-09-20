@@ -22,3 +22,8 @@ export type Campaign = {
 	fromDate: string;
 	toDate: string;
 };
+
+export type CreateCampaignPayload = {
+	name: string;
+	objectiveCode: string;
+};
