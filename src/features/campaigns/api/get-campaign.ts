@@ -1,11 +1,11 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { Campaign } from "../types";
 
 export const getCampaign = async (
 	id: string,
-): Promise<ServerResponse<Campaign>> => {
-	const res = await apiClient<ServerResponse<Campaign>>(`campaigns/${id}`, {
+): Promise<BackendResponse<Campaign>> => {
+	const res = await apiClient<BackendResponse<Campaign>>(`campaigns/${id}`, {
 		method: "GET",
 	});
 

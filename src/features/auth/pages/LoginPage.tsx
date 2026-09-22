@@ -20,7 +20,7 @@ import useRequest from "@/hooks/useRequest";
 import { saveTokens } from "@/lib/tokenUtils";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { login } from "../api/login";
 import { resendCode } from "../api/resend-code";
 import { authErrorMessage } from "../auth-error-message";
@@ -58,11 +58,9 @@ export function LoginPage() {
 
 	const { request, isLoading, isSuccess } = useRequest<
 		LoginPayload,
-		ServerResponse<LoginResponse>
+		BackendResponse<LoginResponse>
 	>(login, {
-		// The screen shows the message itself, next to the form.
-		showErrorToast: false,
-		onSuccess: async (res: ServerResponse<LoginResponse>) => {
+		onSuccess: async (res: BackendResponse<LoginResponse>) => {
 			const { refreshToken, accessToken } = res?.data ?? {};
 			if (refreshToken && accessToken) {
 				startTopLoader();

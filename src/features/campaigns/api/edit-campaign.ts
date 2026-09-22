@@ -1,12 +1,12 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { Campaign, EditCampaignPayload } from "../types";
 
 export const editCampaign = async ({
 	id,
 	...payload
-}: EditCampaignPayload): Promise<ServerResponse<Campaign>> => {
-	const res = await apiClient<ServerResponse<Campaign>>(
+}: EditCampaignPayload): Promise<BackendResponse<Campaign>> => {
+	const res = await apiClient<BackendResponse<Campaign>>(
 		`campaigns/${id}/details`,
 		{
 			method: "PATCH",

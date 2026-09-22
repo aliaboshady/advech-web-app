@@ -1,12 +1,12 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { SignupPayload, SignupResponse } from "../types";
 
 export const signup = async ({
 	email,
 	password,
-}: SignupPayload): Promise<ServerResponse<SignupResponse>> => {
-	const res = await apiClient<ServerResponse<SignupResponse>>(
+}: SignupPayload): Promise<BackendResponse<SignupResponse>> => {
+	const res = await apiClient<BackendResponse<SignupResponse>>(
 		"auth/advertiser/signup", // TODO: Remove "advertiser" from the endpoint later
 		{
 			method: "POST",

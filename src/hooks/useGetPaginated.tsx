@@ -1,20 +1,20 @@
 import { DependencyList, useEffect, useState } from "react";
-import { PaginatedPayload, PaginatedResponse, SortType } from "@/types";
+import { BackendResponse, PaginatedPayload, SortType } from "@/types";
 import { useDebounce } from "./useDebounce";
 import useRequest from "./useRequest";
 
 type GetPaginatedArgs<P extends PaginatedPayload, R> = {
-	request: (payload: P) => Promise<PaginatedResponse<R>>;
+	request: (payload: P) => Promise<BackendResponse<R>>;
 	delay?: number;
 	dependencies?: DependencyList;
-	getExtraPayload?: () => Partial<P>;
+	requestExtraPayload?: () => Partial<P>;
 };
 
 export function useGetPaginated<P extends PaginatedPayload, R>({
 	request,
 	dependencies = [],
 	delay = 500,
-	getExtraPayload,
+	requestExtraPayload,
 }: GetPaginatedArgs<P, R>) {
 	const [page, setPage] = useState(1);
 	const [limit, setLimitValue] = useState(10);
@@ -27,7 +27,7 @@ export function useGetPaginated<P extends PaginatedPayload, R>({
 		request: fetch,
 		data,
 		isLoading,
-	} = useRequest<P, PaginatedResponse<R>>(request);
+	} = useRequest<P, BackendResponse<R>>(request);
 
 	const refetch = async () => {
 		fetch({
@@ -36,7 +36,7 @@ export function useGetPaginated<P extends PaginatedPayload, R>({
 			search: debouncedSearch,
 			orderBy: sortBy,
 			orderType: sortType,
-			...getExtraPayload?.(),
+			...requestExtraPayload?.(),
 		} as P);
 	};
 

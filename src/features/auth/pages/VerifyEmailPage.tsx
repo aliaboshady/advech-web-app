@@ -12,7 +12,7 @@ import useRequest from "@/hooks/useRequest";
 import { getAccessToken, saveTokens } from "@/lib/tokenUtils";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { resendCode } from "../api/resend-code";
 import { verifyEmail } from "../api/verify-email";
 import { authErrorMessage } from "../auth-error-message";
@@ -55,16 +55,16 @@ export function VerifyEmailPage() {
 
 	const { request: requestResend, isLoading: isLoadingResend } = useRequest<
 		ResendCodePayload,
-		ServerResponse<ResendCodeResponse>
-	>(resendCode, { showErrorToast: false });
+		BackendResponse<ResendCodeResponse>
+	>(resendCode, {});
 
 	const { request: requestVerify, isLoading: isLoadingVerify } = useRequest<
 		VerifyEmailPayload,
-		ServerResponse<VerifyEmailResponse>
+		BackendResponse<VerifyEmailResponse>
 	>(verifyEmail, {
 		// The screen shows the message itself, next to the form.
 		showErrorToast: false,
-		onSuccess: async (res: ServerResponse<VerifyEmailResponse>) => {
+		onSuccess: async (res: BackendResponse<VerifyEmailResponse>) => {
 			const { refreshToken, accessToken } = res?.data ?? {};
 			if (refreshToken && accessToken) {
 				startTopLoader();

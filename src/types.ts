@@ -11,10 +11,11 @@ export type QueryParam = {
 	ignore?: (string | number | boolean)[];
 };
 
-export type ServerResponse<T> = {
+export type BackendResponse<T> = {
 	data?: T;
 	success?: boolean;
 	error?: ErrorResponse;
+	meta?: PaginationMeta;
 };
 
 export type FieldErrorDetail = {
@@ -28,6 +29,13 @@ export type ErrorResponse = {
 	details?: FieldErrorDetail[] | Record<string, unknown>;
 };
 
+export type PaginationMeta = {
+	page: number;
+	limit: number;
+	total: number;
+	totalPages: number;
+};
+
 export type PaginatedPayload = {
 	page: number;
 	limit: number;
@@ -35,18 +43,6 @@ export type PaginatedPayload = {
 	orderBy?: string;
 	orderType?: SortType;
 };
-
-export type Paginated<T> = {
-	docs: T[];
-	limit: number;
-	totalItems: number;
-	page: number;
-	totalPages: number;
-	hasPreviousPage: boolean;
-	hasNextPage: boolean;
-};
-
-export type PaginatedResponse<T> = ServerResponse<Paginated<T>>;
 
 export type SortType = "asc" | "desc";
 

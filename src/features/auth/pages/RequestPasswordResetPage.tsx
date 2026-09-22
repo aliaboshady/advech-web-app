@@ -10,7 +10,7 @@ import { AuthShell, authLinkClass } from "@/features/auth/components/AuthShell";
 import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { requestPasswordReset } from "../api/request-password-reset";
 import {
 	otpStateFromResponse,
@@ -32,7 +32,7 @@ export function RequestPasswordResetPage() {
 
 	const { request: requestReset, isLoading: isLoadingReset } = useRequest<
 		RequestPasswordResetPayload,
-		ServerResponse<RequestPasswordResetResponse>
+		BackendResponse<RequestPasswordResetResponse>
 	>(requestPasswordReset, {
 		onSuccess: (res) => {
 			const payload = res?.data;

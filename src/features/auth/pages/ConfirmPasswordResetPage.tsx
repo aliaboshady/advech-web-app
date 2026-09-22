@@ -10,7 +10,7 @@ import { AuthShell } from "@/features/auth/components/AuthShell";
 import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { confirmPasswordReset } from "../api/confirm-password-reset";
 import { requestPasswordReset } from "../api/request-password-reset";
 import {
@@ -44,7 +44,7 @@ export function ConfirmPasswordResetPage() {
 
 	const { request: requestReset, isLoading: isLoadingReset } = useRequest<
 		RequestPasswordResetPayload,
-		ServerResponse<RequestPasswordResetResponse>
+		BackendResponse<RequestPasswordResetResponse>
 	>(requestPasswordReset, {});
 
 	// A wrong, expired or exhausted code (`OTP_*`) arrives as an error and stays

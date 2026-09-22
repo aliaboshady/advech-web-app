@@ -4,16 +4,24 @@ import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
 import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
-import { PaginatedResponse, SortType } from "@/types";
-import { formatMoney } from "../format-money";
-import { Campaign } from "../types";
+import useRequest from "@/hooks/useRequest";
+import { statusLabels } from "@/lib/staticKeys";
+import { getStatusColor } from "@/lib/utils";
+import { BackendResponse, SortType } from "@/types";
+import { deleteCampaign } from "../api/delete-campaign";
+import { Campaign, GetCampaignsPayload } from "../types";
 
 type Props = {
-	data?: PaginatedResponse<Campaign> | null;
+	data?: BackendResponse<Campaign[]>;
 	setPage?: (val: number) => void;
 	page?: number;
 	setLimit?: (val: number) => void;
 	limit?: number;
+	search?: string;
+	dateRange?: DateRange;
+	fetch?: (
+		payload: GetCampaignsPayload,
+	) => Promise<BackendResponse<Campaign[]>>;
 	sortBy?: string;
 	setSortBy?: (val: string) => void;
 	sortType?: SortType;
@@ -33,8 +41,14 @@ const Table = ({
 	setSortType,
 	loading,
 }: Props) => {
-	const { t, i18n } = useTranslation();
-	const items = data?.data?.docs ?? [];
+	const { t } = useTranslation();
+
+	const { request: deleteCampaignReq } = useRequest<
+		string,
+		BackendResponse<void>
+	>(deleteCampaign, {
+		showSuccessToast: true,
+	});
 
 	const columns: Column[] = [
 		{

@@ -38,7 +38,7 @@ const ConfirmationDialog = ({
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogContent className="sm:max-w-106.25 w-[calc(100%-2rem)] gap-6">
+			<DialogContent className="sm:max-w-106.25! w-[calc(100%-2rem)] rounded-lg gap-10">
 				<DialogHeader>
 					<DialogTitle>{title ?? t("common.areYouSure")}</DialogTitle>
 					{description ? (
@@ -46,9 +46,9 @@ const ConfirmationDialog = ({
 					) : null}
 				</DialogHeader>
 
-				<DialogFooter className="flex flex-row justify-center gap-2">
+				<DialogFooter className="w-full flex flex-row justify-center gap-2">
 					<DialogClose asChild>
-						<Button disabled={isLoading} variant="secondary" className="flex-1">
+						<Button disabled={isLoading} variant="secondary" className="w-1/2">
 							{t("common.cancel")}
 						</Button>
 					</DialogClose>
@@ -64,7 +64,7 @@ const ConfirmationDialog = ({
 								setOpen(false);
 							}
 						}}
-						className="flex-1"
+						className="w-1/2"
 					>
 						{confirmLabel ?? t("common.submit")}
 					</Button>
