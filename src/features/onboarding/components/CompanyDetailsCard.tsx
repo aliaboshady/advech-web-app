@@ -166,8 +166,14 @@ export function CompanyDetailsCard({
 					loading={countriesRequest.isLoading}
 					required
 					onSelect={(item) => {
-						formik.setFieldValue("country", item?.label ?? "");
-						formik.setFieldValue("city", "");
+						// One setValues, so validation sees the country and the cleared city together.
+						formik.setValues({
+							...formik.values,
+							countryCode: item?.value ?? "",
+							country: item?.label ?? "",
+							city: "",
+						});
+						formik.setFieldTouched("country", true, false);
 					}}
 				/>
 				<FormikDropdown

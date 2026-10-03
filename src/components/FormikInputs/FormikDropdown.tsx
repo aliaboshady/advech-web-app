@@ -19,7 +19,11 @@ type Props = {
 	loading?: boolean;
 	required?: boolean;
 	hint?: string;
-	/** Runs after the value is set, e.g. to reset a dependent field. */
+	/**
+	 * Replaces the default `setFieldValue(name, item.value)`. Use it when a
+	 * choice sets several fields: do that in one `setValues`, because separate
+	 * `setFieldValue` calls each validate against stale values.
+	 */
 	onSelect?: (item: Item | undefined) => void;
 };
 
@@ -70,10 +74,14 @@ export function FormikDropdown({
 			<Dropdown
 				selected={selected}
 				setSelected={(value: string) => {
+					const item = items.find((candidate) => candidate.value === value);
+					setSearch("");
+					if (onSelect) {
+						onSelect(item);
+						return;
+					}
 					formik.setFieldValue(name, value ?? "");
 					formik.setFieldTouched(errorField, true, false);
-					setSearch("");
-					onSelect?.(items.find((item) => item.value === value));
 				}}
 				items={visible}
 				placeholder={placeholder}
