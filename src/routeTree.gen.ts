@@ -36,7 +36,10 @@ import { Route as PrivateCampaignsIdCreativeRouteImport } from './routes/_privat
 import { Route as PrivateCampaignsIdIdentityRouteImport } from './routes/_private/campaigns/$id/identity'
 import { Route as PrivateCampaignsIdReviewRouteImport } from './routes/_private/campaigns/$id/review'
 import { Route as PrivateCampaignsIdTargetingRouteImport } from './routes/_private/campaigns/$id/targeting'
+import { Route as PublicAuthAdminAcceptInviteRouteImport } from './routes/_public/auth/admin/accept-invite'
+import { Route as PublicAuthAdminConfirmPasswordResetRouteImport } from './routes/_public/auth/admin/confirm-password-reset'
 import { Route as PublicAuthAdminLoginRouteImport } from './routes/_public/auth/admin/login'
+import { Route as PublicAuthAdminRequestPasswordResetRouteImport } from './routes/_public/auth/admin/request-password-reset'
 
 const PrivateRouteRoute = PrivateRouteRouteImport.update({
   id: '/_private',
@@ -179,11 +182,29 @@ const PrivateCampaignsIdTargetingRoute =
     path: '/targeting',
     getParentRoute: () => PrivateCampaignsIdRouteRoute,
   } as any)
+const PublicAuthAdminAcceptInviteRoute =
+  PublicAuthAdminAcceptInviteRouteImport.update({
+    id: '/auth/admin/accept-invite',
+    path: '/auth/admin/accept-invite',
+    getParentRoute: () => PublicRouteRoute,
+  } as any)
+const PublicAuthAdminConfirmPasswordResetRoute =
+  PublicAuthAdminConfirmPasswordResetRouteImport.update({
+    id: '/auth/admin/confirm-password-reset',
+    path: '/auth/admin/confirm-password-reset',
+    getParentRoute: () => PublicRouteRoute,
+  } as any)
 const PublicAuthAdminLoginRoute = PublicAuthAdminLoginRouteImport.update({
   id: '/auth/admin/login',
   path: '/auth/admin/login',
   getParentRoute: () => PublicRouteRoute,
 } as any)
+const PublicAuthAdminRequestPasswordResetRoute =
+  PublicAuthAdminRequestPasswordResetRouteImport.update({
+    id: '/auth/admin/request-password-reset',
+    path: '/auth/admin/request-password-reset',
+    getParentRoute: () => PublicRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
@@ -209,7 +230,10 @@ export interface FileRoutesByFullPath {
   '/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
+  '/auth/admin/accept-invite': typeof PublicAuthAdminAcceptInviteRoute
+  '/auth/admin/confirm-password-reset': typeof PublicAuthAdminConfirmPasswordResetRoute
   '/auth/admin/login': typeof PublicAuthAdminLoginRoute
+  '/auth/admin/request-password-reset': typeof PublicAuthAdminRequestPasswordResetRoute
   '/admin/advertisers/': typeof PrivateAdminAdvertisersIndexRoute
   '/admin/roles/': typeof PrivateAdminRolesIndexRoute
 }
@@ -235,7 +259,10 @@ export interface FileRoutesByTo {
   '/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
+  '/auth/admin/accept-invite': typeof PublicAuthAdminAcceptInviteRoute
+  '/auth/admin/confirm-password-reset': typeof PublicAuthAdminConfirmPasswordResetRoute
   '/auth/admin/login': typeof PublicAuthAdminLoginRoute
+  '/auth/admin/request-password-reset': typeof PublicAuthAdminRequestPasswordResetRoute
   '/admin/advertisers': typeof PrivateAdminAdvertisersIndexRoute
   '/admin/roles': typeof PrivateAdminRolesIndexRoute
 }
@@ -266,7 +293,10 @@ export interface FileRoutesById {
   '/_private/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/_private/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/_private/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
+  '/_public/auth/admin/accept-invite': typeof PublicAuthAdminAcceptInviteRoute
+  '/_public/auth/admin/confirm-password-reset': typeof PublicAuthAdminConfirmPasswordResetRoute
   '/_public/auth/admin/login': typeof PublicAuthAdminLoginRoute
+  '/_public/auth/admin/request-password-reset': typeof PublicAuthAdminRequestPasswordResetRoute
   '/_private/admin/advertisers/': typeof PrivateAdminAdvertisersIndexRoute
   '/_private/admin/roles/': typeof PrivateAdminRolesIndexRoute
 }
@@ -296,7 +326,10 @@ export interface FileRouteTypes {
     | '/campaigns/$id/identity'
     | '/campaigns/$id/review'
     | '/campaigns/$id/targeting'
+    | '/auth/admin/accept-invite'
+    | '/auth/admin/confirm-password-reset'
     | '/auth/admin/login'
+    | '/auth/admin/request-password-reset'
     | '/admin/advertisers/'
     | '/admin/roles/'
   fileRoutesByTo: FileRoutesByTo
@@ -322,7 +355,10 @@ export interface FileRouteTypes {
     | '/campaigns/$id/identity'
     | '/campaigns/$id/review'
     | '/campaigns/$id/targeting'
+    | '/auth/admin/accept-invite'
+    | '/auth/admin/confirm-password-reset'
     | '/auth/admin/login'
+    | '/auth/admin/request-password-reset'
     | '/admin/advertisers'
     | '/admin/roles'
   id:
@@ -352,7 +388,10 @@ export interface FileRouteTypes {
     | '/_private/campaigns/$id/identity'
     | '/_private/campaigns/$id/review'
     | '/_private/campaigns/$id/targeting'
+    | '/_public/auth/admin/accept-invite'
+    | '/_public/auth/admin/confirm-password-reset'
     | '/_public/auth/admin/login'
+    | '/_public/auth/admin/request-password-reset'
     | '/_private/admin/advertisers/'
     | '/_private/admin/roles/'
   fileRoutesById: FileRoutesById
@@ -553,11 +592,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateCampaignsIdTargetingRouteImport
       parentRoute: typeof PrivateCampaignsIdRouteRoute
     }
+    '/_public/auth/admin/accept-invite': {
+      id: '/_public/auth/admin/accept-invite'
+      path: '/auth/admin/accept-invite'
+      fullPath: '/auth/admin/accept-invite'
+      preLoaderRoute: typeof PublicAuthAdminAcceptInviteRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/auth/admin/confirm-password-reset': {
+      id: '/_public/auth/admin/confirm-password-reset'
+      path: '/auth/admin/confirm-password-reset'
+      fullPath: '/auth/admin/confirm-password-reset'
+      preLoaderRoute: typeof PublicAuthAdminConfirmPasswordResetRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
     '/_public/auth/admin/login': {
       id: '/_public/auth/admin/login'
       path: '/auth/admin/login'
       fullPath: '/auth/admin/login'
       preLoaderRoute: typeof PublicAuthAdminLoginRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/auth/admin/request-password-reset': {
+      id: '/_public/auth/admin/request-password-reset'
+      path: '/auth/admin/request-password-reset'
+      fullPath: '/auth/admin/request-password-reset'
+      preLoaderRoute: typeof PublicAuthAdminRequestPasswordResetRouteImport
       parentRoute: typeof PublicRouteRoute
     }
   }
@@ -652,7 +712,10 @@ interface PublicRouteRouteChildren {
   PublicAuthRequestPasswordResetRoute: typeof PublicAuthRequestPasswordResetRoute
   PublicAuthSignupRoute: typeof PublicAuthSignupRoute
   PublicAuthVerifyEmailRoute: typeof PublicAuthVerifyEmailRoute
+  PublicAuthAdminAcceptInviteRoute: typeof PublicAuthAdminAcceptInviteRoute
+  PublicAuthAdminConfirmPasswordResetRoute: typeof PublicAuthAdminConfirmPasswordResetRoute
   PublicAuthAdminLoginRoute: typeof PublicAuthAdminLoginRoute
+  PublicAuthAdminRequestPasswordResetRoute: typeof PublicAuthAdminRequestPasswordResetRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
@@ -661,7 +724,12 @@ const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicAuthRequestPasswordResetRoute: PublicAuthRequestPasswordResetRoute,
   PublicAuthSignupRoute: PublicAuthSignupRoute,
   PublicAuthVerifyEmailRoute: PublicAuthVerifyEmailRoute,
+  PublicAuthAdminAcceptInviteRoute: PublicAuthAdminAcceptInviteRoute,
+  PublicAuthAdminConfirmPasswordResetRoute:
+    PublicAuthAdminConfirmPasswordResetRoute,
   PublicAuthAdminLoginRoute: PublicAuthAdminLoginRoute,
+  PublicAuthAdminRequestPasswordResetRoute:
+    PublicAuthAdminRequestPasswordResetRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(

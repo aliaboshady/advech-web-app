@@ -210,6 +210,10 @@
 		"emailRequired": "Email is required.",
 		"passwordRequired": "Password is required.",
 		"passwordMin": "Password must be at least 12 characters.",
+		"passwordMax": "Password must be at most 128 characters.",
+		"firstNameRequired": "First name is required.",
+		"lastNameRequired": "Last name is required.",
+		"adminNameMax": "A name must be at most 100 characters.",
 		"confirmPasswordRequired": "Please confirm your password.",
 		"passwordsMustMatch": "Passwords must match.",
 		"codeRequired": "Verification code is required.",
@@ -271,6 +275,8 @@
 		"CREATIVE_DURATION_NOT_ALLOWED": "A still image has no duration",
 		"CREATIVE_LIMIT_REACHED": "This Campaign already holds the maximum number of Creatives",
 		"ADMIN_INVALID_CREDENTIALS": "That email or password is wrong",
+		"ADMIN_TOKEN_EXPIRED": "This link has expired",
+		"ADMIN_TOKEN_INVALID": "This link is invalid or has already been used",
 		"USER_SUSPENDED": "This account is suspended. Contact another Admin",
 		"PERMISSION_DENIED": "You do not have access to this",
 		"LOOKUP_CODE_TAKEN": "That code is already used",
@@ -287,8 +293,45 @@
 		"login": {
 			"title": "Admin sign-in",
 			"description": "Sign in with your Admin email and password.",
+			"forgotPassword": "Forgot password?",
 			"submit": "Sign in",
 			"submitting": "Signing in..."
+		},
+		"acceptInvite": {
+			"title": "Accept your invite",
+			"description": "Enter your name and a password of 12 to 128 characters to join the back-office.",
+			"firstName": "First name",
+			"lastName": "Last name",
+			"firstNamePlaceholder": "First name",
+			"lastNamePlaceholder": "Last name",
+			"password": "Password",
+			"passwordPlaceholder": "At least 12 characters",
+			"submit": "Accept invite",
+			"submitting": "Accepting...",
+			"missingLink": "This invite link is incomplete. Ask another Admin for a new invite.",
+			"askAgain": "Ask another Admin for a new invite.",
+			"signIn": "Go to admin sign-in"
+		},
+		"passwordReset": {
+			"request": {
+				"title": "Reset your Admin password",
+				"description": "Enter the email for your Admin account.",
+				"submit": "Send reset link",
+				"submitting": "Sending...",
+				"sent": "If that email belongs to an Admin, a reset link is on its way.",
+				"backToSignIn": "Back to admin sign-in"
+			},
+			"confirm": {
+				"title": "Choose a new password",
+				"description": "Choose a new password of 12 to 128 characters. This signs you out of every session.",
+				"password": "New password",
+				"passwordPlaceholder": "At least 12 characters",
+				"submit": "Save password",
+				"submitting": "Saving...",
+				"missingLink": "This reset link is incomplete.",
+				"requestAnother": "Request a new reset",
+				"signIn": "Go to admin sign-in"
+			}
 		},
 		"sidebar": {
 			"home": "Home",

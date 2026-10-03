@@ -210,6 +210,10 @@
 		"emailRequired": "البريد الإلكتروني مطلوب.",
 		"passwordRequired": "كلمة المرور مطلوبة.",
 		"passwordMin": "يجب ألا تقل كلمة المرور عن 12 حرفًا.",
+		"passwordMax": "يجب ألا تزيد كلمة المرور عن 128 حرفًا.",
+		"firstNameRequired": "الاسم الأول مطلوب.",
+		"lastNameRequired": "اسم العائلة مطلوب.",
+		"adminNameMax": "يجب ألا يزيد الاسم عن 100 حرف.",
 		"confirmPasswordRequired": "يرجى تأكيد كلمة المرور.",
 		"passwordsMustMatch": "يجب أن تتطابق كلمتا المرور.",
 		"codeRequired": "رمز التأكيد مطلوب.",
@@ -271,6 +275,8 @@
 		"CREATIVE_DURATION_NOT_ALLOWED": "الصورة الثابتة ليس لها مدة",
 		"CREATIVE_LIMIT_REACHED": "هذه الحملة تحتوي بالفعل على الحد الأقصى من الإعلانات",
 		"ADMIN_INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+		"ADMIN_TOKEN_EXPIRED": "انتهت صلاحية هذا الرابط",
+		"ADMIN_TOKEN_INVALID": "هذا الرابط غير صالح أو سبق استخدامه",
 		"USER_SUSPENDED": "هذا الحساب موقوف. تواصل مع مسؤول آخر",
 		"PERMISSION_DENIED": "ليست لديك صلاحية لهذا",
 		"LOOKUP_CODE_TAKEN": "هذا الرمز مستخدم بالفعل",
@@ -287,8 +293,45 @@
 		"login": {
 			"title": "دخول المسؤول",
 			"description": "سجّل الدخول ببريد المسؤول وكلمة المرور.",
+			"forgotPassword": "نسيت كلمة المرور؟",
 			"submit": "دخول",
 			"submitting": "جارٍ تسجيل الدخول..."
+		},
+		"acceptInvite": {
+			"title": "قبول الدعوة",
+			"description": "أدخل اسمك واختر كلمة مرور من 12 إلى 128 حرفًا للانضمام إلى لوحة الإدارة.",
+			"firstName": "الاسم الأول",
+			"lastName": "اسم العائلة",
+			"firstNamePlaceholder": "الاسم الأول",
+			"lastNamePlaceholder": "اسم العائلة",
+			"password": "كلمة المرور",
+			"passwordPlaceholder": "12 حرفًا على الأقل",
+			"submit": "قبول الدعوة",
+			"submitting": "جارٍ القبول...",
+			"missingLink": "رابط الدعوة غير مكتمل. اطلب دعوة جديدة من مسؤول آخر.",
+			"askAgain": "اطلب دعوة جديدة من مسؤول آخر.",
+			"signIn": "الذهاب إلى دخول المسؤول"
+		},
+		"passwordReset": {
+			"request": {
+				"title": "إعادة تعيين كلمة مرور المسؤول",
+				"description": "أدخل البريد الإلكتروني لحساب المسؤول.",
+				"submit": "إرسال رابط إعادة التعيين",
+				"submitting": "جارٍ الإرسال...",
+				"sent": "إن كان هذا البريد لحساب مسؤول، فسيصلك رابط إعادة التعيين.",
+				"backToSignIn": "العودة إلى دخول المسؤول"
+			},
+			"confirm": {
+				"title": "اختر كلمة مرور جديدة",
+				"description": "اختر كلمة مرور جديدة من 12 إلى 128 حرفًا. يؤدي هذا إلى تسجيل خروجك من كل الجلسات.",
+				"password": "كلمة المرور الجديدة",
+				"passwordPlaceholder": "12 حرفًا على الأقل",
+				"submit": "حفظ كلمة المرور",
+				"submitting": "جارٍ الحفظ...",
+				"missingLink": "رابط إعادة التعيين غير مكتمل.",
+				"requestAnother": "طلب رابط جديد",
+				"signIn": "الذهاب إلى دخول المسؤول"
+			}
 		},
 		"sidebar": {
 			"home": "الرئيسية",
