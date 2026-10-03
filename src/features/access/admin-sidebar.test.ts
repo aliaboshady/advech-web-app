@@ -1,0 +1,75 @@
+import { describe, expect, it } from "vitest";
+import { visibleAdminSidebarEntries } from "./admin-sidebar";
+
+const home = { id: "home", path: "/admin" };
+const lookups = {
+	id: "lookups",
+	path: "/admin/lookups",
+	permissionKey: "lookups:manage",
+};
+const catalog = [home, lookups];
+
+describe("visibleAdminSidebarEntries", () => {
+	it("shows a super-admin every entry, including ones behind a Permission", () => {
+		expect(
+			visibleAdminSidebarEntries(
+				{ isSuperAdmin: true, roles: [], permissions: [] },
+				catalog,
+			),
+		).toEqual([home, lookups]);
+	});
+
+	it("shows nothing when access is null", () => {
+		expect(visibleAdminSidebarEntries(null, catalog)).toEqual([]);
+	});
+
+	it("shows an Admin with no Roles only the entries that are not gated", () => {
+		expect(
+			visibleAdminSidebarEntries(
+				{ isSuperAdmin: false, roles: [], permissions: [] },
+				catalog,
+			),
+		).toEqual([home]);
+	});
+
+	it("hides an entry when that Permission is missing", () => {
+		expect(
+			visibleAdminSidebarEntries(
+				{
+					isSuperAdmin: false,
+					roles: [{ id: "role-drivers", name: "Drivers" }],
+					permissions: ["drivers:read"],
+				},
+				catalog,
+			),
+		).toEqual([home]);
+	});
+
+	it("hides an entry whose Permission key the UI does not know", () => {
+		const unknown = {
+			id: "review",
+			path: "/admin/review",
+			permissionKey: "advertisers:review",
+		};
+		expect(
+			visibleAdminSidebarEntries(
+				{
+					isSuperAdmin: true,
+					roles: [],
+					permissions: ["advertisers:review"],
+				},
+				[home, unknown],
+			),
+		).toEqual([home]);
+	});
+
+	it("lists only the home entry from the catalog that ships today", () => {
+		expect(
+			visibleAdminSidebarEntries({
+				isSuperAdmin: true,
+				roles: [{ id: "role-super-admin", name: "Super admin" }],
+				permissions: ["lookups:manage", "roles:manage"],
+			}).map((entry) => entry.id),
+		).toEqual(["home"]);
+	});
+});

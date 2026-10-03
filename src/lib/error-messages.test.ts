@@ -72,6 +72,27 @@ describe("resolveErrorMessage", () => {
 		).toBe("Creative not found");
 	});
 
+	it("maps admin sign-in and permission-denied codes to their messages", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "ADMIN_INVALID_CREDENTIALS", message: "from the server" },
+				"en",
+			),
+		).toBe("That email or password is wrong");
+		expect(
+			resolveErrorMessage(
+				{ code: "USER_SUSPENDED", message: "from the server" },
+				"en",
+			),
+		).toBe("This account is suspended. Contact another Admin");
+		expect(
+			resolveErrorMessage(
+				{ code: "PERMISSION_DENIED", message: "from the server" },
+				"en",
+			),
+		).toBe("You do not have access to this");
+	});
+
 	it("keeps the server message when the code is unknown", () => {
 		expect(
 			resolveErrorMessage(

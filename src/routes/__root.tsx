@@ -3,6 +3,7 @@ import {
 	createRootRoute,
 	HeadContent,
 	Outlet,
+	useRouter,
 	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -15,6 +16,7 @@ import "../styles.css";
 import { NotFoundPage } from "@/components/NotFoundPage";
 import { me } from "@/features/users/api/me";
 import { loadCachedMe } from "@/features/users/load-cached-me";
+import { registerSessionRefresh } from "@/features/users/refresh-session";
 import { User } from "@/features/users/types";
 import { resolveBypassMe } from "@/lib/resolve-bypass-me";
 import { getAccessToken } from "@/lib/tokenUtils";
@@ -60,8 +62,14 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+	const router = useRouter();
 	const routerStatus = useRouterState({ select: (state) => state.status });
 	const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
+	useEffect(() => {
+		registerSessionRefresh(() => {
+			void router.invalidate();
+		});
+	}, [router]);
 
 	useEffect(() => {
 		const savedTheme = localStorage.getItem("theme");
