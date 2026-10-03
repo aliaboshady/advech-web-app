@@ -1,4 +1,5 @@
 import type { RegisteredRouter } from "@tanstack/react-router";
+import { PERMISSION_KEYS } from "@/features/access/permission-keys";
 import { User } from "@/features/users/types";
 
 export const ENV_MODES = {
@@ -20,6 +21,25 @@ export const mockMe: User = {
 	createdAt: "2026-09-02T18:13:47.591Z",
 	updatedAt: "2026-09-02T18:13:47.591Z",
 	actorType: "ADVERTISER",
+	access: null,
+};
+
+export const mockAdminMe: User = {
+	id: "admin-1",
+	phone: "01000000000",
+	email: "amina.admin@example.com",
+	imagePath: "",
+	firstName: "Amina",
+	lastName: "Admin",
+	status: "ACTIVE",
+	createdAt: "2026-09-02T18:13:47.591Z",
+	updatedAt: "2026-09-02T18:13:47.591Z",
+	actorType: "ADMIN",
+	access: {
+		isSuperAdmin: true,
+		roles: [{ id: "role-super-admin", name: "Super admin" }],
+		permissions: [...PERMISSION_KEYS],
+	},
 };
 
 export const statusLabels: Record<string, string> = {

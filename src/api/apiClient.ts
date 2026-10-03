@@ -1,3 +1,9 @@
+import {
+	decideRoute,
+	routeAreaFromPathname,
+	sessionNavigation,
+} from "@/features/access/decide-route";
+import { clearCachedMe } from "@/features/users/load-cached-me";
 import { ENV_MODES } from "@/lib/staticKeys";
 import {
 	clearTokens,
@@ -19,15 +25,25 @@ const ENV = import.meta.env.MODE;
 
 function redirectToLogin(): never {
 	clearTokens();
-
+	clearCachedMe();
 	const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-	const redirectUrl = window.location.pathname === "/" ? undefined : currentUrl;
-
-	getRouter().navigate({
-		to: "/auth/login",
-		search: { redirectUrl },
-	});
-
+	const redirectTarget =
+		window.location.pathname === "/" ? undefined : currentUrl;
+	const navigation = sessionNavigation(
+		decideRoute({
+			actor: null,
+			area: routeAreaFromPathname(window.location.pathname),
+			redirectTarget,
+		}),
+	);
+	if (navigation.kind === "href") {
+		getRouter().navigate({ href: navigation.href });
+	} else if (navigation.kind === "to" && navigation.to === "/auth/login") {
+		getRouter().navigate({
+			to: "/auth/login",
+			search: navigation.search,
+		});
+	}
 	throw new Error("Authentication expired");
 }
 

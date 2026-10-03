@@ -14,11 +14,15 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles.css";
 import { NotFoundPage } from "@/components/NotFoundPage";
 import { me } from "@/features/users/api/me";
-import { mockMe } from "@/lib/staticKeys";
+import { loadCachedMe } from "@/features/users/load-cached-me";
+import { User } from "@/features/users/types";
+import { resolveBypassMe } from "@/lib/resolve-bypass-me";
 import { getAccessToken } from "@/lib/tokenUtils";
 
-let cachedAccessToken: string | null | undefined;
-let cachedMeResponse: Awaited<ReturnType<typeof me>> | undefined;
+async function fetchSessionUser(): Promise<User | null> {
+	const response = await me();
+	return response?.data ?? null;
+}
 
 const NextTopLoader =
 	(NextTopLoaderImport as { default?: typeof NextTopLoaderImport }).default ??
@@ -38,26 +42,16 @@ export const Route = createRootRoute({
 			import.meta.env.MODE === "development" &&
 			import.meta.env.VITE_BYPASS_AUTH === "true";
 
-		// DEV_ME is a mock user object used for development purposes when bypassing authentication.
 		if (bypassAuth) {
 			return {
-				me: mockMe,
+				me: resolveBypassMe(import.meta.env.VITE_BYPASS_ACTOR),
 			};
 		}
 
 		const accessToken = getAccessToken();
-		let response: Awaited<ReturnType<typeof me>>;
-
-		if (accessToken === cachedAccessToken && cachedMeResponse !== undefined) {
-			response = cachedMeResponse;
-		} else {
-			response = await me();
-			cachedAccessToken = accessToken;
-			cachedMeResponse = response;
-		}
-
+		const user = await loadCachedMe(accessToken, fetchSessionUser);
 		return {
-			me: response?.data ?? null,
+			me: user,
 		};
 	},
 
