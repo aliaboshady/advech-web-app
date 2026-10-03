@@ -180,6 +180,30 @@
 			"uploadFailed": "تعذر رفع الإعلان.",
 			"unreadable": "تعذر قراءة الإعلان. اختر ملفًا آخر."
 		},
+		"review": {
+			"missingTitle": "ما زال ناقصًا",
+			"submit": "إرسال",
+			"submitUnavailable": "الإرسال غير متاح بعد.",
+			"file": "الملف",
+			"dimensions": "الأبعاد",
+			"length": "الطول",
+			"age": "العمر",
+			"noCreative": "لا يوجد إعلان بعد.",
+			"lengthSeconds": "{{count}} ثانية",
+			"lengthMilliseconds": "{{count}} مللي ثانية",
+			"missingUnknown": "ما زال ناقصًا: {{code}}",
+			"missing": {
+				"name": "أضف اسم الحملة",
+				"objective": "اختر الهدف",
+				"flight": "حدّد فترة العرض",
+				"totalBudget": "حدّد إجمالي الميزانية",
+				"timeZone": "اختر المنطقة الزمنية",
+				"dayparting": "حدّد أوقات العرض",
+				"inclusionZone": "اختر منطقة تضمين",
+				"creative": "ارفع إعلانًا",
+				"singleCreative": "أبقِ إعلانًا واحدًا"
+			}
+		},
 		"tabs": {
 			"identity": "الهوية",
 			"targeting": "الاستهداف",
