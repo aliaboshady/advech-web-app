@@ -27,6 +27,7 @@ import { authErrorMessage } from "../auth-error-message";
 import { loginErrorAction } from "../login-error-action";
 import {
 	otpStateFromResponse,
+	readOtpState,
 	VERIFY_STATE_KEY,
 	writeOtpState,
 } from "../otp-state";
@@ -38,6 +39,12 @@ function getSafeRedirectUrl(redirectUrl: string | undefined): string {
 	return redirectUrl?.startsWith("/") && !redirectUrl.startsWith("//")
 		? redirectUrl
 		: "/";
+}
+
+/** The verify state already held for this email, so an absent `token` keeps its handle. */
+function heldHandleFor(email: string) {
+	const held = readOtpState(window.sessionStorage, VERIFY_STATE_KEY);
+	return held?.email === email ? held : undefined;
 }
 
 export function LoginPage() {
@@ -84,6 +91,7 @@ export function LoginPage() {
 				email,
 				response: res.data,
 				nowMs: Date.now(),
+				previous: heldHandleFor(email),
 			}),
 		);
 		await navigate({ to: "/auth/verify-email" });
