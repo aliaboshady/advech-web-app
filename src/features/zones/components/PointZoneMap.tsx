@@ -76,7 +76,7 @@ export function PointZoneMap({
 						placeholder={t("campaigns.targeting.zoneSearch")}
 					/>
 				</div>
-				<div className="absolute inset-s-3 bottom-3 z-10 w-48 rounded-lg border border-border bg-card/95 p-3 text-card-foreground shadow-md backdrop-blur-sm">
+				<div className="absolute inset-s-3 bottom-3 z-10 w-48 rounded-lg border border-border bg-card p-3 text-card-foreground shadow-md">
 					<p dir="ltr" className="mb-2 text-body-md font-medium tabular-nums">
 						{t("campaigns.targeting.radiusKmValue", { radius: sliderKm })}
 					</p>
