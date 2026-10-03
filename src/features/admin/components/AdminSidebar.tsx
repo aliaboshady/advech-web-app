@@ -1,5 +1,14 @@
 import { Link, useLocation, useRouteContext } from "@tanstack/react-router";
-import { House, type LucideIcon, UserPlus } from "lucide-react";
+import {
+	Building2,
+	ClipboardList,
+	House,
+	type LucideIcon,
+	Shield,
+	Sparkles,
+	Target,
+	UserPlus,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AppSidebarHeader } from "@/components/AppSidebar/AppSidebarHeader";
 import {
@@ -15,6 +24,11 @@ import { visibleAdminSidebarEntries } from "@/features/access/admin-sidebar";
 
 const entryIcons: Record<string, LucideIcon> = {
 	home: House,
+	advertisers: ClipboardList,
+	objectives: Target,
+	interests: Sparkles,
+	"venue-types": Building2,
+	roles: Shield,
 	invites: UserPlus,
 };
 

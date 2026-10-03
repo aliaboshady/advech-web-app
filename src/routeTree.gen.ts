@@ -14,7 +14,11 @@ import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
 import { Route as PrivateAdminRouteRouteImport } from './routes/_private/admin/route'
 import { Route as PrivateAdminIndexRouteImport } from './routes/_private/admin/index'
+import { Route as PrivateAdminInterestsRouteImport } from './routes/_private/admin/interests'
 import { Route as PrivateAdminInvitesRouteImport } from './routes/_private/admin/invites'
+import { Route as PrivateAdminObjectivesRouteImport } from './routes/_private/admin/objectives'
+import { Route as PrivateAdminRolesRouteRouteImport } from './routes/_private/admin/roles/route'
+import { Route as PrivateAdminVenueTypesRouteImport } from './routes/_private/admin/venue-types'
 import { Route as PrivateCampaignsIndexRouteImport } from './routes/_private/campaigns/index'
 import { Route as PrivateCampaignsIdRouteRouteImport } from './routes/_private/campaigns/$id/route'
 import { Route as PrivateCampaignsNewRouteImport } from './routes/_private/campaigns/new'
@@ -23,6 +27,11 @@ import { Route as PublicAuthLoginRouteImport } from './routes/_public/auth/login
 import { Route as PublicAuthRequestPasswordResetRouteImport } from './routes/_public/auth/request-password-reset'
 import { Route as PublicAuthSignupRouteImport } from './routes/_public/auth/signup'
 import { Route as PublicAuthVerifyEmailRouteImport } from './routes/_public/auth/verify-email'
+import { Route as PrivateAdminAdvertisersIndexRouteImport } from './routes/_private/admin/advertisers/index'
+import { Route as PrivateAdminAdvertisersIdRouteImport } from './routes/_private/admin/advertisers/$id'
+import { Route as PrivateAdminRolesIndexRouteImport } from './routes/_private/admin/roles/index'
+import { Route as PrivateAdminRolesIdRouteImport } from './routes/_private/admin/roles/$id'
+import { Route as PrivateAdminRolesNewRouteImport } from './routes/_private/admin/roles/new'
 import { Route as PrivateCampaignsIdCreativeRouteImport } from './routes/_private/campaigns/$id/creative'
 import { Route as PrivateCampaignsIdIdentityRouteImport } from './routes/_private/campaigns/$id/identity'
 import { Route as PrivateCampaignsIdReviewRouteImport } from './routes/_private/campaigns/$id/review'
@@ -52,9 +61,29 @@ const PrivateAdminIndexRoute = PrivateAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PrivateAdminRouteRoute,
 } as any)
+const PrivateAdminInterestsRoute = PrivateAdminInterestsRouteImport.update({
+  id: '/interests',
+  path: '/interests',
+  getParentRoute: () => PrivateAdminRouteRoute,
+} as any)
 const PrivateAdminInvitesRoute = PrivateAdminInvitesRouteImport.update({
   id: '/invites',
   path: '/invites',
+  getParentRoute: () => PrivateAdminRouteRoute,
+} as any)
+const PrivateAdminObjectivesRoute = PrivateAdminObjectivesRouteImport.update({
+  id: '/objectives',
+  path: '/objectives',
+  getParentRoute: () => PrivateAdminRouteRoute,
+} as any)
+const PrivateAdminRolesRouteRoute = PrivateAdminRolesRouteRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => PrivateAdminRouteRoute,
+} as any)
+const PrivateAdminVenueTypesRoute = PrivateAdminVenueTypesRouteImport.update({
+  id: '/venue-types',
+  path: '/venue-types',
   getParentRoute: () => PrivateAdminRouteRoute,
 } as any)
 const PrivateCampaignsIndexRoute = PrivateCampaignsIndexRouteImport.update({
@@ -99,6 +128,33 @@ const PublicAuthVerifyEmailRoute = PublicAuthVerifyEmailRouteImport.update({
   path: '/auth/verify-email',
   getParentRoute: () => PublicRouteRoute,
 } as any)
+const PrivateAdminAdvertisersIndexRoute =
+  PrivateAdminAdvertisersIndexRouteImport.update({
+    id: '/advertisers/',
+    path: '/advertisers/',
+    getParentRoute: () => PrivateAdminRouteRoute,
+  } as any)
+const PrivateAdminAdvertisersIdRoute =
+  PrivateAdminAdvertisersIdRouteImport.update({
+    id: '/advertisers/$id',
+    path: '/advertisers/$id',
+    getParentRoute: () => PrivateAdminRouteRoute,
+  } as any)
+const PrivateAdminRolesIndexRoute = PrivateAdminRolesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PrivateAdminRolesRouteRoute,
+} as any)
+const PrivateAdminRolesIdRoute = PrivateAdminRolesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PrivateAdminRolesRouteRoute,
+} as any)
+const PrivateAdminRolesNewRoute = PrivateAdminRolesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => PrivateAdminRolesRouteRoute,
+} as any)
 const PrivateCampaignsIdCreativeRoute =
   PrivateCampaignsIdCreativeRouteImport.update({
     id: '/creative',
@@ -132,8 +188,12 @@ const PublicAuthAdminLoginRoute = PublicAuthAdminLoginRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
   '/admin': typeof PrivateAdminRouteRouteWithChildren
+  '/admin/roles': typeof PrivateAdminRolesRouteRouteWithChildren
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
+  '/admin/interests': typeof PrivateAdminInterestsRoute
   '/admin/invites': typeof PrivateAdminInvitesRoute
+  '/admin/objectives': typeof PrivateAdminObjectivesRoute
+  '/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
@@ -142,16 +202,24 @@ export interface FileRoutesByFullPath {
   '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
   '/admin/': typeof PrivateAdminIndexRoute
   '/campaigns/': typeof PrivateCampaignsIndexRoute
+  '/admin/advertisers/$id': typeof PrivateAdminAdvertisersIdRoute
+  '/admin/roles/$id': typeof PrivateAdminRolesIdRoute
+  '/admin/roles/new': typeof PrivateAdminRolesNewRoute
   '/campaigns/$id/creative': typeof PrivateCampaignsIdCreativeRoute
   '/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
   '/auth/admin/login': typeof PublicAuthAdminLoginRoute
+  '/admin/advertisers/': typeof PrivateAdminAdvertisersIndexRoute
+  '/admin/roles/': typeof PrivateAdminRolesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
+  '/admin/interests': typeof PrivateAdminInterestsRoute
   '/admin/invites': typeof PrivateAdminInvitesRoute
+  '/admin/objectives': typeof PrivateAdminObjectivesRoute
+  '/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
@@ -160,11 +228,16 @@ export interface FileRoutesByTo {
   '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
   '/admin': typeof PrivateAdminIndexRoute
   '/campaigns': typeof PrivateCampaignsIndexRoute
+  '/admin/advertisers/$id': typeof PrivateAdminAdvertisersIdRoute
+  '/admin/roles/$id': typeof PrivateAdminRolesIdRoute
+  '/admin/roles/new': typeof PrivateAdminRolesNewRoute
   '/campaigns/$id/creative': typeof PrivateCampaignsIdCreativeRoute
   '/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
   '/auth/admin/login': typeof PublicAuthAdminLoginRoute
+  '/admin/advertisers': typeof PrivateAdminAdvertisersIndexRoute
+  '/admin/roles': typeof PrivateAdminRolesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -172,8 +245,12 @@ export interface FileRoutesById {
   '/_public': typeof PublicRouteRouteWithChildren
   '/_private/admin': typeof PrivateAdminRouteRouteWithChildren
   '/_private/': typeof PrivateIndexRoute
+  '/_private/admin/roles': typeof PrivateAdminRolesRouteRouteWithChildren
   '/_private/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
+  '/_private/admin/interests': typeof PrivateAdminInterestsRoute
   '/_private/admin/invites': typeof PrivateAdminInvitesRoute
+  '/_private/admin/objectives': typeof PrivateAdminObjectivesRoute
+  '/_private/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/_private/campaigns/new': typeof PrivateCampaignsNewRoute
   '/_public/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/_public/auth/login': typeof PublicAuthLoginRoute
@@ -182,19 +259,28 @@ export interface FileRoutesById {
   '/_public/auth/verify-email': typeof PublicAuthVerifyEmailRoute
   '/_private/admin/': typeof PrivateAdminIndexRoute
   '/_private/campaigns/': typeof PrivateCampaignsIndexRoute
+  '/_private/admin/advertisers/$id': typeof PrivateAdminAdvertisersIdRoute
+  '/_private/admin/roles/$id': typeof PrivateAdminRolesIdRoute
+  '/_private/admin/roles/new': typeof PrivateAdminRolesNewRoute
   '/_private/campaigns/$id/creative': typeof PrivateCampaignsIdCreativeRoute
   '/_private/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/_private/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/_private/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
   '/_public/auth/admin/login': typeof PublicAuthAdminLoginRoute
+  '/_private/admin/advertisers/': typeof PrivateAdminAdvertisersIndexRoute
+  '/_private/admin/roles/': typeof PrivateAdminRolesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
+    | '/admin/roles'
     | '/campaigns/$id'
+    | '/admin/interests'
     | '/admin/invites'
+    | '/admin/objectives'
+    | '/admin/venue-types'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
     | '/auth/login'
@@ -203,16 +289,24 @@ export interface FileRouteTypes {
     | '/auth/verify-email'
     | '/admin/'
     | '/campaigns/'
+    | '/admin/advertisers/$id'
+    | '/admin/roles/$id'
+    | '/admin/roles/new'
     | '/campaigns/$id/creative'
     | '/campaigns/$id/identity'
     | '/campaigns/$id/review'
     | '/campaigns/$id/targeting'
     | '/auth/admin/login'
+    | '/admin/advertisers/'
+    | '/admin/roles/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/campaigns/$id'
+    | '/admin/interests'
     | '/admin/invites'
+    | '/admin/objectives'
+    | '/admin/venue-types'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
     | '/auth/login'
@@ -221,19 +315,28 @@ export interface FileRouteTypes {
     | '/auth/verify-email'
     | '/admin'
     | '/campaigns'
+    | '/admin/advertisers/$id'
+    | '/admin/roles/$id'
+    | '/admin/roles/new'
     | '/campaigns/$id/creative'
     | '/campaigns/$id/identity'
     | '/campaigns/$id/review'
     | '/campaigns/$id/targeting'
     | '/auth/admin/login'
+    | '/admin/advertisers'
+    | '/admin/roles'
   id:
     | '__root__'
     | '/_private'
     | '/_public'
     | '/_private/admin'
     | '/_private/'
+    | '/_private/admin/roles'
     | '/_private/campaigns/$id'
+    | '/_private/admin/interests'
     | '/_private/admin/invites'
+    | '/_private/admin/objectives'
+    | '/_private/admin/venue-types'
     | '/_private/campaigns/new'
     | '/_public/auth/confirm-password-reset'
     | '/_public/auth/login'
@@ -242,11 +345,16 @@ export interface FileRouteTypes {
     | '/_public/auth/verify-email'
     | '/_private/admin/'
     | '/_private/campaigns/'
+    | '/_private/admin/advertisers/$id'
+    | '/_private/admin/roles/$id'
+    | '/_private/admin/roles/new'
     | '/_private/campaigns/$id/creative'
     | '/_private/campaigns/$id/identity'
     | '/_private/campaigns/$id/review'
     | '/_private/campaigns/$id/targeting'
     | '/_public/auth/admin/login'
+    | '/_private/admin/advertisers/'
+    | '/_private/admin/roles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -291,11 +399,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAdminIndexRouteImport
       parentRoute: typeof PrivateAdminRouteRoute
     }
+    '/_private/admin/interests': {
+      id: '/_private/admin/interests'
+      path: '/interests'
+      fullPath: '/admin/interests'
+      preLoaderRoute: typeof PrivateAdminInterestsRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
     '/_private/admin/invites': {
       id: '/_private/admin/invites'
       path: '/invites'
       fullPath: '/admin/invites'
       preLoaderRoute: typeof PrivateAdminInvitesRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/objectives': {
+      id: '/_private/admin/objectives'
+      path: '/objectives'
+      fullPath: '/admin/objectives'
+      preLoaderRoute: typeof PrivateAdminObjectivesRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/roles': {
+      id: '/_private/admin/roles'
+      path: '/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof PrivateAdminRolesRouteRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/venue-types': {
+      id: '/_private/admin/venue-types'
+      path: '/venue-types'
+      fullPath: '/admin/venue-types'
+      preLoaderRoute: typeof PrivateAdminVenueTypesRouteImport
       parentRoute: typeof PrivateAdminRouteRoute
     }
     '/_private/campaigns/': {
@@ -354,6 +490,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthVerifyEmailRouteImport
       parentRoute: typeof PublicRouteRoute
     }
+    '/_private/admin/advertisers/': {
+      id: '/_private/admin/advertisers/'
+      path: '/advertisers'
+      fullPath: '/admin/advertisers/'
+      preLoaderRoute: typeof PrivateAdminAdvertisersIndexRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/advertisers/$id': {
+      id: '/_private/admin/advertisers/$id'
+      path: '/advertisers/$id'
+      fullPath: '/admin/advertisers/$id'
+      preLoaderRoute: typeof PrivateAdminAdvertisersIdRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/roles/': {
+      id: '/_private/admin/roles/'
+      path: '/'
+      fullPath: '/admin/roles/'
+      preLoaderRoute: typeof PrivateAdminRolesIndexRouteImport
+      parentRoute: typeof PrivateAdminRolesRouteRoute
+    }
+    '/_private/admin/roles/$id': {
+      id: '/_private/admin/roles/$id'
+      path: '/$id'
+      fullPath: '/admin/roles/$id'
+      preLoaderRoute: typeof PrivateAdminRolesIdRouteImport
+      parentRoute: typeof PrivateAdminRolesRouteRoute
+    }
+    '/_private/admin/roles/new': {
+      id: '/_private/admin/roles/new'
+      path: '/new'
+      fullPath: '/admin/roles/new'
+      preLoaderRoute: typeof PrivateAdminRolesNewRouteImport
+      parentRoute: typeof PrivateAdminRolesRouteRoute
+    }
     '/_private/campaigns/$id/creative': {
       id: '/_private/campaigns/$id/creative'
       path: '/creative'
@@ -392,14 +563,44 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PrivateAdminRolesRouteRouteChildren {
+  PrivateAdminRolesIdRoute: typeof PrivateAdminRolesIdRoute
+  PrivateAdminRolesNewRoute: typeof PrivateAdminRolesNewRoute
+  PrivateAdminRolesIndexRoute: typeof PrivateAdminRolesIndexRoute
+}
+
+const PrivateAdminRolesRouteRouteChildren: PrivateAdminRolesRouteRouteChildren =
+  {
+    PrivateAdminRolesIdRoute: PrivateAdminRolesIdRoute,
+    PrivateAdminRolesNewRoute: PrivateAdminRolesNewRoute,
+    PrivateAdminRolesIndexRoute: PrivateAdminRolesIndexRoute,
+  }
+
+const PrivateAdminRolesRouteRouteWithChildren =
+  PrivateAdminRolesRouteRoute._addFileChildren(
+    PrivateAdminRolesRouteRouteChildren,
+  )
+
 interface PrivateAdminRouteRouteChildren {
+  PrivateAdminRolesRouteRoute: typeof PrivateAdminRolesRouteRouteWithChildren
+  PrivateAdminInterestsRoute: typeof PrivateAdminInterestsRoute
   PrivateAdminInvitesRoute: typeof PrivateAdminInvitesRoute
+  PrivateAdminObjectivesRoute: typeof PrivateAdminObjectivesRoute
+  PrivateAdminVenueTypesRoute: typeof PrivateAdminVenueTypesRoute
   PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
+  PrivateAdminAdvertisersIdRoute: typeof PrivateAdminAdvertisersIdRoute
+  PrivateAdminAdvertisersIndexRoute: typeof PrivateAdminAdvertisersIndexRoute
 }
 
 const PrivateAdminRouteRouteChildren: PrivateAdminRouteRouteChildren = {
+  PrivateAdminRolesRouteRoute: PrivateAdminRolesRouteRouteWithChildren,
+  PrivateAdminInterestsRoute: PrivateAdminInterestsRoute,
   PrivateAdminInvitesRoute: PrivateAdminInvitesRoute,
+  PrivateAdminObjectivesRoute: PrivateAdminObjectivesRoute,
+  PrivateAdminVenueTypesRoute: PrivateAdminVenueTypesRoute,
   PrivateAdminIndexRoute: PrivateAdminIndexRoute,
+  PrivateAdminAdvertisersIdRoute: PrivateAdminAdvertisersIdRoute,
+  PrivateAdminAdvertisersIndexRoute: PrivateAdminAdvertisersIndexRoute,
 }
 
 const PrivateAdminRouteRouteWithChildren =

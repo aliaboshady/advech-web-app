@@ -1,9 +1,18 @@
+import {
+	LOOKUPS_MANAGE,
+	lookupResources,
+} from "@/features/admin/lookups/lookup-resources";
 import { AdminAccess } from "./admin-access";
 import { adminHasNoRoles } from "./admin-has-no-roles";
 import { mayAdmin } from "./may-admin";
 
 export type AdminSidebarLabelKey =
 	| "admin.sidebar.home"
+	| "admin.sidebar.advertisers"
+	| "admin.sidebar.objectives"
+	| "admin.sidebar.interests"
+	| "admin.sidebar.venueTypes"
+	| "admin.sidebar.roles"
 	| "admin.sidebar.invites";
 
 export type AdminSidebarEntry = {
@@ -15,10 +24,27 @@ export type AdminSidebarEntry = {
 
 /**
  * Sidebar entries that exist today. Later screens append an entry here.
- * An entry with no Permission is the home entry and is not gated.
+ * An entry with no Permission is shown to every Admin.
  */
 export const adminSidebarCatalog: readonly AdminSidebarEntry[] = [
 	{ id: "home", path: "/admin", labelKey: "admin.sidebar.home" },
+	{
+		id: "advertisers",
+		path: "/admin/advertisers",
+		labelKey: "admin.sidebar.advertisers",
+	},
+	...lookupResources.map((resource) => ({
+		id: resource.sidebarId,
+		path: resource.routePath,
+		permissionKey: LOOKUPS_MANAGE,
+		labelKey: resource.labelKey,
+	})),
+	{
+		id: "roles",
+		path: "/admin/roles",
+		permissionKey: "roles:manage",
+		labelKey: "admin.sidebar.roles",
+	},
 	{
 		id: "invites",
 		path: "/admin/invites",

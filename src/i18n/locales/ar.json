@@ -237,6 +237,14 @@
 		"zoneNameMax": "يجب ألا يزيد اسم المنطقة عن 120 حرفًا.",
 		"zoneRadiusOutOfRange": "يجب أن يكون نصف القطر بين 0.05 كم و 50 كم.",
 		"zonePointRequired": "حدد المنطقة على الخريطة.",
+		"lookupCodeTooShort": "استخدم حرفين على الأقل.",
+		"lookupCodeTooLong": "استخدم 64 حرفًا على الأكثر.",
+		"lookupCodeInvalid": "استخدم أحرفًا صغيرة أو أرقامًا أو شرطات أو شرطات سفلية فقط.",
+		"lookupNameRequired": "الاسم مطلوب.",
+		"lookupNameMin": "يجب أن يكون الاسم حرفين على الأقل.",
+		"lookupNameMax": "يجب ألا يتجاوز الاسم 100 حرف.",
+		"lookupDescriptionMax": "يجب ألا يتجاوز الوصف 500 حرف.",
+		"lookupSortOrderInvalid": "يجب أن يكون ترتيب العرض عددًا صحيحًا من 0 إلى 100000.",
 		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
 		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
 		"CAMPAIGN_NOT_DELETABLE": "لا يمكن حذف إلا حملة مسودة؛ أرشفتها بدلًا من ذلك",
@@ -265,7 +273,15 @@
 		"ADMIN_INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
 		"USER_SUSPENDED": "هذا الحساب موقوف. تواصل مع مسؤول آخر",
 		"PERMISSION_DENIED": "ليست لديك صلاحية لهذا",
-		"ADMIN_ALREADY_ACTIVE": "هذا الشخص مسؤول نشط بالفعل"
+		"LOOKUP_CODE_TAKEN": "هذا الرمز مستخدم بالفعل",
+		"LOOKUP_NOT_FOUND": "لم يعد هذا البند موجودًا",
+		"ADMIN_ALREADY_ACTIVE": "هذا الشخص مسؤول نشط بالفعل",
+		"roleNameRequired": "أدخل اسم الدور.",
+		"roleNameMin": "يجب أن يكون اسم الدور حرفين على الأقل.",
+		"roleNameMax": "يجب ألا يزيد اسم الدور عن 100 حرف.",
+		"roleDescriptionMax": "يجب ألا يزيد الوصف عن 500 حرف.",
+		"ROLE_NAME_TAKEN": "يوجد دور بهذا الاسم بالفعل",
+		"ROLE_NOT_FOUND": "هذا الدور لم يعد موجودًا"
 	},
 	"admin": {
 		"login": {
@@ -276,7 +292,54 @@
 		},
 		"sidebar": {
 			"home": "الرئيسية",
+			"advertisers": "المعلنون",
+			"objectives": "الأهداف",
+			"interests": "الاهتمامات",
+			"venueTypes": "أنواع الأماكن",
+			"roles": "الأدوار",
 			"invites": "الدعوات"
+		},
+		"lookups": {
+			"add": "إضافة بند",
+			"createTitle": "إضافة بند",
+			"editTitle": "تعديل البند",
+			"code": "الرمز",
+			"codeHint": "من 2 إلى 64 حرفًا صغيرًا أو رقمًا أو شرطة أو شرطة سفلية. يبقى ثابتًا بعد الإنشاء.",
+			"codeLocked": "الرمز ثابت ولا يمكن تغييره.",
+			"name": "الاسم",
+			"description": "الوصف",
+			"descriptionOptional": "اختياري",
+			"sortOrder": "ترتيب العرض",
+			"sortOrderHint": "الأرقام الأصغر تظهر أولًا",
+			"save": "حفظ",
+			"saving": "جارٍ الحفظ...",
+			"create": "إنشاء",
+			"loading": "جارٍ تحميل البنود...",
+			"empty": "لا توجد بنود بعد.",
+			"active": "نشط",
+			"inactive": "غير نشط",
+			"activate": "تفعيل",
+			"deactivate": "تعطيل",
+			"columns": {
+				"code": "الرمز",
+				"name": "الاسم",
+				"description": "الوصف",
+				"sortOrder": "ترتيب العرض",
+				"status": "الحالة",
+				"actions": "إجراءات"
+			},
+			"objectives": {
+				"title": "الأهداف",
+				"description": "الغرض من الحملة. يختار المعلنون واحدًا من هذه."
+			},
+			"interests": {
+				"title": "الاهتمامات",
+				"description": "الاهتمامات التي يمكن للمعلن استهدافها."
+			},
+			"venueTypes": {
+				"title": "أنواع الأماكن",
+				"description": "أنواع الأماكن التي يمكن للمعلن استهدافها."
+			}
 		},
 		"invites": {
 			"title": "دعوة مسؤول",
@@ -286,6 +349,32 @@
 			"sent": "أُرسلت الدعوة إلى {{email}}. تنتهي صلاحيتها {{expiresAt}}.",
 			"devToken": "رمز الدعوة للتطوير: {{token}}"
 		},
+		"advertisers": {
+			"title": "مراجعة المعلنين",
+			"search": "ابحث باسم الشركة أو بريد المالك",
+			"loadError": "تعذر تحميل قائمة المعلنين.",
+			"detail": {
+				"title": "المعلن"
+			},
+			"columns": {
+				"companyName": "الشركة",
+				"country": "الدولة",
+				"city": "المدينة",
+				"ownerEmail": "بريد المالك",
+				"status": "الحالة",
+				"createdAt": "تاريخ الإنشاء"
+			},
+			"statuses": {
+				"ALL": "كل الحالات",
+				"REGISTERED": "مسجّل",
+				"IN_PROGRESS": "قيد الإكمال",
+				"PENDING_REVIEW": "بانتظار المراجعة",
+				"NEEDS_CHANGES": "يحتاج تعديلات",
+				"APPROVED": "موافق عليه",
+				"REJECTED": "مرفوض",
+				"SUSPENDED": "موقوف"
+			}
+		},
 		"home": {
 			"title": "الرئيسية",
 			"welcome": "أنت مسجّل الدخول إلى لوحة الإدارة."
@@ -294,6 +383,27 @@
 			"title": "لا صلاحية بعد",
 			"noRoles": "ليست لديك أدوار بعد، لذلك لا يظهر لك شيء. تواصل مع مسؤول آخر.",
 			"permissionDenied": "ليست لديك صلاحية لهذا. تم تحديث صلاحياتك."
+		},
+		"roles": {
+			"title": "الأدوار",
+			"create": "إنشاء دور",
+			"createTitle": "إنشاء دور",
+			"editTitle": "تعديل الدور",
+			"empty": "لا توجد أدوار بعد.",
+			"name": "الاسم",
+			"namePlaceholder": "مراجع الانضمام",
+			"description": "الوصف",
+			"descriptionPlaceholder": "الغرض من هذا الدور",
+			"permissions": "الصلاحيات",
+			"permissionsHint": "الحفظ يستبدل صلاحيات هذا الدور بالكامل.",
+			"admins": "المسؤولون",
+			"adminCount": "يحمله {{count}} من المسؤولين",
+			"save": "حفظ الدور",
+			"saving": "جارٍ الحفظ...",
+			"deleteTitle": "حذف هذا الدور؟",
+			"deleteBody": "المسؤولون الذين يحملون {{name}} يفقدون صلاحياته. لا يمكن التراجع عن ذلك.",
+			"unknownPermission": "هذه الصلاحية ليست في القائمة الحالية. تبقى حتى تزيلها.",
+			"noDescription": "لا يوجد وصف"
 		}
 	},
 	"notFound": {

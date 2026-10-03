@@ -93,10 +93,43 @@ describe("resolveErrorMessage", () => {
 		).toBe("You do not have access to this");
 		expect(
 			resolveErrorMessage(
+				{ code: "LOOKUP_CODE_TAKEN", message: "from the server" },
+				"en",
+			),
+		).toBe("That code is already used");
+		expect(
+			resolveErrorMessage(
+				{ code: "LOOKUP_NOT_FOUND", message: "from the server" },
+				"en",
+			),
+		).toBe("That entry no longer exists");
+		expect(
+			resolveErrorMessage(
+				{ code: "LOOKUP_CODE_TAKEN", message: "from the server" },
+				"ar",
+			),
+		).toBe("هذا الرمز مستخدم بالفعل");
+		expect(
+			resolveErrorMessage(
 				{ code: "ADMIN_ALREADY_ACTIVE", message: "from the server" },
 				"en",
 			),
 		).toBe("This person is already an active Admin");
+	});
+
+	it("maps a taken Role name and a missing Role to their messages", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "ROLE_NAME_TAKEN", message: "from the server" },
+				"en",
+			),
+		).toBe("A Role with this name already exists");
+		expect(
+			resolveErrorMessage(
+				{ code: "ROLE_NOT_FOUND", message: "from the server" },
+				"en",
+			),
+		).toBe("That Role no longer exists");
 	});
 
 	it("keeps the server message when the code is unknown", () => {
