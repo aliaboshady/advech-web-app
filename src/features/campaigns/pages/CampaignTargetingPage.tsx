@@ -1,40 +1,17 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { getCampaignTabs } from "../campaign-tabs";
+import { CampaignEditableRegion } from "../components/CampaignEditableRegion";
 import { TargetingForm } from "../components/Forms/TargetingForm";
-
-const tabs = [
-	{
-		id: 1,
-		title: "Identity",
-		url: "identity",
-		done: true,
-	},
-	{
-		id: 2,
-		title: "Targeting",
-		url: "targeting",
-		done: false,
-	},
-	{
-		id: 3,
-		title: "Creative",
-		url: "creative",
-		done: false,
-	},
-	{
-		id: 4,
-		title: "Review",
-		url: "review",
-		done: false,
-	},
-];
+import { Campaign } from "../types";
 
 type Props = {
 	id: string;
+	campaign: Campaign;
 };
 
-export function CampaignTargetingPage({ id }: Props) {
+export function CampaignTargetingPage({ id, campaign }: Props) {
 	const { t } = useTranslation();
 
 	return (
@@ -44,12 +21,18 @@ export function CampaignTargetingPage({ id }: Props) {
 					label: t("sidebar.campaigns"),
 					link: "/campaigns",
 				},
-				{ label: id },
+				{ label: campaign.name },
 			]}
 			className="flex flex-col gap-4"
 		>
-			<HeaderTabs url={`/campaigns/${id}`} tabs={tabs} activeTabId={2} />
-			<TargetingForm />
+			<HeaderTabs
+				url={`/campaigns/${id}`}
+				tabs={getCampaignTabs(campaign.completeness.steps)}
+				activeTabId={2}
+			/>
+			<CampaignEditableRegion status={campaign.status}>
+				<TargetingForm />
+			</CampaignEditableRegion>
 		</PageLayout>
 	);
 }

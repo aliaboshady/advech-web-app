@@ -18,6 +18,7 @@ interface Props {
 	setDate: ((value: Date) => void) | ((value: DateRange) => void);
 	className?: string;
 	placeholder?: string;
+	disabled?: boolean;
 }
 
 export function DatePicker({
@@ -27,6 +28,7 @@ export function DatePicker({
 	setDate,
 	className,
 	placeholder = "PICK_A_DATE",
+	disabled = false,
 }: Props) {
 	const { t } = useTranslation();
 	const isRange = mode === "range";
@@ -54,6 +56,8 @@ export function DatePicker({
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
+					type="button"
+					disabled={disabled}
 					className={cn(
 						"h-9 cursor-pointer border justify-between items-center text-xs font-normal",
 						!date && "text-muted-foreground",

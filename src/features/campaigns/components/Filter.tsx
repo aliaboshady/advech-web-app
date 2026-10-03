@@ -7,15 +7,15 @@ import { DatePicker } from "@/components/Inputs/DatePicker";
 import Dropdown from "@/components/Inputs/Dropdown";
 import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
-import { CampaignStatus, campaignStatuses } from "../types";
+import { CampaignFilterStatus, campaignFilterStatuses } from "../types";
 
 type Props = {
 	search?: string;
 	setSearch?: (val: string) => void;
 	date?: DateRange;
 	setDate?: (val: DateRange) => void;
-	status: CampaignStatus;
-	setStatus: (val: CampaignStatus) => void;
+	status: CampaignFilterStatus;
+	setStatus: (val: CampaignFilterStatus) => void;
 };
 
 const Filter = ({
@@ -51,7 +51,7 @@ const Filter = ({
 					/>
 
 					<Dropdown
-						items={campaignStatuses}
+						items={campaignFilterStatuses}
 						selected={status}
 						placeholder={t("locale:ROLE")}
 						setSelected={setStatus as (val: string) => void}

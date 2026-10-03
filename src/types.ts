@@ -17,13 +17,15 @@ export type ServerResponse<T> = {
 	error?: ErrorResponse;
 };
 
+export type FieldErrorDetail = {
+	field?: string;
+	constraints?: string[];
+};
+
 export type ErrorResponse = {
 	code: string;
 	message: string;
-	details: {
-		field?: string;
-		constraints?: string[];
-	}[];
+	details?: FieldErrorDetail[] | Record<string, unknown>;
 };
 
 export type PaginatedPayload = {

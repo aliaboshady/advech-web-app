@@ -18,15 +18,20 @@ export function isErrorResponse(error: unknown): error is ErrorResponse {
 	);
 }
 
-export function handleFormikError<T>(error: unknown, formik: FormikHelpers<T>) {
-	if (!isErrorResponse(error)) {
+export function handleFormikError<T>(
+	error: unknown,
+	formik: FormikHelpers<T>,
+	fieldNames: Record<string, string> = {},
+) {
+	if (!isErrorResponse(error) || !Array.isArray(error.details)) {
 		return;
 	}
-
 	for (const detail of error.details) {
-		if (detail.field && detail.constraints?.[0]) {
-			formik.setFieldError(detail.field, detail.constraints[0]);
+		const message = detail.constraints?.[0];
+		if (!detail.field || !message) {
+			continue;
 		}
+		formik.setFieldError(fieldNames[detail.field] ?? detail.field, message);
 	}
 }
 

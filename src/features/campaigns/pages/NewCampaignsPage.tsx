@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { LookupItem } from "@/features/lookups/types";
 import { Objective } from "@/features/Objectives/types";
 import { IdentityForm } from "../components/Forms/IdentityForm";
 
@@ -37,9 +38,10 @@ const tabs = [
 
 type Props = {
 	objectives: Objective[];
+	currencies: LookupItem[];
 };
 
-export function NewCampaignPage({ objectives }: Props) {
+export function NewCampaignPage({ objectives, currencies }: Props) {
 	const { t } = useTranslation();
 
 	return (
@@ -57,6 +59,7 @@ export function NewCampaignPage({ objectives }: Props) {
 			<IdentityForm
 				submitButtonTitle="Create and continue"
 				objectives={objectives}
+				currencies={currencies}
 			/>
 		</PageLayout>
 	);

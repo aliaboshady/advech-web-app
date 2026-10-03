@@ -6,5 +6,6 @@ export const Route = createFileRoute("/_private/campaigns/$id/creative")({
 });
 
 function RouteComponent() {
-	return <CampaignCreativePage id={Route.useParams().id} />;
+	const { campaign } = Route.useRouteContext();
+	return <CampaignCreativePage id={campaign.id} campaign={campaign} />;
 }
