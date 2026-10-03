@@ -102,6 +102,23 @@
 			"completed": "مكتملة",
 			"cancelled": "ملغاة"
 		},
+		"statuses": {
+			"DRAFT": "مسودة",
+			"PENDING_REVIEW": "قيد المراجعة",
+			"NEEDS_CHANGES": "تحتاج تعديلات",
+			"APPROVED": "معتمدة",
+			"SCHEDULED": "مجدولة",
+			"LIVE": "مباشرة",
+			"COMPLETED": "مكتملة",
+			"REJECTED": "مرفوضة",
+			"PAUSED": "متوقفة مؤقتًا",
+			"ARCHIVED": "مؤرشفة"
+		},
+		"table": {
+			"objective": "الهدف",
+			"flight": "فترة الحملة",
+			"statusPlaceholder": "كل الحالات"
+		},
 		"identity": {
 			"name": "اسم الحملة",
 			"objective": "الهدف الأساسي",

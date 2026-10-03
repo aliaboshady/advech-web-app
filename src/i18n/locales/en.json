@@ -102,6 +102,23 @@
 			"completed": "Completed",
 			"cancelled": "Cancelled"
 		},
+		"statuses": {
+			"DRAFT": "Draft",
+			"PENDING_REVIEW": "Pending review",
+			"NEEDS_CHANGES": "Needs changes",
+			"APPROVED": "Approved",
+			"SCHEDULED": "Scheduled",
+			"LIVE": "Live",
+			"COMPLETED": "Completed",
+			"REJECTED": "Rejected",
+			"PAUSED": "Paused",
+			"ARCHIVED": "Archived"
+		},
+		"table": {
+			"objective": "Objective",
+			"flight": "Flight",
+			"statusPlaceholder": "All statuses"
+		},
 		"identity": {
 			"name": "Campaign name",
 			"objective": "Primary Objective",

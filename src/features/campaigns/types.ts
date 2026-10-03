@@ -13,22 +13,10 @@ export const CAMPAIGN_STATUSES = [
 
 export type CampaignStatus = (typeof CAMPAIGN_STATUSES)[number];
 
-export const CAMPAIGN_FILTER_STATUSES = [
-	"campaigns.status.active",
-	"campaigns.status.scheduled",
-	"campaigns.status.paused",
-	"campaigns.status.completed",
-	"campaigns.status.cancelled",
-] as const;
-
-export type CampaignFilterStatus = (typeof CAMPAIGN_FILTER_STATUSES)[number];
-
-export const campaignFilterStatuses = CAMPAIGN_FILTER_STATUSES.map(
-	(status) => ({
-		value: status,
-		label: status,
-	}),
-);
+export const campaignStatusItems = CAMPAIGN_STATUSES.map((status) => ({
+	value: status,
+	label: `campaigns.statuses.${status}`,
+}));
 
 export type Money = {
 	amount: string;
@@ -157,4 +145,23 @@ export type CampaignTargetingPayload = {
 
 export type UpdateCampaignTargetingPayload = CampaignTargetingPayload & {
 	id: string;
+};
+
+export type CampaignSortField =
+	| "createdAt"
+	| "updatedAt"
+	| "name"
+	| "startDate"
+	| "endDate";
+
+/** Query of `GET /campaigns`. Dates are calendar days, `YYYY-MM-DD`. */
+export type ListCampaignsPayload = {
+	page: number;
+	limit: number;
+	search?: string;
+	orderBy?: string;
+	orderType?: "asc" | "desc";
+	status?: CampaignStatus[];
+	flightFrom?: string;
+	flightTo?: string;
 };

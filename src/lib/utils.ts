@@ -79,14 +79,21 @@ export function formatDate(
 export function getStatusColor(status: string) {
 	switch (status) {
 		case "Active":
+		case "LIVE":
+		case "APPROVED":
 			return "bg-emerald-600";
 		case "Scheduled":
+		case "SCHEDULED":
+		case "PENDING_REVIEW":
 			return "bg-sky-600";
 		case "Paused":
+		case "PAUSED":
+		case "NEEDS_CHANGES":
 			return "bg-amber-600";
 		case "Completed":
 			return "bg-slate-600";
 		case "Cancelled":
+		case "REJECTED":
 			return "bg-rose-600";
 		default:
 			return "bg-slate-600";
