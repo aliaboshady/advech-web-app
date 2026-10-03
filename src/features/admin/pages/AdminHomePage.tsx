@@ -12,8 +12,11 @@ export function AdminHomePage() {
 		return <AdminNoAccess reason="no-roles" />;
 	}
 	return (
-		<PageLayout title={t("admin.home.title")}>
-			<p className="text-sm text-muted-foreground">{t("admin.home.welcome")}</p>
+		<PageLayout
+			title={t("admin.home.title")}
+			description={t("admin.home.welcome")}
+		>
+			{null}
 		</PageLayout>
 	);
 }

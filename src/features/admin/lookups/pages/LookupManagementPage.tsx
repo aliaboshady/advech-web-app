@@ -1,7 +1,9 @@
 import { useRouteContext } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { LoadErrorState } from "@/components/LoadErrorState";
 import { PageLayout } from "@/components/PageLayout";
+import { TableCard } from "@/components/TableCard";
 import { Button } from "@/components/ui/button";
 import { adminMayOpenPath } from "@/features/access/admin-sidebar";
 import { AdminNoAccess } from "@/features/admin/components/AdminNoAccess";
@@ -85,32 +87,35 @@ function LookupManagementScreen({ resource }: LookupManagementPageProps) {
 			await reloadEntries();
 		}
 	}
+	const addButton = (
+		<Button type="button" onClick={() => setEditor({ mode: "create" })}>
+			{t("admin.lookups.add")}
+		</Button>
+	);
 	return (
-		<PageLayout title={t(resource.titleKey)}>
-			<p className="text-sm text-muted-foreground">
-				{t(resource.descriptionKey)}
-			</p>
-			<div className="mt-4 mb-4 flex justify-end">
-				<Button type="button" onClick={() => setEditor({ mode: "create" })}>
-					{t("admin.lookups.add")}
-				</Button>
-			</div>
-			{listError ? (
-				<p className="text-sm text-destructive" role="alert">
-					{listError}
-				</p>
-			) : (
-				<LookupEntryTable
-					entries={entries}
-					isLoading={isLoading}
-					isUpdating={isUpdating}
-					showWindow={resource.hasScheduleWindow === true}
-					onEdit={(entry) => setEditor({ mode: "edit", entry })}
-					onSetActive={(entry, isActive) => {
-						void changeActive(entry, isActive);
-					}}
-				/>
-			)}
+		<PageLayout
+			title={t(resource.titleKey)}
+			description={t(resource.descriptionKey)}
+			actions={addButton}
+			className="gap-section"
+		>
+			<TableCard>
+				{listError ? (
+					<LoadErrorState description={listError} />
+				) : (
+					<LookupEntryTable
+						entries={entries}
+						isLoading={isLoading}
+						isUpdating={isUpdating}
+						showWindow={resource.hasScheduleWindow === true}
+						emptyAction={addButton}
+						onEdit={(entry) => setEditor({ mode: "edit", entry })}
+						onSetActive={(entry, isActive) => {
+							void changeActive(entry, isActive);
+						}}
+					/>
+				)}
+			</TableCard>
 			<LookupEntryForm
 				resource={resource}
 				editor={editor}

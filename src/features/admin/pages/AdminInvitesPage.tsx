@@ -4,6 +4,7 @@ import { MailIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import { PageLayout } from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { mayAdmin } from "@/features/access/may-admin";
@@ -77,45 +78,60 @@ export function AdminInvitesPage() {
 			? sentInvite.devToken
 			: undefined;
 	return (
-		<PageLayout title={t("admin.invites.title")}>
-			<p className="mb-4 max-w-md text-sm text-muted-foreground">
-				{t("admin.invites.description")}
-			</p>
-			<form onSubmit={formik.handleSubmit} className="max-w-md space-y-4">
-				<FormikTextInput
-					formik={formik}
-					label={t("login.email")}
-					placeholder={t("login.emailPlaceholder")}
-					name="email"
-					autoComplete="email"
-					icon={<MailIcon size={15} />}
-				/>
-				{isErrorResponse(error) ? (
-					<p className="text-sm text-destructive" role="alert">
-						{resolveErrorMessage(error, i18n.language)}
-					</p>
-				) : null}
-				{sentInvite ? (
-					<p className="text-sm" role="status">
-						{t("admin.invites.sent", {
-							email: sentInvite.email,
-							expiresAt: formatInviteExpiresAt(
-								sentInvite.expiresAt,
-								i18n.language,
-							),
-						})}
-					</p>
-				) : null}
-				{devToken ? (
-					<p className="text-sm text-muted-foreground">
-						{t("admin.invites.devToken", { token: devToken })}
-					</p>
-				) : null}
-				<Button type="submit" disabled={!formik.isValid || isLoading}>
-					{isLoading
-						? t("admin.invites.submitting")
-						: t("admin.invites.submit")}
-				</Button>
+		<PageLayout
+			title={t("admin.invites.title")}
+			description={t("admin.invites.description")}
+		>
+			<form onSubmit={formik.handleSubmit} className="w-full max-w-xl">
+				<FormSectionCard
+					title={t("admin.invites.formTitle")}
+					footer={
+						<Button type="submit" disabled={!formik.isValid || isLoading}>
+							{isLoading
+								? t("admin.invites.submitting")
+								: t("admin.invites.submit")}
+						</Button>
+					}
+				>
+					<div className="col-span-full">
+						<FormikTextInput
+							formik={formik}
+							label={t("login.email")}
+							placeholder={t("login.emailPlaceholder")}
+							name="email"
+							autoComplete="email"
+							icon={<MailIcon size={15} />}
+							required
+						/>
+					</div>
+					{isErrorResponse(error) ? (
+						<p
+							className="col-span-full rounded-md bg-destructive-soft px-3 py-2 text-body-md text-destructive-soft-foreground"
+							role="alert"
+						>
+							{resolveErrorMessage(error, i18n.language)}
+						</p>
+					) : null}
+					{sentInvite ? (
+						<p
+							className="col-span-full rounded-md bg-success-soft px-3 py-2 text-body-md text-success-soft-foreground"
+							role="status"
+						>
+							{t("admin.invites.sent", {
+								email: sentInvite.email,
+								expiresAt: formatInviteExpiresAt(
+									sentInvite.expiresAt,
+									i18n.language,
+								),
+							})}
+						</p>
+					) : null}
+					{devToken ? (
+						<p className="col-span-full text-body-md text-muted-foreground">
+							{t("admin.invites.devToken", { token: devToken })}
+						</p>
+					) : null}
+				</FormSectionCard>
 			</form>
 		</PageLayout>
 	);

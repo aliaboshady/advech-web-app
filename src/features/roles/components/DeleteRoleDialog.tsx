@@ -1,13 +1,6 @@
 import { useRouter } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
+import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
 import useRequest from "@/hooks/useRequest";
 import { ServerResponse } from "@/types";
 import { deleteRole } from "../api/delete-role";
@@ -27,51 +20,28 @@ export function DeleteRoleDialog({
 }: DeleteRoleDialogProps) {
 	const { t } = useTranslation();
 	const router = useRouter();
-	const { request, isLoading } = useRequest<string, ServerResponse<null>>(
-		deleteRole,
-	);
+	const { request } = useRequest<string, ServerResponse<null>>(deleteRole);
 	async function confirmDelete(): Promise<void> {
 		if (!role) {
 			return;
 		}
 		try {
 			await request(role.id);
-			onOpenChange(false);
 			await router.invalidate();
 		} catch {
-			onOpenChange(false);
+			// The request hook already toasts the error; the dialog closes either way.
 		}
 	}
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-md">
-				<DialogHeader>
-					<DialogTitle>{t("admin.roles.deleteTitle")}</DialogTitle>
-				</DialogHeader>
-				<p className="text-sm text-muted-foreground">
-					{t("admin.roles.deleteBody", { name: role?.name ?? "" })}
-				</p>
-				<DialogFooter className="flex flex-row justify-end gap-2">
-					<Button
-						type="button"
-						variant="secondary"
-						disabled={isLoading}
-						onClick={() => onOpenChange(false)}
-					>
-						{t("common.cancel")}
-					</Button>
-					<Button
-						type="button"
-						variant="destructive"
-						disabled={isLoading || role === null}
-						onClick={() => {
-							void confirmDelete();
-						}}
-					>
-						{t("common.delete")}
-					</Button>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
+		<ConfirmationDialog
+			open={open}
+			setOpen={onOpenChange}
+			item={role}
+			title={t("admin.roles.deleteTitle")}
+			description={t("admin.roles.deleteBody", { name: role?.name ?? "" })}
+			confirmLabel={t("common.delete")}
+			destructive
+			onAction={confirmDelete}
+		/>
 	);
 }

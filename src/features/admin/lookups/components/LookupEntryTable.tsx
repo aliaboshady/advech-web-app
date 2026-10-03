@@ -1,14 +1,9 @@
+import { CheckCircle2Icon, MinusCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import NoDataFound from "@/components/NoDataFound";
+import DataTable, { Column } from "@/components/Table/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { LookupEntry } from "../lookup-entry";
 import {
 	isTimeOfDay,
@@ -23,6 +18,8 @@ type LookupEntryTableProps = {
 	readonly showWindow: boolean;
 	readonly onEdit: (entry: LookupEntry) => void;
 	readonly onSetActive: (entry: LookupEntry, isActive: boolean) => void;
+	/** Shown in the empty state, usually the "Add entry" button. */
+	readonly emptyAction?: React.ReactNode;
 };
 
 function ScheduleWindowCell({ entry }: { readonly entry: LookupEntry }) {
@@ -40,18 +37,42 @@ function ScheduleWindowCell({ entry }: { readonly entry: LookupEntry }) {
 		isTimeOfDay(endTime) &&
 		windowCrossesMidnight({ startTime, endTime });
 	return (
-		<div className="flex flex-col gap-1">
-			<span dir="ltr">
-				{labels} {startTime}–{endTime}
+		<div className="flex w-44 flex-col gap-1 text-wrap">
+			<span>
+				{labels}{" "}
+				<span dir="ltr">
+					{startTime}–{endTime}
+				</span>
 			</span>
 			{crossesMidnight ? (
-				<span className="text-xs">{t("admin.lookups.crossesMidnight")}</span>
+				<span className="text-body-md text-muted-foreground">
+					{t("admin.lookups.crossesMidnight")}
+				</span>
 			) : null}
 		</div>
 	);
 }
 
-/** Every entry in one Lookup, with inactive ones marked. */
+/** Active or Inactive, always with a label and icon so colour is never the only cue. */
+function ActiveBadge({ isActive }: { readonly isActive: boolean }) {
+	const { t } = useTranslation();
+	if (isActive) {
+		return (
+			<Badge variant="success">
+				<CheckCircle2Icon aria-hidden="true" />
+				{t("admin.lookups.active")}
+			</Badge>
+		);
+	}
+	return (
+		<Badge variant="outline" className="text-muted-foreground">
+			<MinusCircleIcon aria-hidden="true" />
+			{t("admin.lookups.inactive")}
+		</Badge>
+	);
+}
+
+/** Every entry in one Lookup. Inactive entries are muted and carry an Inactive badge. */
 export function LookupEntryTable({
 	entries,
 	isLoading,
@@ -59,89 +80,91 @@ export function LookupEntryTable({
 	showWindow,
 	onEdit,
 	onSetActive,
+	emptyAction,
 }: LookupEntryTableProps) {
 	const { t } = useTranslation();
-	if (isLoading && entries.length === 0) {
+	if (!isLoading && entries.length === 0) {
 		return (
-			<p className="text-sm text-muted-foreground">
-				{t("admin.lookups.loading")}
-			</p>
+			<NoDataFound
+				title={t("admin.lookups.empty")}
+				description={t("admin.lookups.emptyDescription")}
+				action={emptyAction}
+			/>
 		);
 	}
-	if (entries.length === 0) {
-		return (
-			<p className="text-sm text-muted-foreground">
-				{t("admin.lookups.empty")}
-			</p>
-		);
-	}
-	return (
-		<Table>
-			<TableHeader>
-				<TableRow>
-					<TableHead>{t("admin.lookups.columns.code")}</TableHead>
-					<TableHead>{t("admin.lookups.columns.name")}</TableHead>
-					<TableHead>{t("admin.lookups.columns.description")}</TableHead>
-					{showWindow ? (
-						<TableHead>{t("admin.lookups.columns.window")}</TableHead>
-					) : null}
-					<TableHead>{t("admin.lookups.columns.sortOrder")}</TableHead>
-					<TableHead>{t("admin.lookups.columns.status")}</TableHead>
-					<TableHead>{t("admin.lookups.columns.actions")}</TableHead>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				{entries.map((entry) => (
-					<TableRow
-						key={entry.code}
-						className={entry.isActive ? undefined : "text-muted-foreground"}
+	const columns: Column[] = [
+		{
+			header: () => t("admin.lookups.columns.code"),
+			value: (entry: LookupEntry) => <span dir="ltr">{entry.code}</span>,
+			cellClassName: "font-normal",
+		},
+		{
+			header: () => t("admin.lookups.columns.name"),
+			value: (entry: LookupEntry) => entry.name,
+		},
+		{
+			header: () => t("admin.lookups.columns.description"),
+			value: (entry: LookupEntry) => (
+				<span className="block w-44 text-wrap">{entry.description}</span>
+			),
+			cellClassName: "font-normal",
+		},
+		...(showWindow
+			? [
+					{
+						header: () => t("admin.lookups.columns.window"),
+						value: (entry: LookupEntry) => <ScheduleWindowCell entry={entry} />,
+						cellClassName: "font-normal",
+					},
+				]
+			: []),
+		{
+			header: () => t("admin.lookups.columns.sortOrder"),
+			value: (entry: LookupEntry) => entry.sortOrder,
+			cellClassName: "font-normal",
+		},
+		{
+			header: () => t("admin.lookups.columns.status"),
+			value: (entry: LookupEntry) => <ActiveBadge isActive={entry.isActive} />,
+		},
+		{
+			header: () => t("admin.lookups.columns.actions"),
+			value: (entry: LookupEntry) => (
+				<div className="flex gap-2">
+					<Button
+						type="button"
+						variant="outline"
+						size="sm"
+						onClick={() => onEdit(entry)}
 					>
-						<TableCell className="font-mono text-xs" dir="ltr">
-							{entry.code}
-						</TableCell>
-						<TableCell>{entry.name}</TableCell>
-						<TableCell className="max-w-64 truncate">
-							{entry.description}
-						</TableCell>
-						{showWindow ? (
-							<TableCell>
-								<ScheduleWindowCell entry={entry} />
-							</TableCell>
-						) : null}
-						<TableCell>{entry.sortOrder}</TableCell>
-						<TableCell>
-							{entry.isActive ? (
-								t("admin.lookups.active")
-							) : (
-								<Badge variant="outline">{t("admin.lookups.inactive")}</Badge>
-							)}
-						</TableCell>
-						<TableCell>
-							<div className="flex flex-wrap gap-2">
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									onClick={() => onEdit(entry)}
-								>
-									{t("common.edit")}
-								</Button>
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									disabled={isUpdating}
-									onClick={() => onSetActive(entry, !entry.isActive)}
-								>
-									{entry.isActive
-										? t("admin.lookups.deactivate")
-										: t("admin.lookups.activate")}
-								</Button>
-							</div>
-						</TableCell>
-					</TableRow>
-				))}
-			</TableBody>
-		</Table>
+						{t("common.edit")}
+					</Button>
+					<Button
+						type="button"
+						variant="outline"
+						size="sm"
+						disabled={isUpdating}
+						onClick={() => onSetActive(entry, !entry.isActive)}
+					>
+						{entry.isActive
+							? t("admin.lookups.deactivate")
+							: t("admin.lookups.activate")}
+					</Button>
+				</div>
+			),
+		},
+	];
+	return (
+		<DataTable
+			className="rounded-none border-0"
+			rowClassName={(entry: LookupEntry) =>
+				entry.isActive
+					? undefined
+					: "bg-muted/40 [&>td:not(:last-child)]:text-muted-foreground"
+			}
+			items={[...entries]}
+			columns={columns}
+			loading={isLoading}
+		/>
 	);
 }

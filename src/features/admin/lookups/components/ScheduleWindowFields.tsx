@@ -1,4 +1,5 @@
 import { FormikProps } from "formik";
+import { CheckIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
@@ -49,8 +50,8 @@ export function ScheduleWindowFields({ formik }: ScheduleWindowFieldsProps) {
 			? formik.errors.days
 			: "";
 	return (
-		<div className="flex flex-col gap-3">
-			<p className="text-sm font-medium">{t("admin.lookups.daysLabel")}</p>
+		<div className="flex flex-col gap-stack">
+			<p className="text-body-md font-medium">{t("admin.lookups.daysLabel")}</p>
 			<div className="flex flex-wrap gap-2">
 				{SCHEDULE_WEEKDAYS.map((weekday) => {
 					const isSelected = formik.values.days.includes(weekday.day);
@@ -58,17 +59,19 @@ export function ScheduleWindowFields({ formik }: ScheduleWindowFieldsProps) {
 						<Button
 							key={weekday.day}
 							type="button"
-							variant={isSelected ? "default" : "outline"}
+							variant="outline"
 							aria-pressed={isSelected}
+							className="aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-background aria-pressed:hover:bg-foreground/90 aria-pressed:hover:text-background"
 							onClick={() => toggleDay(formik, weekday.day)}
 						>
+							{isSelected ? <CheckIcon aria-hidden="true" /> : null}
 							{t(weekday.labelKey)}
 						</Button>
 					);
 				})}
 			</div>
 			{daysError ? (
-				<p className="text-xs font-medium text-destructive">
+				<p className="text-body-md font-medium text-destructive">
 					{t(`errors.${daysError}`, { defaultValue: daysError })}
 				</p>
 			) : null}
@@ -107,7 +110,7 @@ export function ScheduleWindowFields({ formik }: ScheduleWindowFieldsProps) {
 				/>
 			</div>
 			{crossesMidnight ? (
-				<p className="text-sm text-muted-foreground">
+				<p className="text-body-md text-muted-foreground">
 					{t("admin.lookups.crossesMidnight")}
 				</p>
 			) : null}

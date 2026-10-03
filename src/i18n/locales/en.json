@@ -474,7 +474,8 @@
 			"schedulePresets": {
 				"title": "Schedule presets",
 				"description": "A named Dayparting window. Advertisers pick one of these."
-			}
+			},
+			"emptyDescription": "Add the first entry to make it available to Advertisers."
 		},
 		"invites": {
 			"title": "Invite an Admin",
@@ -482,7 +483,8 @@
 			"submit": "Send invite",
 			"submitting": "Sending invite...",
 			"sent": "Invite sent to {{email}}. It expires {{expiresAt}}.",
-			"devToken": "Dev invite token: {{token}}"
+			"devToken": "Dev invite token: {{token}}",
+			"formTitle": "Admin email"
 		},
 		"advertisers": {
 			"title": "Advertiser review",
@@ -579,7 +581,13 @@
 			"deleteTitle": "Delete this Role?",
 			"deleteBody": "Admins who hold {{name}} lose its Permissions. This cannot be undone.",
 			"unknownPermission": "This Permission is not in the current list. It is kept until you clear it.",
-			"noDescription": "No description"
+			"noDescription": "No description",
+			"pageDescription": "Roles group Permissions. Give an Admin a Role to grant its access.",
+			"emptyDescription": "Create a Role to start granting Permissions to Admins.",
+			"actions": "Actions",
+			"detailsTitle": "Details",
+			"detailsDescription": "Name the Role and say what it is for.",
+			"back": "Back to Roles"
 		}
 	},
 	"notFound": {

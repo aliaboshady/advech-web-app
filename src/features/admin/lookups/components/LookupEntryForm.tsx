@@ -205,19 +205,24 @@ export function LookupEntryForm({
 							: t("admin.lookups.codeHint")}
 					</DialogDescription>
 				</DialogHeader>
-				<form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+				<form
+					onSubmit={formik.handleSubmit}
+					className="flex flex-col gap-stack"
+				>
 					<FormikTextInput
 						formik={formik}
 						name="code"
 						label={t("admin.lookups.code")}
 						dir="ltr"
 						disabled={isEditing}
+						required={!isEditing}
 						autoComplete="off"
 					/>
 					<FormikTextInput
 						formik={formik}
 						name="name"
 						label={t("admin.lookups.name")}
+						required
 						autoComplete="off"
 					/>
 					<FormikTextInput
@@ -241,7 +246,10 @@ export function LookupEntryForm({
 						<ScheduleWindowFields formik={formik} />
 					) : null}
 					{formError ? (
-						<p className="text-sm text-destructive" role="alert">
+						<p
+							className="rounded-md bg-destructive-soft px-3 py-2 text-body-md text-destructive-soft-foreground"
+							role="alert"
+						>
 							{resolveErrorMessage(formError, i18n.language)}
 						</p>
 					) : null}
