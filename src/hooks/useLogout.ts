@@ -7,6 +7,7 @@ import { decideRoute, sessionNavigation } from "@/features/access/decide-route";
 import { clearPermissionDenied } from "@/features/access/permission-denied-state";
 import { logoutSession } from "@/features/auth/api/logout-session";
 import { clearCachedOnboarding } from "@/features/onboarding/load-cached-onboarding";
+import { clearDraft } from "@/features/onboarding/onboarding-draft";
 import { clearCachedMe } from "@/features/users/load-cached-me";
 import { clearTokens } from "@/lib/tokenUtils";
 
@@ -28,6 +29,9 @@ export function useLogout() {
 			// The local session still ends if the logout request fails.
 		}
 		clearTokens();
+		if (me) {
+			clearDraft(window.localStorage, me.id);
+		}
 		clearCachedMe();
 		clearCachedOnboarding();
 		clearPermissionDenied();

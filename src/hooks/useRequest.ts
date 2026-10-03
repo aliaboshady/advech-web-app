@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { isPermissionDenied } from "@/features/access/is-permission-denied";
 import { notePermissionDenied } from "@/features/access/permission-denied-state";
+import { clearCachedOnboarding } from "@/features/onboarding/load-cached-onboarding";
+import { isNotApproved } from "@/features/onboarding/onboarding-errors";
+import { ONBOARDING_HOME } from "@/features/onboarding/onboarding-view";
 import { requestSessionRefresh } from "@/features/users/refresh-session";
 import i18n from "@/i18n";
 import { resolveErrorMessage } from "@/lib/error-messages";
@@ -82,8 +85,19 @@ const useRequest = <P, R>(
 					notePermissionDenied();
 					requestSessionRefresh();
 				}
+				const notApproved = isNotApproved(normalizedError);
+				if (notApproved) {
+					// The status changed under this page. Drop the cached state and let
+					// the router's gate send the user to the right status screen.
+					clearCachedOnboarding();
+					requestSessionRefresh();
+				}
 				onError?.(normalizedError);
-				if (showErrorToast) {
+				if (notApproved) {
+					if (showErrorToast && window.location.pathname === ONBOARDING_HOME) {
+						toast.info(i18n.t("onboarding.notApprovedYet"));
+					}
+				} else if (showErrorToast) {
 					toast.error(resolveErrorMessage(normalizedError, i18n.language));
 				}
 

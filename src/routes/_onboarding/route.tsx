@@ -6,6 +6,7 @@ import {
 } from "@/features/access/decide-route";
 import { redirectForNavigation } from "@/features/access/redirect-for-navigation";
 import { OnboardingShell } from "@/features/onboarding/components/OnboardingShell";
+import { clearDraftWhenDone } from "@/features/onboarding/draft-lifecycle";
 import { fetchOnboardingState } from "@/features/onboarding/fetch-onboarding-state";
 import { resolveOnboardingGate } from "@/features/onboarding/onboarding-gate";
 import { getAccessToken } from "@/lib/tokenUtils";
@@ -30,6 +31,13 @@ export const Route = createFileRoute("/_onboarding")({
 			area: "onboarding",
 			loadState: () => fetchOnboardingState(getAccessToken()),
 		});
+		if (gate.onboarding) {
+			clearDraftWhenDone(
+				window.localStorage,
+				context.me.id,
+				gate.onboarding.status,
+			);
+		}
 		if (gate.decision === "to-home") {
 			throw redirect({ to: "/" });
 		}

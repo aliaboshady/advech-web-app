@@ -46,6 +46,7 @@ export function OnboardingPage({ userId, onboarding }: Props) {
 	return (
 		<OnboardingStatusScreen
 			view={view}
+			status={onboarding.status}
 			reviewReason={onboarding.reviewReason}
 		/>
 	);

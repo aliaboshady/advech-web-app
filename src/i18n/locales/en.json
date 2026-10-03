@@ -335,7 +335,7 @@
 		"TARGETING_ZONE_NOT_FOUND": "One or more of those Zones is not in your library",
 		"ZONE_ROLE_CONTRADICTION": "A Zone cannot be both included and excluded",
 		"ADVERTISER_NOT_FOUND": "No Advertiser is linked to this account",
-		"ADVERTISER_NOT_APPROVED": "Your Advertiser must be approved before creating Campaigns",
+		"ADVERTISER_NOT_APPROVED": "Your Advertiser must be approved before you can do this",
 		"CURRENCY_NOT_ACCEPTED": "That currency is not accepted",
 		"MONEY_PRECISION_EXCEEDED": "The amount has more decimal places than the currency allows",
 		"CREATIVE_NOT_FOUND": "Creative not found",
@@ -696,6 +696,11 @@
 				"title": "Advech Advertiser terms, version 1.0",
 				"body": "TODO: placeholder copy. Replace this with the approved Advertiser terms before launch.\n\nBy accepting, the Advertiser agrees to follow the Advech Advertiser terms."
 			}
+		},
+		"notApprovedYet": "Your Advertiser is not approved yet.",
+		"needsChanges": {
+			"title": "Changes requested",
+			"description": "We reviewed your Advertiser and need a few changes. Update your details and save them. We review it again once everything is complete."
 		}
 	}
 }

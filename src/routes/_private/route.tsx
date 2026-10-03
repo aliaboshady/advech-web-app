@@ -6,6 +6,7 @@ import {
 	sessionNavigation,
 } from "@/features/access/decide-route";
 import { redirectForNavigation } from "@/features/access/redirect-for-navigation";
+import { clearDraftWhenDone } from "@/features/onboarding/draft-lifecycle";
 import { fetchOnboardingState } from "@/features/onboarding/fetch-onboarding-state";
 import { resolveOnboardingGate } from "@/features/onboarding/onboarding-gate";
 import { ONBOARDING_HOME } from "@/features/onboarding/onboarding-view";
@@ -31,6 +32,13 @@ export const Route = createFileRoute("/_private")({
 			area: "product",
 			loadState: () => fetchOnboardingState(getAccessToken()),
 		});
+		if (gate.onboarding) {
+			clearDraftWhenDone(
+				window.localStorage,
+				context.me.id,
+				gate.onboarding.status,
+			);
+		}
 		if (gate.decision === "to-onboarding") {
 			throw redirect({ to: ONBOARDING_HOME });
 		}

@@ -1,5 +1,7 @@
 import { BanIcon, ClockIcon, XCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
+import type { AdvertiserStatus } from "@/features/admin/advertisers/advertiser-summary";
 import type { OnboardingView } from "../onboarding-view";
 
 type StatusView = Exclude<OnboardingView, "wizard">;
@@ -12,12 +14,13 @@ const ICONS = {
 
 type Props = {
 	view: StatusView;
+	status: AdvertiserStatus;
 	/** The Admin's note; shown on the rejected screen. */
 	reviewReason: string | null;
 };
 
 /** A locked status: a message and nothing to edit. Logout lives in the shell. */
-export function OnboardingStatusScreen({ view, reviewReason }: Props) {
+export function OnboardingStatusScreen({ view, status, reviewReason }: Props) {
 	const { t } = useTranslation();
 	const Icon = ICONS[view];
 	return (
@@ -25,6 +28,7 @@ export function OnboardingStatusScreen({ view, reviewReason }: Props) {
 			<span className="flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
 				<Icon aria-hidden="true" className="size-6" />
 			</span>
+			<StatusBadge kind="advertiser" status={status} />
 			<h1 className="text-headline-md">{t(`onboarding.${view}.title`)}</h1>
 			<p className="max-w-md text-body-md text-muted-foreground">
 				{t(`onboarding.${view}.description`)}

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import { nextStep, sectionCompleteness } from "../form-sections";
 import { loadDraft } from "../onboarding-draft";
 import type { OnboardingState } from "../types";
 import { CompanyDetailsCard } from "./CompanyDetailsCard";
 import { ContactDetailsCard } from "./ContactDetailsCard";
+import { ReviewReasonNotice } from "./ReviewReasonNotice";
 import { TermsCard } from "./TermsCard";
 
 type Props = {
@@ -22,11 +24,19 @@ export function OnboardingWizard({ userId, onboarding }: Props) {
 	return (
 		<>
 			<header className="flex flex-col gap-1">
+				<StatusBadge
+					kind="advertiser"
+					status={onboarding.status}
+					className="self-start"
+				/>
 				<h1 className="text-headline-md">{t("onboarding.wizard.title")}</h1>
 				<p className="text-body-md text-muted-foreground">
 					{t("onboarding.wizard.description")}
 				</p>
 			</header>
+			{onboarding.status === "NEEDS_CHANGES" ? (
+				<ReviewReasonNotice reason={onboarding.reviewReason} />
+			) : null}
 			<CompanyDetailsCard
 				userId={userId}
 				draft={draft.company}
