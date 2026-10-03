@@ -1,6 +1,7 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { MailIcon, SquareAsteriskIcon } from "lucide-react";
+import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import logoLockup from "@/assets/logo/lockup/advech-lockup-orange.svg";
@@ -14,6 +15,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import useRequest from "@/hooks/useRequest";
+import { saveTokens } from "@/lib/tokenUtils";
 import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
@@ -24,6 +26,7 @@ import {
 	ResendCodePayload,
 	ResendCodeResponse,
 	VerifyEmailPayload,
+	VerifyEmailResponse,
 } from "../types";
 
 type VerifyEmailLocationState = {
@@ -46,8 +49,9 @@ function formatCountdown(seconds: number) {
 }
 
 export function VerifyEmailPage() {
-	const navigate = useNavigate();
+	const router = useRouter();
 	const { t } = useTranslation();
+	const { start: startTopLoader } = useTopLoader();
 	const [email, setEmail] = useState("");
 	const [token, setToken] = useState("");
 	const [code, setCode] = useState("");
@@ -76,10 +80,17 @@ export function VerifyEmailPage() {
 
 	const { request: requestVerify, isLoading: isLoadingVerify } = useRequest<
 		VerifyEmailPayload,
-		void
+		ServerResponse<VerifyEmailResponse>
 	>(verifyEmail, {
-		onSuccess: () => {
-			navigate({ to: "/auth/login" });
+		onSuccess: async (res: ServerResponse<VerifyEmailResponse>) => {
+			const { refreshToken, accessToken } = res?.data ?? {};
+			if (refreshToken && accessToken) {
+				startTopLoader();
+				saveTokens(accessToken, refreshToken);
+				sessionStorage.removeItem("verify-email-state");
+				await router.invalidate();
+				await router.navigate({ to: "/" });
+			}
 		},
 	});
 
@@ -138,18 +149,19 @@ export function VerifyEmailPage() {
 			0,
 			Number(payload.resendAvailableInSeconds ?? 0),
 		);
-
 		const nextToken = payload.token ?? token;
+		const nextCode = payload.devCode ?? "";
+
 		setExpiresIn(nextExpiresIn);
 		setResendAvailableIn(nextResendAvailableIn);
 		setToken(nextToken);
-		setCode(payload.devCode ?? "");
+		setCode(nextCode);
 		updateStoredState({
 			email,
 			token: nextToken,
 			expiresInSeconds: nextExpiresIn,
 			resendAvailableInSeconds: nextResendAvailableIn,
-			devCode: payload.devCode ?? "",
+			devCode: nextCode,
 		});
 	};
 
@@ -158,9 +170,8 @@ export function VerifyEmailPage() {
 		enableReinitialize: true,
 		validationSchema: validationSchema.verifyEmail,
 		onSubmit: async (values) => {
-			if (!token) {
-				return;
-			}
+			if (!token) return;
+
 			try {
 				await requestVerify({
 					token,
@@ -218,7 +229,7 @@ export function VerifyEmailPage() {
 							type="submit"
 							className="w-full"
 							disabled={
-								!token || !formik.isValid || isLoadingVerify || isLoadingResend
+								!formik.isValid || !token || isLoadingVerify || isLoadingResend
 							}
 						>
 							{isLoadingVerify
