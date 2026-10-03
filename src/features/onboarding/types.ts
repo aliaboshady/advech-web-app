@@ -22,3 +22,9 @@ export type PlaceOption = {
 	id: string;
 	name: string;
 };
+
+/** `POST /advertiser/onboarding/consent`: the stored acceptance. Not the Onboarding state. */
+export type ConsentRecord = {
+	agreementVersion: string;
+	consentedAt: string;
+};

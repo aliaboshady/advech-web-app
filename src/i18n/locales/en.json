@@ -375,7 +375,9 @@
 		"mobileInvalid": "Use digits, +, spaces, dashes and parentheses only.",
 		"mobileMax": "A mobile number must be at most 30 characters.",
 		"personNameMax": "A name must be at most 100 characters.",
-		"titleMax": "A title must be at most 100 characters."
+		"titleMax": "A title must be at most 100 characters.",
+		"ADVERTISER_TERMS_VERSION_MISMATCH": "The Advertiser terms were updated. Please read and accept the new version",
+		"ADVERTISER_FORM_LOCKED": "Your details can no longer be changed because of your Advertiser's status"
 	},
 	"admin": {
 		"login": {
@@ -681,6 +683,19 @@
 			"mobilePlaceholder": "+20 100 123 4567",
 			"titleLabel": "Job title (optional)",
 			"titlePlaceholder": "Marketing Manager"
+		},
+		"terms": {
+			"title": "Advertiser terms",
+			"description": "Accept version {{version}} of the Advertiser terms. When your details are complete, we start the review right away.",
+			"accept": "Accept terms",
+			"accepted": "You accepted version {{version}} on {{date}}.",
+			"updated": "The terms changed since you accepted version {{acceptedVersion}}. Please read and accept version {{version}}.",
+			"versionChanged": "The terms were updated. Please read the new version and accept it.",
+			"unknownVersion": "These terms are newer than this version of the app. Please refresh the app to read and accept them.",
+			"v1_0": {
+				"title": "Advech Advertiser terms, version 1.0",
+				"body": "TODO: placeholder copy. Replace this with the approved Advertiser terms before launch.\n\nBy accepting, the Advertiser agrees to follow the Advech Advertiser terms."
+			}
 		}
 	}
 }

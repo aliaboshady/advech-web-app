@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { sectionCompleteness } from "../form-sections";
+import { nextStep, sectionCompleteness } from "../form-sections";
 import { loadDraft } from "../onboarding-draft";
 import type { OnboardingState } from "../types";
 import { CompanyDetailsCard } from "./CompanyDetailsCard";
 import { ContactDetailsCard } from "./ContactDetailsCard";
+import { TermsCard } from "./TermsCard";
 
 type Props = {
 	userId: string;
@@ -16,11 +17,7 @@ export function OnboardingWizard({ userId, onboarding }: Props) {
 	const { t } = useTranslation();
 	const [draft] = useState(() => loadDraft(window.localStorage, userId));
 	const sections = sectionCompleteness(onboarding.form.missingFields);
-	const next = !sections.company.complete
-		? "company"
-		: !sections.contact.complete
-			? "contact"
-			: null;
+	const next = nextStep(sections, onboarding.consent.complete);
 
 	return (
 		<>
@@ -42,6 +39,7 @@ export function OnboardingWizard({ userId, onboarding }: Props) {
 				completeness={sections.contact}
 				primary={next === "contact"}
 			/>
+			<TermsCard consent={onboarding.consent} primary={next === "consent"} />
 		</>
 	);
 }

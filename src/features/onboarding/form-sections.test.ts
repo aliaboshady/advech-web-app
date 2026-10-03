@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { sectionCompleteness } from "./form-sections";
+import { nextStep, sectionCompleteness } from "./form-sections";
 
 describe("sectionCompleteness", () => {
 	it("marks both sections complete when nothing is missing", () => {
@@ -32,5 +32,27 @@ describe("sectionCompleteness", () => {
 	it("ignores names it does not know", () => {
 		expect(sectionCompleteness(["billing.iban"]).company.complete).toBe(true);
 		expect(sectionCompleteness(["billing.iban"]).contact.complete).toBe(true);
+	});
+});
+
+describe("nextStep", () => {
+	it("points at Company details first", () => {
+		expect(
+			nextStep(sectionCompleteness(["company.name", "contact.mobile"]), false),
+		).toBe("company");
+	});
+
+	it("then Contact details", () => {
+		expect(nextStep(sectionCompleteness(["contact.mobile"]), false)).toBe(
+			"contact",
+		);
+	});
+
+	it("then Consent once both sections are complete", () => {
+		expect(nextStep(sectionCompleteness([]), false)).toBe("consent");
+	});
+
+	it("has no next step when everything is done", () => {
+		expect(nextStep(sectionCompleteness([]), true)).toBeNull();
 	});
 });

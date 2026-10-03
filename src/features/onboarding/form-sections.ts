@@ -22,3 +22,22 @@ export function sectionCompleteness(
 	}
 	return result;
 }
+
+export type OnboardingStep = OnboardingSection | "consent";
+
+/**
+ * The step to put the page's one primary action on: the first thing still
+ * open, in the order the cards appear. Null when nothing is left.
+ */
+export function nextStep(
+	sections: Record<OnboardingSection, SectionCompleteness>,
+	consentComplete: boolean,
+): OnboardingStep | null {
+	if (!sections.company.complete) {
+		return "company";
+	}
+	if (!sections.contact.complete) {
+		return "contact";
+	}
+	return consentComplete ? null : "consent";
+}
