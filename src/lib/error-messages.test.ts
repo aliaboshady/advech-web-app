@@ -132,6 +132,21 @@ describe("resolveErrorMessage", () => {
 		).toBe("That Role no longer exists");
 	});
 
+	it("maps an expired or already-used Admin token to a clear message", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "ADMIN_TOKEN_EXPIRED", message: "from the server" },
+				"en",
+			),
+		).toBe("This link has expired");
+		expect(
+			resolveErrorMessage(
+				{ code: "ADMIN_TOKEN_INVALID", message: "from the server" },
+				"en",
+			),
+		).toBe("This link is invalid or has already been used");
+	});
+
 	it("keeps the server message when the code is unknown", () => {
 		expect(
 			resolveErrorMessage(

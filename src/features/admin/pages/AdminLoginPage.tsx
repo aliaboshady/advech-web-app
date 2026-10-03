@@ -1,4 +1,4 @@
-import { getRouteApi, useRouter } from "@tanstack/react-router";
+import { getRouteApi, Link, useRouter } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { useTopLoader } from "nextjs-toploader";
@@ -97,6 +97,14 @@ export function AdminLoginPage() {
 							icon={<KeyRoundIcon size={15} />}
 							isPassword
 						/>
+						<p className="text-end text-sm text-muted-foreground">
+							<Link
+								to="/auth/admin/request-password-reset"
+								className="font-medium text-primary underline-offset-4 hover:underline"
+							>
+								{t("admin.login.forgotPassword")}
+							</Link>
+						</p>
 						{isErrorResponse(error) ? (
 							<p className="text-sm text-destructive" role="alert">
 								{resolveErrorMessage(error, i18n.language)}
