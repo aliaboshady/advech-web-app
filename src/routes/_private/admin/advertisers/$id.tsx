@@ -6,5 +6,6 @@ export const Route = createFileRoute("/_private/admin/advertisers/$id")({
 });
 
 function AdvertiserDetailRoute() {
-	return <AdvertiserDetailPage />;
+	const { id } = Route.useParams();
+	return <AdvertiserDetailPage advertiserId={id} />;
 }
