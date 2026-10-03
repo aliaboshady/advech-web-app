@@ -33,6 +33,45 @@ describe("resolveErrorMessage", () => {
 		);
 	});
 
+	it("maps Creative upload codes to their messages", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "CREATIVE_TOO_LARGE", message: "from the server" },
+				"en",
+			),
+		).toBe("That file is larger than the maximum for its type");
+		expect(
+			resolveErrorMessage(
+				{ code: "CREATIVE_OBJECT_MISSING", message: "from the server" },
+				"en",
+			),
+		).toBe("Upload the file before confirming it");
+		expect(
+			resolveErrorMessage(
+				{ code: "CREATIVE_ALREADY_CONFIRMED", message: "from the server" },
+				"en",
+			),
+		).toBe("This Creative has already been confirmed");
+		expect(
+			resolveErrorMessage(
+				{ code: "CREATIVE_LIMIT_REACHED", message: "from the server" },
+				"en",
+			),
+		).toBe("This Campaign already holds the maximum number of Creatives");
+		expect(
+			resolveErrorMessage(
+				{ code: "CREATIVE_DURATION_NOT_ALLOWED", message: "from the server" },
+				"en",
+			),
+		).toBe("A still image has no duration");
+		expect(
+			resolveErrorMessage(
+				{ code: "CREATIVE_NOT_FOUND", message: "from the server" },
+				"en",
+			),
+		).toBe("Creative not found");
+	});
+
 	it("keeps the server message when the code is unknown", () => {
 		expect(
 			resolveErrorMessage(

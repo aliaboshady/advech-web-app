@@ -31,7 +31,10 @@ export function CampaignCreativePage({ id, campaign }: Props) {
 				activeTabId={3}
 			/>
 			<CampaignEditableRegion status={campaign.status}>
-				<CreativeForm />
+				<CreativeForm
+					campaignId={id}
+					creative={campaign.creatives[0] ?? null}
+				/>
 			</CampaignEditableRegion>
 		</PageLayout>
 	);
