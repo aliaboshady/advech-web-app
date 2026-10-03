@@ -108,7 +108,6 @@ function LookupManagementScreen({ resource }: LookupManagementPageProps) {
 						isLoading={isLoading}
 						isUpdating={isUpdating}
 						showWindow={resource.hasScheduleWindow === true}
-						emptyAction={addButton}
 						onEdit={(entry) => setEditor({ mode: "edit", entry })}
 						onSetActive={(entry, isActive) => {
 							void changeActive(entry, isActive);

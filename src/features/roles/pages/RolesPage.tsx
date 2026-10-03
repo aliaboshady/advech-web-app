@@ -94,7 +94,6 @@ export function RolesPage({ roles }: RolesPageProps) {
 					<NoDataFound
 						title={t("admin.roles.empty")}
 						description={t("admin.roles.emptyDescription")}
-						action={createButton}
 					/>
 				) : (
 					<DataTable

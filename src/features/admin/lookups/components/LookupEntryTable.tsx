@@ -18,8 +18,6 @@ type LookupEntryTableProps = {
 	readonly showWindow: boolean;
 	readonly onEdit: (entry: LookupEntry) => void;
 	readonly onSetActive: (entry: LookupEntry, isActive: boolean) => void;
-	/** Shown in the empty state, usually the "Add entry" button. */
-	readonly emptyAction?: React.ReactNode;
 };
 
 function ScheduleWindowCell({ entry }: { readonly entry: LookupEntry }) {
@@ -80,7 +78,6 @@ export function LookupEntryTable({
 	showWindow,
 	onEdit,
 	onSetActive,
-	emptyAction,
 }: LookupEntryTableProps) {
 	const { t } = useTranslation();
 	if (!isLoading && entries.length === 0) {
@@ -88,7 +85,6 @@ export function LookupEntryTable({
 			<NoDataFound
 				title={t("admin.lookups.empty")}
 				description={t("admin.lookups.emptyDescription")}
-				action={emptyAction}
 			/>
 		);
 	}

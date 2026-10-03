@@ -15,8 +15,6 @@ export function AdminHomePage() {
 		<PageLayout
 			title={t("admin.home.title")}
 			description={t("admin.home.welcome")}
-		>
-			{null}
-		</PageLayout>
+		/>
 	);
 }

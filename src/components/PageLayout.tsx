@@ -9,7 +9,7 @@ type Props = {
 	actions?: React.ReactNode;
 	breadcrumbs?: BreadcrumbItem[];
 	className?: string;
-	children: React.ReactNode;
+	children?: React.ReactNode;
 };
 
 /**
