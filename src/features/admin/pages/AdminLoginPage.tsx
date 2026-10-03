@@ -13,7 +13,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { ADMIN_HOME } from "@/features/access/decide-route";
+import { signedInLeavePublic } from "@/features/access/decide-route";
 import { LanguageAndTheme } from "@/features/auth/components/LanguageAndTheme";
 import { LoginPayload, LoginResponse } from "@/features/auth/types";
 import useRequest from "@/hooks/useRequest";
@@ -25,13 +25,6 @@ import { ServerResponse } from "@/types";
 import { loginAdmin } from "../api/login-admin";
 
 const adminLoginRoute = getRouteApi("/_public/auth/admin/login");
-
-function safeRedirectPath(redirectUrl: string | undefined): string {
-	if (redirectUrl?.startsWith("/") && !redirectUrl.startsWith("//")) {
-		return redirectUrl;
-	}
-	return ADMIN_HOME;
-}
 
 export function AdminLoginPage() {
 	const router = useRouter();
@@ -49,7 +42,17 @@ export function AdminLoginPage() {
 				startTopLoader();
 				saveTokens(accessToken, refreshToken);
 				await router.invalidate();
-				await router.navigate({ href: safeRedirectPath(redirectUrl) });
+				const navigation = signedInLeavePublic({
+					actor: { actorType: "ADMIN" },
+					redirectUrl,
+				});
+				if (navigation.kind === "href") {
+					await router.navigate({ href: navigation.href });
+					return;
+				}
+				if (navigation.kind === "to" && navigation.to === "/") {
+					await router.navigate({ to: "/" });
+				}
 			}
 		},
 	});

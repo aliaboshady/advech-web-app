@@ -83,7 +83,7 @@ const useRequest = <P, R>(
 					requestSessionRefresh();
 				}
 				onError?.(normalizedError);
-				if (showErrorToast && !permissionDenied) {
+				if (showErrorToast) {
 					toast.error(resolveErrorMessage(normalizedError, i18n.language));
 				}
 

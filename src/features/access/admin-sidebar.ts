@@ -1,4 +1,5 @@
 import { AdminAccess } from "./admin-access";
+import { adminHasNoRoles } from "./admin-has-no-roles";
 import { mayAdmin } from "./may-admin";
 
 export type AdminSidebarLabelKey = "admin.sidebar.home";
@@ -35,4 +36,36 @@ export function visibleAdminSidebarEntries(
 		}
 		return mayAdmin(access, entry.permissionKey);
 	});
+}
+
+function entryMatchesPath(entry: AdminSidebarEntry, pathname: string): boolean {
+	if (entry.path === "/admin") {
+		return pathname === "/admin";
+	}
+	return pathname === entry.path || pathname.startsWith(`${entry.path}/`);
+}
+
+/**
+ * Whether this Admin may see the page at `pathname` after `me` is refetched.
+ * An ungated entry such as home is open unless the Admin has no Roles.
+ */
+export function adminMayOpenPath(
+	access: AdminAccess | null,
+	pathname: string,
+	catalog: readonly AdminSidebarEntry[] = adminSidebarCatalog,
+): boolean {
+	if (access === null || adminHasNoRoles(access)) {
+		return false;
+	}
+	const matches = catalog.filter((entry) => entryMatchesPath(entry, pathname));
+	const entry = matches.sort(
+		(left, right) => right.path.length - left.path.length,
+	)[0];
+	if (entry === undefined) {
+		return false;
+	}
+	if (entry.permissionKey === undefined) {
+		return true;
+	}
+	return mayAdmin(access, entry.permissionKey);
 }
