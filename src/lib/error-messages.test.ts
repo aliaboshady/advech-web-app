@@ -109,6 +109,12 @@ describe("resolveErrorMessage", () => {
 				"ar",
 			),
 		).toBe("هذا الرمز مستخدم بالفعل");
+		expect(
+			resolveErrorMessage(
+				{ code: "ADMIN_ALREADY_ACTIVE", message: "from the server" },
+				"en",
+			),
+		).toBe("This person is already an active Admin");
 	});
 
 	it("keeps the server message when the code is unknown", () => {

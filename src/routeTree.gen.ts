@@ -15,6 +15,7 @@ import { Route as PrivateIndexRouteImport } from './routes/_private/index'
 import { Route as PrivateAdminRouteRouteImport } from './routes/_private/admin/route'
 import { Route as PrivateAdminIndexRouteImport } from './routes/_private/admin/index'
 import { Route as PrivateAdminInterestsRouteImport } from './routes/_private/admin/interests'
+import { Route as PrivateAdminInvitesRouteImport } from './routes/_private/admin/invites'
 import { Route as PrivateAdminObjectivesRouteImport } from './routes/_private/admin/objectives'
 import { Route as PrivateAdminVenueTypesRouteImport } from './routes/_private/admin/venue-types'
 import { Route as PrivateCampaignsIndexRouteImport } from './routes/_private/campaigns/index'
@@ -57,6 +58,11 @@ const PrivateAdminIndexRoute = PrivateAdminIndexRouteImport.update({
 const PrivateAdminInterestsRoute = PrivateAdminInterestsRouteImport.update({
   id: '/interests',
   path: '/interests',
+  getParentRoute: () => PrivateAdminRouteRoute,
+} as any)
+const PrivateAdminInvitesRoute = PrivateAdminInvitesRouteImport.update({
+  id: '/invites',
+  path: '/invites',
   getParentRoute: () => PrivateAdminRouteRoute,
 } as any)
 const PrivateAdminObjectivesRoute = PrivateAdminObjectivesRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof PrivateAdminRouteRouteWithChildren
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/admin/interests': typeof PrivateAdminInterestsRoute
+  '/admin/invites': typeof PrivateAdminInvitesRoute
   '/admin/objectives': typeof PrivateAdminObjectivesRoute
   '/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/admin/interests': typeof PrivateAdminInterestsRoute
+  '/admin/invites': typeof PrivateAdminInvitesRoute
   '/admin/objectives': typeof PrivateAdminObjectivesRoute
   '/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/_private/': typeof PrivateIndexRoute
   '/_private/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/_private/admin/interests': typeof PrivateAdminInterestsRoute
+  '/_private/admin/invites': typeof PrivateAdminInvitesRoute
   '/_private/admin/objectives': typeof PrivateAdminObjectivesRoute
   '/_private/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/_private/campaigns/new': typeof PrivateCampaignsNewRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/campaigns/$id'
     | '/admin/interests'
+    | '/admin/invites'
     | '/admin/objectives'
     | '/admin/venue-types'
     | '/campaigns/new'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/'
     | '/campaigns/$id'
     | '/admin/interests'
+    | '/admin/invites'
     | '/admin/objectives'
     | '/admin/venue-types'
     | '/campaigns/new'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/_private/'
     | '/_private/campaigns/$id'
     | '/_private/admin/interests'
+    | '/_private/admin/invites'
     | '/_private/admin/objectives'
     | '/_private/admin/venue-types'
     | '/_private/campaigns/new'
@@ -320,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/interests'
       fullPath: '/admin/interests'
       preLoaderRoute: typeof PrivateAdminInterestsRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/invites': {
+      id: '/_private/admin/invites'
+      path: '/invites'
+      fullPath: '/admin/invites'
+      preLoaderRoute: typeof PrivateAdminInvitesRouteImport
       parentRoute: typeof PrivateAdminRouteRoute
     }
     '/_private/admin/objectives': {
@@ -432,6 +451,7 @@ declare module '@tanstack/react-router' {
 
 interface PrivateAdminRouteRouteChildren {
   PrivateAdminInterestsRoute: typeof PrivateAdminInterestsRoute
+  PrivateAdminInvitesRoute: typeof PrivateAdminInvitesRoute
   PrivateAdminObjectivesRoute: typeof PrivateAdminObjectivesRoute
   PrivateAdminVenueTypesRoute: typeof PrivateAdminVenueTypesRoute
   PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
@@ -439,6 +459,7 @@ interface PrivateAdminRouteRouteChildren {
 
 const PrivateAdminRouteRouteChildren: PrivateAdminRouteRouteChildren = {
   PrivateAdminInterestsRoute: PrivateAdminInterestsRoute,
+  PrivateAdminInvitesRoute: PrivateAdminInvitesRoute,
   PrivateAdminObjectivesRoute: PrivateAdminObjectivesRoute,
   PrivateAdminVenueTypesRoute: PrivateAdminVenueTypesRoute,
   PrivateAdminIndexRoute: PrivateAdminIndexRoute,

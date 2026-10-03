@@ -10,7 +10,8 @@ export type AdminSidebarLabelKey =
 	| "admin.sidebar.home"
 	| "admin.sidebar.objectives"
 	| "admin.sidebar.interests"
-	| "admin.sidebar.venueTypes";
+	| "admin.sidebar.venueTypes"
+	| "admin.sidebar.invites";
 
 export type AdminSidebarEntry = {
 	readonly id: string;
@@ -31,6 +32,12 @@ export const adminSidebarCatalog: readonly AdminSidebarEntry[] = [
 		permissionKey: LOOKUPS_MANAGE,
 		labelKey: resource.labelKey,
 	})),
+	{
+		id: "invites",
+		path: "/admin/invites",
+		permissionKey: "admins:invite",
+		labelKey: "admin.sidebar.invites",
+	},
 ];
 
 /**

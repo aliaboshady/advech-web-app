@@ -111,16 +111,17 @@ describe("visibleAdminSidebarEntries", () => {
 		).toBe(false);
 	});
 
-	it("lists home and the Lookup screens from the catalog that ships today", () => {
+	it("lists home, the Lookup screens and invites from the catalog that ships today", () => {
 		const superAdmin = {
 			isSuperAdmin: true,
 			roles: [{ id: "role-super-admin", name: "Super admin" }],
-			permissions: ["lookups:manage", "roles:manage"],
+			permissions: ["lookups:manage", "roles:manage", "admins:invite"],
 		};
 		expect(
 			visibleAdminSidebarEntries(superAdmin).map((entry) => entry.id),
-		).toEqual(["home", "objectives", "interests", "venue-types"]);
+		).toEqual(["home", "objectives", "interests", "venue-types", "invites"]);
 		expect(adminMayOpenPath(superAdmin, "/admin/objectives")).toBe(true);
+		expect(adminMayOpenPath(superAdmin, "/admin/invites")).toBe(true);
 	});
 
 	it("hides the Lookup screens from an Admin without lookups:manage", () => {
@@ -135,5 +136,30 @@ describe("visibleAdminSidebarEntries", () => {
 		expect(adminMayOpenPath(drivers, "/admin/objectives")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/interests")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/venue-types")).toBe(false);
+	});
+
+	it("hides invites from an Admin without admins:invite", () => {
+		expect(
+			visibleAdminSidebarEntries({
+				isSuperAdmin: false,
+				roles: [{ id: "role-lookups", name: "Lookups" }],
+				permissions: ["lookups:manage"],
+			}).map((entry) => entry.id),
+		).toEqual(["home", "objectives", "interests", "venue-types"]);
+	});
+
+	it("opens the invites path only when admins:invite is held", () => {
+		const withInvite = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-invites", name: "Invites" }],
+			permissions: ["admins:invite"],
+		};
+		const withoutInvite = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-lookups", name: "Lookups" }],
+			permissions: ["lookups:manage"],
+		};
+		expect(adminMayOpenPath(withInvite, "/admin/invites")).toBe(true);
+		expect(adminMayOpenPath(withoutInvite, "/admin/invites")).toBe(false);
 	});
 });

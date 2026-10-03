@@ -5,6 +5,7 @@ import {
 	type LucideIcon,
 	Sparkles,
 	Target,
+	UserPlus,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AppSidebarHeader } from "@/components/AppSidebar/AppSidebarHeader";
@@ -24,6 +25,7 @@ const entryIcons: Record<string, LucideIcon> = {
 	objectives: Target,
 	interests: Sparkles,
 	"venue-types": Building2,
+	invites: UserPlus,
 };
 
 /** Sidebar entries this Admin may open. Later screens extend the catalog. */

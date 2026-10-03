@@ -274,7 +274,8 @@
 		"USER_SUSPENDED": "This account is suspended. Contact another Admin",
 		"PERMISSION_DENIED": "You do not have access to this",
 		"LOOKUP_CODE_TAKEN": "That code is already used",
-		"LOOKUP_NOT_FOUND": "That entry no longer exists"
+		"LOOKUP_NOT_FOUND": "That entry no longer exists",
+		"ADMIN_ALREADY_ACTIVE": "This person is already an active Admin"
 	},
 	"admin": {
 		"login": {
@@ -287,7 +288,8 @@
 			"home": "Home",
 			"objectives": "Objectives",
 			"interests": "Interests",
-			"venueTypes": "Venue types"
+			"venueTypes": "Venue types",
+			"invites": "Invites"
 		},
 		"lookups": {
 			"add": "Add entry",
@@ -330,6 +332,14 @@
 				"title": "Venue types",
 				"description": "Venue types an Advertiser can target."
 			}
+		},
+		"invites": {
+			"title": "Invite an Admin",
+			"description": "Send an invite by email so they can join the back-office.",
+			"submit": "Send invite",
+			"submitting": "Sending invite...",
+			"sent": "Invite sent to {{email}}. It expires {{expiresAt}}.",
+			"devToken": "Dev invite token: {{token}}"
 		},
 		"home": {
 			"title": "Home",
