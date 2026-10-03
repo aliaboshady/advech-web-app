@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AppSidebarHeader } from "@/components/AppSidebar/AppSidebarHeader";
+import { sidebarItemClassName } from "@/components/AppSidebar/sidebar-item-style";
 import {
 	Sidebar,
 	SidebarContent,
@@ -70,11 +71,7 @@ export function AdminSidebar(props: React.ComponentProps<typeof Sidebar>) {
 										tooltip={label}
 										asChild
 										isActive={isActive}
-										className={
-											!isActive
-												? "hover:bg-primary/20"
-												: "hover:bg-primary text-white! hover:text-white dark:hover:text-black pointer-events-none"
-										}
+										className={sidebarItemClassName(isActive)}
 									>
 										<Link
 											to={entry.path}

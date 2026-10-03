@@ -102,26 +102,25 @@ export function SearchBox({
 						}
 					}}
 					placeholder={placeholder ?? t("common.searchPlace")}
-					className="w-full rounded-xl border border-input bg-background px-3 py-3 text-base text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+					className="w-full rounded-md border border-input bg-card px-3 py-2.5 text-body-md text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
 				/>
 
 				<Tooltip>
 					<TooltipTrigger asChild>
-						<Info className="bg-background rounded-full w-7 h-7 p-1" />
+						<Info
+							aria-label={t("common.mapPlaceHint")}
+							className="size-7 shrink-0 rounded-full border border-border bg-card p-1 text-muted-foreground"
+						/>
 					</TooltipTrigger>
 
-					<TooltipContent
-						sideOffset={5}
-						side="bottom"
-						className="text-white bg-black [&_svg]:bg-black! [&_svg]:fill-black!"
-					>
-						<p>{t("locale:Double click to mark area")}</p>
+					<TooltipContent sideOffset={5} side="bottom">
+						<p>{t("common.mapPlaceHint")}</p>
 					</TooltipContent>
 				</Tooltip>
 			</div>
 
 			{predictions.length > 0 && (
-				<div className="mt-1 w-full overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-lg">
+				<div className="mt-1 w-full overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-lg">
 					{predictions.map((prediction) => (
 						<div
 							key={prediction.placeId}
@@ -130,21 +129,25 @@ export function SearchBox({
 							<button
 								type="button"
 								onClick={() => handleSelect(prediction)}
-								className="min-w-0 flex-1 px-3 py-2.5 text-end text-sm transition hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+								className="min-w-0 flex-1 px-3 py-2.5 text-start text-body-md transition hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
 							>
 								<div className="truncate font-medium">
 									{prediction.mainText?.text}
 								</div>
 
-								<div className="truncate text-xs text-muted-foreground">
+								<div className="truncate text-body-md text-muted-foreground">
 									{prediction.secondaryText?.text}
 								</div>
 							</button>
 
-							<MapPinPlusIcon
+							<button
+								type="button"
+								aria-label={t("common.mapPlaceHint")}
 								onClick={() => handleMark(prediction)}
-								className="me-2 shrink-0 rounded-md w-7 h-7 p-1 font-medium transition hover:bg-accent text-primary focus:outline-none"
-							/>
+								className="me-2 shrink-0 rounded-md p-1 text-muted-foreground transition hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+							>
+								<MapPinPlusIcon aria-hidden className="size-5" />
+							</button>
 						</div>
 					))}
 				</div>

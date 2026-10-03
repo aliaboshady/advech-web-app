@@ -33,12 +33,13 @@ export function DropdownItemsPerPage({
 		<DropdownMenu onOpenChange={setOpen}>
 			<DropdownMenuTrigger asChild className="pointer-events-auto">
 				<Button
-					variant="ghost"
-					className="p-2 text-white hover:text-white font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary data-[state=open]:text-white"
+					variant="outline"
+					size="sm"
+					className="font-medium data-[state=open]:bg-accent"
 				>
 					{t(itemsPerPageList[itemsPerPage?.toString()]?.toString() as any)}
 					<ChevronDownIcon
-						className={`text-white transition-transform ${
+						className={`text-current transition-transform ${
 							open ? "rotate-180" : ""
 						}`}
 					/>

@@ -11,6 +11,7 @@ import { Slider } from "../ui/slider";
 import { MapMarker } from "./MapMarker";
 import { SearchBox } from "./SearchBox";
 import { SearchController } from "./SearchController";
+import { useMapTheme } from "./use-map-theme";
 
 const MAP_ID = import.meta.env.VITE_GOOGLE_MAPS_MAP_ID;
 const EARTH_RADIUS_METERS = 6371000;
@@ -126,6 +127,7 @@ export function GoogleMaps({
 	onMovementChange,
 	isMoving = true,
 }: Props) {
+	const { colorScheme } = useMapTheme();
 	const [places, setPlaces] = useState<Place[]>([]);
 	const [searchedPlace, setSearchedPlace] = useState<Place | null>(null);
 	const effectiveMarkerRadiusKm = isMoving
@@ -176,17 +178,17 @@ export function GoogleMaps({
 					/>
 				</div>
 
-				<div className="absolute flex flex-row gap-1 items-center bottom-5 inset-s-0 inset-e-0 z-10 mx-auto w-fit rounded-lg bg-background/95 p-2 shadow-md backdrop-blur-sm @md/map:inset-s-auto @md/map:inset-e-5 @md/map:mx-0">
+				<div className="absolute flex flex-row gap-1 items-center bottom-5 inset-s-0 inset-e-0 z-10 mx-auto w-fit rounded-lg border border-border bg-card p-2 shadow-md @md/map:inset-s-auto @md/map:inset-e-5 @md/map:mx-0">
 					{isMoving && (
 						<div className="relative group">
 							<p
 								dir="ltr"
-								className="w-11 rtl:text-start ltr:text-end text-sm font-medium tabular-nums"
+								className="w-11 text-end text-body-md font-medium tabular-nums"
 							>
 								{markerRadiusKm} km
 							</p>
 
-							<div className="pointer-events-none absolute bottom-full inset-s-0 inset-e-0 mx-auto flex w-8 flex-col items-center gap-1 rounded-lg bg-background/95 p-2 opacity-0 shadow-md transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
+							<div className="pointer-events-none absolute bottom-full inset-s-0 inset-e-0 mx-auto flex w-8 flex-col items-center gap-1 rounded-lg border border-border bg-card p-2 opacity-0 shadow-md transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
 								<Slider
 									id="mapMarkerRadiusKm"
 									orientation="vertical"
@@ -213,7 +215,9 @@ export function GoogleMaps({
 				<AppMap
 					defaultCenter={{ lat: 30.0444, lng: 31.2357 }}
 					defaultZoom={11}
+					key={colorScheme}
 					mapId={MAP_ID}
+					colorScheme={colorScheme}
 					className="h-full w-full"
 					onDblclick={handleMapClick}
 					disableDoubleClickZoom

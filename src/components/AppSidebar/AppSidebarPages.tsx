@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { type LucideIcon } from "lucide-react";
+import { sidebarItemClassName } from "@/components/AppSidebar/sidebar-item-style";
 import {
 	SidebarGroup,
 	SidebarMenu,
@@ -34,11 +35,7 @@ export function AppSidebarPages({
 								tooltip={item.name}
 								asChild
 								isActive={isActive}
-								className={
-									!isActive
-										? "hover:bg-primary/20"
-										: "hover:bg-primary text-white! hover:text-white dark:hover:text-black pointer-events-none"
-								}
+								className={sidebarItemClassName(isActive)}
 							>
 								<Link to={item.url}>
 									<item.icon />

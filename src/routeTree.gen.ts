@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivateRouteRouteImport } from './routes/_private/route'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
+import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
 import { Route as PrivateAdminRouteRouteImport } from './routes/_private/admin/route'
 import { Route as PrivateAdminIndexRouteImport } from './routes/_private/admin/index'
@@ -48,6 +49,11 @@ const PrivateRouteRoute = PrivateRouteRouteImport.update({
 } as any)
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignSystemRoute = DesignSystemRouteImport.update({
+  id: '/design-system',
+  path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivateIndexRoute = PrivateIndexRouteImport.update({
@@ -215,6 +221,7 @@ const PublicAuthAdminRequestPasswordResetRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
+  '/design-system': typeof DesignSystemRoute
   '/admin': typeof PrivateAdminRouteRouteWithChildren
   '/admin/roles': typeof PrivateAdminRolesRouteRouteWithChildren
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
@@ -247,6 +254,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
+  '/design-system': typeof DesignSystemRoute
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/admin/interests': typeof PrivateAdminInterestsRoute
   '/admin/invites': typeof PrivateAdminInvitesRoute
@@ -279,6 +287,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_private': typeof PrivateRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
+  '/design-system': typeof DesignSystemRoute
   '/_private/admin': typeof PrivateAdminRouteRouteWithChildren
   '/_private/': typeof PrivateIndexRoute
   '/_private/admin/roles': typeof PrivateAdminRolesRouteRouteWithChildren
@@ -314,6 +323,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/design-system'
     | '/admin'
     | '/admin/roles'
     | '/campaigns/$id'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/design-system'
     | '/campaigns/$id'
     | '/admin/interests'
     | '/admin/invites'
@@ -377,6 +388,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_private'
     | '/_public'
+    | '/design-system'
     | '/_private/admin'
     | '/_private/'
     | '/_private/admin/roles'
@@ -412,6 +424,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   PrivateRouteRoute: typeof PrivateRouteRouteWithChildren
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
+  DesignSystemRoute: typeof DesignSystemRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -428,6 +441,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof PublicRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system': {
+      id: '/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_private/': {
@@ -761,6 +781,7 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   PrivateRouteRoute: PrivateRouteRouteWithChildren,
   PublicRouteRoute: PublicRouteRouteWithChildren,
+  DesignSystemRoute: DesignSystemRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

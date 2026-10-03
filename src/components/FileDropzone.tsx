@@ -1,8 +1,15 @@
-import { UploadIcon, XIcon } from "lucide-react";
-import { useCallback } from "react";
+import {
+	CircleAlertIcon,
+	CircleCheckIcon,
+	UploadIcon,
+	XIcon,
+} from "lucide-react";
+import { useCallback, useState } from "react";
 import { Accept, FileRejection, useDropzone } from "react-dropzone";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { cn } from "@/lib/utils";
+import { type DropzoneState, dropzoneState } from "./file-dropzone-state";
 
 type FileType = "video" | "image" | "docs" | "all";
 
@@ -26,6 +33,8 @@ type Props = {
 	accept?: Accept;
 	resolution?: Resolution;
 	maxSize?: number;
+	/** A failure to show inside the dropzone, e.g. a rejected or failed upload. */
+	error?: string;
 };
 
 function getMediaDimensions(file: File): Promise<Dimensions> {
@@ -138,8 +147,10 @@ export default function FileUploadDropzone({
 	accept,
 	resolution,
 	maxSize = 5 * 1024 * 1024, // 5Mb
+	error,
 }: Props) {
 	const { t } = useTranslation();
+	const [rejection, setRejection] = useState("");
 
 	const onDrop = useCallback(
 		async (acceptedFiles: File[]) => {
@@ -163,6 +174,7 @@ export default function FileUploadDropzone({
 				}
 			}
 
+			setRejection("");
 			setFile(acceptedFile);
 		},
 		[resolution, setFile, t],
@@ -170,23 +182,29 @@ export default function FileUploadDropzone({
 
 	const onDropRejected = useCallback(
 		(fileRejections: FileRejection[]) => {
+			let firstMessage = "";
 			fileRejections.forEach(({ file, errors }) => {
 				const reason = errors
-					.map((error) => {
-						if (error.code === "file-too-large") {
-							return `the file is larger than the ${formatFileSize(maxSize)} limit`;
+					.map((rejectionError) => {
+						if (rejectionError.code === "file-too-large") {
+							return t("dropzone.tooLarge", { size: formatFileSize(maxSize) });
 						}
-						if (error.code === "file-too-small") {
-							return "the file is smaller than the minimum allowed size";
+						if (rejectionError.code === "file-too-small") {
+							return t("dropzone.tooSmall");
 						}
-						return error.message;
+						if (rejectionError.code === "file-invalid-type") {
+							return t("dropzone.invalidType");
+						}
+						return rejectionError.message;
 					})
 					.join(" ");
-
-				toast.error(`"${file.name}" could not be uploaded because ${reason}`);
+				const message = t("dropzone.rejected", { name: file.name, reason });
+				firstMessage ||= message;
+				toast.error(message);
 			});
+			setRejection(firstMessage);
 		},
-		[maxSize],
+		[maxSize, t],
 	);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -198,53 +216,99 @@ export default function FileUploadDropzone({
 		disabled: isUploading,
 	});
 
+	const shownError = error || rejection;
+	const state = dropzoneState({
+		isDragActive,
+		isUploading: Boolean(isUploading),
+		hasFile: file !== null,
+		hasError: shownError !== "",
+	});
 	return (
-		<div className="w-full h-full flex flex-col items-center gap-4">
-			<div
-				{...getRootProps()}
-				className={`w-full h-full border-2 border-dashed rounded-lg p-8 flex flex-col justify-center items-center gap-4 text-center cursor-pointer transition-colors relative
-          ${isDragActive ? "border-primary bg-secondary" : "border-gray-300"}
-          ${isUploading ? "opacity-50 cursor-not-allowed" : ""}
-        `}
-			>
-				<input {...getInputProps()} />
-				{isUploading ? (
-					<div className="flex flex-col items-center gap-2">
-						<div className="animate-spin rounded-full h-6 w-6 border-t-2 border-primary border-solid" />
-						<p className="text-gray-500 text-xs">
-							{t("locale:DRAG_UPLOADING")}
-						</p>
-					</div>
-				) : isDragActive ? (
-					<div className="flex flex-col items-center gap-2">
-						<UploadIcon className="text-primary" />
-						<p className="text-xs">{t("locale:DRAG_ACTIVE")}</p>
-					</div>
-				) : (
-					<div className="flex flex-col items-center gap-2">
-						<UploadIcon className="text-primary" />
-						<p className="text-xs">{t("locale:DRAG_IDLE")}</p>
-					</div>
-				)}
-
-				<div
-					className={`${!file && "opacity-0"} flex items-center justify-between w-full max-w-md border rounded-md px-3 py-2 bg-gray-50`}
-				>
-					<span className="truncate text-sm text-gray-700">{file?.name}</span>
-
-					<button
-						type="button"
-						onClick={(e) => {
-							e.stopPropagation();
-							setFile(null);
-						}}
-						disabled={isUploading}
-						className="text-gray-500 hover:text-red-500 transition-colors text-lg font-bold"
+		<div
+			{...getRootProps()}
+			aria-busy={state === "uploading"}
+			className={cn(
+				"flex min-h-48 w-full flex-col items-center justify-center gap-3 rounded-lg border-2 p-6 text-center transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+				STATE_STYLES[state],
+			)}
+		>
+			<input {...getInputProps()} />
+			{state === "uploading" ? (
+				<>
+					<p className="text-body-md font-medium">{t("dropzone.uploading")}</p>
+					<div
+						role="progressbar"
+						aria-label={t("dropzone.uploading")}
+						className="h-2 w-full max-w-xs overflow-hidden rounded-full bg-muted rtl:-scale-x-100"
 					>
-						<XIcon />
-					</button>
-				</div>
-			</div>
+						<div className="h-full w-1/3 animate-indeterminate rounded-full bg-primary motion-reduce:w-full motion-reduce:animate-none motion-reduce:opacity-60" />
+					</div>
+					{file ? (
+						<p className="max-w-full truncate text-body-md text-muted-foreground">
+							{file.name}
+						</p>
+					) : null}
+				</>
+			) : (
+				<>
+					{state === "error" ? (
+						<CircleAlertIcon aria-hidden className="size-6" />
+					) : state === "selected" ? (
+						<CircleCheckIcon aria-hidden className="size-6" />
+					) : (
+						<UploadIcon
+							aria-hidden
+							className={cn(
+								"size-6",
+								state === "dragOver"
+									? "text-foreground"
+									: "text-muted-foreground",
+							)}
+						/>
+					)}
+					<p className="text-body-md font-medium">
+						{state === "dragOver"
+							? t("dropzone.dragOver")
+							: state === "selected"
+								? t("dropzone.ready")
+								: t("dropzone.idle")}
+					</p>
+					{state === "error" ? (
+						<p role="alert" className="text-body-md">
+							{shownError}
+						</p>
+					) : null}
+					{file ? (
+						<div className="flex w-full max-w-md items-center justify-between gap-2 rounded-md border border-border bg-card px-3 py-2 text-card-foreground">
+							<span className="truncate text-body-md">{file.name}</span>
+							<button
+								type="button"
+								aria-label={t("dropzone.remove")}
+								onClick={(e) => {
+									e.stopPropagation();
+									setRejection("");
+									setFile(null);
+								}}
+								className="shrink-0 rounded-sm text-muted-foreground transition-colors hover:text-destructive focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+							>
+								<XIcon aria-hidden className="size-4" />
+							</button>
+						</div>
+					) : null}
+				</>
+			)}
 		</div>
 	);
 }
+
+const STATE_STYLES: Record<DropzoneState, string> = {
+	idle: "cursor-pointer border-dashed border-input bg-background text-foreground hover:bg-accent",
+	dragOver:
+		"cursor-copy border-dashed border-foreground bg-accent text-foreground",
+	uploading:
+		"cursor-progress border-dashed border-border bg-background text-foreground",
+	selected:
+		"cursor-pointer border-solid border-success bg-success-soft text-success-soft-foreground",
+	error:
+		"cursor-pointer border-dashed border-destructive bg-destructive-soft text-destructive-soft-foreground",
+};

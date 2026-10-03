@@ -1,5 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { LoadErrorState } from "@/components/LoadErrorState";
 import { PageLayout } from "@/components/PageLayout";
+import { Button } from "@/components/ui/button";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { ErrorResponse } from "@/types";
 import { RoleForm } from "../components/RoleForm";
@@ -32,9 +35,14 @@ export function RoleFormPage({
 			: t("errors.ROLE_NOT_FOUND");
 		return (
 			<PageLayout breadcrumbs={breadcrumbs}>
-				<p className="text-sm text-destructive" role="alert">
-					{message}
-				</p>
+				<LoadErrorState
+					description={message}
+					action={
+						<Button variant="outline" asChild>
+							<Link to="/admin/roles">{t("admin.roles.back")}</Link>
+						</Button>
+					}
+				/>
 			</PageLayout>
 		);
 	}

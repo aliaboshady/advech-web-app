@@ -48,13 +48,13 @@ export function AdvertiserQueueFilter({
 		}
 	};
 	return (
-		<div className="flex flex-col gap-4 @lg/pageLayout:flex-row">
+		<div className="flex w-full flex-col gap-2 @lg/pageLayout:flex-row">
 			<TextInput
 				className="w-full @lg/pageLayout:w-1/2"
 				placeholder={t("admin.advertisers.search")}
 				value={search}
 				setValue={onSearchChange}
-				icon={<SearchIcon size={15} className="text-neutral-500" />}
+				icon={<SearchIcon size={15} className="text-muted-foreground" />}
 			/>
 			<Dropdown
 				items={statusItems}

@@ -16,20 +16,22 @@ type Props = {
 export function HeaderTabs({ url, activeTabId, tabs }: Props) {
 	return (
 		<div className="flex justify-center">
-			<div className="flex flex-row gap-4 items-center py-4 overflow-x-auto scrollbar-thin transition-all">
+			<div className="scrollbar-thin flex flex-row items-center gap-2 overflow-x-auto px-1 py-2 sm:gap-4">
 				{tabs.map((tab, i) => (
-					<Fragment key={i}>
+					<Fragment key={tab.id}>
 						<Tab
 							title={tab.title}
 							activeTabId={tab.id === activeTabId}
 							redirect={`${url}/${tab.url}`}
 							disabled={tab.disabled}
 							done={tab.done}
-							// submit={handleSubmit}
 						/>
 
 						{i < tabs.length - 1 && (
-							<div className="w-20 border-t border-dashed border-primary -translate-y-3" />
+							<div
+								aria-hidden="true"
+								className="w-8 -translate-y-3 border-t border-dashed border-border sm:w-20"
+							/>
 						)}
 					</Fragment>
 				))}

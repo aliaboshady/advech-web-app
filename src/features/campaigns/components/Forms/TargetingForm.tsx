@@ -2,10 +2,10 @@ import { useRouter } from "@tanstack/react-router";
 import { FormikProps, useFormik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import Dropdown from "@/components/Inputs/Dropdown";
 import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { LookupItem, SchedulePresetOption } from "@/features/lookups/types";
 import { Zone } from "@/features/zones/types";
 import useRequest from "@/hooks/useRequest";
@@ -29,8 +29,10 @@ import {
 	UpdateCampaignTargetingPayload,
 	ZoneRole,
 } from "../../types";
+import { ChoiceButton } from "./ChoiceButton";
 import { DaypartingFields } from "./DaypartingFields";
 import { FieldMessage } from "./FieldMessage";
+import { FormField } from "./FormField";
 import { ZoneFields, ZoneOption } from "./ZoneFields";
 
 const TARGETING_FIELD_NAMES: Record<string, string> = {
@@ -203,36 +205,45 @@ export function TargetingForm({
 	return (
 		<form
 			onSubmit={formik.handleSubmit}
-			className="@container bg-primary-foreground w-full @sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl"
+			className="flex w-full flex-col gap-section"
 		>
-			<div className="flex flex-col gap-2 @xl:w-96">
-				<Label>{t("campaigns.targeting.timeZone")}</Label>
-				<Dropdown
-					items={timeZoneItems.map((zone) => ({
-						value: zone.id,
-						label: zone.name,
-					}))}
-					selected={formik.values.timeZoneId}
-					setSelected={(value: string) => {
-						formik.setFieldValue("timeZoneId", value);
-						formik.setFieldTouched("timeZoneId", true, false);
-					}}
-					disabled={isReadOnly}
-					placeholder={t("campaigns.targeting.timeZone")}
-					error={
-						fieldError("timeZoneId")
-							? `errors.${fieldError("timeZoneId")}`
-							: undefined
-					}
+			<FormSectionCard
+				title={t("campaigns.targeting.sections.timing")}
+				description={t("campaigns.targeting.sections.timingDescription")}
+			>
+				<FormField
+					label={t("campaigns.targeting.timeZone")}
+					hint={t("campaigns.targeting.timeZoneHint")}
+					error={fieldError("timeZoneId")}
+				>
+					<Dropdown
+						items={timeZoneItems.map((zone) => ({
+							value: zone.id,
+							label: zone.name,
+						}))}
+						selected={formik.values.timeZoneId}
+						setSelected={(value: string) => {
+							formik.setFieldValue("timeZoneId", value);
+							formik.setFieldTouched("timeZoneId", true, false);
+						}}
+						disabled={isReadOnly}
+						placeholder={t("campaigns.targeting.timeZone")}
+						error={fieldError("timeZoneId")}
+						hideErrorMessage
+						className="w-full text-body-md!"
+					/>
+				</FormField>
+				<DaypartingFields
+					formik={formik}
+					schedulePresets={schedulePresets}
+					readOnly={isReadOnly}
+					fieldError={fieldError}
 				/>
-			</div>
-			<DaypartingFields
-				formik={formik}
-				schedulePresets={schedulePresets}
-				readOnly={isReadOnly}
-				fieldError={fieldError}
-			/>
-			<div className="grid gap-4 @xl:grid-cols-2 @xl:w-[40rem]">
+			</FormSectionCard>
+			<FormSectionCard
+				title={t("campaigns.targeting.sections.audience")}
+				description={t("campaigns.targeting.sections.audienceDescription")}
+			>
 				<TextInput
 					name="minAge"
 					type="number"
@@ -255,78 +266,89 @@ export function TargetingForm({
 					onBlur={formik.handleBlur}
 					error={fieldError("maxAge")}
 				/>
-			</div>
-			<LookupMultiSelect
-				label={t("campaigns.targeting.interests")}
-				items={interests}
-				selected={formik.values.interestCodes}
-				readOnly={isReadOnly}
-				error={fieldError("interestCodes")}
-				onChange={(codes) => {
-					formik.setFieldValue("interestCodes", codes);
-					formik.setFieldValue("interestsEdited", true);
-				}}
-			/>
-			<LookupMultiSelect
-				label={t("campaigns.targeting.venueTypes")}
-				items={venueTypes}
-				selected={formik.values.venueTypeCodes}
-				readOnly={isReadOnly}
-				error={fieldError("venueTypeCodes")}
-				onChange={(codes) => {
-					formik.setFieldValue("venueTypeCodes", codes);
-					formik.setFieldValue("venueTypesEdited", true);
-				}}
-			/>
-			<TextInput
-				name="carsCount"
-				type="number"
-				label={t("campaigns.targeting.carsCount")}
-				placeholder="1"
-				value={formik.values.carsCount}
-				disabled={isReadOnly}
-				onChange={formik.handleChange}
-				onBlur={formik.handleBlur}
-				error={fieldError("carsCount")}
-				className="@xl:w-96"
-			/>
-			<DeliveryModeField
-				value={formik.values.deliveryMode}
-				readOnly={isReadOnly}
-				onChange={(mode) => {
-					formik.setFieldValue("deliveryMode", mode);
-				}}
-			/>
-			<ZoneFields
-				zones={zoneLibrary}
-				inclusionZoneIds={formik.values.inclusionZoneIds}
-				exclusionZoneIds={formik.values.exclusionZoneIds}
-				readOnly={isReadOnly}
-				inclusionError={fieldError("inclusionZoneIds")}
-				exclusionError={fieldError("exclusionZoneIds")}
-				onInclusionChange={(zoneIds) => {
-					formik.setFieldValue("inclusionZoneIds", zoneIds);
-					formik.setFieldValue("inclusionZonesEdited", true);
-				}}
-				onExclusionChange={(zoneIds) => {
-					formik.setFieldValue("exclusionZoneIds", zoneIds);
-					formik.setFieldValue("exclusionZonesEdited", true);
-				}}
-				onZoneCreated={(zone) => {
-					setZoneLibrary((current) =>
-						mergeZoneOptions([...current, zone], campaign.targeting.zones),
-					);
-				}}
-			/>
-			{zoneMessage && formik.submitCount > 0 ? (
-				<FieldMessage message={zoneMessage} />
-			) : null}
+				<LookupMultiSelect
+					label={t("campaigns.targeting.interests")}
+					items={interests}
+					selected={formik.values.interestCodes}
+					readOnly={isReadOnly}
+					error={fieldError("interestCodes")}
+					onChange={(codes) => {
+						formik.setFieldValue("interestCodes", codes);
+						formik.setFieldValue("interestsEdited", true);
+					}}
+				/>
+				<LookupMultiSelect
+					label={t("campaigns.targeting.venueTypes")}
+					items={venueTypes}
+					selected={formik.values.venueTypeCodes}
+					readOnly={isReadOnly}
+					error={fieldError("venueTypeCodes")}
+					onChange={(codes) => {
+						formik.setFieldValue("venueTypeCodes", codes);
+						formik.setFieldValue("venueTypesEdited", true);
+					}}
+				/>
+			</FormSectionCard>
+			<FormSectionCard
+				title={t("campaigns.targeting.sections.delivery")}
+				description={t("campaigns.targeting.sections.deliveryDescription")}
+			>
+				<TextInput
+					name="carsCount"
+					type="number"
+					label={t("campaigns.targeting.carsCount")}
+					placeholder="1"
+					value={formik.values.carsCount}
+					disabled={isReadOnly}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					error={fieldError("carsCount")}
+				/>
+				<DeliveryModeField
+					value={formik.values.deliveryMode}
+					readOnly={isReadOnly}
+					onChange={(mode) => {
+						formik.setFieldValue("deliveryMode", mode);
+					}}
+				/>
+			</FormSectionCard>
+			<FormSectionCard
+				title={t("campaigns.targeting.zones")}
+				description={t("campaigns.targeting.sections.zonesDescription")}
+			>
+				<ZoneFields
+					zones={zoneLibrary}
+					inclusionZoneIds={formik.values.inclusionZoneIds}
+					exclusionZoneIds={formik.values.exclusionZoneIds}
+					readOnly={isReadOnly}
+					inclusionError={fieldError("inclusionZoneIds")}
+					exclusionError={fieldError("exclusionZoneIds")}
+					onInclusionChange={(zoneIds) => {
+						formik.setFieldValue("inclusionZoneIds", zoneIds);
+						formik.setFieldValue("inclusionZonesEdited", true);
+					}}
+					onExclusionChange={(zoneIds) => {
+						formik.setFieldValue("exclusionZoneIds", zoneIds);
+						formik.setFieldValue("exclusionZonesEdited", true);
+					}}
+					onZoneCreated={(zone) => {
+						setZoneLibrary((current) =>
+							mergeZoneOptions([...current, zone], campaign.targeting.zones),
+						);
+					}}
+				/>
+				{zoneMessage && formik.submitCount > 0 ? (
+					<div className="@md/formSection:col-span-2">
+						<FieldMessage message={zoneMessage} />
+					</div>
+				) : null}
+			</FormSectionCard>
 			{isReadOnly ? null : (
-				<div className="w-full flex flex-col-reverse @sm:flex-row gap-2 justify-between items-end">
+				<div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
 					<Button
 						type="button"
 						variant="secondary"
-						className="w-full @sm:w-fit"
+						className="w-full sm:w-fit"
 						onClick={() => {
 							router.navigate({
 								to: "/campaigns/$id/identity",
@@ -336,11 +358,7 @@ export function TargetingForm({
 					>
 						{t("campaigns.targeting.back")}
 					</Button>
-					<Button
-						type="submit"
-						className="w-full @sm:w-fit"
-						disabled={isSaving}
-					>
+					<Button type="submit" className="w-full sm:w-fit" disabled={isSaving}>
 						{t("campaigns.targeting.saveAndContinue")}
 					</Button>
 				</div>
@@ -367,8 +385,7 @@ function LookupMultiSelect({
 	onChange,
 }: LookupMultiSelectProps) {
 	return (
-		<div className="flex flex-col gap-2 @xl:w-96">
-			<Label>{label}</Label>
+		<FormField label={label} error={error}>
 			<Dropdown
 				multiSelect
 				multiSelectExpandMode="showSome"
@@ -381,9 +398,11 @@ function LookupMultiSelect({
 				}}
 				disabled={readOnly}
 				placeholder={label}
-				error={error ? `errors.${error}` : undefined}
+				error={error}
+				hideErrorMessage
+				className="w-full text-body-md!"
 			/>
-		</div>
+		</FormField>
 	);
 }
 
@@ -404,23 +423,21 @@ function DeliveryModeField({
 		{ mode: "FIXED" as const, label: t("campaigns.targeting.fixed") },
 	];
 	return (
-		<div className="flex flex-col gap-2">
-			<Label>{t("campaigns.targeting.deliveryMode")}</Label>
+		<FormField label={t("campaigns.targeting.deliveryMode")}>
 			<div className="flex flex-wrap gap-2">
 				{modes.map((option) => (
-					<Button
+					<ChoiceButton
 						key={option.mode}
-						type="button"
-						variant={value === option.mode ? "default" : "outline"}
+						selected={value === option.mode}
 						disabled={readOnly}
 						onClick={() => {
 							onChange(option.mode);
 						}}
 					>
 						{option.label}
-					</Button>
+					</ChoiceButton>
 				))}
 			</div>
-		</div>
+		</FormField>
 	);
 }

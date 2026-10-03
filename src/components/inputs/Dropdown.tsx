@@ -42,6 +42,8 @@ export type DropdownProps = {
 	searchPlaceholder?: string;
 	onBlur?: FocusEventHandler<HTMLDivElement>;
 	error?: string;
+	/** Keep the red border but leave the message to the surrounding field. */
+	hideErrorMessage?: boolean;
 };
 
 export default function Dropdown({
@@ -71,6 +73,7 @@ export default function Dropdown({
 	searchPlaceholder = "SEARCH",
 	onBlur,
 	error,
+	hideErrorMessage = false,
 }: DropdownProps) {
 	const { t } = useTranslation();
 
@@ -164,8 +167,8 @@ export default function Dropdown({
 					variant="outline"
 					className={twMerge(
 						`cursor-pointer text-xs relative group min-h-9 h-fit shadow-none max-w-full min-w-0 justify-between outline-none font-normal border focus-visible:outline-none focus-visible:ring-0 ${
-							!selected && "text-neutral-500"
-						} ${error ? "border-danger focus:border-danger" : ""} `,
+							!selected && "text-muted-foreground"
+						} ${error ? "border-destructive focus:border-destructive" : ""} `,
 						multiSelectExpandMode === "showAll" ? "min-h-9 h-fit" : "",
 						className,
 					)}
@@ -176,15 +179,15 @@ export default function Dropdown({
 						<LoaderIcon className="animate-spin fill-primary" />
 					) : (
 						<ChevronDownIcon
-							className="ms-2 text-neutral-500 transition-transform duration-200 group-data-[state=open]:rotate-180"
+							className="ms-2 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180"
 							aria-hidden="true"
 						/>
 					)}
 
-					{error && (
+					{error && !hideErrorMessage && (
 						<div className="absolute inset-s-3 bottom-2 translate-y-full px-2 max-w-[calc(100%-2rem)]">
-							<div className="absolute bottom-1.5 inset-s-0 inset-e-0 bg-white group-hover:bg-neutral-100 h-1 transition-all" />
-							<p className="relative text-xs text-danger font-medium whitespace-nowrap truncate z-10">
+							<div className="absolute bottom-1.5 inset-s-0 inset-e-0 bg-background group-hover:bg-accent h-1 transition-all" />
+							<p className="relative text-xs text-destructive font-medium whitespace-nowrap truncate z-10">
 								{t(error as any)}
 							</p>
 						</div>

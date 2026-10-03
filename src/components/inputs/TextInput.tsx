@@ -4,12 +4,13 @@ import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Dir } from "@/types";
 
 const autoFillStyles = `
 	text-foreground
-	caret-black dark:caret-white
-	bg-white dark:bg-background
+	caret-foreground
+	bg-background
 	[&:-webkit-autofill]:bg-background!
 	[&:-webkit-autofill]:border-[var(--ring-auto-fill)]!
 	[&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_color-mix(in_oklab,var(--input)_2%,var(--background))]!
@@ -34,10 +35,13 @@ export type TextInputProps = {
 	className?: string;
 	inputClassName?: string;
 	labelClassName?: string;
-	fontSize?: number;
+	/** Helper text under the field; replaced by the error when there is one. */
+	hint?: string;
 	error?: string;
 	dir?: Dir;
 	disabled?: boolean;
+	/** Shows a required marker next to the label. Validation stays with the form. */
+	required?: boolean;
 	isTextArea?: boolean;
 	textAreaClassName?: string;
 };
@@ -60,10 +64,11 @@ const TextInput = ({
 	className,
 	inputClassName,
 	labelClassName,
-	fontSize = 13,
+	hint,
 	error,
 	dir = "ltr",
 	disabled,
+	required,
 	isTextArea = false,
 	textAreaClassName,
 }: TextInputProps) => {
@@ -75,6 +80,14 @@ const TextInput = ({
 			{label && (
 				<Label htmlFor={name} className={labelClassName}>
 					{label}
+					{required ? (
+						<>
+							<span aria-hidden="true" className="text-destructive">
+								*
+							</span>
+							<span className="sr-only">{t("common.required")}</span>
+						</>
+					) : null}
 				</Label>
 			)}
 
@@ -86,22 +99,22 @@ const TextInput = ({
 				)}
 
 				{isTextArea ? (
-					<textarea
+					<Textarea
+						id={name}
 						name={name}
-						className={twMerge(
-							"border-2 rounded-lg focus-visible:outline-none focus-visible:ring-0 p-3 w-full min-h-12 h-48 text-xs sm:text-xs md:text-sm lg:text-base xl:text-base 2xl:text-base transition-colors",
-							textAreaClassName,
-						)}
+						aria-invalid={error ? true : undefined}
+						aria-required={required || undefined}
+						className={twMerge("h-48 min-h-12", textAreaClassName)}
 						placeholder={placeholder || name}
 						value={value}
-						onChange={(e: any) => {
+						onChange={(e) => {
 							e.preventDefault();
-							if (onChange) onChange(e);
+							if (onChange) onChange(e as any);
 							else if (setValue) setValue(e.target.value);
 						}}
-						onBlur={(e: any) => onBlur?.(e)}
-						onFocus={(e: any) => onFocus?.(e)}
-						onKeyDown={onKeyDown}
+						onBlur={(e) => onBlur?.(e as any)}
+						onFocus={(e) => onFocus?.(e as any)}
+						onKeyDown={onKeyDown as any}
 					/>
 				) : (
 					<Input
@@ -131,7 +144,6 @@ const TextInput = ({
 							inputClassName,
 							autoFillStyles,
 						)}
-						style={{ fontSize }}
 						disabled={disabled}
 					/>
 				)}
@@ -148,11 +160,13 @@ const TextInput = ({
 				)}
 			</div>
 
-			{error && (
-				<p className="text-xs text-destructive font-medium whitespace-nowrap truncate">
+			{error ? (
+				<p role="alert" className="text-body-md font-medium text-destructive">
 					{t(`errors.${error}`, { defaultValue: error })}
 				</p>
-			)}
+			) : hint ? (
+				<p className="text-body-md text-muted-foreground">{hint}</p>
+			) : null}
 		</div>
 	);
 };

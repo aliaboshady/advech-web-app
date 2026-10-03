@@ -1,19 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
-import { formatDate, getStatusColor } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { PaginatedResponse, SortType } from "@/types";
 import { AdvertiserSummary } from "../advertiser-summary";
-
-const statusLabelKeys = {
-	REGISTERED: "admin.advertisers.statuses.REGISTERED",
-	IN_PROGRESS: "admin.advertisers.statuses.IN_PROGRESS",
-	PENDING_REVIEW: "admin.advertisers.statuses.PENDING_REVIEW",
-	NEEDS_CHANGES: "admin.advertisers.statuses.NEEDS_CHANGES",
-	APPROVED: "admin.advertisers.statuses.APPROVED",
-	REJECTED: "admin.advertisers.statuses.REJECTED",
-	SUSPENDED: "admin.advertisers.statuses.SUSPENDED",
-} as const;
+import { isProminentQueueRow } from "../queue-row-emphasis";
 
 type AdvertiserQueueTableProps = {
 	readonly data?: PaginatedResponse<AdvertiserSummary> | null;
@@ -66,7 +58,7 @@ export function AdvertiserQueueTable({
 				<Link
 					to="/admin/advertisers/$id"
 					params={{ id: advertiser.id }}
-					className="hover:underline"
+					className="hover:underline focus-visible:underline"
 				>
 					{displayText(advertiser.companyName)}
 				</Link>
@@ -89,11 +81,7 @@ export function AdvertiserQueueTable({
 			header: () => t("admin.advertisers.columns.status"),
 			sortKey: "status",
 			value: (advertiser: AdvertiserSummary) => (
-				<span
-					className={`rounded-sm p-1.5 text-xs text-white ${getStatusColor(advertiser.status)}`}
-				>
-					{t(statusLabelKeys[advertiser.status])}
-				</span>
+				<StatusBadge kind="advertiser" status={advertiser.status} />
 			),
 		},
 		{
@@ -105,7 +93,12 @@ export function AdvertiserQueueTable({
 	];
 	return (
 		<DataTable
-			className="h-[calc(100vh-12rem)]"
+			className="rounded-none border-0"
+			rowClassName={(advertiser: AdvertiserSummary) =>
+				isProminentQueueRow(advertiser.status)
+					? "bg-info-soft/40 hover:bg-info-soft/60 [&>td:first-child]:border-s-2 [&>td:first-child]:border-info"
+					: undefined
+			}
 			items={items}
 			columns={columns}
 			dataPagination={data ?? undefined}

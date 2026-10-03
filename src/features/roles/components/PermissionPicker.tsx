@@ -29,14 +29,9 @@ export function PermissionPicker({
 	const { t } = useTranslation();
 	const items = permissionPickerItems(catalog, selectedKeys);
 	return (
-		<fieldset className="flex flex-col gap-3">
-			<legend className="text-sm font-medium">
-				{t("admin.roles.permissions")}
-			</legend>
-			<p className="text-sm text-muted-foreground">
-				{t("admin.roles.permissionsHint")}
-			</p>
-			<ul className="flex flex-col gap-3">
+		<fieldset className="col-span-full flex flex-col gap-stack">
+			<legend className="sr-only">{t("admin.roles.permissions")}</legend>
+			<ul className="grid grid-cols-1 gap-stack @2xl/formSection:grid-cols-2">
 				{items.map((item) => {
 					const inputId = `permission-${item.key}`;
 					const description =
@@ -56,7 +51,7 @@ export function PermissionPicker({
 								className="flex flex-col items-start gap-1"
 							>
 								<span>{item.key}</span>
-								<span className="text-xs font-normal text-muted-foreground">
+								<span className="text-body-md font-normal text-muted-foreground">
 									{description}
 								</span>
 							</Label>

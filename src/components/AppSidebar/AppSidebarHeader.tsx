@@ -1,15 +1,16 @@
-import logoIcon from "@/assets/logo/icon/advech-icon-orange.svg";
-import wordMark from "@/assets/logo/wordmark/advech-wordmark-orange.svg";
-
+import { Logo } from "@/components/Logo";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 
 export function AppSidebarHeader() {
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
-				<div className="m-2 rounded-none flex flex-row items-center gap-4">
-					<img src={logoIcon} alt="Advech" className="size-6 rounded-none!" />
-					<img src={wordMark} alt="Advech" className="w-32" />
+				<div className="flex flex-row items-center gap-3 p-2">
+					<Logo variant="icon" alt="" className="size-6 shrink-0" />
+					<Logo
+						variant="wordmark"
+						className="h-4 w-auto group-data-[collapsible=icon]:hidden"
+					/>
 				</div>
 			</SidebarMenuItem>
 		</SidebarMenu>

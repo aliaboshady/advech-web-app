@@ -92,16 +92,10 @@
 			"status": "Status",
 			"budget": "Budget",
 			"impressions": "Impressions"
-		}
+		},
+		"description": "How your Campaigns are performing."
 	},
 	"campaigns": {
-		"status": {
-			"active": "Active",
-			"scheduled": "Scheduled",
-			"paused": "Paused",
-			"completed": "Completed",
-			"cancelled": "Cancelled"
-		},
 		"statuses": {
 			"DRAFT": "Draft",
 			"PENDING_REVIEW": "Pending review",
@@ -128,7 +122,20 @@
 			"currency": "Currency",
 			"readOnly": "This Campaign can't be edited in its current status.",
 			"saveAndContinue": "Save and continue",
-			"createAndContinue": "Create and continue"
+			"createAndContinue": "Create and continue",
+			"description": "Name, Objective, Flight and Budget.",
+			"readOnlyTitle": "Read-only",
+			"flightDates": "Start and end dates",
+			"flightHint": "Dates are read in the Campaign's time zone.",
+			"flightDescription": "When the Campaign runs.",
+			"totalBudgetHint": "What you plan to spend over the whole Flight.",
+			"dailyBudgetHint": "Optional. What you plan to spend per day.",
+			"sections": {
+				"details": "Details",
+				"detailsDescription": "Name the Campaign and say what it is for.",
+				"budget": "Budget",
+				"budgetDescription": "Planned spend. It is stored, not enforced."
+			}
 		},
 		"targeting": {
 			"selectDates": "Select dates",
@@ -170,7 +177,20 @@
 				"friday": "Fri",
 				"saturday": "Sat",
 				"sunday": "Sun"
-			}
+			},
+			"description": "Who and where the Campaign reaches.",
+			"daysLabel": "Days",
+			"timeZoneHint": "Dayparting is read in this time zone.",
+			"sections": {
+				"timing": "Time and days",
+				"timingDescription": "Time zone and Dayparting.",
+				"audience": "Audience",
+				"audienceDescription": "Age range, interests and venue types.",
+				"delivery": "Delivery",
+				"deliveryDescription": "Cars count and Delivery mode. They are stored, not enforced.",
+				"zonesDescription": "Choose where the Campaign runs and where it must not. Save a new Zone to your library from the map."
+			},
+			"newZone": "New Zone"
 		},
 		"creative": {
 			"saveAndContinue": "Save and continue",
@@ -178,7 +198,11 @@
 			"unsupportedType": "Choose a jpeg, png, gif, mp4 or mov file.",
 			"tooLarge": "That file is larger than the maximum for its type.",
 			"uploadFailed": "The Creative could not be uploaded.",
-			"unreadable": "The Creative could not be read. Choose another file."
+			"unreadable": "The Creative could not be read. Choose another file.",
+			"description": "Upload the Creative your Campaign will run.",
+			"currentTitle": "Current Creative",
+			"replaceTitle": "Replace the Creative",
+			"uploadTitle": "Upload a Creative"
 		},
 		"review": {
 			"missingTitle": "Still missing",
@@ -202,13 +226,27 @@
 				"inclusionZone": "Choose an inclusion Zone",
 				"creative": "Upload a Creative",
 				"singleCreative": "Keep a single Creative"
-			}
+			},
+			"description": "Check everything before you submit."
 		},
 		"tabs": {
 			"identity": "Identity",
 			"targeting": "Targeting",
 			"creative": "Creative",
-			"review": "Review"
+			"review": "Review",
+			"states": {
+				"current": "Current step",
+				"done": "Done",
+				"incomplete": "Not done"
+			}
+		},
+		"list": {
+			"description": "Create, edit and track your Campaigns."
+		},
+		"new": {
+			"title": "New Campaign",
+			"description": "Start with the basics. You can fill in the rest step by step.",
+			"breadcrumb": "New"
 		}
 	},
 	"common": {
@@ -227,7 +265,14 @@
 		"switchToLightMode": "Switch to light mode",
 		"switchToDarkMode": "Switch to dark mode",
 		"searchPlace": "Search for a place",
-		"of": "of"
+		"breadcrumb": "Breadcrumb",
+		"loading": "Loading",
+		"noDataTitle": "Nothing here yet",
+		"noDataDescription": "There is no data to show.",
+		"of": "of",
+		"mapPlaceHint": "Double-click the map to place a Zone.",
+		"required": "Required",
+		"loadErrorTitle": "Something went wrong"
 	},
 	"errors": {
 		"invalidEmail": "Please enter a valid email address.",
@@ -386,7 +431,6 @@
 			"save": "Save",
 			"saving": "Saving...",
 			"create": "Create",
-			"loading": "Loading entries...",
 			"empty": "No entries yet.",
 			"active": "Active",
 			"inactive": "Inactive",
@@ -429,7 +473,8 @@
 			"schedulePresets": {
 				"title": "Schedule presets",
 				"description": "A named Dayparting window. Advertisers pick one of these."
-			}
+			},
+			"emptyDescription": "Add the first entry to make it available to Advertisers."
 		},
 		"invites": {
 			"title": "Invite an Admin",
@@ -437,7 +482,8 @@
 			"submit": "Send invite",
 			"submitting": "Sending invite...",
 			"sent": "Invite sent to {{email}}. It expires {{expiresAt}}.",
-			"devToken": "Dev invite token: {{token}}"
+			"devToken": "Dev invite token: {{token}}",
+			"formTitle": "Admin email"
 		},
 		"advertisers": {
 			"title": "Advertiser review",
@@ -479,7 +525,12 @@
 				"reason": "Reason",
 				"reasonCount": "{{count}} / {{max}}",
 				"suspendTitle": "Suspend this Advertiser",
-				"suspendConfirm": "This signs out all of this Advertiser's Users."
+				"suspendConfirm": "This signs out all of this Advertiser's Users.",
+				"description": "Check the details, then approve, ask for changes or reject.",
+				"actionsDescription": "Choose how to move this Advertiser forward. Reject and suspend cannot be undone from here.",
+				"companyDescription": "Who the Advertiser is and where to reach them.",
+				"contactDescription": "The person responsible for the account.",
+				"backToQueue": "Back to Advertiser review"
 			},
 			"columns": {
 				"companyName": "Company",
@@ -498,7 +549,8 @@
 				"APPROVED": "Approved",
 				"REJECTED": "Rejected",
 				"SUSPENDED": "Suspended"
-			}
+			},
+			"description": "Advertisers waiting for a decision are highlighted. Open one to review and decide."
 		},
 		"home": {
 			"title": "Home",
@@ -528,12 +580,29 @@
 			"deleteTitle": "Delete this Role?",
 			"deleteBody": "Admins who hold {{name}} lose its Permissions. This cannot be undone.",
 			"unknownPermission": "This Permission is not in the current list. It is kept until you clear it.",
-			"noDescription": "No description"
+			"noDescription": "No description",
+			"pageDescription": "Roles group Permissions. Give an Admin a Role to grant its access.",
+			"emptyDescription": "Create a Role to start granting Permissions to Admins.",
+			"actions": "Actions",
+			"detailsTitle": "Details",
+			"detailsDescription": "Name the Role and say what it is for.",
+			"back": "Back to Roles"
 		}
 	},
 	"notFound": {
 		"title": "Page Not Found",
 		"description": "The page you are looking for does not exist.",
 		"backToHome": "Back to Home"
+	},
+	"dropzone": {
+		"idle": "Drag a file here, or click to choose one",
+		"dragOver": "Drop the file to select it",
+		"uploading": "Uploading",
+		"ready": "Ready to upload",
+		"remove": "Remove file",
+		"tooLarge": "The file is larger than the {{size}} limit.",
+		"tooSmall": "The file is smaller than the minimum size.",
+		"invalidType": "This file type is not supported.",
+		"rejected": "\"{{name}}\" could not be selected. {{reason}}"
 	}
 }

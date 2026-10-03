@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import { Button } from "@/components/ui/button";
 import { isPermissionDenied } from "@/features/access/is-permission-denied";
 import useRequest from "@/hooks/useRequest";
@@ -75,39 +76,57 @@ export function RoleForm({ permissions, existingRole }: RoleFormProps) {
 	return (
 		<form
 			onSubmit={formik.handleSubmit}
-			className="flex max-w-xl flex-col gap-6"
+			className="flex w-full max-w-3xl flex-col gap-section"
 		>
-			<FormikTextInput
-				formik={formik}
-				name="name"
-				label={t("admin.roles.name")}
-				placeholder={t("admin.roles.namePlaceholder")}
-			/>
-			<FormikTextInput
-				formik={formik}
-				name="description"
-				label={t("admin.roles.description")}
-				placeholder={t("admin.roles.descriptionPlaceholder")}
-				isTextArea
-				textAreaClassName="h-24 min-h-24"
-			/>
-			<PermissionPicker
-				catalog={permissions}
-				selectedKeys={formik.values.permissions}
-				onChange={(keys) => {
-					formik.setFieldValue("permissions", keys);
-				}}
-			/>
-			{formError ? (
-				<p className="text-sm text-destructive" role="alert">
-					{formError}
-				</p>
-			) : null}
-			<div className="flex justify-end">
-				<Button type="submit" disabled={isSaving}>
-					{isSaving ? t("admin.roles.saving") : t("admin.roles.save")}
-				</Button>
-			</div>
+			<FormSectionCard
+				title={t("admin.roles.detailsTitle")}
+				description={t("admin.roles.detailsDescription")}
+			>
+				<FormikTextInput
+					formik={formik}
+					name="name"
+					label={t("admin.roles.name")}
+					placeholder={t("admin.roles.namePlaceholder")}
+					required
+				/>
+				<div className="col-span-full">
+					<FormikTextInput
+						formik={formik}
+						name="description"
+						label={t("admin.roles.description")}
+						placeholder={t("admin.roles.descriptionPlaceholder")}
+						isTextArea
+						textAreaClassName="h-24 min-h-24"
+					/>
+				</div>
+			</FormSectionCard>
+			<FormSectionCard
+				title={t("admin.roles.permissions")}
+				description={t("admin.roles.permissionsHint")}
+				footer={
+					<>
+						{formError ? (
+							<p
+								className="me-auto rounded-md bg-destructive-soft px-3 py-2 text-body-md text-destructive-soft-foreground"
+								role="alert"
+							>
+								{formError}
+							</p>
+						) : null}
+						<Button type="submit" disabled={isSaving}>
+							{isSaving ? t("admin.roles.saving") : t("admin.roles.save")}
+						</Button>
+					</>
+				}
+			>
+				<PermissionPicker
+					catalog={permissions}
+					selectedKeys={formik.values.permissions}
+					onChange={(keys) => {
+						formik.setFieldValue("permissions", keys);
+					}}
+				/>
+			</FormSectionCard>
 		</form>
 	);
 }

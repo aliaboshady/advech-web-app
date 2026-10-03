@@ -1,3 +1,11 @@
+import {
+	BanIcon,
+	CheckIcon,
+	LucideIcon,
+	MessageSquareWarningIcon,
+	PlayIcon,
+	XIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -16,8 +24,8 @@ import {
 	OfferedReviewAction,
 	offeredReviewActions,
 	ReviewAction,
-	ReviewActionPrompt,
 } from "../offered-review-actions";
+import { reviewActionVariant } from "../review-action-style";
 import { ReviewReasonDialog } from "./ReviewReasonDialog";
 import { SuspendAdvertiserDialog } from "./SuspendAdvertiserDialog";
 
@@ -37,17 +45,13 @@ type AdvertiserReviewActionsProps = {
 
 type ReasonReviewAction = "reject" | "requestChanges";
 
-function buttonVariant(
-	prompt: ReviewActionPrompt,
-): "default" | "outline" | "destructive" {
-	if (prompt === "finalRejection" || prompt === "signOut") {
-		return "destructive";
-	}
-	if (prompt === "reason") {
-		return "outline";
-	}
-	return "default";
-}
+const actionIcons: Record<ReviewAction, LucideIcon> = {
+	approve: CheckIcon,
+	reject: XIcon,
+	requestChanges: MessageSquareWarningIcon,
+	suspend: BanIcon,
+	unsuspend: PlayIcon,
+};
 
 function isReasonAction(action: ReviewAction): action is ReasonReviewAction {
 	return action === "reject" || action === "requestChanges";
@@ -124,38 +128,41 @@ export function AdvertiserReviewActions({
 		}
 	};
 	if (offers.length === 0) {
-		return actionError === null ? null : (
-			<p className="text-sm text-destructive" role="alert">
-				{actionError}
-			</p>
-		);
+		return actionError === null ? null : <ActionError message={actionError} />;
 	}
 	return (
-		<section className="flex flex-col gap-3">
-			<h2 className="text-base font-semibold">
-				{t("admin.advertisers.detail.actions")}
-			</h2>
-			{actionError ? (
-				<p className="text-sm text-destructive" role="alert">
-					{actionError}
+		<section className="flex w-full flex-col rounded-lg border border-border bg-card text-card-foreground">
+			<div className="flex flex-col gap-1 border-b border-border p-4">
+				<h2 className="text-body-lg font-medium">
+					{t("admin.advertisers.detail.actions")}
+				</h2>
+				<p className="text-body-md text-muted-foreground">
+					{t("admin.advertisers.detail.actionsDescription")}
 				</p>
-			) : null}
-			<div className="flex flex-wrap gap-2">
-				{offers.map((offer) => (
-					<Button
-						key={offer.action}
-						type="button"
-						variant={buttonVariant(offer.prompt)}
-						disabled={pendingAction !== null}
-						onClick={() => {
-							startAction(offer);
-						}}
-					>
-						{pendingAction === offer.action
-							? t("admin.advertisers.detail.acting")
-							: t(actionLabelKeys[offer.action])}
-					</Button>
-				))}
+			</div>
+			<div className="flex flex-col gap-stack p-4">
+				{actionError ? <ActionError message={actionError} /> : null}
+				<div className="flex flex-wrap gap-2">
+					{offers.map((offer) => {
+						const Icon = actionIcons[offer.action];
+						return (
+							<Button
+								key={offer.action}
+								type="button"
+								variant={reviewActionVariant(offer.action)}
+								disabled={pendingAction !== null}
+								onClick={() => {
+									startAction(offer);
+								}}
+							>
+								<Icon aria-hidden="true" />
+								{pendingAction === offer.action
+									? t("admin.advertisers.detail.acting")
+									: t(actionLabelKeys[offer.action])}
+							</Button>
+						);
+					})}
+				</div>
 			</div>
 			{reasonAction ? (
 				<ReviewReasonDialog
@@ -188,5 +195,16 @@ export function AdvertiserReviewActions({
 				/>
 			) : null}
 		</section>
+	);
+}
+
+function ActionError({ message }: { readonly message: string }) {
+	return (
+		<p
+			role="alert"
+			className="rounded-md bg-destructive-soft p-3 text-body-md text-destructive-soft-foreground"
+		>
+			{message}
+		</p>
 	);
 }

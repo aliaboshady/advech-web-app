@@ -1,8 +1,11 @@
 import { FormikProps } from "formik";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import { Objective } from "@/features/Objectives/types";
+import { cn } from "@/lib/utils";
 import { CampaignDetailsFormValues } from "../../build-campaign-details-payload";
+import { FieldMessage } from "./FieldMessage";
 
 type Props = {
 	formik: FormikProps<CampaignDetailsFormValues>;
@@ -16,54 +19,64 @@ export function PrimaryObjective({
 	readOnly = false,
 }: Props) {
 	const { t } = useTranslation();
+	const labelId = useId();
 	const error = formik.touched.objectiveCode
 		? formik.errors.objectiveCode
 		: undefined;
 	return (
-		<div className="flex flex-col gap-3">
-			<p className="text-sm font-medium">{t("campaigns.identity.objective")}</p>
-			<div className="flex flex-col @xl:flex-row gap-3">
+		<div className="flex flex-col gap-2 @md/formSection:col-span-2">
+			<Label id={labelId}>{t("campaigns.identity.objective")}</Label>
+			<div
+				role="radiogroup"
+				aria-labelledby={labelId}
+				className="grid gap-3 @md/formSection:grid-cols-2"
+			>
 				{objectives?.map((option) => {
 					const isSelected = formik.values.objectiveCode === option.id;
 					return (
-						<Card
+						<button
 							key={option.id}
-							aria-disabled={readOnly}
-							className={`@xl:w-150 rounded-lg transition-colors p-6 ${
-								readOnly ? "cursor-default" : "cursor-pointer"
-							} ${
+							type="button"
+							role="radio"
+							aria-checked={isSelected}
+							disabled={readOnly}
+							className={cn(
+								"flex flex-col gap-1 rounded-lg border bg-background p-4 text-start outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-default",
 								isSelected
-									? "border-primary bg-primary/5 ring-2 ring-primary"
-									: "hover:border-primary/50"
-							}`}
+									? "border-foreground bg-accent"
+									: "border-input enabled:hover:bg-accent",
+							)}
 							onClick={() => {
-								if (readOnly) {
-									return;
-								}
 								formik.setFieldValue("objectiveCode", option.id);
 								formik.setFieldTouched("objectiveCode", true, false);
 							}}
 						>
-							<CardContent className="gap-1 p-0">
-								<div className="flex items-center gap-2 font-medium">
-									<div className="bg-primary h-5 w-5 rounded-full shrink-0" />
-									<span>{option.name}</span>
-								</div>
-								{option.description ? (
-									<p className="pl-6.5 text-sm text-muted-foreground">
-										{option.description}
-									</p>
-								) : null}
-							</CardContent>
-						</Card>
+							<span className="flex items-center gap-2 text-body-md font-medium">
+								<span
+									aria-hidden="true"
+									className={cn(
+										"flex size-4 shrink-0 items-center justify-center rounded-full border",
+										isSelected
+											? "border-foreground"
+											: "border-muted-foreground",
+									)}
+								>
+									{isSelected ? (
+										<span className="size-2 rounded-full bg-foreground" />
+									) : null}
+								</span>
+								{option.name}
+							</span>
+							{option.description ? (
+								<span className="ps-6 text-body-md text-muted-foreground">
+									{option.description}
+								</span>
+							) : null}
+						</button>
 					);
 				})}
 			</div>
-			{error ? (
-				<p className="text-xs text-destructive font-medium">
-					{t(`errors.${error}`, { defaultValue: error })}
-				</p>
-			) : null}
+			<FieldMessage message={error ?? ""} />
 		</div>
 	);
 }

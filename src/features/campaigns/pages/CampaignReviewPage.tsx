@@ -1,12 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { PageLayout } from "@/components/PageLayout";
-import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getCampaignTabs } from "../campaign-tabs";
 import { CampaignReviewSummary } from "../components/CampaignReviewSummary";
+import { CampaignStepLayout } from "../components/CampaignStepLayout";
 import {
 	buildCampaignReviewGaps,
 	type CampaignWizardStep,
@@ -26,37 +24,22 @@ export function CampaignReviewPage({ id, campaign }: Props) {
 		missing: campaign.completeness.missing,
 	});
 	return (
-		<PageLayout
-			breadcrumbs={[
-				{
-					label: t("sidebar.campaigns"),
-					link: "/campaigns",
-				},
-				{ label: campaign.name },
-			]}
-			className="flex flex-col gap-4"
+		<CampaignStepLayout
+			campaign={campaign}
+			activeTabId={4}
+			description={t("campaigns.review.description")}
 		>
-			<HeaderTabs
-				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(t, campaign.completeness.steps)}
-				activeTabId={4}
-			/>
 			<CampaignReviewSummary campaign={campaign} />
 			{gaps.missing.length > 0 ? (
-				<Card>
-					<CardHeader>
-						<CardTitle>{t("campaigns.review.missingTitle")}</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<ul className="flex flex-col gap-2">
-							{gaps.missing.map((item) => (
-								<li key={item.code}>
-									<MissingItem item={item} campaignId={id} />
-								</li>
-							))}
-						</ul>
-					</CardContent>
-				</Card>
+				<FormSectionCard title={t("campaigns.review.missingTitle")}>
+					<ul className="flex flex-col gap-2 @md/formSection:col-span-2">
+						{gaps.missing.map((item) => (
+							<li key={item.code} className="text-body-md">
+								<MissingItem item={item} campaignId={id} />
+							</li>
+						))}
+					</ul>
+				</FormSectionCard>
 			) : null}
 			<div className="flex flex-col items-end gap-2">
 				<Button
@@ -68,12 +51,12 @@ export function CampaignReviewPage({ id, campaign }: Props) {
 				</Button>
 				<p
 					id="campaign-review-submit-note"
-					className="text-sm text-muted-foreground"
+					className="text-body-md text-muted-foreground"
 				>
 					{t("campaigns.review.submitUnavailable")}
 				</p>
 			</div>
-		</PageLayout>
+		</CampaignStepLayout>
 	);
 }
 
@@ -107,7 +90,8 @@ function StepLink({
 	step: CampaignWizardStep;
 	children: ReactNode;
 }) {
-	const className = "text-primary underline-offset-4 hover:underline";
+	const className =
+		"text-foreground underline underline-offset-4 hover:text-muted-foreground";
 	if (step === "identity") {
 		return (
 			<Link

@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import type { Place } from "@/components/GoogleMaps/GoogleMaps";
 import { SearchBox } from "@/components/GoogleMaps/SearchBox";
 import { SearchController } from "@/components/GoogleMaps/SearchController";
+import { useMapTheme } from "@/components/GoogleMaps/use-map-theme";
 import { Slider } from "@/components/ui/slider";
 import {
 	kilometersToMeters,
@@ -44,6 +45,7 @@ export function PointZoneMap({
 	onRadiusKmChange,
 }: Props) {
 	const { t } = useTranslation();
+	const { colorScheme, overlayColor } = useMapTheme();
 	const [searchedPlace, setSearchedPlace] = useState<Place | null>(null);
 	const previewMeters = kilometersToMeters(radiusKm);
 	const sliderKm = Math.min(
@@ -66,7 +68,7 @@ export function PointZoneMap({
 			apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
 			libraries={["places"]}
 		>
-			<div className="@container/map relative h-80 w-full overflow-hidden rounded-xl border">
+			<div className="@container/map relative h-80 w-full overflow-hidden rounded-lg border border-border">
 				<div className="absolute inset-s-3 inset-e-3 top-3 z-20">
 					<SearchBox
 						onSelect={choosePlace}
@@ -74,8 +76,8 @@ export function PointZoneMap({
 						placeholder={t("campaigns.targeting.zoneSearch")}
 					/>
 				</div>
-				<div className="absolute inset-s-3 bottom-3 z-10 w-48 rounded-lg bg-background/95 p-3 shadow-md backdrop-blur-sm">
-					<p dir="ltr" className="mb-2 text-sm font-medium tabular-nums">
+				<div className="absolute inset-s-3 bottom-3 z-10 w-48 rounded-lg border border-border bg-card p-3 text-card-foreground shadow-md">
+					<p dir="ltr" className="mb-2 text-body-md font-medium tabular-nums">
 						{t("campaigns.targeting.radiusKmValue", { radius: sliderKm })}
 					</p>
 					<Slider
@@ -89,9 +91,11 @@ export function PointZoneMap({
 					/>
 				</div>
 				<AppMap
+					key={colorScheme}
 					defaultCenter={point ?? CAIRO_CENTER}
 					defaultZoom={11}
 					mapId={MAP_ID}
+					colorScheme={colorScheme}
 					className="h-full w-full"
 					onDblclick={handleMapClick}
 					disableDoubleClickZoom
@@ -110,9 +114,9 @@ export function PointZoneMap({
 							<Circle
 								center={point}
 								radius={previewMeters}
-								fillColor="#FF5001"
+								fillColor={overlayColor}
 								fillOpacity={0.25}
-								strokeColor="#FF5001"
+								strokeColor={overlayColor}
 								strokeOpacity={0.8}
 								strokeWeight={2}
 							/>

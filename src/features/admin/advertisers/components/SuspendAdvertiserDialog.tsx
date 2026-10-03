@@ -1,13 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
+import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
 
 type SuspendAdvertiserDialogProps = {
 	readonly isSubmitting: boolean;
@@ -23,46 +15,23 @@ export function SuspendAdvertiserDialog({
 }: SuspendAdvertiserDialogProps) {
 	const { t } = useTranslation();
 	return (
-		<Dialog
+		<ConfirmationDialog
 			open
-			onOpenChange={(isOpen) => {
+			setOpen={(isOpen: boolean) => {
 				if (!isOpen && !isSubmitting) {
 					onClose();
 				}
 			}}
-		>
-			<DialogContent className="sm:max-w-md">
-				<DialogHeader>
-					<DialogTitle>
-						{t("admin.advertisers.detail.suspendTitle")}
-					</DialogTitle>
-					<DialogDescription>
-						{t("admin.advertisers.detail.suspendConfirm")}
-					</DialogDescription>
-				</DialogHeader>
-				<DialogFooter>
-					<Button
-						type="button"
-						variant="outline"
-						onClick={onClose}
-						disabled={isSubmitting}
-					>
-						{t("common.cancel")}
-					</Button>
-					<Button
-						type="button"
-						variant="destructive"
-						disabled={isSubmitting}
-						onClick={() => {
-							void onConfirm();
-						}}
-					>
-						{isSubmitting
-							? t("admin.advertisers.detail.acting")
-							: t("admin.advertisers.detail.suspend")}
-					</Button>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
+			title={t("admin.advertisers.detail.suspendTitle")}
+			description={t("admin.advertisers.detail.suspendConfirm")}
+			confirmLabel={
+				isSubmitting
+					? t("admin.advertisers.detail.acting")
+					: t("admin.advertisers.detail.suspend")
+			}
+			destructive
+			closeOnAction={false}
+			onAction={onConfirm}
+		/>
 	);
 }

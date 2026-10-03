@@ -1,5 +1,6 @@
 import { AdvancedMarker, Circle } from "@vis.gl/react-google-maps";
 import type { Place } from "./GoogleMaps";
+import { useMapTheme } from "./use-map-theme";
 
 type Props = {
 	onRemove: () => void;
@@ -15,6 +16,7 @@ export function MapMarker({
 	showRadius = true,
 }: Props) {
 	const position = { lat: place.lat, lng: place.lng };
+	const { overlayColor } = useMapTheme();
 
 	return (
 		<>
@@ -27,9 +29,9 @@ export function MapMarker({
 				<Circle
 					center={position}
 					radius={radiusKm * 1000}
-					fillColor="#FF5001"
+					fillColor={overlayColor}
 					fillOpacity={0.25}
-					strokeColor="#FF5001"
+					strokeColor={overlayColor}
 					strokeOpacity={0.8}
 					strokeWeight={2}
 				/>

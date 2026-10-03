@@ -1,5 +1,10 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowLeftIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { LoadErrorState } from "@/components/LoadErrorState";
 import { PageLayout } from "@/components/PageLayout";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { isPermissionDenied } from "@/features/access/is-permission-denied";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
@@ -61,21 +66,33 @@ export function AdvertiserDetailPage({
 				},
 				{ label: title },
 			]}
-			className="flex flex-col gap-4"
+			description={
+				detail.advertiser
+					? t("admin.advertisers.detail.description")
+					: undefined
+			}
+			className="gap-section"
 		>
 			{detail.advertiser === null && detail.isLoading ? (
-				<p className="text-sm text-muted-foreground">
-					{t("admin.advertisers.detail.loading")}
-				</p>
+				<AdvertiserDetailSkeleton
+					label={t("admin.advertisers.detail.loading")}
+				/>
 			) : null}
 			{detail.advertiser === null && loadError ? (
-				<p className="text-sm text-destructive" role="alert">
-					{loadError}
-				</p>
+				<LoadErrorState
+					description={loadError}
+					action={
+						<Button asChild variant="secondary">
+							<Link to="/admin/advertisers">
+								<ArrowLeftIcon aria-hidden="true" className="rtl:rotate-180" />
+								{t("admin.advertisers.detail.backToQueue")}
+							</Link>
+						</Button>
+					}
+				/>
 			) : null}
 			{detail.advertiser ? (
 				<>
-					<AdvertiserDetailFacts advertiser={detail.advertiser} />
 					<AdvertiserReviewActions
 						advertiser={detail.advertiser}
 						onUpdated={detail.setAdvertiser}
@@ -83,8 +100,31 @@ export function AdvertiserDetailPage({
 							await detail.reload().catch(() => undefined);
 						}}
 					/>
+					<AdvertiserDetailFacts advertiser={detail.advertiser} />
 				</>
 			) : null}
 		</PageLayout>
+	);
+}
+
+/** Card-shaped placeholders that keep the layout of the loaded detail. */
+function AdvertiserDetailSkeleton({ label }: { readonly label: string }) {
+	return (
+		<div role="status" aria-busy="true" className="flex flex-col gap-section">
+			<span className="sr-only">{label}</span>
+			{[0, 1, 2].map((card) => (
+				<div
+					key={card}
+					aria-hidden="true"
+					className="flex flex-col gap-stack rounded-lg border border-border bg-card p-4"
+				>
+					<Skeleton className="h-5 w-40" />
+					<div className="grid grid-cols-1 gap-stack @md/pageLayout:grid-cols-2">
+						<Skeleton className="h-10 w-full" />
+						<Skeleton className="h-10 w-full" />
+					</div>
+				</div>
+			))}
+		</div>
 	);
 }

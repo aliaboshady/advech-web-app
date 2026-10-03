@@ -1,91 +1,90 @@
 import { PencilLineIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { twMerge } from "tailwind-merge";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { statusLabels } from "@/lib/staticKeys";
-import { getStatusColor } from "@/lib/utils";
+import { TableCard, TableCardHeader } from "@/components/TableCard";
+import type { CampaignStatus } from "@/features/campaigns/types";
 
 type Props = {
 	className?: string;
 };
 
-const campaigns = [
+const campaigns: {
+	id: string;
+	name: string;
+	status: CampaignStatus;
+	budget: number;
+	impressions: number;
+}[] = [
 	{
 		id: "1",
 		name: "Ramadan Reach",
-		status: "Active",
+		status: "LIVE",
 		budget: 18500,
 		impressions: 1240000,
 	},
 	{
 		id: "2",
 		name: "Summer Sale",
-		status: "Scheduled",
+		status: "SCHEDULED",
 		budget: 12000,
 		impressions: 860000,
 	},
 	{
 		id: "3",
 		name: "Back to School",
-		status: "Paused",
+		status: "PAUSED",
 		budget: 9500,
 		impressions: 425000,
 	},
 	{
 		id: "4",
 		name: "City Nights",
-		status: "Cancelled",
+		status: "ARCHIVED",
 		budget: 22400,
 		impressions: 1780000,
 	},
 	{
 		id: "5",
 		name: "Winter Warmth",
-		status: "Completed",
+		status: "COMPLETED",
 		budget: 15750,
 		impressions: 1090000,
 	},
 	{
 		id: "6",
 		name: "New Year Kickoff",
-		status: "Active",
+		status: "LIVE",
 		budget: 28000,
 		impressions: 2150000,
 	},
 	{
 		id: "7",
 		name: "Weekend Specials",
-		status: "Scheduled",
+		status: "SCHEDULED",
 		budget: 8200,
 		impressions: 510000,
 	},
 	{
 		id: "8",
 		name: "Summer Nights",
-		status: "Active",
+		status: "LIVE",
 		budget: 19600,
 		impressions: 1430000,
 	},
 	{
 		id: "9",
 		name: "Holiday Countdown",
-		status: "Paused",
+		status: "PAUSED",
 		budget: 11300,
 		impressions: 670000,
 	},
 	{
 		id: "10",
 		name: "Black Friday Deals",
-		status: "Completed",
+		status: "COMPLETED",
 		budget: 32500,
 		impressions: 2860000,
 	},
@@ -104,11 +103,7 @@ export function Table({ className }: Props) {
 		{
 			header: () => t("dashboard.table.status"),
 			value: (campaign) => (
-				<span
-					className={`rounded-sm text-white ${getStatusColor(campaign.status)} p-1.5 text-xs text-muted`}
-				>
-					{t(statusLabels[campaign.status] as any) ?? campaign.status}
-				</span>
+				<StatusBadge kind="campaign" status={campaign.status} />
 			),
 		},
 		{
@@ -129,27 +124,24 @@ export function Table({ className }: Props) {
 		},
 		{
 			label: t("common.delete"),
-			icon: <TrashIcon className="text-red-600" />,
+			icon: <TrashIcon className="text-destructive" />,
 		},
 	];
 
 	return (
-		<Card className={twMerge("w-full h-full", className)}>
-			<CardHeader>
-				<CardTitle>{t("dashboard.table.recentCampaigns")}</CardTitle>
-				<CardDescription>{t("dashboard.table.description")}</CardDescription>
-			</CardHeader>
-
-			<CardContent className="min-h-0 flex-1 overflow-hidden p-0">
-				<DataTable
-					items={campaigns}
-					columns={campaignColumns}
-					className="h-full rounded-none border-x-0 border-b-0 border-t"
-					dropdownActions={dropdownActions}
-					page={page}
-					setPage={setPage}
-				/>
-			</CardContent>
-		</Card>
+		<TableCard className={className}>
+			<TableCardHeader
+				title={t("dashboard.table.recentCampaigns")}
+				description={t("dashboard.table.description")}
+			/>
+			<DataTable
+				items={campaigns}
+				columns={campaignColumns}
+				className="rounded-none border-0"
+				dropdownActions={dropdownActions}
+				page={page}
+				setPage={setPage}
+			/>
+		</TableCard>
 	);
 }
