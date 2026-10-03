@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import Dropdown from "@/components/Inputs/Dropdown";
 import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { createZone } from "@/features/zones/api/create-zone";
 import { PointZoneMap } from "@/features/zones/components/PointZoneMap";
 import { radiusMetersFromKilometers } from "@/features/zones/point-zone-radius";
@@ -12,6 +11,7 @@ import useRequest from "@/hooks/useRequest";
 import { ServerResponse } from "@/types";
 import { idsWithoutContradiction, optionsForSide } from "../../zone-role";
 import { FieldMessage } from "./FieldMessage";
+import { FormField } from "./FormField";
 
 const ZONE_NAME_MIN_LENGTH = 2;
 const ZONE_NAME_MAX_LENGTH = 120;
@@ -45,7 +45,10 @@ function zoneNameError(name: string): string {
 	return "";
 }
 
-/** Inclusion and exclusion pickers, plus a map that saves a Point Zone. */
+/**
+ * Inclusion and exclusion pickers, plus a map that saves a Point Zone. Renders
+ * grid children for a FormSectionCard.
+ */
 export function ZoneFields({
 	zones,
 	inclusionZoneIds,
@@ -112,24 +115,59 @@ export function ZoneFields({
 		}
 	};
 	return (
-		<div className="flex flex-col gap-3">
-			<Label>{t("campaigns.targeting.zones")}</Label>
+		<>
+			<ZoneSideSelect
+				label={t("campaigns.targeting.inclusionZones")}
+				zones={optionsForSide(zones, inclusionZoneIds, exclusionZoneIds)}
+				selected={inclusionZoneIds}
+				readOnly={readOnly}
+				error={inclusionError}
+				onChange={(zoneIds) => {
+					onInclusionChange(idsWithoutContradiction(zoneIds, exclusionZoneIds));
+				}}
+			/>
+			<ZoneSideSelect
+				label={t("campaigns.targeting.exclusionZones")}
+				zones={optionsForSide(zones, exclusionZoneIds, inclusionZoneIds)}
+				selected={exclusionZoneIds}
+				readOnly={readOnly}
+				error={exclusionError}
+				onChange={(zoneIds) => {
+					onExclusionChange(idsWithoutContradiction(zoneIds, inclusionZoneIds));
+				}}
+			/>
 			{readOnly ? null : (
-				<div className="flex flex-col gap-3">
-					<TextInput
-						name="zoneName"
-						label={t("campaigns.targeting.zoneName")}
-						placeholder={t("campaigns.targeting.zoneNamePlaceholder")}
-						value={name}
-						onChange={(event) => {
-							setName(event.target.value);
-						}}
-						onKeyDown={preventFormSubmit}
-						className="@xl:w-96"
-					/>
-					<p className="text-sm text-muted-foreground">
-						{t("campaigns.targeting.zonePointHint")}
-					</p>
+				<div className="flex flex-col gap-stack rounded-lg border border-border bg-background p-4 @md/formSection:col-span-2">
+					<div className="flex flex-col gap-1">
+						<h3 className="text-body-lg font-medium">
+							{t("campaigns.targeting.newZone")}
+						</h3>
+						<p className="text-body-md text-muted-foreground">
+							{t("campaigns.targeting.zonePointHint")}
+						</p>
+					</div>
+					<div className="grid grid-cols-1 gap-stack @md/formSection:grid-cols-2">
+						<TextInput
+							name="zoneName"
+							label={t("campaigns.targeting.zoneName")}
+							placeholder={t("campaigns.targeting.zoneNamePlaceholder")}
+							value={name}
+							onChange={(event) => {
+								setName(event.target.value);
+							}}
+							onKeyDown={preventFormSubmit}
+						/>
+						<TextInput
+							name="radiusKm"
+							type="number"
+							label={t("campaigns.targeting.radiusKm")}
+							value={radiusKm}
+							onChange={(event) => {
+								setRadiusKm(event.target.value);
+							}}
+							onKeyDown={preventFormSubmit}
+						/>
+					</div>
 					<PointZoneMap
 						point={point}
 						radiusKm={radiusKmForMap}
@@ -141,58 +179,23 @@ export function ZoneFields({
 							setRadiusKm(String(Math.round(nextRadiusKm * 100) / 100));
 						}}
 					/>
-					<TextInput
-						name="radiusKm"
-						type="number"
-						label={t("campaigns.targeting.radiusKm")}
-						value={radiusKm}
-						onChange={(event) => {
-							setRadiusKm(event.target.value);
-						}}
-						onKeyDown={preventFormSubmit}
-						className="@xl:w-96"
-					/>
 					{createError ? <FieldMessage message={createError} /> : null}
-					<Button
-						type="button"
-						variant="secondary"
-						className="w-full @sm:w-fit"
-						disabled={isCreating}
-						onClick={() => {
-							void saveZone();
-						}}
-					>
-						{t("campaigns.targeting.createZone")}
-					</Button>
+					<div>
+						<Button
+							type="button"
+							variant="secondary"
+							className="w-full @sm/formSection:w-fit"
+							disabled={isCreating}
+							onClick={() => {
+								void saveZone();
+							}}
+						>
+							{t("campaigns.targeting.createZone")}
+						</Button>
+					</div>
 				</div>
 			)}
-			<div className="grid gap-4 @xl:grid-cols-2">
-				<ZoneSideSelect
-					label={t("campaigns.targeting.inclusionZones")}
-					zones={optionsForSide(zones, inclusionZoneIds, exclusionZoneIds)}
-					selected={inclusionZoneIds}
-					readOnly={readOnly}
-					error={inclusionError}
-					onChange={(zoneIds) => {
-						onInclusionChange(
-							idsWithoutContradiction(zoneIds, exclusionZoneIds),
-						);
-					}}
-				/>
-				<ZoneSideSelect
-					label={t("campaigns.targeting.exclusionZones")}
-					zones={optionsForSide(zones, exclusionZoneIds, inclusionZoneIds)}
-					selected={exclusionZoneIds}
-					readOnly={readOnly}
-					error={exclusionError}
-					onChange={(zoneIds) => {
-						onExclusionChange(
-							idsWithoutContradiction(zoneIds, inclusionZoneIds),
-						);
-					}}
-				/>
-			</div>
-		</div>
+		</>
 	);
 }
 
@@ -214,8 +217,7 @@ function ZoneSideSelect({
 	onChange,
 }: ZoneSideSelectProps) {
 	return (
-		<div className="flex flex-col gap-2">
-			<Label>{label}</Label>
+		<FormField label={label} error={error}>
 			<Dropdown
 				multiSelect
 				multiSelectExpandMode="showSome"
@@ -228,8 +230,10 @@ function ZoneSideSelect({
 				}}
 				disabled={readOnly}
 				placeholder={label}
-				error={error ? `errors.${error}` : undefined}
+				error={error}
+				hideErrorMessage
+				className="w-full text-body-md!"
 			/>
-		</div>
+		</FormField>
 	);
 }

@@ -70,6 +70,17 @@ body {
   --shadow-sm: 0 1px 3px 0 rgb(8 9 10 / 0.1), 0 1px 2px -1px rgb(8 9 10 / 0.1);
   --shadow-md: 0 4px 8px -2px rgb(8 9 10 / 0.12), 0 2px 4px -2px rgb(8 9 10 / 0.08);
   --shadow-lg: 0 12px 24px -6px rgb(8 9 10 / 0.18), 0 4px 8px -4px rgb(8 9 10 / 0.1);
+
+  /* Progress bar with no known percentage (the upload gives no progress events). */
+  --animate-indeterminate: indeterminate 1.4s ease-in-out infinite;
+  @keyframes indeterminate {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(300%);
+    }
+  }
 }
 
 @theme inline {

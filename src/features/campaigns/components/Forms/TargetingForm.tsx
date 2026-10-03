@@ -312,30 +312,31 @@ export function TargetingForm({
 					}}
 				/>
 			</FormSectionCard>
-			<FormSectionCard title={t("campaigns.targeting.zones")}>
-				<div className="@md/formSection:col-span-2">
-					<ZoneFields
-						zones={zoneLibrary}
-						inclusionZoneIds={formik.values.inclusionZoneIds}
-						exclusionZoneIds={formik.values.exclusionZoneIds}
-						readOnly={isReadOnly}
-						inclusionError={fieldError("inclusionZoneIds")}
-						exclusionError={fieldError("exclusionZoneIds")}
-						onInclusionChange={(zoneIds) => {
-							formik.setFieldValue("inclusionZoneIds", zoneIds);
-							formik.setFieldValue("inclusionZonesEdited", true);
-						}}
-						onExclusionChange={(zoneIds) => {
-							formik.setFieldValue("exclusionZoneIds", zoneIds);
-							formik.setFieldValue("exclusionZonesEdited", true);
-						}}
-						onZoneCreated={(zone) => {
-							setZoneLibrary((current) =>
-								mergeZoneOptions([...current, zone], campaign.targeting.zones),
-							);
-						}}
-					/>
-				</div>
+			<FormSectionCard
+				title={t("campaigns.targeting.zones")}
+				description={t("campaigns.targeting.sections.zonesDescription")}
+			>
+				<ZoneFields
+					zones={zoneLibrary}
+					inclusionZoneIds={formik.values.inclusionZoneIds}
+					exclusionZoneIds={formik.values.exclusionZoneIds}
+					readOnly={isReadOnly}
+					inclusionError={fieldError("inclusionZoneIds")}
+					exclusionError={fieldError("exclusionZoneIds")}
+					onInclusionChange={(zoneIds) => {
+						formik.setFieldValue("inclusionZoneIds", zoneIds);
+						formik.setFieldValue("inclusionZonesEdited", true);
+					}}
+					onExclusionChange={(zoneIds) => {
+						formik.setFieldValue("exclusionZoneIds", zoneIds);
+						formik.setFieldValue("exclusionZonesEdited", true);
+					}}
+					onZoneCreated={(zone) => {
+						setZoneLibrary((current) =>
+							mergeZoneOptions([...current, zone], campaign.targeting.zones),
+						);
+					}}
+				/>
 				{zoneMessage && formik.submitCount > 0 ? (
 					<div className="@md/formSection:col-span-2">
 						<FieldMessage message={zoneMessage} />

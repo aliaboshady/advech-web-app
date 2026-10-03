@@ -187,8 +187,10 @@
 				"audience": "Audience",
 				"audienceDescription": "Age range, interests and venue types.",
 				"delivery": "Delivery",
-				"deliveryDescription": "Cars count and Delivery mode. They are stored, not enforced."
-			}
+				"deliveryDescription": "Cars count and Delivery mode. They are stored, not enforced.",
+				"zonesDescription": "Choose where the Campaign runs and where it must not. Save a new Zone to your library from the map."
+			},
+			"newZone": "New Zone"
 		},
 		"creative": {
 			"saveAndContinue": "Save and continue",
@@ -196,7 +198,11 @@
 			"unsupportedType": "Choose a jpeg, png, gif, mp4 or mov file.",
 			"tooLarge": "That file is larger than the maximum for its type.",
 			"uploadFailed": "The Creative could not be uploaded.",
-			"unreadable": "The Creative could not be read. Choose another file."
+			"unreadable": "The Creative could not be read. Choose another file.",
+			"description": "Upload the Creative your Campaign will run.",
+			"currentTitle": "Current Creative",
+			"replaceTitle": "Replace the Creative",
+			"uploadTitle": "Upload a Creative"
 		},
 		"review": {
 			"missingTitle": "Still missing",
@@ -263,7 +269,8 @@
 		"loading": "Loading",
 		"noDataTitle": "Nothing here yet",
 		"noDataDescription": "There is no data to show.",
-		"of": "of"
+		"of": "of",
+		"mapPlaceHint": "Double-click the map to place a Zone."
 	},
 	"errors": {
 		"invalidEmail": "Please enter a valid email address.",
@@ -571,5 +578,16 @@
 		"title": "Page Not Found",
 		"description": "The page you are looking for does not exist.",
 		"backToHome": "Back to Home"
+	},
+	"dropzone": {
+		"idle": "Drag a file here, or click to choose one",
+		"dragOver": "Drop the file to select it",
+		"uploading": "Uploading",
+		"ready": "Ready to upload",
+		"remove": "Remove file",
+		"tooLarge": "The file is larger than the {{size}} limit.",
+		"tooSmall": "The file is smaller than the minimum size.",
+		"invalidType": "This file type is not supported.",
+		"rejected": "\"{{name}}\" could not be selected. {{reason}}"
 	}
 }

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import FileUploadDropzone from "@/components/FileDropzone";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import { Button } from "@/components/ui/button";
 import useRequest from "@/hooks/useRequest";
 import i18n from "@/i18n";
@@ -49,7 +50,7 @@ type Props = {
 function CreativePreview({ creative }: { creative: CampaignCreative }) {
 	if (!creative.previewUrl) {
 		return (
-			<p className="text-sm text-muted-foreground">
+			<p className="text-body-md text-muted-foreground">
 				{creative.originalFilename}
 			</p>
 		);
@@ -59,7 +60,7 @@ function CreativePreview({ creative }: { creative: CampaignCreative }) {
 			<video
 				src={creative.previewUrl}
 				controls
-				className="max-h-64 w-full rounded-md bg-muted"
+				className="max-h-64 w-full rounded-md bg-muted @md/formSection:col-span-2"
 			>
 				<track kind="captions" />
 			</video>
@@ -69,7 +70,7 @@ function CreativePreview({ creative }: { creative: CampaignCreative }) {
 		<img
 			src={creative.previewUrl}
 			alt={creative.originalFilename}
-			className="max-h-64 w-full rounded-md object-contain"
+			className="max-h-64 w-full rounded-md bg-muted object-contain @md/formSection:col-span-2"
 		/>
 	);
 }
@@ -81,6 +82,7 @@ export function CreativeForm({ campaignId, creative: initialCreative }: Props) {
 		initialCreative,
 	);
 	const [file, setFile] = useState<File | null>(null);
+	const [fileError, setFileError] = useState("");
 	const { request: requestUpload, isLoading: isSaving } = useRequest<
 		File,
 		CampaignCreative
@@ -99,32 +101,35 @@ export function CreativeForm({ campaignId, creative: initialCreative }: Props) {
 		{ showErrorToast: false },
 	);
 	const selectFile = (next: File | null): void => {
+		setFileError("");
 		if (!next) {
 			setFile(null);
 			return;
 		}
 		const gate = gateCreativeFile(next);
 		if (!gate.accepted) {
-			toast.error(t(FAILURE_MESSAGES[gate.reason]));
+			const message = t(FAILURE_MESSAGES[gate.reason]);
+			setFileError(message);
+			toast.error(message);
 			return;
 		}
 		setFile(next);
 	};
 	const reportFailure = (error: unknown): void => {
-		if (error instanceof CreativeFileError) {
-			toast.error(t(FAILURE_MESSAGES[error.reason]));
-			return;
-		}
-		if (isErrorResponse(error)) {
-			toast.error(resolveErrorMessage(error, i18n.language));
-			return;
-		}
-		toast.error(t("campaigns.creative.uploadFailed"));
+		const message =
+			error instanceof CreativeFileError
+				? t(FAILURE_MESSAGES[error.reason])
+				: isErrorResponse(error)
+					? resolveErrorMessage(error, i18n.language)
+					: t("campaigns.creative.uploadFailed");
+		setFileError(message);
+		toast.error(message);
 	};
 	const saveAndContinue = async (): Promise<void> => {
 		if (isSaving) {
 			return;
 		}
+		setFileError("");
 		try {
 			if (file) {
 				const saved = await requestUpload(file);
@@ -140,31 +145,45 @@ export function CreativeForm({ campaignId, creative: initialCreative }: Props) {
 		}
 	};
 	return (
-		<div className="@container bg-primary-foreground w-full h-full @sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl">
-			{creative ? <CreativePreview creative={creative} /> : null}
-			<div className="flex flex-col gap-2 items-center h-full max-h-90">
-				<FileUploadDropzone
-					file={file}
-					setFile={selectFile}
-					accept={CREATIVE_FILE_ACCEPT}
-					maxSize={CREATIVE_VIDEO_MAX_BYTES}
-					isUploading={isSaving}
-				/>
-				<p className="text-xs text-muted-foreground">
-					{t("campaigns.creative.hint")}
-				</p>
-			</div>
-			<div className="w-full flex justify-end items-end">
-				<Button
-					onClick={() => {
-						saveAndContinue().catch(() => {});
-					}}
-					disabled={isSaving}
-					className="w-full @sm:w-fit"
+		<div className="flex w-full flex-col gap-section">
+			{creative ? (
+				<FormSectionCard
+					title={t("campaigns.creative.currentTitle")}
+					description={creative.originalFilename}
 				>
-					{t("campaigns.creative.saveAndContinue")}
-				</Button>
-			</div>
+					<CreativePreview creative={creative} />
+				</FormSectionCard>
+			) : null}
+			<FormSectionCard
+				title={
+					creative
+						? t("campaigns.creative.replaceTitle")
+						: t("campaigns.creative.uploadTitle")
+				}
+				description={t("campaigns.creative.hint")}
+				footer={
+					<Button
+						onClick={() => {
+							saveAndContinue().catch(() => {});
+						}}
+						disabled={isSaving}
+						className="w-full @sm/formSection:w-fit"
+					>
+						{t("campaigns.creative.saveAndContinue")}
+					</Button>
+				}
+			>
+				<div className="@md/formSection:col-span-2">
+					<FileUploadDropzone
+						file={file}
+						setFile={selectFile}
+						accept={CREATIVE_FILE_ACCEPT}
+						maxSize={CREATIVE_VIDEO_MAX_BYTES}
+						isUploading={isSaving}
+						error={fileError}
+					/>
+				</div>
+			</FormSectionCard>
 		</div>
 	);
 }
