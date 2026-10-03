@@ -180,6 +180,30 @@
 			"uploadFailed": "تعذر رفع الإعلان.",
 			"unreadable": "تعذر قراءة الإعلان. اختر ملفًا آخر."
 		},
+		"review": {
+			"missingTitle": "ما زال ناقصًا",
+			"submit": "إرسال",
+			"submitUnavailable": "الإرسال غير متاح بعد.",
+			"file": "الملف",
+			"dimensions": "الأبعاد",
+			"length": "الطول",
+			"age": "العمر",
+			"noCreative": "لا يوجد إعلان بعد.",
+			"lengthSeconds": "{{count}} ثانية",
+			"lengthMilliseconds": "{{count}} مللي ثانية",
+			"missingUnknown": "ما زال ناقصًا: {{code}}",
+			"missing": {
+				"name": "أضف اسم الحملة",
+				"objective": "اختر الهدف",
+				"flight": "حدّد فترة العرض",
+				"totalBudget": "حدّد إجمالي الميزانية",
+				"timeZone": "اختر المنطقة الزمنية",
+				"dayparting": "حدّد أوقات العرض",
+				"inclusionZone": "اختر منطقة تضمين",
+				"creative": "ارفع إعلانًا",
+				"singleCreative": "أبقِ إعلانًا واحدًا"
+			}
+		},
 		"tabs": {
 			"identity": "الهوية",
 			"targeting": "الاستهداف",
@@ -210,6 +234,10 @@
 		"emailRequired": "البريد الإلكتروني مطلوب.",
 		"passwordRequired": "كلمة المرور مطلوبة.",
 		"passwordMin": "يجب ألا تقل كلمة المرور عن 12 حرفًا.",
+		"passwordMax": "يجب ألا تزيد كلمة المرور عن 128 حرفًا.",
+		"firstNameRequired": "الاسم الأول مطلوب.",
+		"lastNameRequired": "اسم العائلة مطلوب.",
+		"adminNameMax": "يجب ألا يزيد الاسم عن 100 حرف.",
 		"confirmPasswordRequired": "يرجى تأكيد كلمة المرور.",
 		"passwordsMustMatch": "يجب أن تتطابق كلمتا المرور.",
 		"codeRequired": "رمز التأكيد مطلوب.",
@@ -245,6 +273,7 @@
 		"lookupNameMax": "يجب ألا يتجاوز الاسم 100 حرف.",
 		"lookupDescriptionMax": "يجب ألا يتجاوز الوصف 500 حرف.",
 		"lookupSortOrderInvalid": "يجب أن يكون ترتيب العرض عددًا صحيحًا من 0 إلى 100000.",
+		"lookupDayOutOfRange": "اختر يومًا من الإثنين إلى الأحد.",
 		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
 		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
 		"CAMPAIGN_NOT_DELETABLE": "لا يمكن حذف إلا حملة مسودة؛ أرشفتها بدلًا من ذلك",
@@ -271,6 +300,8 @@
 		"CREATIVE_DURATION_NOT_ALLOWED": "الصورة الثابتة ليس لها مدة",
 		"CREATIVE_LIMIT_REACHED": "هذه الحملة تحتوي بالفعل على الحد الأقصى من الإعلانات",
 		"ADMIN_INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+		"ADMIN_TOKEN_EXPIRED": "انتهت صلاحية هذا الرابط",
+		"ADMIN_TOKEN_INVALID": "هذا الرابط غير صالح أو سبق استخدامه",
 		"USER_SUSPENDED": "هذا الحساب موقوف. تواصل مع مسؤول آخر",
 		"PERMISSION_DENIED": "ليست لديك صلاحية لهذا",
 		"LOOKUP_CODE_TAKEN": "هذا الرمز مستخدم بالفعل",
@@ -278,14 +309,57 @@
 		"ADMIN_ALREADY_ACTIVE": "هذا الشخص مسؤول نشط بالفعل",
 		"ADVERTISER_INVALID_STATUS_TRANSITION": "تغيّرت حالة هذا المعلن، لذلك لم يعد هذا الإجراء متاحاً",
 		"reviewReasonEmpty": "أدخل سبباً.",
-		"reviewReasonTooLong": "يجب ألا يتجاوز السبب 1000 حرف."
+		"reviewReasonTooLong": "يجب ألا يتجاوز السبب 1000 حرف.",
+		"roleNameRequired": "أدخل اسم الدور.",
+		"roleNameMin": "يجب أن يكون اسم الدور حرفين على الأقل.",
+		"roleNameMax": "يجب ألا يزيد اسم الدور عن 100 حرف.",
+		"roleDescriptionMax": "يجب ألا يزيد الوصف عن 500 حرف.",
+		"ROLE_NAME_TAKEN": "يوجد دور بهذا الاسم بالفعل",
+		"ROLE_NOT_FOUND": "هذا الدور لم يعد موجودًا"
 	},
 	"admin": {
 		"login": {
 			"title": "دخول المسؤول",
 			"description": "سجّل الدخول ببريد المسؤول وكلمة المرور.",
+			"forgotPassword": "نسيت كلمة المرور؟",
 			"submit": "دخول",
 			"submitting": "جارٍ تسجيل الدخول..."
+		},
+		"acceptInvite": {
+			"title": "قبول الدعوة",
+			"description": "أدخل اسمك واختر كلمة مرور من 12 إلى 128 حرفًا للانضمام إلى لوحة الإدارة.",
+			"firstName": "الاسم الأول",
+			"lastName": "اسم العائلة",
+			"firstNamePlaceholder": "الاسم الأول",
+			"lastNamePlaceholder": "اسم العائلة",
+			"password": "كلمة المرور",
+			"passwordPlaceholder": "12 حرفًا على الأقل",
+			"submit": "قبول الدعوة",
+			"submitting": "جارٍ القبول...",
+			"missingLink": "رابط الدعوة غير مكتمل. اطلب دعوة جديدة من مسؤول آخر.",
+			"askAgain": "اطلب دعوة جديدة من مسؤول آخر.",
+			"signIn": "الذهاب إلى دخول المسؤول"
+		},
+		"passwordReset": {
+			"request": {
+				"title": "إعادة تعيين كلمة مرور المسؤول",
+				"description": "أدخل البريد الإلكتروني لحساب المسؤول.",
+				"submit": "إرسال رابط إعادة التعيين",
+				"submitting": "جارٍ الإرسال...",
+				"sent": "إن كان هذا البريد لحساب مسؤول، فسيصلك رابط إعادة التعيين.",
+				"backToSignIn": "العودة إلى دخول المسؤول"
+			},
+			"confirm": {
+				"title": "اختر كلمة مرور جديدة",
+				"description": "اختر كلمة مرور جديدة من 12 إلى 128 حرفًا. يؤدي هذا إلى تسجيل خروجك من كل الجلسات.",
+				"password": "كلمة المرور الجديدة",
+				"passwordPlaceholder": "12 حرفًا على الأقل",
+				"submit": "حفظ كلمة المرور",
+				"submitting": "جارٍ الحفظ...",
+				"missingLink": "رابط إعادة التعيين غير مكتمل.",
+				"requestAnother": "طلب رابط جديد",
+				"signIn": "الذهاب إلى دخول المسؤول"
+			}
 		},
 		"sidebar": {
 			"home": "الرئيسية",
@@ -293,6 +367,8 @@
 			"objectives": "الأهداف",
 			"interests": "الاهتمامات",
 			"venueTypes": "أنواع الأماكن",
+			"schedulePresets": "الإعدادات المسبقة",
+			"roles": "الأدوار",
 			"invites": "الدعوات"
 		},
 		"lookups": {
@@ -316,10 +392,24 @@
 			"inactive": "غير نشط",
 			"activate": "تفعيل",
 			"deactivate": "تعطيل",
+			"daysLabel": "الأيام",
+			"startTime": "وقت البدء",
+			"endTime": "وقت الانتهاء",
+			"crossesMidnight": "يعبر منتصف الليل",
+			"days": {
+				"monday": "الإثنين",
+				"tuesday": "الثلاثاء",
+				"wednesday": "الأربعاء",
+				"thursday": "الخميس",
+				"friday": "الجمعة",
+				"saturday": "السبت",
+				"sunday": "الأحد"
+			},
 			"columns": {
 				"code": "الرمز",
 				"name": "الاسم",
 				"description": "الوصف",
+				"window": "النافذة",
 				"sortOrder": "ترتيب العرض",
 				"status": "الحالة",
 				"actions": "إجراءات"
@@ -335,6 +425,10 @@
 			"venueTypes": {
 				"title": "أنواع الأماكن",
 				"description": "أنواع الأماكن التي يمكن للمعلن استهدافها."
+			},
+			"schedulePresets": {
+				"title": "الإعدادات المسبقة",
+				"description": "نافذة مسماة لأوقات العرض. يختار المعلنون واحدة منها."
 			}
 		},
 		"invites": {
@@ -414,6 +508,27 @@
 			"title": "لا صلاحية بعد",
 			"noRoles": "ليست لديك أدوار بعد، لذلك لا يظهر لك شيء. تواصل مع مسؤول آخر.",
 			"permissionDenied": "ليست لديك صلاحية لهذا. تم تحديث صلاحياتك."
+		},
+		"roles": {
+			"title": "الأدوار",
+			"create": "إنشاء دور",
+			"createTitle": "إنشاء دور",
+			"editTitle": "تعديل الدور",
+			"empty": "لا توجد أدوار بعد.",
+			"name": "الاسم",
+			"namePlaceholder": "مراجع الانضمام",
+			"description": "الوصف",
+			"descriptionPlaceholder": "الغرض من هذا الدور",
+			"permissions": "الصلاحيات",
+			"permissionsHint": "الحفظ يستبدل صلاحيات هذا الدور بالكامل.",
+			"admins": "المسؤولون",
+			"adminCount": "يحمله {{count}} من المسؤولين",
+			"save": "حفظ الدور",
+			"saving": "جارٍ الحفظ...",
+			"deleteTitle": "حذف هذا الدور؟",
+			"deleteBody": "المسؤولون الذين يحملون {{name}} يفقدون صلاحياته. لا يمكن التراجع عن ذلك.",
+			"unknownPermission": "هذه الصلاحية ليست في القائمة الحالية. تبقى حتى تزيلها.",
+			"noDescription": "لا يوجد وصف"
 		}
 	},
 	"notFound": {

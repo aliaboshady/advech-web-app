@@ -180,6 +180,30 @@
 			"uploadFailed": "The Creative could not be uploaded.",
 			"unreadable": "The Creative could not be read. Choose another file."
 		},
+		"review": {
+			"missingTitle": "Still missing",
+			"submit": "Submit",
+			"submitUnavailable": "Submission is not available yet.",
+			"file": "File",
+			"dimensions": "Dimensions",
+			"length": "Length",
+			"age": "Age",
+			"noCreative": "No Creative yet.",
+			"lengthSeconds": "{{count}} seconds",
+			"lengthMilliseconds": "{{count}} milliseconds",
+			"missingUnknown": "Still missing: {{code}}",
+			"missing": {
+				"name": "Add a Campaign name",
+				"objective": "Choose an Objective",
+				"flight": "Set the Flight",
+				"totalBudget": "Set the total Budget",
+				"timeZone": "Choose a time zone",
+				"dayparting": "Set the Dayparting",
+				"inclusionZone": "Choose an inclusion Zone",
+				"creative": "Upload a Creative",
+				"singleCreative": "Keep a single Creative"
+			}
+		},
 		"tabs": {
 			"identity": "Identity",
 			"targeting": "Targeting",
@@ -210,6 +234,10 @@
 		"emailRequired": "Email is required.",
 		"passwordRequired": "Password is required.",
 		"passwordMin": "Password must be at least 12 characters.",
+		"passwordMax": "Password must be at most 128 characters.",
+		"firstNameRequired": "First name is required.",
+		"lastNameRequired": "Last name is required.",
+		"adminNameMax": "A name must be at most 100 characters.",
 		"confirmPasswordRequired": "Please confirm your password.",
 		"passwordsMustMatch": "Passwords must match.",
 		"codeRequired": "Verification code is required.",
@@ -245,6 +273,7 @@
 		"lookupNameMax": "Name must be at most 100 characters.",
 		"lookupDescriptionMax": "Description must be at most 500 characters.",
 		"lookupSortOrderInvalid": "Sort order must be a whole number from 0 to 100000.",
+		"lookupDayOutOfRange": "Choose a day from Monday to Sunday.",
 		"CAMPAIGN_NOT_FOUND": "Campaign not found",
 		"CAMPAIGN_NOT_EDITABLE": "A Campaign can only be changed while it is a draft or has been returned for changes",
 		"CAMPAIGN_NOT_DELETABLE": "Only a draft Campaign can be deleted; archive it instead",
@@ -271,6 +300,8 @@
 		"CREATIVE_DURATION_NOT_ALLOWED": "A still image has no duration",
 		"CREATIVE_LIMIT_REACHED": "This Campaign already holds the maximum number of Creatives",
 		"ADMIN_INVALID_CREDENTIALS": "That email or password is wrong",
+		"ADMIN_TOKEN_EXPIRED": "This link has expired",
+		"ADMIN_TOKEN_INVALID": "This link is invalid or has already been used",
 		"USER_SUSPENDED": "This account is suspended. Contact another Admin",
 		"PERMISSION_DENIED": "You do not have access to this",
 		"LOOKUP_CODE_TAKEN": "That code is already used",
@@ -278,14 +309,57 @@
 		"ADMIN_ALREADY_ACTIVE": "This person is already an active Admin",
 		"ADVERTISER_INVALID_STATUS_TRANSITION": "This Advertiser's status changed, so that action is no longer available",
 		"reviewReasonEmpty": "Enter a reason.",
-		"reviewReasonTooLong": "A reason can be at most 1,000 characters."
+		"reviewReasonTooLong": "A reason can be at most 1,000 characters.",
+		"roleNameRequired": "Enter a Role name.",
+		"roleNameMin": "A Role name must be at least 2 characters.",
+		"roleNameMax": "A Role name must be at most 100 characters.",
+		"roleDescriptionMax": "A description must be at most 500 characters.",
+		"ROLE_NAME_TAKEN": "A Role with this name already exists",
+		"ROLE_NOT_FOUND": "That Role no longer exists"
 	},
 	"admin": {
 		"login": {
 			"title": "Admin sign-in",
 			"description": "Sign in with your Admin email and password.",
+			"forgotPassword": "Forgot password?",
 			"submit": "Sign in",
 			"submitting": "Signing in..."
+		},
+		"acceptInvite": {
+			"title": "Accept your invite",
+			"description": "Enter your name and a password of 12 to 128 characters to join the back-office.",
+			"firstName": "First name",
+			"lastName": "Last name",
+			"firstNamePlaceholder": "First name",
+			"lastNamePlaceholder": "Last name",
+			"password": "Password",
+			"passwordPlaceholder": "At least 12 characters",
+			"submit": "Accept invite",
+			"submitting": "Accepting...",
+			"missingLink": "This invite link is incomplete. Ask another Admin for a new invite.",
+			"askAgain": "Ask another Admin for a new invite.",
+			"signIn": "Go to admin sign-in"
+		},
+		"passwordReset": {
+			"request": {
+				"title": "Reset your Admin password",
+				"description": "Enter the email for your Admin account.",
+				"submit": "Send reset link",
+				"submitting": "Sending...",
+				"sent": "If that email belongs to an Admin, a reset link is on its way.",
+				"backToSignIn": "Back to admin sign-in"
+			},
+			"confirm": {
+				"title": "Choose a new password",
+				"description": "Choose a new password of 12 to 128 characters. This signs you out of every session.",
+				"password": "New password",
+				"passwordPlaceholder": "At least 12 characters",
+				"submit": "Save password",
+				"submitting": "Saving...",
+				"missingLink": "This reset link is incomplete.",
+				"requestAnother": "Request a new reset",
+				"signIn": "Go to admin sign-in"
+			}
 		},
 		"sidebar": {
 			"home": "Home",
@@ -293,6 +367,8 @@
 			"objectives": "Objectives",
 			"interests": "Interests",
 			"venueTypes": "Venue types",
+			"schedulePresets": "Schedule presets",
+			"roles": "Roles",
 			"invites": "Invites"
 		},
 		"lookups": {
@@ -316,10 +392,24 @@
 			"inactive": "Inactive",
 			"activate": "Activate",
 			"deactivate": "Deactivate",
+			"daysLabel": "Days",
+			"startTime": "Start time",
+			"endTime": "End time",
+			"crossesMidnight": "Crosses midnight",
+			"days": {
+				"monday": "Mon",
+				"tuesday": "Tue",
+				"wednesday": "Wed",
+				"thursday": "Thu",
+				"friday": "Fri",
+				"saturday": "Sat",
+				"sunday": "Sun"
+			},
 			"columns": {
 				"code": "Code",
 				"name": "Name",
 				"description": "Description",
+				"window": "Window",
 				"sortOrder": "Sort order",
 				"status": "Status",
 				"actions": "Actions"
@@ -335,6 +425,10 @@
 			"venueTypes": {
 				"title": "Venue types",
 				"description": "Venue types an Advertiser can target."
+			},
+			"schedulePresets": {
+				"title": "Schedule presets",
+				"description": "A named Dayparting window. Advertisers pick one of these."
 			}
 		},
 		"invites": {
@@ -414,6 +508,27 @@
 			"title": "No access yet",
 			"noRoles": "You have no Roles yet, so nothing is listed for you. Contact another Admin.",
 			"permissionDenied": "You do not have access to this. Your access has been refreshed."
+		},
+		"roles": {
+			"title": "Roles",
+			"create": "Create Role",
+			"createTitle": "Create Role",
+			"editTitle": "Edit Role",
+			"empty": "No Roles yet.",
+			"name": "Name",
+			"namePlaceholder": "Onboarding reviewer",
+			"description": "Description",
+			"descriptionPlaceholder": "What this Role is for",
+			"permissions": "Permissions",
+			"permissionsHint": "Saving replaces this Role's Permissions as a whole.",
+			"admins": "Admins",
+			"adminCount": "Held by {{count}} Admins",
+			"save": "Save Role",
+			"saving": "Saving...",
+			"deleteTitle": "Delete this Role?",
+			"deleteBody": "Admins who hold {{name}} lose its Permissions. This cannot be undone.",
+			"unknownPermission": "This Permission is not in the current list. It is kept until you clear it.",
+			"noDescription": "No description"
 		}
 	},
 	"notFound": {

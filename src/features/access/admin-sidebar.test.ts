@@ -111,7 +111,7 @@ describe("visibleAdminSidebarEntries", () => {
 		).toBe(false);
 	});
 
-	it("lists home, Advertiser review, the Lookup screens and invites", () => {
+	it("lists home, Advertiser review, the Lookup screens, Roles and invites", () => {
 		const superAdmin = {
 			isSuperAdmin: true,
 			roles: [{ id: "role-super-admin", name: "Super admin" }],
@@ -125,10 +125,14 @@ describe("visibleAdminSidebarEntries", () => {
 			"objectives",
 			"interests",
 			"venue-types",
+			"schedule-presets",
+			"roles",
 			"invites",
 		]);
 		expect(adminMayOpenPath(superAdmin, "/admin/advertisers")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/objectives")).toBe(true);
+		expect(adminMayOpenPath(superAdmin, "/admin/schedule-presets")).toBe(true);
+		expect(adminMayOpenPath(superAdmin, "/admin/roles")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/invites")).toBe(true);
 	});
 
@@ -144,6 +148,7 @@ describe("visibleAdminSidebarEntries", () => {
 		expect(adminMayOpenPath(drivers, "/admin/objectives")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/interests")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/venue-types")).toBe(false);
+		expect(adminMayOpenPath(drivers, "/admin/schedule-presets")).toBe(false);
 	});
 
 	it("hides invites from an Admin without admins:invite", () => {
@@ -159,6 +164,7 @@ describe("visibleAdminSidebarEntries", () => {
 			"objectives",
 			"interests",
 			"venue-types",
+			"schedule-presets",
 		]);
 	});
 
@@ -173,6 +179,30 @@ describe("visibleAdminSidebarEntries", () => {
 		);
 		expect(adminMayOpenPath(access, "/admin/advertisers")).toBe(true);
 		expect(adminMayOpenPath(access, "/admin/advertisers/adv-acme")).toBe(true);
+	});
+
+	it("shows Roles only to an Admin who may manage them", () => {
+		const held = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-roles", name: "Role manager" }],
+			permissions: ["roles:manage"],
+		};
+		expect(visibleAdminSidebarEntries(held).map((entry) => entry.id)).toEqual([
+			"home",
+			"advertisers",
+			"roles",
+		]);
+		expect(adminMayOpenPath(held, "/admin/roles")).toBe(true);
+		expect(adminMayOpenPath(held, "/admin/roles/role-1")).toBe(true);
+		const missing = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-drivers", name: "Drivers" }],
+			permissions: ["drivers:read"],
+		};
+		expect(
+			visibleAdminSidebarEntries(missing).map((entry) => entry.id),
+		).toEqual(["home", "advertisers"]);
+		expect(adminMayOpenPath(missing, "/admin/roles")).toBe(false);
 	});
 
 	it("opens the invites path only when admins:invite is held", () => {

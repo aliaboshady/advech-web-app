@@ -12,6 +12,8 @@ export type AdminSidebarLabelKey =
 	| "admin.sidebar.objectives"
 	| "admin.sidebar.interests"
 	| "admin.sidebar.venueTypes"
+	| "admin.sidebar.schedulePresets"
+	| "admin.sidebar.roles"
 	| "admin.sidebar.invites";
 
 export type AdminSidebarEntry = {
@@ -38,6 +40,12 @@ export const adminSidebarCatalog: readonly AdminSidebarEntry[] = [
 		permissionKey: LOOKUPS_MANAGE,
 		labelKey: resource.labelKey,
 	})),
+	{
+		id: "roles",
+		path: "/admin/roles",
+		permissionKey: "roles:manage",
+		labelKey: "admin.sidebar.roles",
+	},
 	{
 		id: "invites",
 		path: "/admin/invites",
