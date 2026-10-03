@@ -10,7 +10,7 @@ import { radiusMetersFromKilometers } from "@/features/zones/point-zone-radius";
 import { CreatePointZonePayload, Zone } from "@/features/zones/types";
 import useRequest from "@/hooks/useRequest";
 import { ServerResponse } from "@/types";
-import { hasZoneRoleContradiction } from "../../zone-role";
+import { idsWithoutContradiction, optionsForSide } from "../../zone-role";
 import { FieldMessage } from "./FieldMessage";
 
 const ZONE_NAME_MIN_LENGTH = 2;
@@ -33,28 +33,6 @@ type Props = {
 	onExclusionChange: (zoneIds: string[]) => void;
 	onZoneCreated: (zone: ZoneOption) => void;
 };
-
-function optionsForSide(
-	zones: readonly ZoneOption[],
-	selectedOnThisSide: readonly string[],
-	selectedOnOtherSide: readonly string[],
-): ZoneOption[] {
-	const selected = new Set(selectedOnThisSide);
-	return zones.filter(
-		(zone) =>
-			selected.has(zone.id) ||
-			!hasZoneRoleContradiction([zone.id], selectedOnOtherSide),
-	);
-}
-
-function idsWithoutContradiction(
-	zoneIds: readonly string[],
-	otherSideIds: readonly string[],
-): string[] {
-	return zoneIds.filter(
-		(zoneId) => !hasZoneRoleContradiction([zoneId], otherSideIds),
-	);
-}
 
 function zoneNameError(name: string): string {
 	const trimmed = name.trim();

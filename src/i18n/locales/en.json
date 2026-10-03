@@ -194,6 +194,7 @@
 		"darkMode": "Dark Mode",
 		"switchToLightMode": "Switch to light mode",
 		"switchToDarkMode": "Switch to dark mode",
+		"searchPlace": "Search for a place",
 		"of": "of"
 	},
 	"errors": {
