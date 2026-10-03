@@ -15,6 +15,6 @@ export const Route = createFileRoute("/_onboarding/onboarding")({
 });
 
 function RouteComponent() {
-	const { onboarding } = Route.useRouteContext();
-	return <OnboardingPage onboarding={onboarding} />;
+	const { me, onboarding } = Route.useRouteContext();
+	return <OnboardingPage userId={me?.id ?? ""} onboarding={onboarding} />;
 }

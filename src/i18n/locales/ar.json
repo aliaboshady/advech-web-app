@@ -360,7 +360,22 @@
 		"roleNameMax": "يجب ألا يزيد اسم الدور عن 100 حرف.",
 		"roleDescriptionMax": "يجب ألا يزيد الوصف عن 500 حرف.",
 		"ROLE_NAME_TAKEN": "يوجد دور بهذا الاسم بالفعل",
-		"ROLE_NOT_FOUND": "هذا الدور لم يعد موجودًا"
+		"ROLE_NOT_FOUND": "هذا الدور لم يعد موجودًا",
+		"companyNameRequired": "أدخل اسم الشركة.",
+		"companyNameMax": "يجب ألا يزيد اسم الشركة عن 200 حرف.",
+		"companyEmailRequired": "أدخل البريد الإلكتروني للتواصل مع الشركة.",
+		"countryRequired": "اختر الدولة.",
+		"cityRequired": "اختر المدينة.",
+		"placeMax": "يجب ألا يزيد هذا الحقل عن 100 حرف.",
+		"telephoneRequired": "أدخل رقم الهاتف.",
+		"telephoneInvalid": "استخدم الأرقام و+ والمسافات والشرطات والأقواس فقط.",
+		"telephoneMax": "يجب ألا يزيد رقم الهاتف عن 30 حرفاً.",
+		"addressMax": "يجب ألا يزيد العنوان عن 500 حرف.",
+		"mobileRequired": "أدخل رقم الجوال.",
+		"mobileInvalid": "استخدم الأرقام و+ والمسافات والشرطات والأقواس فقط.",
+		"mobileMax": "يجب ألا يزيد رقم الجوال عن 30 حرفاً.",
+		"personNameMax": "يجب ألا يزيد الاسم عن 100 حرف.",
+		"titleMax": "يجب ألا يزيد المسمى الوظيفي عن 100 حرف."
 	},
 	"admin": {
 		"login": {
@@ -626,6 +641,33 @@
 		"loadError": {
 			"description": "تعذّر تحميل حالة الإعداد.",
 			"retry": "حاول مرة أخرى"
+		},
+		"save": "حفظ",
+		"saving": "جارٍ الحفظ...",
+		"section": {
+			"complete": "مكتمل",
+			"incomplete": "غير مكتمل"
+		},
+		"company": {
+			"title": "بيانات الشركة",
+			"description": "أخبرنا عن الشركة التي تعلن لصالحها.",
+			"name": "اسم الشركة",
+			"namePlaceholder": "شركة المثال للإعلام",
+			"email": "البريد الإلكتروني للتواصل مع الشركة",
+			"emailHint": "العنوان الذي يمكننا مراسلة شركتك عليه. وهو ليس بريد تسجيل الدخول.",
+			"emailPlaceholder": "info@acme.com",
+			"country": "الدولة",
+			"countryPlaceholder": "اختر الدولة",
+			"countrySearch": "ابحث عن دولة",
+			"city": "المدينة",
+			"cityPlaceholder": "اختر المدينة",
+			"citySearch": "ابحث عن مدينة",
+			"cityHint": "اختر الدولة أولاً.",
+			"telephone": "الهاتف",
+			"telephonePlaceholder": "+20 22 123 4567",
+			"address": "العنوان (اختياري)",
+			"addressHint": "الشارع والمنطقة إن رغبت في تسجيلهما.",
+			"addressPlaceholder": "12 ميدان التحرير، وسط البلد"
 		}
 	}
 }

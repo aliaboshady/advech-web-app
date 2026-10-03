@@ -38,7 +38,7 @@ export type TextInputProps = {
 	/** Helper text under the field; replaced by the error when there is one. */
 	hint?: string;
 	error?: string;
-	dir?: Dir;
+	dir?: Dir | "auto";
 	disabled?: boolean;
 	/** Shows a required marker next to the label. Validation stays with the form. */
 	required?: boolean;

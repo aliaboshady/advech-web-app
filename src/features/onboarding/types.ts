@@ -16,3 +16,9 @@ export type OnboardingState = {
 		acceptedAt: string | null;
 	};
 };
+
+/** One entry of `GET /countries` or `GET /cities`. Submit the `name`, never the `id`. */
+export type PlaceOption = {
+	id: string;
+	name: string;
+};

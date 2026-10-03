@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import { Label } from "@/components/ui/label";
 import { FieldMessage } from "./FieldMessage";
@@ -10,6 +11,8 @@ type Props = {
 	/** Helper text under the control; replaced by the error when there is one. */
 	hint?: string;
 	error?: string;
+	/** Shows the same required marker as a TextInput label. */
+	required?: boolean;
 	/** Span both columns of the section. */
 	wide?: boolean;
 	className?: string;
@@ -25,10 +28,12 @@ export function FormField({
 	htmlFor,
 	hint,
 	error,
+	required = false,
 	wide = false,
 	className,
 	children,
 }: Props) {
+	const { t } = useTranslation();
 	return (
 		<div
 			className={twMerge(
@@ -37,7 +42,17 @@ export function FormField({
 				className,
 			)}
 		>
-			<Label htmlFor={htmlFor}>{label}</Label>
+			<Label htmlFor={htmlFor}>
+				{label}
+				{required ? (
+					<>
+						<span aria-hidden="true" className="text-destructive">
+							*
+						</span>
+						<span className="sr-only">{t("common.required")}</span>
+					</>
+				) : null}
+			</Label>
 			{children}
 			{error ? (
 				<FieldMessage message={error} />

@@ -360,7 +360,22 @@
 		"roleNameMax": "A Role name must be at most 100 characters.",
 		"roleDescriptionMax": "A description must be at most 500 characters.",
 		"ROLE_NAME_TAKEN": "A Role with this name already exists",
-		"ROLE_NOT_FOUND": "That Role no longer exists"
+		"ROLE_NOT_FOUND": "That Role no longer exists",
+		"companyNameRequired": "Enter the company name.",
+		"companyNameMax": "A company name must be at most 200 characters.",
+		"companyEmailRequired": "Enter a company contact email.",
+		"countryRequired": "Choose a country.",
+		"cityRequired": "Choose a city.",
+		"placeMax": "This must be at most 100 characters.",
+		"telephoneRequired": "Enter a telephone number.",
+		"telephoneInvalid": "Use digits, +, spaces, dashes and parentheses only.",
+		"telephoneMax": "A telephone number must be at most 30 characters.",
+		"addressMax": "An address must be at most 500 characters.",
+		"mobileRequired": "Enter a mobile number.",
+		"mobileInvalid": "Use digits, +, spaces, dashes and parentheses only.",
+		"mobileMax": "A mobile number must be at most 30 characters.",
+		"personNameMax": "A name must be at most 100 characters.",
+		"titleMax": "A title must be at most 100 characters."
 	},
 	"admin": {
 		"login": {
@@ -626,6 +641,33 @@
 		"loadError": {
 			"description": "We could not load your Onboarding status.",
 			"retry": "Try again"
+		},
+		"save": "Save",
+		"saving": "Saving...",
+		"section": {
+			"complete": "Complete",
+			"incomplete": "Incomplete"
+		},
+		"company": {
+			"title": "Company details",
+			"description": "Tell us about the company you advertise for.",
+			"name": "Company name",
+			"namePlaceholder": "Acme Media Ltd",
+			"email": "Company contact email",
+			"emailHint": "Where we can reach your company. This is not your login email.",
+			"emailPlaceholder": "info@acme.com",
+			"country": "Country",
+			"countryPlaceholder": "Select a country",
+			"countrySearch": "Search countries",
+			"city": "City",
+			"cityPlaceholder": "Select a city",
+			"citySearch": "Search cities",
+			"cityHint": "Choose a country first.",
+			"telephone": "Telephone",
+			"telephonePlaceholder": "+20 22 123 4567",
+			"address": "Address (optional)",
+			"addressHint": "Street and area, if you want it on file.",
+			"addressPlaceholder": "12 Tahrir Square, Downtown"
 		}
 	}
 }
