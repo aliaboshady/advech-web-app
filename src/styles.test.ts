@@ -127,6 +127,20 @@ describe("contrast (WCAG AA)", () => {
 			}
 		});
 
+		it(`core text pairs are readable in the ${name} theme`, () => {
+			for (const [fg, surface] of [
+				["foreground", "background"],
+				["card-foreground", "card"],
+				["primary-foreground", "primary"],
+				["sidebar-foreground", "sidebar"],
+			]) {
+				expect(
+					contrast(parse(value(theme, fg)).rgb, bg(surface)),
+					`${fg} on ${surface}`,
+				).toBeGreaterThanOrEqual(4.5);
+			}
+		});
+
 		it(`status colours are readable in the ${name} theme`, () => {
 			for (const s of STATUSES) {
 				const solid = parse(value(theme, s)).rgb;

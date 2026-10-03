@@ -29,11 +29,11 @@ Orange (`primary`, `ring`, `glow`) is for primary actions, focus rings and live 
 
 Each of `success`, `warning`, `info` (`#4ea7ff` in dark) and `destructive` has four tokens: `X` (solid), `X-foreground` (text on solid), `X-soft` (tinted background), `X-soft-foreground` (text on the soft background). Utilities: `bg-success`, `text-success-foreground`, `bg-success-soft`, `text-success-soft-foreground`, and so on.
 
-Mapping (applied by the shared status badge, ticket 3): `APPROVED` success; `PENDING_REVIEW` info; `NEEDS_CHANGES` and `IN_PROGRESS` warning; `REJECTED` destructive solid (final); `SUSPENDED` destructive soft (recoverable); `DRAFT` and `REGISTERED` neutral. No feature file chooses a status colour.
+Mapping (to be applied by one shared status badge, not yet built): `APPROVED` success; `PENDING_REVIEW` info; `NEEDS_CHANGES` and `IN_PROGRESS` warning; `REJECTED` destructive solid (final); `SUSPENDED` destructive soft (recoverable); `DRAFT` and `REGISTERED` neutral. No feature file chooses a status colour.
 
 ## Type
 
-Geist (variable, 400-600) for text. IBM Plex Sans Arabic (400, 500, 600) replaces it when the interface language is Arabic (`:lang(ar)` re-points `--font-sans`; Geist stays as the Latin fallback). JetBrains Mono (400, 500) is for small uppercase labels only, never body text. All fonts are self-hosted via `@fontsource`.
+Geist (400, 500, 600) for text. IBM Plex Sans Arabic (400, 500, 600) replaces it when the interface language is Arabic (`:lang(ar)` re-points `--font-sans`; Geist stays as the Latin fallback). JetBrains Mono (400, 500) is for small uppercase labels only, never body text. All fonts are self-hosted via `@fontsource`.
 
 | Utility | Size / line height | Weight |
 | --- | --- | --- |
@@ -57,7 +57,7 @@ Elevation is neutral shadows (`shadow-xs` to `shadow-lg`); tables, forms and dia
 - Glow (`shadow-glow`, `--glow`): an orange halo for primary-button hover and focus.
 - Glass (`glass` utility: translucent surface, blur, hairline): sidebar and navbar only.
 
-Under `prefers-reduced-motion` the glow becomes transparent and transitions/animations are effectively instant.
+Under `prefers-reduced-motion` the glow becomes transparent and transitions are effectively instant (functional spinners keep running).
 
 ## Do
 

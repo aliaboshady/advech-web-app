@@ -13,6 +13,7 @@
     />
 
     <script>
+      // Keep in sync with src/lib/theme.ts (dark by default) and the canvas colours in DESIGN.md.
       (() => {
         const savedTheme = localStorage.getItem('theme');
         const isDark = savedTheme ? savedTheme === 'dark' : true;

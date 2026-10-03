@@ -2,7 +2,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "@fontsource/geist/latin-400.css";
+@import "@fontsource/geist/latin-500.css";
+@import "@fontsource/geist/latin-600.css";
 @import "@fontsource/jetbrains-mono/latin-400.css";
 @import "@fontsource/jetbrains-mono/latin-500.css";
 @import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
@@ -29,7 +31,7 @@ body {
    page; the light theme is derived from them. See DESIGN.md. */
 
 @theme {
-  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-sans);
   --font-label: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
 
@@ -243,7 +245,7 @@ body {
 
 /* Arabic uses IBM Plex Sans Arabic; Geist stays as the fallback for Latin runs. */
 :lang(ar) {
-  --font-sans: 'IBM Plex Sans Arabic', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans Arabic', 'Geist', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* The one glass surface (shell only) and the small-caps label style. */
@@ -276,8 +278,6 @@ body {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
@@ -344,7 +344,7 @@ body {
   border-radius: 0.75rem;
   background: var(--card);
   color: var(--card-foreground);
-  box-shadow: 0 0.75rem 2rem rgb(8 9 10 / 14%);
+  box-shadow: var(--shadow-lg);
   font-family: var(--font-sans);
   font-size: 0.875rem;
   line-height: 1.35;
