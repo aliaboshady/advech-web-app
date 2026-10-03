@@ -4,6 +4,7 @@ export type SignupPayload = {
 };
 
 export type SignupResponse = {
+	token: string;
 	expiresInSeconds: number;
 	resendAvailableInSeconds: number;
 	devCode: string; // TODO: Delete for later
@@ -24,14 +25,20 @@ export type ResendCodePayload = {
 };
 
 export type ResendCodeResponse = {
+	token?: string;
 	expiresInSeconds: number;
 	resendAvailableInSeconds: number;
-	devCode: string;
+	devCode?: string;
 };
 
 export type VerifyEmailPayload = {
-	email: string;
+	token: string;
 	code: string;
+};
+
+export type VerifyEmailResponse = {
+	accessToken: string;
+	refreshToken: string;
 };
 
 export type RequestPasswordResetPayload = {

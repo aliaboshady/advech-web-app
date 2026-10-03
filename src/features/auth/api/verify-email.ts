@@ -1,17 +1,19 @@
 import { apiClient } from "@/api/apiClient";
 import { ServerResponse } from "@/types";
-import { VerifyEmailPayload } from "../types";
+import { VerifyEmailPayload, VerifyEmailResponse } from "../types";
 
 export const verifyEmail = async ({
-	email,
+	token,
 	code,
-}: VerifyEmailPayload): Promise<void> => {
-	await apiClient<ServerResponse<void>>(
+}: VerifyEmailPayload): Promise<ServerResponse<VerifyEmailResponse>> => {
+	const res = await apiClient<ServerResponse<VerifyEmailResponse>>(
 		"auth/advertiser/verify-email", // TODO: Remove "advertiser" from the endpoint later
 		{
 			method: "POST",
-			body: JSON.stringify({ email, code }),
+			body: JSON.stringify({ token, code }),
 			skipAuth: true,
 		},
 	);
+
+	return res;
 };
