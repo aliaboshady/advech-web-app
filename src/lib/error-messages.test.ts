@@ -117,6 +117,21 @@ describe("resolveErrorMessage", () => {
 		).toBe("This person is already an active Admin");
 	});
 
+	it("maps a taken Role name and a missing Role to their messages", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "ROLE_NAME_TAKEN", message: "from the server" },
+				"en",
+			),
+		).toBe("A Role with this name already exists");
+		expect(
+			resolveErrorMessage(
+				{ code: "ROLE_NOT_FOUND", message: "from the server" },
+				"en",
+			),
+		).toBe("That Role no longer exists");
+	});
+
 	it("keeps the server message when the code is unknown", () => {
 		expect(
 			resolveErrorMessage(

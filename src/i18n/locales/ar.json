@@ -275,7 +275,13 @@
 		"PERMISSION_DENIED": "ليست لديك صلاحية لهذا",
 		"LOOKUP_CODE_TAKEN": "هذا الرمز مستخدم بالفعل",
 		"LOOKUP_NOT_FOUND": "لم يعد هذا البند موجودًا",
-		"ADMIN_ALREADY_ACTIVE": "هذا الشخص مسؤول نشط بالفعل"
+		"ADMIN_ALREADY_ACTIVE": "هذا الشخص مسؤول نشط بالفعل",
+		"roleNameRequired": "أدخل اسم الدور.",
+		"roleNameMin": "يجب أن يكون اسم الدور حرفين على الأقل.",
+		"roleNameMax": "يجب ألا يزيد اسم الدور عن 100 حرف.",
+		"roleDescriptionMax": "يجب ألا يزيد الوصف عن 500 حرف.",
+		"ROLE_NAME_TAKEN": "يوجد دور بهذا الاسم بالفعل",
+		"ROLE_NOT_FOUND": "هذا الدور لم يعد موجودًا"
 	},
 	"admin": {
 		"login": {
@@ -290,6 +296,7 @@
 			"objectives": "الأهداف",
 			"interests": "الاهتمامات",
 			"venueTypes": "أنواع الأماكن",
+			"roles": "الأدوار",
 			"invites": "الدعوات"
 		},
 		"lookups": {
@@ -376,6 +383,27 @@
 			"title": "لا صلاحية بعد",
 			"noRoles": "ليست لديك أدوار بعد، لذلك لا يظهر لك شيء. تواصل مع مسؤول آخر.",
 			"permissionDenied": "ليست لديك صلاحية لهذا. تم تحديث صلاحياتك."
+		},
+		"roles": {
+			"title": "الأدوار",
+			"create": "إنشاء دور",
+			"createTitle": "إنشاء دور",
+			"editTitle": "تعديل الدور",
+			"empty": "لا توجد أدوار بعد.",
+			"name": "الاسم",
+			"namePlaceholder": "مراجع الانضمام",
+			"description": "الوصف",
+			"descriptionPlaceholder": "الغرض من هذا الدور",
+			"permissions": "الصلاحيات",
+			"permissionsHint": "الحفظ يستبدل صلاحيات هذا الدور بالكامل.",
+			"admins": "المسؤولون",
+			"adminCount": "يحمله {{count}} من المسؤولين",
+			"save": "حفظ الدور",
+			"saving": "جارٍ الحفظ...",
+			"deleteTitle": "حذف هذا الدور؟",
+			"deleteBody": "المسؤولون الذين يحملون {{name}} يفقدون صلاحياته. لا يمكن التراجع عن ذلك.",
+			"unknownPermission": "هذه الصلاحية ليست في القائمة الحالية. تبقى حتى تزيلها.",
+			"noDescription": "لا يوجد وصف"
 		}
 	},
 	"notFound": {

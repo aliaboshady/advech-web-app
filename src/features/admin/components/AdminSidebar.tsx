@@ -4,6 +4,7 @@ import {
 	ClipboardList,
 	House,
 	type LucideIcon,
+	Shield,
 	Sparkles,
 	Target,
 	UserPlus,
@@ -27,6 +28,7 @@ const entryIcons: Record<string, LucideIcon> = {
 	objectives: Target,
 	interests: Sparkles,
 	"venue-types": Building2,
+	roles: Shield,
 	invites: UserPlus,
 };
 

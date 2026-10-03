@@ -275,7 +275,13 @@
 		"PERMISSION_DENIED": "You do not have access to this",
 		"LOOKUP_CODE_TAKEN": "That code is already used",
 		"LOOKUP_NOT_FOUND": "That entry no longer exists",
-		"ADMIN_ALREADY_ACTIVE": "This person is already an active Admin"
+		"ADMIN_ALREADY_ACTIVE": "This person is already an active Admin",
+		"roleNameRequired": "Enter a Role name.",
+		"roleNameMin": "A Role name must be at least 2 characters.",
+		"roleNameMax": "A Role name must be at most 100 characters.",
+		"roleDescriptionMax": "A description must be at most 500 characters.",
+		"ROLE_NAME_TAKEN": "A Role with this name already exists",
+		"ROLE_NOT_FOUND": "That Role no longer exists"
 	},
 	"admin": {
 		"login": {
@@ -290,6 +296,7 @@
 			"objectives": "Objectives",
 			"interests": "Interests",
 			"venueTypes": "Venue types",
+			"roles": "Roles",
 			"invites": "Invites"
 		},
 		"lookups": {
@@ -376,6 +383,27 @@
 			"title": "No access yet",
 			"noRoles": "You have no Roles yet, so nothing is listed for you. Contact another Admin.",
 			"permissionDenied": "You do not have access to this. Your access has been refreshed."
+		},
+		"roles": {
+			"title": "Roles",
+			"create": "Create Role",
+			"createTitle": "Create Role",
+			"editTitle": "Edit Role",
+			"empty": "No Roles yet.",
+			"name": "Name",
+			"namePlaceholder": "Onboarding reviewer",
+			"description": "Description",
+			"descriptionPlaceholder": "What this Role is for",
+			"permissions": "Permissions",
+			"permissionsHint": "Saving replaces this Role's Permissions as a whole.",
+			"admins": "Admins",
+			"adminCount": "Held by {{count}} Admins",
+			"save": "Save Role",
+			"saving": "Saving...",
+			"deleteTitle": "Delete this Role?",
+			"deleteBody": "Admins who hold {{name}} lose its Permissions. This cannot be undone.",
+			"unknownPermission": "This Permission is not in the current list. It is kept until you clear it.",
+			"noDescription": "No description"
 		}
 	},
 	"notFound": {
