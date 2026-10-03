@@ -29,7 +29,7 @@ Orange (`primary`, `ring`, `glow`) is for primary actions, focus rings and live 
 
 Each of `success`, `warning`, `info` (`#4ea7ff` in dark) and `destructive` has four tokens: `X` (solid), `X-foreground` (text on solid), `X-soft` (tinted background), `X-soft-foreground` (text on the soft background). Utilities: `bg-success`, `text-success-foreground`, `bg-success-soft`, `text-success-soft-foreground`, and so on.
 
-Mapping (to be applied by one shared status badge, not yet built): `APPROVED` success; `PENDING_REVIEW` info; `NEEDS_CHANGES` and `IN_PROGRESS` warning; `REJECTED` destructive solid (final); `SUSPENDED` destructive soft (recoverable); `DRAFT` and `REGISTERED` neutral. No feature file chooses a status colour.
+Mapping (applied by the shared `StatusBadge` in `src/components/StatusBadge`, via the pure `statusVisual(kind, status)`): `APPROVED` success; `PENDING_REVIEW` info; `NEEDS_CHANGES` and `IN_PROGRESS` warning; `REJECTED` destructive solid (final); `SUSPENDED` destructive soft (recoverable); `DRAFT` and `REGISTERED` neutral. No feature file chooses a status colour.
 
 ## Type
 

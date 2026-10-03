@@ -16,7 +16,6 @@ import {
 	type StatusKind,
 	type StatusOf,
 	type StatusToken,
-	type StatusTone,
 	statusVisual,
 } from "./status-visual";
 
@@ -62,19 +61,15 @@ export function StatusBadge<K extends StatusKind>({
 	const { t } = useTranslation();
 	const { token, tone, labelKey, icon } = statusVisual(kind, status);
 	const Icon = icon ? ICONS[icon] : null;
-	const toneClass: Record<StatusTone, string | undefined> = {
-		soft: undefined,
-		filled: FILLED[token],
-	};
 
 	return (
 		<Badge
 			variant={BADGE_VARIANT[token]}
 			data-status={status}
-			className={cn(toneClass[tone], className)}
+			className={cn(tone === "filled" && FILLED[token], className)}
 		>
 			{Icon && <Icon aria-hidden="true" />}
-			{t(labelKey as never)}
+			{t(labelKey)}
 		</Badge>
 	);
 }

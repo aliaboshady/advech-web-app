@@ -21,7 +21,9 @@ export type StatusIcon =
 export type StatusVisual = {
 	readonly token: StatusToken;
 	readonly tone: StatusTone;
-	readonly labelKey: string;
+	readonly labelKey:
+		| `admin.advertisers.statuses.${AdvertiserStatus}`
+		| `campaigns.statuses.${CampaignStatus}`;
 	readonly icon?: StatusIcon;
 };
 
@@ -64,11 +66,11 @@ export function statusVisual<K extends StatusKind>(
 	if (kind === "advertiser") {
 		return {
 			...ADVERTISER_SHAPES[status as AdvertiserStatus],
-			labelKey: `admin.advertisers.statuses.${status}`,
+			labelKey: `admin.advertisers.statuses.${status as AdvertiserStatus}`,
 		};
 	}
 	return {
 		...CAMPAIGN_SHAPES[status as CampaignStatus],
-		labelKey: `campaigns.statuses.${status}`,
+		labelKey: `campaigns.statuses.${status as CampaignStatus}`,
 	};
 }

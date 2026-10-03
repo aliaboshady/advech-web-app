@@ -18,74 +18,80 @@ type Props = {
 	className?: string;
 };
 
-const campaigns = [
+const campaigns: {
+	id: string;
+	name: string;
+	status: CampaignStatus;
+	budget: number;
+	impressions: number;
+}[] = [
 	{
 		id: "1",
 		name: "Ramadan Reach",
-		status: "LIVE" as CampaignStatus,
+		status: "LIVE",
 		budget: 18500,
 		impressions: 1240000,
 	},
 	{
 		id: "2",
 		name: "Summer Sale",
-		status: "SCHEDULED" as CampaignStatus,
+		status: "SCHEDULED",
 		budget: 12000,
 		impressions: 860000,
 	},
 	{
 		id: "3",
 		name: "Back to School",
-		status: "PAUSED" as CampaignStatus,
+		status: "PAUSED",
 		budget: 9500,
 		impressions: 425000,
 	},
 	{
 		id: "4",
 		name: "City Nights",
-		status: "ARCHIVED" as CampaignStatus,
+		status: "ARCHIVED",
 		budget: 22400,
 		impressions: 1780000,
 	},
 	{
 		id: "5",
 		name: "Winter Warmth",
-		status: "COMPLETED" as CampaignStatus,
+		status: "COMPLETED",
 		budget: 15750,
 		impressions: 1090000,
 	},
 	{
 		id: "6",
 		name: "New Year Kickoff",
-		status: "LIVE" as CampaignStatus,
+		status: "LIVE",
 		budget: 28000,
 		impressions: 2150000,
 	},
 	{
 		id: "7",
 		name: "Weekend Specials",
-		status: "SCHEDULED" as CampaignStatus,
+		status: "SCHEDULED",
 		budget: 8200,
 		impressions: 510000,
 	},
 	{
 		id: "8",
 		name: "Summer Nights",
-		status: "LIVE" as CampaignStatus,
+		status: "LIVE",
 		budget: 19600,
 		impressions: 1430000,
 	},
 	{
 		id: "9",
 		name: "Holiday Countdown",
-		status: "PAUSED" as CampaignStatus,
+		status: "PAUSED",
 		budget: 11300,
 		impressions: 670000,
 	},
 	{
 		id: "10",
 		name: "Black Friday Deals",
-		status: "COMPLETED" as CampaignStatus,
+		status: "COMPLETED",
 		budget: 32500,
 		impressions: 2860000,
 	},
