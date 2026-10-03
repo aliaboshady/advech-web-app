@@ -9,8 +9,12 @@ export function DashboardPage() {
 	const { t } = useTranslation();
 
 	return (
-		<PageLayout title={t("sidebar.dashboard")}>
-			<div className="w-full gap-4 grid grid-cols-1 @sm/pageLayout:grid-cols-2 @3xl/pageLayout:grid-cols-4">
+		<PageLayout
+			title={t("sidebar.dashboard")}
+			description={t("dashboard.description")}
+			className="gap-section"
+		>
+			<div className="w-full gap-stack grid grid-cols-1 @sm/pageLayout:grid-cols-2 @3xl/pageLayout:grid-cols-4">
 				<StatisticCard
 					title={t("dashboard.statistics.totalImpressions")}
 					description="12.4M"
@@ -33,7 +37,7 @@ export function DashboardPage() {
 				/>
 			</div>
 
-			<div className="flex flex-col @3xl/pageLayout:flex-row h-250 @3xl/pageLayout:h-110 w-full items-center justify-center gap-4 pt-4">
+			<div className="flex w-full flex-col items-stretch gap-section @3xl/pageLayout:flex-row">
 				<Chart />
 				<Table />
 			</div>

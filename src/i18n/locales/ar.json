@@ -92,7 +92,8 @@
 			"status": "الحالة",
 			"budget": "الميزانية",
 			"impressions": "مرات الظهور"
-		}
+		},
+		"description": "أداء حملاتك."
 	},
 	"campaigns": {
 		"statuses": {
@@ -121,7 +122,20 @@
 			"currency": "العملة",
 			"readOnly": "لا يمكن تعديل هذه الحملة في حالتها الحالية.",
 			"saveAndContinue": "حفظ ومتابعة",
-			"createAndContinue": "إنشاء ومتابعة"
+			"createAndContinue": "إنشاء ومتابعة",
+			"description": "الاسم والهدف وفترة التشغيل والميزانية.",
+			"readOnlyTitle": "للعرض فقط",
+			"flightDates": "تاريخ البداية والنهاية",
+			"flightHint": "تُقرأ التواريخ حسب المنطقة الزمنية للحملة.",
+			"flightDescription": "متى تعمل الحملة.",
+			"totalBudgetHint": "ما تخطط لإنفاقه خلال فترة التشغيل كاملة.",
+			"dailyBudgetHint": "اختياري. ما تخطط لإنفاقه يوميًا.",
+			"sections": {
+				"details": "التفاصيل",
+				"detailsDescription": "سمِّ الحملة وحدد الغرض منها.",
+				"budget": "الميزانية",
+				"budgetDescription": "الإنفاق المخطط له. يُحفظ ولا يُفرض."
+			}
 		},
 		"targeting": {
 			"selectDates": "اختر التواريخ",
@@ -163,6 +177,17 @@
 				"friday": "الجمعة",
 				"saturday": "السبت",
 				"sunday": "الأحد"
+			},
+			"description": "من تصل إليه الحملة وأين.",
+			"daysLabel": "الأيام",
+			"timeZoneHint": "تُقرأ فترات اليوم حسب هذه المنطقة الزمنية.",
+			"sections": {
+				"schedule": "الجدول",
+				"scheduleDescription": "المنطقة الزمنية وفترات اليوم.",
+				"audience": "الجمهور",
+				"audienceDescription": "الفئة العمرية والاهتمامات وأنواع الأماكن.",
+				"delivery": "التوصيل",
+				"deliveryDescription": "عدد السيارات ونمط التوصيل. يُحفظان ولا يُفرضان."
 			}
 		},
 		"creative": {
@@ -195,13 +220,27 @@
 				"inclusionZone": "اختر منطقة تضمين",
 				"creative": "ارفع إعلانًا",
 				"singleCreative": "أبقِ إعلانًا واحدًا"
-			}
+			},
+			"description": "راجع كل شيء قبل الإرسال."
 		},
 		"tabs": {
 			"identity": "الهوية",
 			"targeting": "الاستهداف",
 			"creative": "الإعلان",
-			"review": "المراجعة"
+			"review": "المراجعة",
+			"states": {
+				"current": "الخطوة الحالية",
+				"done": "مكتملة",
+				"incomplete": "غير مكتملة"
+			}
+		},
+		"list": {
+			"description": "أنشئ حملاتك وعدّلها وتابعها."
+		},
+		"new": {
+			"title": "حملة جديدة",
+			"description": "ابدأ بالأساسيات. يمكنك استكمال الباقي خطوة بخطوة.",
+			"breadcrumb": "جديدة"
 		}
 	},
 	"common": {

@@ -1,8 +1,12 @@
+import { useRouter } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
+import { TableCard, TableCardToolbar } from "@/components/TableCard";
+import { Button } from "@/components/ui/button";
 import { useGetPaginated } from "@/hooks/useGetPaginated";
 import { listCampaigns } from "../api/list-campaigns";
 import Filter from "../components/Filter";
@@ -13,6 +17,7 @@ const toCalendarDay = (date: Date) => format(date, "yyyy-MM-dd");
 
 export function CampaignsPage() {
 	const { t } = useTranslation();
+	const router = useRouter();
 	const [dateRange, setDateRange] = useState<DateRange>();
 	const [statuses, setStatuses] = useState<CampaignStatus[]>([]);
 
@@ -50,27 +55,42 @@ export function CampaignsPage() {
 	};
 
 	return (
-		<PageLayout title={t("sidebar.campaigns")} className="flex flex-col gap-4">
-			<Filter
-				search={search}
-				setSearch={setSearch}
-				date={dateRange}
-				setDate={changeDateRange}
-				statuses={statuses}
-				setStatuses={changeStatuses}
-			/>
-			<Table
-				data={data}
-				page={page}
-				setPage={setPage}
-				limit={limit}
-				setLimit={setLimit}
-				sortBy={sortBy}
-				setSortBy={setSortBy}
-				sortType={sortType}
-				setSortType={setSortType}
-				loading={isLoading}
-			/>
+		<PageLayout
+			title={t("sidebar.campaigns")}
+			description={t("campaigns.list.description")}
+			actions={
+				<Button
+					onClick={async () => await router.navigate({ to: "/campaigns/new" })}
+				>
+					<PlusIcon />
+					{t("locale:CREATE_CAMPAIGN")}
+				</Button>
+			}
+		>
+			<TableCard>
+				<TableCardToolbar>
+					<Filter
+						search={search}
+						setSearch={setSearch}
+						date={dateRange}
+						setDate={changeDateRange}
+						statuses={statuses}
+						setStatuses={changeStatuses}
+					/>
+				</TableCardToolbar>
+				<Table
+					data={data}
+					page={page}
+					setPage={setPage}
+					limit={limit}
+					setLimit={setLimit}
+					sortBy={sortBy}
+					setSortBy={setSortBy}
+					sortType={sortType}
+					setSortType={setSortType}
+					loading={isLoading}
+				/>
+			</TableCard>
 		</PageLayout>
 	);
 }

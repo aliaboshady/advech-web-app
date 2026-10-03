@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { PageLayout } from "@/components/PageLayout";
-import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
 import { LookupItem } from "@/features/lookups/types";
 import { Objective } from "@/features/Objectives/types";
-import { getCampaignTabs } from "../campaign-tabs";
 import { CampaignEditableRegion } from "../components/CampaignEditableRegion";
+import { CampaignStepLayout } from "../components/CampaignStepLayout";
 import { IdentityForm } from "../components/Forms/IdentityForm";
 import { Campaign } from "../types";
 
@@ -16,28 +14,17 @@ type Props = {
 };
 
 export function CampaignIdentityPage({
-	id,
 	objectives,
 	currencies,
 	campaign,
 }: Props) {
 	const { t } = useTranslation();
 	return (
-		<PageLayout
-			breadcrumbs={[
-				{
-					label: t("sidebar.campaigns"),
-					link: "/campaigns",
-				},
-				{ label: campaign?.name },
-			]}
-			className="flex flex-col gap-4"
+		<CampaignStepLayout
+			campaign={campaign}
+			activeTabId={1}
+			description={t("campaigns.identity.description")}
 		>
-			<HeaderTabs
-				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(t, campaign.completeness.steps)}
-				activeTabId={1}
-			/>
 			<CampaignEditableRegion status={campaign.status}>
 				<IdentityForm
 					submitButtonTitle={t("campaigns.identity.saveAndContinue")}
@@ -46,6 +33,6 @@ export function CampaignIdentityPage({
 					campaign={campaign}
 				/>
 			</CampaignEditableRegion>
-		</PageLayout>
+		</CampaignStepLayout>
 	);
 }

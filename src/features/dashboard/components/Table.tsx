@@ -1,17 +1,10 @@
 import { PencilLineIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { twMerge } from "tailwind-merge";
 import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { TableCard, TableCardHeader } from "@/components/TableCard";
 import type { CampaignStatus } from "@/features/campaigns/types";
 
 type Props = {
@@ -136,22 +129,19 @@ export function Table({ className }: Props) {
 	];
 
 	return (
-		<Card className={twMerge("w-full h-full", className)}>
-			<CardHeader>
-				<CardTitle>{t("dashboard.table.recentCampaigns")}</CardTitle>
-				<CardDescription>{t("dashboard.table.description")}</CardDescription>
-			</CardHeader>
-
-			<CardContent className="min-h-0 flex-1 overflow-hidden p-0">
-				<DataTable
-					items={campaigns}
-					columns={campaignColumns}
-					className="h-full rounded-none border-x-0 border-b-0 border-t"
-					dropdownActions={dropdownActions}
-					page={page}
-					setPage={setPage}
-				/>
-			</CardContent>
-		</Card>
+		<TableCard className={className}>
+			<TableCardHeader
+				title={t("dashboard.table.recentCampaigns")}
+				description={t("dashboard.table.description")}
+			/>
+			<DataTable
+				items={campaigns}
+				columns={campaignColumns}
+				className="rounded-none border-0"
+				dropdownActions={dropdownActions}
+				page={page}
+				setPage={setPage}
+			/>
+		</TableCard>
 	);
 }

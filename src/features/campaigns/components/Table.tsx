@@ -85,7 +85,7 @@ const Table = ({
 
 	return (
 		<DataTable
-			className="h-[calc(100vh-12rem)]"
+			className="rounded-none border-0"
 			items={items}
 			columns={columns}
 			dataPagination={data ?? undefined}

@@ -2,13 +2,13 @@ import { FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
 import Dropdown from "@/components/Inputs/Dropdown";
 import TextInput from "@/components/Inputs/TextInput";
-import { Button } from "@/components/ui/button";
 import { SchedulePresetOption } from "@/features/lookups/types";
 import {
 	DaypartingKind,
 	TargetingFormValues,
 } from "../../build-campaign-targeting-payload";
-import { FieldMessage } from "./FieldMessage";
+import { ChoiceButton } from "./ChoiceButton";
+import { FormField } from "./FormField";
 
 const WEEKDAYS = [
 	{ day: 1, labelKey: "campaigns.targeting.days.monday" },
@@ -80,32 +80,40 @@ export function DaypartingFields({
 		})
 		.filter((label) => label.length > 0)
 		.join(", ");
+	const windowHint =
+		summaryLabels && summary.startTime && summary.endTime
+			? `${t("campaigns.targeting.window")}: ${summaryLabels} ${summary.startTime}–${summary.endTime}`
+			: undefined;
 	return (
-		<div className="flex flex-col gap-3">
-			<p className="text-sm font-medium">
-				{t("campaigns.targeting.dayparting")}
-			</p>
+		<FormField
+			wide
+			label={t("campaigns.targeting.dayparting")}
+			error={fieldError("daypartingKind")}
+			className="gap-stack"
+		>
 			<div className="flex flex-wrap gap-2">
-				<Button
-					type="button"
-					variant={kind === "preset" ? "default" : "outline"}
+				<ChoiceButton
+					selected={kind === "preset"}
 					disabled={readOnly}
 					onClick={() => chooseDaypartingKind(formik, "preset")}
 				>
 					{t("campaigns.targeting.schedulePreset")}
-				</Button>
-				<Button
-					type="button"
-					variant={kind === "custom" ? "default" : "outline"}
+				</ChoiceButton>
+				<ChoiceButton
+					selected={kind === "custom"}
 					disabled={readOnly}
 					onClick={() => chooseDaypartingKind(formik, "custom")}
 				>
 					{t("campaigns.targeting.customWindow")}
-				</Button>
+				</ChoiceButton>
 			</div>
-			<FieldMessage message={fieldError("daypartingKind")} />
 			{kind === "preset" ? (
-				<div className="flex flex-col gap-2 @xl:w-96">
+				<FormField
+					label={t("campaigns.targeting.schedulePreset")}
+					hint={windowHint}
+					error={fieldError("schedulePresetCode")}
+					className="md:max-w-md"
+				>
 					<Dropdown
 						items={schedulePresets.map((preset) => ({
 							value: preset.id,
@@ -123,48 +131,44 @@ export function DaypartingFields({
 						}}
 						disabled={readOnly}
 						placeholder={t("campaigns.targeting.schedulePreset")}
-						error={
-							fieldError("schedulePresetCode")
-								? `errors.${fieldError("schedulePresetCode")}`
-								: undefined
-						}
+						error={fieldError("schedulePresetCode")}
+						hideErrorMessage
+						className="w-full text-body-md!"
 					/>
-					{summaryLabels && summary.startTime && summary.endTime ? (
-						<p className="text-sm text-muted-foreground">
-							{t("campaigns.targeting.window")}: {summaryLabels}{" "}
-							{summary.startTime}–{summary.endTime}
-						</p>
-					) : null}
-				</div>
+				</FormField>
 			) : null}
 			{kind === "custom" ? (
-				<div className="flex flex-col gap-3">
-					<div className="flex flex-wrap gap-2">
-						{WEEKDAYS.map((weekday) => {
-							const isSelected = formik.values.days.includes(weekday.day);
-							return (
-								<Button
-									key={weekday.day}
-									type="button"
-									variant={isSelected ? "default" : "outline"}
-									aria-pressed={isSelected}
-									disabled={readOnly}
-									onClick={() => {
-										const selected = isSelected
-											? formik.values.days.filter((day) => day !== weekday.day)
-											: [...formik.values.days, weekday.day].sort(
-													(left, right) => left - right,
-												);
-										markCustom(formik, { days: selected });
-									}}
-								>
-									{t(weekday.labelKey)}
-								</Button>
-							);
-						})}
-					</div>
-					<FieldMessage message={fieldError("days")} />
-					<div className="grid gap-4 @xl:grid-cols-2 @xl:w-[40rem]">
+				<div className="flex flex-col gap-stack">
+					<FormField
+						label={t("campaigns.targeting.daysLabel")}
+						error={fieldError("days")}
+					>
+						<div className="flex flex-wrap gap-2">
+							{WEEKDAYS.map((weekday) => {
+								const isSelected = formik.values.days.includes(weekday.day);
+								return (
+									<ChoiceButton
+										key={weekday.day}
+										selected={isSelected}
+										disabled={readOnly}
+										onClick={() => {
+											const selected = isSelected
+												? formik.values.days.filter(
+														(day) => day !== weekday.day,
+													)
+												: [...formik.values.days, weekday.day].sort(
+														(left, right) => left - right,
+													);
+											markCustom(formik, { days: selected });
+										}}
+									>
+										{t(weekday.labelKey)}
+									</ChoiceButton>
+								);
+							})}
+						</div>
+					</FormField>
+					<div className="grid gap-stack md:grid-cols-2">
 						<TextInput
 							name="startTime"
 							type="time"
@@ -202,10 +206,10 @@ export function DaypartingFields({
 							markCustom(formik, { daypartName: event.target.value });
 						}}
 						error={fieldError("daypartName")}
-						className="@xl:w-96"
+						className="md:max-w-md"
 					/>
 				</div>
 			) : null}
-		</div>
+		</FormField>
 	);
 }

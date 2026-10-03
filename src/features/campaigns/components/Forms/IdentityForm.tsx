@@ -5,10 +5,10 @@ import { useRef } from "react";
 import { DateRange } from "react-day-picker";
 import { useTranslation } from "react-i18next";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import { DatePicker } from "@/components/Inputs/DatePicker";
 import Dropdown from "@/components/Inputs/Dropdown";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { LookupItem } from "@/features/lookups/types";
 import { Objective } from "@/features/Objectives/types";
 import useRequest from "@/hooks/useRequest";
@@ -29,6 +29,7 @@ import {
 	CreateCampaignPayload,
 	EditCampaignPayload,
 } from "../../types";
+import { FormField } from "./FormField";
 import { PrimaryObjective } from "./PrimaryObjective";
 
 const DETAILS_FIELD_NAMES: Record<string, string> = {
@@ -66,16 +67,6 @@ const DETAILS_ERROR_FIELDS: Record<string, string> = {
 	CURRENCY_NOT_ACCEPTED: "currency",
 	MONEY_PRECISION_EXCEEDED: "totalAmount",
 };
-
-function fieldMessage(
-	translate: (key: string, options: { defaultValue: string }) => string,
-	message: string | undefined,
-): string {
-	if (!message) {
-		return "";
-	}
-	return translate(`errors.${message}`, { defaultValue: message });
-}
 
 export function IdentityForm({
 	submitButtonTitle,
@@ -141,66 +132,77 @@ export function IdentityForm({
 		from: parseCalendarDate(formik.values.startDate),
 		to: parseCalendarDate(formik.values.endDate),
 	};
-	const flightError = fieldMessage(
-		t,
+	const flightError =
 		formik.touched.startDate || formik.touched.endDate
 			? formik.errors.startDate || formik.errors.endDate
-			: undefined,
-	);
-	const currencyError = fieldMessage(
-		t,
-		formik.touched.currency ? formik.errors.currency : undefined,
-	);
+			: undefined;
+	const currencyError = formik.touched.currency
+		? formik.errors.currency
+		: undefined;
 	return (
 		<form
 			onSubmit={formik.handleSubmit}
-			className="@container bg-primary-foreground w-full @sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl"
+			className="flex w-full flex-col gap-section"
 		>
-			<FormikTextInput
-				formik={formik}
-				label={t("campaigns.identity.name")}
-				placeholder={t("campaigns.identity.name")}
-				name="name"
-				icon={<IdCardIcon size={15} />}
-				className="@xl:w-96"
-				disabled={isReadOnly}
-			/>
-			<PrimaryObjective
-				formik={formik}
-				objectives={objectives}
-				readOnly={isReadOnly}
-			/>
-			<div className="flex flex-col gap-2 @xl:w-96">
-				<Label>{t("campaigns.identity.flight")}</Label>
-				<DatePicker
-					mode="range"
-					localTime
+			<FormSectionCard
+				title={t("campaigns.identity.sections.details")}
+				description={t("campaigns.identity.sections.detailsDescription")}
+			>
+				<FormikTextInput
+					formik={formik}
+					label={t("campaigns.identity.name")}
+					placeholder={t("campaigns.identity.name")}
+					name="name"
+					icon={<IdCardIcon size={15} />}
 					disabled={isReadOnly}
-					date={flight}
-					setDate={(value: DateRange) => {
-						formik.setFieldValue(
-							"startDate",
-							value?.from ? formatCalendarDate(value.from) : "",
-						);
-						formik.setFieldValue(
-							"endDate",
-							value?.to ? formatCalendarDate(value.to) : "",
-						);
-						formik.setFieldTouched("startDate", true, false);
-						formik.setFieldTouched("endDate", true, false);
-					}}
-					placeholder="campaigns.targeting.selectDates"
 				/>
-				{flightError ? (
-					<p className="text-xs text-destructive font-medium">{flightError}</p>
-				) : null}
-			</div>
-			<div className="grid gap-4 @xl:grid-cols-2 @xl:w-[40rem]">
+				<PrimaryObjective
+					formik={formik}
+					objectives={objectives}
+					readOnly={isReadOnly}
+				/>
+			</FormSectionCard>
+			<FormSectionCard
+				title={t("campaigns.identity.flight")}
+				description={t("campaigns.identity.flightDescription")}
+			>
+				<FormField
+					label={t("campaigns.identity.flightDates")}
+					hint={t("campaigns.identity.flightHint")}
+					error={flightError}
+				>
+					<DatePicker
+						mode="range"
+						localTime
+						disabled={isReadOnly}
+						date={flight}
+						setDate={(value: DateRange) => {
+							formik.setFieldValue(
+								"startDate",
+								value?.from ? formatCalendarDate(value.from) : "",
+							);
+							formik.setFieldValue(
+								"endDate",
+								value?.to ? formatCalendarDate(value.to) : "",
+							);
+							formik.setFieldTouched("startDate", true, false);
+							formik.setFieldTouched("endDate", true, false);
+						}}
+						placeholder="campaigns.targeting.selectDates"
+						className="w-full text-body-md!"
+					/>
+				</FormField>
+			</FormSectionCard>
+			<FormSectionCard
+				title={t("campaigns.identity.sections.budget")}
+				description={t("campaigns.identity.sections.budgetDescription")}
+			>
 				<FormikTextInput
 					formik={formik}
 					label={t("campaigns.identity.totalBudget")}
 					placeholder="0.00"
 					name="totalAmount"
+					hint={t("campaigns.identity.totalBudgetHint")}
 					disabled={isReadOnly}
 				/>
 				<FormikTextInput
@@ -208,35 +210,36 @@ export function IdentityForm({
 					label={t("campaigns.identity.dailyBudget")}
 					placeholder="0.00"
 					name="dailyAmount"
+					hint={t("campaigns.identity.dailyBudgetHint")}
 					disabled={isReadOnly}
 				/>
-			</div>
-			{showCurrencyPicker ? (
-				<div className="flex flex-col gap-2 @xl:w-96">
-					<Label>{t("campaigns.identity.currency")}</Label>
-					<Dropdown
-						items={currencies.map((currency) => ({
-							value: currency.id,
-							label: currency.name,
-						}))}
-						selected={formik.values.currency}
-						setSelected={(value: string) => {
-							formik.setFieldValue("currency", value);
-							formik.setFieldTouched("currency", true, false);
-						}}
-						disabled={isReadOnly}
-						placeholder={t("campaigns.identity.currency")}
+				{showCurrencyPicker ? (
+					<FormField
+						label={t("campaigns.identity.currency")}
 						error={currencyError}
-					/>
-				</div>
-			) : null}
-			{isReadOnly ? null : (
-				<div className="w-full h-full flex justify-end items-end">
-					<Button
-						type="submit"
-						className="w-full @sm:w-fit"
-						disabled={isSaving}
 					>
+						<Dropdown
+							items={currencies.map((currency) => ({
+								value: currency.id,
+								label: currency.name,
+							}))}
+							selected={formik.values.currency}
+							setSelected={(value: string) => {
+								formik.setFieldValue("currency", value);
+								formik.setFieldTouched("currency", true, false);
+							}}
+							disabled={isReadOnly}
+							placeholder={t("campaigns.identity.currency")}
+							error={currencyError}
+							hideErrorMessage
+							className="w-full text-body-md!"
+						/>
+					</FormField>
+				) : null}
+			</FormSectionCard>
+			{isReadOnly ? null : (
+				<div className="flex justify-end">
+					<Button type="submit" className="w-full sm:w-fit" disabled={isSaving}>
 						{submitButtonTitle}
 					</Button>
 				</div>

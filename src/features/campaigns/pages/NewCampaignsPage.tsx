@@ -21,9 +21,11 @@ export function NewCampaignPage({ objectives, currencies }: Props) {
 					label: t("sidebar.campaigns"),
 					link: "/campaigns",
 				},
-				{ label: t("locale:New") },
+				{ label: t("campaigns.new.breadcrumb") },
 			]}
-			className="flex flex-col gap-4"
+			title={t("campaigns.new.title")}
+			description={t("campaigns.new.description")}
+			className="gap-section"
 		>
 			<HeaderTabs tabs={getCampaignTabs(t, undefined, true)} activeTabId={1} />
 			<IdentityForm

@@ -42,6 +42,8 @@ export type DropdownProps = {
 	searchPlaceholder?: string;
 	onBlur?: FocusEventHandler<HTMLDivElement>;
 	error?: string;
+	/** Keep the red border but leave the message to the surrounding field. */
+	hideErrorMessage?: boolean;
 };
 
 export default function Dropdown({
@@ -71,6 +73,7 @@ export default function Dropdown({
 	searchPlaceholder = "SEARCH",
 	onBlur,
 	error,
+	hideErrorMessage = false,
 }: DropdownProps) {
 	const { t } = useTranslation();
 
@@ -181,7 +184,7 @@ export default function Dropdown({
 						/>
 					)}
 
-					{error && (
+					{error && !hideErrorMessage && (
 						<div className="absolute inset-s-3 bottom-2 translate-y-full px-2 max-w-[calc(100%-2rem)]">
 							<div className="absolute bottom-1.5 inset-s-0 inset-e-0 bg-background group-hover:bg-accent h-1 transition-all" />
 							<p className="relative text-xs text-destructive font-medium whitespace-nowrap truncate z-10">

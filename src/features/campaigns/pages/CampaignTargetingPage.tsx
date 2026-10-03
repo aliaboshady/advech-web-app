@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { PageLayout } from "@/components/PageLayout";
-import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
 import { LookupItem, SchedulePresetOption } from "@/features/lookups/types";
 import { Zone } from "@/features/zones/types";
-import { getCampaignTabs } from "../campaign-tabs";
 import { CampaignEditableRegion } from "../components/CampaignEditableRegion";
+import { CampaignStepLayout } from "../components/CampaignStepLayout";
 import { TargetingForm } from "../components/Forms/TargetingForm";
 import { Campaign } from "../types";
 
@@ -19,7 +17,6 @@ type Props = {
 };
 
 export function CampaignTargetingPage({
-	id,
 	campaign,
 	timeZones,
 	schedulePresets,
@@ -30,21 +27,11 @@ export function CampaignTargetingPage({
 	const { t } = useTranslation();
 
 	return (
-		<PageLayout
-			breadcrumbs={[
-				{
-					label: t("sidebar.campaigns"),
-					link: "/campaigns",
-				},
-				{ label: campaign.name },
-			]}
-			className="flex flex-col gap-4"
+		<CampaignStepLayout
+			campaign={campaign}
+			activeTabId={2}
+			description={t("campaigns.targeting.description")}
 		>
-			<HeaderTabs
-				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(t, campaign.completeness.steps)}
-				activeTabId={2}
-			/>
 			<CampaignEditableRegion status={campaign.status}>
 				<TargetingForm
 					campaign={campaign}
@@ -55,6 +42,6 @@ export function CampaignTargetingPage({
 					zones={zones}
 				/>
 			</CampaignEditableRegion>
-		</PageLayout>
+		</CampaignStepLayout>
 	);
 }

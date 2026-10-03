@@ -1,6 +1,6 @@
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FormSectionCard } from "@/components/FormSectionCard";
 import { isVideoContentType } from "../creative-limits";
 import { formatMoney } from "../format-money";
 import type {
@@ -38,7 +38,7 @@ export function CampaignReviewSummary({ campaign }: Props) {
 	const { t, i18n } = useTranslation();
 	const locale = i18n.language;
 	return (
-		<div className="flex flex-col gap-4">
+		<div className="flex flex-col gap-section">
 			<ReviewSection
 				title={t("campaigns.tabs.identity")}
 				rows={detailRows(campaign, t, locale)}
@@ -52,23 +52,26 @@ export function CampaignReviewSummary({ campaign }: Props) {
 	);
 }
 
+function SummaryList({ rows }: { rows: SummaryRow[] }) {
+	return (
+		<dl className="grid gap-stack @md/formSection:col-span-2 @md/formSection:grid-cols-2">
+			{rows.map((row) => (
+				<div key={row.label} className="flex min-w-0 flex-col gap-1">
+					<dt className="text-body-md text-muted-foreground">{row.label}</dt>
+					<dd className="wrap-break-word text-body-md font-medium">
+						{row.value}
+					</dd>
+				</div>
+			))}
+		</dl>
+	);
+}
+
 function ReviewSection({ title, rows }: { title: string; rows: SummaryRow[] }) {
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>{title}</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<dl className="grid gap-3 sm:grid-cols-2">
-					{rows.map((row) => (
-						<div key={row.label} className="flex flex-col gap-1">
-							<dt className="text-muted-foreground">{row.label}</dt>
-							<dd>{row.value}</dd>
-						</div>
-					))}
-				</dl>
-			</CardContent>
-		</Card>
+		<FormSectionCard title={title}>
+			<SummaryList rows={rows} />
+		</FormSectionCard>
 	);
 }
 
@@ -143,22 +146,17 @@ function targetingRows(campaign: Campaign, t: TFunction): SummaryRow[] {
 function CreativeSection({ campaign }: { campaign: Campaign }) {
 	const { t } = useTranslation();
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>{t("campaigns.tabs.creative")}</CardTitle>
-			</CardHeader>
-			<CardContent className="gap-6">
-				{campaign.creatives.length === 0 ? (
-					<p className="text-muted-foreground">
-						{t("campaigns.review.noCreative")}
-					</p>
-				) : (
-					campaign.creatives.map((creative) => (
-						<CreativeSummary key={creative.id} creative={creative} />
-					))
-				)}
-			</CardContent>
-		</Card>
+		<FormSectionCard title={t("campaigns.tabs.creative")}>
+			{campaign.creatives.length === 0 ? (
+				<p className="text-body-md text-muted-foreground @md/formSection:col-span-2">
+					{t("campaigns.review.noCreative")}
+				</p>
+			) : (
+				campaign.creatives.map((creative) => (
+					<CreativeSummary key={creative.id} creative={creative} />
+				))
+			)}
+		</FormSectionCard>
 	);
 }
 
@@ -176,16 +174,9 @@ function CreativeSummary({ creative }: { creative: CampaignCreative }) {
 		rows.push({ label: t("campaigns.review.length"), value: length });
 	}
 	return (
-		<div className="flex flex-col gap-3">
+		<div className="flex flex-col gap-stack @md/formSection:col-span-2">
 			<CreativePreview creative={creative} />
-			<dl className="grid gap-3 sm:grid-cols-2">
-				{rows.map((row) => (
-					<div key={row.label} className="flex flex-col gap-1">
-						<dt className="text-muted-foreground">{row.label}</dt>
-						<dd>{row.value}</dd>
-					</div>
-				))}
-			</dl>
+			<SummaryList rows={rows} />
 		</div>
 	);
 }
