@@ -93,6 +93,24 @@ describe("resolveErrorMessage", () => {
 		).toBe("You do not have access to this");
 		expect(
 			resolveErrorMessage(
+				{ code: "LOOKUP_CODE_TAKEN", message: "from the server" },
+				"en",
+			),
+		).toBe("That code is already used");
+		expect(
+			resolveErrorMessage(
+				{ code: "LOOKUP_NOT_FOUND", message: "from the server" },
+				"en",
+			),
+		).toBe("That entry no longer exists");
+		expect(
+			resolveErrorMessage(
+				{ code: "LOOKUP_CODE_TAKEN", message: "from the server" },
+				"ar",
+			),
+		).toBe("هذا الرمز مستخدم بالفعل");
+		expect(
+			resolveErrorMessage(
 				{ code: "ADMIN_ALREADY_ACTIVE", message: "from the server" },
 				"en",
 			),
