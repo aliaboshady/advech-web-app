@@ -10,7 +10,8 @@
 		"submitting": "Logging in...",
 		"noAccount": "Don't have an account?",
 		"createAccount": "Create one",
-		"forgotPassword": "Forgot password?"
+		"forgotPassword": "Forgot password?",
+		"suspended": "This account is suspended. Contact Advech support."
 	},
 	"signup": {
 		"title": "Create an account",
@@ -30,7 +31,8 @@
 		"submit": "Verify email",
 		"submitting": "Verifying...",
 		"resend": "Resend code",
-		"sending": "Sending..."
+		"sending": "Sending...",
+		"noHandle": "We have no code on file for this email yet. Request one below."
 	},
 	"passwordReset": {
 		"request": {
@@ -44,7 +46,8 @@
 			"submitting": "Sending...",
 			"resend": "Resend code",
 			"sending": "Sending...",
-			"backToLogin": "Back to login"
+			"backToLogin": "Back to login",
+			"sent": "If that email belongs to a verified Advertiser account, a reset code is on its way."
 		},
 		"confirm": {
 			"title": "Set a new password",
@@ -60,7 +63,8 @@
 			"submit": "Reset password",
 			"submitting": "Resetting...",
 			"resend": "Resend code",
-			"sending": "Sending..."
+			"sending": "Sending...",
+			"success": "Your password was updated. Sign in with the new password."
 		}
 	},
 	"sidebar": {
@@ -377,7 +381,17 @@
 		"personNameMax": "A name must be at most 100 characters.",
 		"titleMax": "A title must be at most 100 characters.",
 		"ADVERTISER_TERMS_VERSION_MISMATCH": "The Advertiser terms were updated. Please read and accept the new version",
-		"ADVERTISER_FORM_LOCKED": "Your details can no longer be changed because of your Advertiser's status"
+		"ADVERTISER_FORM_LOCKED": "Your details can no longer be changed because of your Advertiser's status",
+		"codeInvalid": "Enter the 6-digit code.",
+		"OTP_INVALID": "That code is not correct. Check it and type it again",
+		"OTP_EXPIRED": "That code has expired. Request a new code",
+		"OTP_MAX_ATTEMPTS_EXCEEDED": "Too many wrong attempts. Request a new code",
+		"VERIFICATION_HANDLE_UNKNOWN": "A newer code replaced this one. Use the latest code from your email, or request a new one",
+		"VERIFICATION_HANDLE_CONSUMED": "This email is already verified. Sign in to continue",
+		"VERIFICATION_HANDLE_EXPIRED": "This signup has expired. Please sign up again",
+		"TOO_MANY_REQUESTS": "Too many attempts. Wait a minute, then try again",
+		"ADVERTISER_INVALID_CREDENTIALS": "That email or password is wrong",
+		"ADVERTISER_EMAIL_NOT_VERIFIED": "Verify your email to continue"
 	},
 	"admin": {
 		"login": {

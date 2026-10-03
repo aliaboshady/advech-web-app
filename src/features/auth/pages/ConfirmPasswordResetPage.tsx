@@ -1,8 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { KeyRoundIcon, MailIcon, SquareAsteriskIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import { AuthShell } from "@/features/auth/components/AuthShell";
@@ -13,108 +14,58 @@ import { ServerResponse } from "@/types";
 import { confirmPasswordReset } from "../api/confirm-password-reset";
 import { requestPasswordReset } from "../api/request-password-reset";
 import {
+	clearOtpState,
+	type OtpState,
+	otpStateFromResponse,
+	prefillCode,
+	RESET_STATE_KEY,
+	readOtpState,
+	writeOtpState,
+} from "../otp-state";
+import { formatCountdown, secondsUntil } from "../otp-timers";
+import {
 	ConfirmPasswordResetPayload,
 	RequestPasswordResetPayload,
 	RequestPasswordResetResponse,
 } from "../types";
-
-type PasswordResetLocationState = {
-	email?: string;
-	code?: string;
-	expiresInSeconds?: number;
-	resendAvailableInSeconds?: number;
-	devCode?: string;
-};
-
-function formatCountdown(seconds: number) {
-	const safeSeconds = Math.max(0, seconds);
-	const minutes = Math.floor(safeSeconds / 60);
-	const remainingSeconds = safeSeconds % 60;
-
-	return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-		.toString()
-		.padStart(2, "0")}`;
-}
+import { useNow } from "../use-now";
 
 export function ConfirmPasswordResetPage() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-	const [email, setEmail] = useState("");
-	const [code, setCode] = useState("");
-	const [expiresIn, setExpiresIn] = useState(0);
-	const [resendAvailableIn, setResendAvailableIn] = useState(0);
-
-	const updateStoredState = (
-		next: Partial<PasswordResetLocationState> & { email?: string },
-	) => {
-		const storedState = {
-			email: next.email ?? email,
-			expiresInSeconds: next.expiresInSeconds ?? expiresIn,
-			resendAvailableInSeconds:
-				next.resendAvailableInSeconds ?? resendAvailableIn,
-			code: next.code ?? code,
-			devCode: next.devCode ?? code,
-		};
-
-		sessionStorage.setItem("password-reset-state", JSON.stringify(storedState));
-	};
+	const [state, setState] = useState<OtpState | null>(() =>
+		readOtpState(window.sessionStorage, RESET_STATE_KEY),
+	);
+	const now = useNow(
+		Math.max(state?.expiresAt ?? 0, state?.resendAvailableAt ?? 0),
+	);
+	const expiresIn = secondsUntil(state?.expiresAt ?? 0, now);
+	const resendAvailableIn = secondsUntil(state?.resendAvailableAt ?? 0, now);
 
 	const { request: requestReset, isLoading: isLoadingReset } = useRequest<
 		RequestPasswordResetPayload,
 		ServerResponse<RequestPasswordResetResponse>
 	>(requestPasswordReset, {});
 
+	// A wrong, expired or exhausted code (`OTP_*`) arrives as an error and stays
+	// on this screen with the same message the verify screen gives.
 	const { request: requestConfirm, isLoading: isLoadingConfirm } = useRequest<
 		ConfirmPasswordResetPayload,
-		void
+		ServerResponse<void>
 	>(confirmPasswordReset, {
 		onSuccess: () => {
+			clearOtpState(window.sessionStorage, RESET_STATE_KEY);
+			toast.success(t("passwordReset.confirm.success"));
 			navigate({ to: "/auth/login" });
 		},
 	});
 
-	useEffect(() => {
-		const rawState = sessionStorage.getItem("password-reset-state");
-
-		if (!rawState) {
-			return;
-		}
-
-		try {
-			const state = JSON.parse(rawState) as PasswordResetLocationState;
-			setEmail(state.email ?? "");
-			setCode(state.devCode ?? state.code ?? "");
-			setExpiresIn(Math.max(0, Number(state.expiresInSeconds ?? 0)));
-			setResendAvailableIn(
-				Math.max(0, Number(state.resendAvailableInSeconds ?? 0)),
-			);
-		} catch {
-			console.error("Failed to parse password reset state from storage");
-		}
-	}, []);
-
-	useEffect(() => {
-		if (expiresIn <= 0) return;
-
-		const timer = window.setInterval(() => {
-			setExpiresIn((current) => Math.max(0, current - 1));
-		}, 1000);
-
-		return () => window.clearInterval(timer);
-	}, [expiresIn]);
-
-	useEffect(() => {
-		if (resendAvailableIn <= 0) return;
-
-		const timer = window.setInterval(() => {
-			setResendAvailableIn((current) => Math.max(0, current - 1));
-		}, 1000);
-
-		return () => window.clearInterval(timer);
-	}, [resendAvailableIn]);
-
 	const formik = useFormik({
-		initialValues: { email, code, newPassword: "" },
+		initialValues: {
+			email: state?.email ?? "",
+			code: prefillCode(state, import.meta.env.DEV),
+			newPassword: "",
+		},
 		enableReinitialize: true,
 		validationSchema: validationSchema.confirmPasswordReset,
 		onSubmit: async (values) => {
@@ -131,28 +82,27 @@ export function ConfirmPasswordResetPage() {
 	});
 
 	const handleResend = async () => {
+		const email = formik.values.email;
 		if (!email) return;
 
-		const res = await requestReset({ email });
-		const payload = res?.data;
+		try {
+			const res = await requestReset({ email });
+			const payload = res?.data;
 
-		if (!payload) return;
+			if (!payload) return;
 
-		const nextExpiresIn = Math.max(0, Number(payload.expiresInSeconds ?? 0));
-		const nextResendAvailableIn = Math.max(
-			0,
-			Number(payload.resendAvailableInSeconds ?? 0),
-		);
-
-		setExpiresIn(nextExpiresIn);
-		setResendAvailableIn(nextResendAvailableIn);
-		setCode(payload.devCode ?? "");
-		updateStoredState({
-			email,
-			expiresInSeconds: nextExpiresIn,
-			resendAvailableInSeconds: nextResendAvailableIn,
-			devCode: payload.devCode ?? "",
-		});
+			const next = otpStateFromResponse({
+				email,
+				response: payload,
+				nowMs: Date.now(),
+				previous: state ?? undefined,
+			});
+			writeOtpState(window.sessionStorage, RESET_STATE_KEY, next);
+			setState(next);
+			formik.setFieldValue("code", prefillCode(next, import.meta.env.DEV));
+		} catch {
+			// The request hook already showed the error.
+		}
 	};
 
 	return (
@@ -175,6 +125,7 @@ export function ConfirmPasswordResetPage() {
 					label={t("passwordReset.confirm.code")}
 					placeholder={t("passwordReset.confirm.codePlaceholder")}
 					name="code"
+					autoComplete="one-time-code"
 					icon={<SquareAsteriskIcon size={15} />}
 				/>
 

@@ -7,7 +7,8 @@ export type SignupResponse = {
 	token: string;
 	expiresInSeconds: number;
 	resendAvailableInSeconds: number;
-	devCode: string; // TODO: Delete for later
+	/** Present only when the server echoes OTPs (outside production). */
+	devCode?: string;
 };
 
 export type LoginPayload = {
@@ -46,9 +47,10 @@ export type RequestPasswordResetPayload = {
 };
 
 export type RequestPasswordResetResponse = {
+	token?: string;
 	expiresInSeconds: number;
 	resendAvailableInSeconds: number;
-	devCode: string;
+	devCode?: string;
 };
 
 export type ConfirmPasswordResetPayload = {
