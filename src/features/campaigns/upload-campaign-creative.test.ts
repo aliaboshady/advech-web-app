@@ -36,13 +36,17 @@ function recordingClient(): CreativeUploadClient & {
 		put: null,
 		deleteCreative: async (input) => {
 			events.push(`delete:${input.creativeId}`);
+			return { success: true };
 		},
 		createUploadIntent: async () => {
 			events.push("intent");
 			return {
-				creativeId: "creative-1",
-				uploadUrl: "https://storage.example/upload",
-				headers: { "Content-Type": "image/png", "x-amz-meta": "signed" },
+				success: true,
+				data: {
+					creativeId: "creative-1",
+					uploadUrl: "https://storage.example/upload",
+					headers: { "Content-Type": "image/png", "x-amz-meta": "signed" },
+				},
 			};
 		},
 		putCreativeFile: async (input) => {
@@ -52,7 +56,7 @@ function recordingClient(): CreativeUploadClient & {
 		confirmCreative: async (input) => {
 			events.push("confirm");
 			confirmed.push(input);
-			return confirmedCreative(input.creativeId);
+			return { success: true, data: confirmedCreative(input.creativeId) };
 		},
 	};
 	return recorded;
@@ -64,8 +68,7 @@ describe("uploadCampaignCreative", () => {
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: null,
-			file: { name: "hero.png", type: "image/png", size: 1200 },
-			body: new Blob(["png"]),
+			file: new File(["png"], "hero.png", { type: "image/png" }),
 			width: 800,
 			height: 600,
 			durationMs: 1500,
@@ -85,8 +88,7 @@ describe("uploadCampaignCreative", () => {
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: null,
-			file: { name: "hero.gif", type: "image/gif", size: 900 },
-			body: new Blob(["gif"]),
+			file: new File(["gif"], "hero.gif", { type: "image/gif" }),
 			width: 320,
 			height: 240,
 			durationMs: 2000,
@@ -94,8 +96,7 @@ describe("uploadCampaignCreative", () => {
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: null,
-			file: { name: "hero.jpg", type: "image/jpeg", size: 900 },
-			body: new Blob(["jpg"]),
+			file: new File(["jpg"], "hero.jpg", { type: "image/jpeg" }),
 			width: 640,
 			height: 480,
 			durationMs: 1000,
@@ -109,8 +110,7 @@ describe("uploadCampaignCreative", () => {
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: null,
-			file: { name: "spot.mp4", type: "video/mp4", size: 4096 },
-			body: new Blob(["mp4"]),
+			file: new File(["mp4"], "spot.mp4", { type: "video/mp4" }),
 			width: 1920,
 			height: 1080,
 			durationMs: 15000,
@@ -131,8 +131,7 @@ describe("uploadCampaignCreative", () => {
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: "old-creative",
-			file: { name: "spot.mp4", type: "video/mp4", size: 4096 },
-			body: new Blob(["mp4"]),
+			file: new File(["mp4"], "spot.mp4", { type: "video/mp4" }),
 			width: 1920,
 			height: 1080,
 			durationMs: 15000,
@@ -150,8 +149,7 @@ describe("uploadCampaignCreative", () => {
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: null,
-			file: { name: "hero.png", type: "image/png", size: 1200 },
-			body: new Blob(["png"]),
+			file: new File(["png"], "hero.png", { type: "image/png" }),
 			width: 800,
 			height: 600,
 		});
@@ -165,17 +163,19 @@ describe("uploadCampaignCreative", () => {
 		const client = recordingClient();
 		client.deleteCreative = async () => {
 			client.events.push("delete:old-creative");
-			throw {
-				code: "CREATIVE_NOT_FOUND",
-				message: "Creative not found",
-				details: {},
+			return {
+				success: false,
+				error: {
+					code: "CREATIVE_NOT_FOUND",
+					message: "Creative not found",
+					details: {},
+				},
 			};
 		};
 		await uploadCampaignCreative(client, {
 			campaignId: "campaign-1",
 			existingCreativeId: "old-creative",
-			file: { name: "hero.png", type: "image/png", size: 1200 },
-			body: new Blob(["png"]),
+			file: new File(["png"], "hero.png", { type: "image/png" }),
 			width: 800,
 			height: 600,
 		});
@@ -185,5 +185,58 @@ describe("uploadCampaignCreative", () => {
 			"put",
 			"confirm",
 		]);
+	});
+
+	it("reports the old Creative removed even when the replacement then fails", async () => {
+		const client = recordingClient();
+		client.createUploadIntent = async () => ({
+			success: false,
+			error: {
+				code: "CREATIVE_LIMIT_REACHED",
+				message: "Limit reached",
+				details: {},
+			},
+		});
+		let removed = false;
+		await expect(
+			uploadCampaignCreative(client, {
+				campaignId: "campaign-1",
+				existingCreativeId: "old-creative",
+				file: new File(["png"], "hero.png", { type: "image/png" }),
+				width: 800,
+				height: 600,
+				onExistingCreativeRemoved: () => {
+					removed = true;
+				},
+			}),
+		).rejects.toMatchObject({ code: "CREATIVE_LIMIT_REACHED" });
+		expect(removed).toBe(true);
+		expect(client.events).toEqual(["delete:old-creative"]);
+	});
+
+	it("keeps the old Creative when its delete is refused", async () => {
+		const client = recordingClient();
+		client.deleteCreative = async () => ({
+			success: false,
+			error: {
+				code: "CAMPAIGN_NOT_EDITABLE",
+				message: "Not editable",
+				details: {},
+			},
+		});
+		let removed = false;
+		await expect(
+			uploadCampaignCreative(client, {
+				campaignId: "campaign-1",
+				existingCreativeId: "old-creative",
+				file: new File(["png"], "hero.png", { type: "image/png" }),
+				width: 800,
+				height: 600,
+				onExistingCreativeRemoved: () => {
+					removed = true;
+				},
+			}),
+		).rejects.toMatchObject({ code: "CAMPAIGN_NOT_EDITABLE" });
+		expect(removed).toBe(false);
 	});
 });

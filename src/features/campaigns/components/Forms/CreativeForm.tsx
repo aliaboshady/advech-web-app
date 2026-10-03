@@ -4,20 +4,35 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import FileUploadDropzone from "@/components/FileDropzone";
 import { Button } from "@/components/ui/button";
+import useRequest from "@/hooks/useRequest";
 import i18n from "@/i18n";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
-import { createCreativeUploadClient } from "../../api/creative-upload-client";
+import { confirmCreative } from "../../api/confirm-creative";
+import { createCreativeUploadIntent } from "../../api/create-creative-upload-intent";
+import { deleteCreative } from "../../api/delete-creative";
+import { putCreativeFile } from "../../api/put-creative-file";
 import {
 	CREATIVE_FILE_ACCEPT,
 	CREATIVE_VIDEO_MAX_BYTES,
 	CreativeFileError,
 	CreativeFileErrorReason,
 	gateCreativeFile,
+	isVideoContentType,
 } from "../../creative-limits";
 import { measureCreativeFile } from "../../measure-creative";
 import { CampaignCreative } from "../../types";
-import { uploadCampaignCreative } from "../../upload-campaign-creative";
+import {
+	CreativeUploadClient,
+	uploadCampaignCreative,
+} from "../../upload-campaign-creative";
+
+const creativeUploadClient: CreativeUploadClient = {
+	deleteCreative,
+	createUploadIntent: createCreativeUploadIntent,
+	putCreativeFile,
+	confirmCreative,
+};
 
 const FAILURE_MESSAGES = {
 	"unsupported-type": "campaigns.creative.unsupportedType",
@@ -39,7 +54,7 @@ function CreativePreview({ creative }: { creative: CampaignCreative }) {
 			</p>
 		);
 	}
-	if (creative.contentType.startsWith("video/")) {
+	if (isVideoContentType(creative.contentType)) {
 		return (
 			<video
 				src={creative.previewUrl}
@@ -66,7 +81,23 @@ export function CreativeForm({ campaignId, creative: initialCreative }: Props) {
 		initialCreative,
 	);
 	const [file, setFile] = useState<File | null>(null);
-	const [isSaving, setIsSaving] = useState(false);
+	const { request: requestUpload, isLoading: isSaving } = useRequest<
+		File,
+		CampaignCreative
+	>(
+		async (next) => {
+			const measured = await measureCreativeFile(next);
+			return uploadCampaignCreative(creativeUploadClient, {
+				...measured,
+				file: next,
+				campaignId,
+				existingCreativeId: creative?.id ?? null,
+				onExistingCreativeRemoved: () => setCreative(null),
+			});
+		},
+		// Creative file errors need their own translated messages; see reportFailure.
+		{ showErrorToast: false },
+	);
 	const selectFile = (next: File | null): void => {
 		if (!next) {
 			setFile(null);
@@ -94,22 +125,9 @@ export function CreativeForm({ campaignId, creative: initialCreative }: Props) {
 		if (isSaving) {
 			return;
 		}
-		setIsSaving(true);
 		try {
 			if (file) {
-				const measured = await measureCreativeFile(file);
-				const saved = await uploadCampaignCreative(
-					createCreativeUploadClient(),
-					{
-						campaignId,
-						existingCreativeId: creative?.id ?? null,
-						file,
-						body: file,
-						width: measured.width,
-						height: measured.height,
-						durationMs: measured.durationMs,
-					},
-				);
+				const saved = await requestUpload(file);
 				setCreative(saved);
 				setFile(null);
 			}
@@ -119,8 +137,6 @@ export function CreativeForm({ campaignId, creative: initialCreative }: Props) {
 			});
 		} catch (error) {
 			reportFailure(error);
-		} finally {
-			setIsSaving(false);
 		}
 	};
 	return (

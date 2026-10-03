@@ -1,4 +1,8 @@
-import { CreativeFileError } from "./creative-limits";
+import {
+	CreativeFileError,
+	creativeContentTypeOf,
+	isVideoContentType,
+} from "./creative-limits";
 
 export type MeasuredCreative = {
 	width: number;
@@ -7,10 +11,8 @@ export type MeasuredCreative = {
 };
 
 function isVideoFile(file: File): boolean {
-	if (file.type.startsWith("video/")) {
-		return true;
-	}
-	return /\.(mp4|mov)$/i.test(file.name);
+	const contentType = creativeContentTypeOf(file);
+	return contentType !== null && isVideoContentType(contentType);
 }
 
 /**

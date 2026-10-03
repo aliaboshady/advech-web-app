@@ -165,3 +165,37 @@ export type ListCampaignsPayload = {
 	flightFrom?: string;
 	flightTo?: string;
 };
+
+export type CreateCreativeUploadIntentPayload = {
+	campaignId: string;
+	originalFilename: string;
+	contentType: string;
+	sizeBytes: number;
+};
+
+/** A reserved Creative and the signed URL its file is PUT to. */
+export type CreativeUploadIntent = {
+	creativeId: string;
+	uploadUrl: string;
+	headers: Record<string, string>;
+};
+
+export type PutCreativeFilePayload = {
+	uploadUrl: string;
+	headers: Record<string, string>;
+	file: Blob;
+};
+
+/** `durationMs` is sent for video only; the backend refuses it for jpeg and png. */
+export type ConfirmCreativePayload = {
+	campaignId: string;
+	creativeId: string;
+	width: number;
+	height: number;
+	durationMs?: number;
+};
+
+export type DeleteCreativePayload = {
+	campaignId: string;
+	creativeId: string;
+};

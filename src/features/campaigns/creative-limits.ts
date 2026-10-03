@@ -1,3 +1,5 @@
+import { Accept } from "react-dropzone";
+
 /** Ceiling for jpeg, png and gif. */
 export const CREATIVE_IMAGE_MAX_BYTES = 10 * 1024 * 1024;
 
@@ -52,7 +54,10 @@ function isCreativeContentType(value: string): value is CreativeContentType {
 	return (CREATIVE_CONTENT_TYPES as readonly string[]).includes(value);
 }
 
-function contentTypeOf(file: CreativeFileInput): CreativeContentType | null {
+/** The file's Creative type, read from its MIME type or else its extension. */
+export function creativeContentTypeOf(
+	file: CreativeFileInput,
+): CreativeContentType | null {
 	if (isCreativeContentType(file.type)) {
 		return file.type;
 	}
@@ -60,7 +65,8 @@ function contentTypeOf(file: CreativeFileInput): CreativeContentType | null {
 	return EXTENSION_CONTENT_TYPES[extension] ?? null;
 }
 
-function isVideo(contentType: CreativeContentType): boolean {
+/** Video rides the 50 MB ceiling and is the only Creative that sends `durationMs`. */
+export function isVideoContentType(contentType: string): boolean {
 	return contentType.startsWith("video/");
 }
 
@@ -69,11 +75,11 @@ function isVideo(contentType: CreativeContentType): boolean {
  * Images stop at 10 MB; video stops at 50 MB. A file exactly at the ceiling is allowed.
  */
 export function gateCreativeFile(file: CreativeFileInput): CreativeFileGate {
-	const contentType = contentTypeOf(file);
+	const contentType = creativeContentTypeOf(file);
 	if (!contentType) {
 		return { accepted: false, reason: "unsupported-type" };
 	}
-	const maxBytes = isVideo(contentType)
+	const maxBytes = isVideoContentType(contentType)
 		? CREATIVE_VIDEO_MAX_BYTES
 		: CREATIVE_IMAGE_MAX_BYTES;
 	if (file.size > maxBytes) {
@@ -83,7 +89,7 @@ export function gateCreativeFile(file: CreativeFileInput): CreativeFileGate {
 }
 
 /** Types the Creative dropzone accepts. Images are 10 MB; video is 50 MB. */
-export const CREATIVE_FILE_ACCEPT: Record<string, string[]> = {
+export const CREATIVE_FILE_ACCEPT: Accept = {
 	"image/jpeg": [".jpg", ".jpeg"],
 	"image/png": [".png"],
 	"image/gif": [".gif"],

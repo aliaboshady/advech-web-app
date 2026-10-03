@@ -1,88 +1,68 @@
-import { isErrorResponse } from "@/lib/utils";
+import { ErrorResponse, ServerResponse } from "@/types";
 import {
-	CreativeContentType,
 	CreativeFileError,
 	gateCreativeFile,
+	isVideoContentType,
 } from "./creative-limits";
-import { CampaignCreative } from "./types";
+import {
+	CampaignCreative,
+	ConfirmCreativePayload,
+	CreateCreativeUploadIntentPayload,
+	CreativeUploadIntent,
+	DeleteCreativePayload,
+	PutCreativeFilePayload,
+} from "./types";
 
-export type CreativeUploadIntent = {
-	creativeId: string;
-	uploadUrl: string;
-	headers: Record<string, string>;
+/** The calls one upload makes, injectable so tests can record them. */
+export type CreativeUploadClient = {
+	deleteCreative: (
+		payload: DeleteCreativePayload,
+	) => Promise<ServerResponse<never>>;
+	createUploadIntent: (
+		payload: CreateCreativeUploadIntentPayload,
+	) => Promise<ServerResponse<CreativeUploadIntent>>;
+	putCreativeFile: (payload: PutCreativeFilePayload) => Promise<void>;
+	confirmCreative: (
+		payload: ConfirmCreativePayload,
+	) => Promise<ServerResponse<CampaignCreative>>;
 };
 
-export type ConfirmCreativeInput = {
-	campaignId: string;
-	creativeId: string;
+export type MeasuredCreativeFile = {
+	file: File;
 	width: number;
 	height: number;
 	durationMs?: number;
 };
 
-export type CreativeUploadClient = {
-	deleteCreative: (input: {
-		campaignId: string;
-		creativeId: string;
-	}) => Promise<void>;
-	createUploadIntent: (input: {
-		campaignId: string;
-		originalFilename: string;
-		contentType: string;
-		sizeBytes: number;
-	}) => Promise<CreativeUploadIntent>;
-	putCreativeFile: (input: {
-		uploadUrl: string;
-		headers: Record<string, string>;
-		file: Blob;
-	}) => Promise<void>;
-	confirmCreative: (input: ConfirmCreativeInput) => Promise<CampaignCreative>;
-};
-
-export type UploadCampaignCreativeInput = {
+export type UploadCampaignCreativeInput = MeasuredCreativeFile & {
 	campaignId: string;
 	existingCreativeId: string | null;
-	file: { name: string; type: string; size: number };
-	body: Blob;
-	width: number;
-	height: number;
-	durationMs?: number;
+	/** Called once the old Creative is gone, so a later failure cannot leave it on screen. */
+	onExistingCreativeRemoved?: () => void;
 };
 
-function confirmBody(input: {
-	campaignId: string;
-	creativeId: string;
-	contentType: CreativeContentType;
-	width: number;
-	height: number;
-	durationMs?: number;
-}): ConfirmCreativeInput {
-	const body: ConfirmCreativeInput = {
-		campaignId: input.campaignId,
-		creativeId: input.creativeId,
-		width: input.width,
-		height: input.height,
-	};
-	if (
-		input.contentType.startsWith("video/") &&
-		input.durationMs !== undefined
-	) {
-		body.durationMs = input.durationMs;
+function unwrap<T>(response: ServerResponse<T>): T {
+	if (response.error) {
+		throw response.error;
 	}
-	return body;
+	if (response.data === undefined) {
+		const error: ErrorResponse = {
+			code: "UNKNOWN",
+			message: "Empty response",
+			details: {},
+		};
+		throw error;
+	}
+	return response.data;
 }
 
 async function deleteExistingCreative(
 	client: CreativeUploadClient,
-	input: { campaignId: string; creativeId: string },
+	payload: DeleteCreativePayload,
 ): Promise<void> {
-	try {
-		await client.deleteCreative(input);
-	} catch (error) {
-		if (isErrorResponse(error) && error.code === "CREATIVE_NOT_FOUND") {
-			return;
-		}
-		throw error;
+	const response = await client.deleteCreative(payload);
+	if (response.error && response.error.code !== "CREATIVE_NOT_FOUND") {
+		throw response.error;
 	}
 }
 
@@ -104,26 +84,30 @@ export async function uploadCampaignCreative(
 			campaignId: input.campaignId,
 			creativeId: input.existingCreativeId,
 		});
+		input.onExistingCreativeRemoved?.();
 	}
-	const intent = await client.createUploadIntent({
-		campaignId: input.campaignId,
-		originalFilename: input.file.name,
-		contentType: gate.contentType,
-		sizeBytes: input.file.size,
-	});
+	const intent = unwrap(
+		await client.createUploadIntent({
+			campaignId: input.campaignId,
+			originalFilename: input.file.name,
+			contentType: gate.contentType,
+			sizeBytes: input.file.size,
+		}),
+	);
 	await client.putCreativeFile({
 		uploadUrl: intent.uploadUrl,
 		headers: intent.headers,
-		file: input.body,
+		file: input.file,
 	});
-	return client.confirmCreative(
-		confirmBody({
+	return unwrap(
+		await client.confirmCreative({
 			campaignId: input.campaignId,
 			creativeId: intent.creativeId,
-			contentType: gate.contentType,
 			width: input.width,
 			height: input.height,
-			durationMs: input.durationMs,
+			...(isVideoContentType(gate.contentType) && input.durationMs !== undefined
+				? { durationMs: input.durationMs }
+				: {}),
 		}),
 	);
 }
