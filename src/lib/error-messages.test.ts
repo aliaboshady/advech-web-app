@@ -117,6 +117,29 @@ describe("resolveErrorMessage", () => {
 		).toBe("This person is already an active Admin");
 	});
 
+	it("maps an invalid Advertiser status transition to a clear message", () => {
+		expect(
+			resolveErrorMessage(
+				{
+					code: "ADVERTISER_INVALID_STATUS_TRANSITION",
+					message: "from the server",
+				},
+				"en",
+			),
+		).toBe(
+			"This Advertiser's status changed, so that action is no longer available",
+		);
+		expect(
+			resolveErrorMessage(
+				{
+					code: "ADVERTISER_INVALID_STATUS_TRANSITION",
+					message: "from the server",
+				},
+				"ar",
+			),
+		).toBe("تغيّرت حالة هذا المعلن، لذلك لم يعد هذا الإجراء متاحاً");
+	});
+
 	it("maps a taken Role name and a missing Role to their messages", () => {
 		expect(
 			resolveErrorMessage(
