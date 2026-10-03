@@ -237,6 +237,14 @@
 		"zoneNameMax": "يجب ألا يزيد اسم المنطقة عن 120 حرفًا.",
 		"zoneRadiusOutOfRange": "يجب أن يكون نصف القطر بين 0.05 كم و 50 كم.",
 		"zonePointRequired": "حدد المنطقة على الخريطة.",
+		"lookupCodeTooShort": "استخدم حرفين على الأقل.",
+		"lookupCodeTooLong": "استخدم 64 حرفًا على الأكثر.",
+		"lookupCodeInvalid": "استخدم أحرفًا صغيرة أو أرقامًا أو شرطات أو شرطات سفلية فقط.",
+		"lookupNameRequired": "الاسم مطلوب.",
+		"lookupNameMin": "يجب أن يكون الاسم حرفين على الأقل.",
+		"lookupNameMax": "يجب ألا يتجاوز الاسم 100 حرف.",
+		"lookupDescriptionMax": "يجب ألا يتجاوز الوصف 500 حرف.",
+		"lookupSortOrderInvalid": "يجب أن يكون ترتيب العرض عددًا صحيحًا من 0 إلى 100000.",
 		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
 		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
 		"CAMPAIGN_NOT_DELETABLE": "لا يمكن حذف إلا حملة مسودة؛ أرشفتها بدلًا من ذلك",
@@ -264,7 +272,9 @@
 		"CREATIVE_LIMIT_REACHED": "هذه الحملة تحتوي بالفعل على الحد الأقصى من الإعلانات",
 		"ADMIN_INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
 		"USER_SUSPENDED": "هذا الحساب موقوف. تواصل مع مسؤول آخر",
-		"PERMISSION_DENIED": "ليست لديك صلاحية لهذا"
+		"PERMISSION_DENIED": "ليست لديك صلاحية لهذا",
+		"LOOKUP_CODE_TAKEN": "هذا الرمز مستخدم بالفعل",
+		"LOOKUP_NOT_FOUND": "لم يعد هذا البند موجودًا"
 	},
 	"admin": {
 		"login": {
@@ -274,7 +284,52 @@
 			"submitting": "جارٍ تسجيل الدخول..."
 		},
 		"sidebar": {
-			"home": "الرئيسية"
+			"home": "الرئيسية",
+			"objectives": "الأهداف",
+			"interests": "الاهتمامات",
+			"venueTypes": "أنواع الأماكن"
+		},
+		"lookups": {
+			"add": "إضافة بند",
+			"createTitle": "إضافة بند",
+			"editTitle": "تعديل البند",
+			"code": "الرمز",
+			"codeHint": "من 2 إلى 64 حرفًا صغيرًا أو رقمًا أو شرطة أو شرطة سفلية. يبقى ثابتًا بعد الإنشاء.",
+			"codeLocked": "الرمز ثابت ولا يمكن تغييره.",
+			"name": "الاسم",
+			"description": "الوصف",
+			"descriptionOptional": "اختياري",
+			"sortOrder": "ترتيب العرض",
+			"sortOrderHint": "الأرقام الأصغر تظهر أولًا",
+			"save": "حفظ",
+			"saving": "جارٍ الحفظ...",
+			"create": "إنشاء",
+			"loading": "جارٍ تحميل البنود...",
+			"empty": "لا توجد بنود بعد.",
+			"active": "نشط",
+			"inactive": "غير نشط",
+			"activate": "تفعيل",
+			"deactivate": "تعطيل",
+			"columns": {
+				"code": "الرمز",
+				"name": "الاسم",
+				"description": "الوصف",
+				"sortOrder": "ترتيب العرض",
+				"status": "الحالة",
+				"actions": "إجراءات"
+			},
+			"objectives": {
+				"title": "الأهداف",
+				"description": "الغرض من الحملة. يختار المعلنون واحدًا من هذه."
+			},
+			"interests": {
+				"title": "الاهتمامات",
+				"description": "الاهتمامات التي يمكن للمعلن استهدافها."
+			},
+			"venueTypes": {
+				"title": "أنواع الأماكن",
+				"description": "أنواع الأماكن التي يمكن للمعلن استهدافها."
+			}
 		},
 		"home": {
 			"title": "الرئيسية",

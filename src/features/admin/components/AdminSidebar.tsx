@@ -1,5 +1,11 @@
 import { Link, useLocation, useRouteContext } from "@tanstack/react-router";
-import { House, type LucideIcon } from "lucide-react";
+import {
+	Building2,
+	House,
+	type LucideIcon,
+	Sparkles,
+	Target,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AppSidebarHeader } from "@/components/AppSidebar/AppSidebarHeader";
 import {
@@ -15,6 +21,9 @@ import { visibleAdminSidebarEntries } from "@/features/access/admin-sidebar";
 
 const entryIcons: Record<string, LucideIcon> = {
 	home: House,
+	objectives: Target,
+	interests: Sparkles,
+	"venue-types": Building2,
 };
 
 /** Sidebar entries this Admin may open. Later screens extend the catalog. */
@@ -59,7 +68,10 @@ export function AdminSidebar(props: React.ComponentProps<typeof Sidebar>) {
 												: "hover:bg-primary text-white! hover:text-white dark:hover:text-black pointer-events-none"
 										}
 									>
-										<Link to={entry.path}>
+										<Link
+											to={entry.path}
+											activeOptions={{ exact: entry.path === "/admin" }}
+										>
 											<Icon />
 											<span>{label}</span>
 										</Link>
