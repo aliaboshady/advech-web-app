@@ -37,10 +37,11 @@ export function SignupPage() {
 
 			const nextState = {
 				email: formik.values.email,
+				token: payload.token,
 				expiresInSeconds: payload.expiresInSeconds,
 				resendAvailableInSeconds: payload.resendAvailableInSeconds,
 				devCode: payload.devCode,
-			} as any;
+			};
 
 			sessionStorage.setItem("verify-email-state", JSON.stringify(nextState));
 

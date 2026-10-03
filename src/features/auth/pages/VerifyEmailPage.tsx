@@ -28,6 +28,7 @@ import {
 
 type VerifyEmailLocationState = {
 	email?: string;
+	token?: string;
 	code?: string;
 	expiresInSeconds?: number;
 	resendAvailableInSeconds?: number;
@@ -48,6 +49,7 @@ export function VerifyEmailPage() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const [email, setEmail] = useState("");
+	const [token, setToken] = useState("");
 	const [code, setCode] = useState("");
 	const [expiresIn, setExpiresIn] = useState(0);
 	const [resendAvailableIn, setResendAvailableIn] = useState(0);
@@ -57,6 +59,7 @@ export function VerifyEmailPage() {
 	) => {
 		const storedState = {
 			email: next.email ?? email,
+			token: next.token ?? token,
 			expiresInSeconds: next.expiresInSeconds ?? expiresIn,
 			resendAvailableInSeconds:
 				next.resendAvailableInSeconds ?? resendAvailableIn,
@@ -91,6 +94,7 @@ export function VerifyEmailPage() {
 			const state = JSON.parse(rawState) as VerifyEmailLocationState;
 
 			setEmail(state.email ?? "");
+			setToken(state.token ?? "");
 			setCode(state.devCode ?? state.code ?? "");
 			setExpiresIn(Math.max(0, Number(state.expiresInSeconds ?? 0)));
 			setResendAvailableIn(
@@ -135,11 +139,14 @@ export function VerifyEmailPage() {
 			Number(payload.resendAvailableInSeconds ?? 0),
 		);
 
+		const nextToken = payload.token ?? token;
 		setExpiresIn(nextExpiresIn);
 		setResendAvailableIn(nextResendAvailableIn);
+		setToken(nextToken);
 		setCode(payload.devCode ?? "");
 		updateStoredState({
 			email,
+			token: nextToken,
 			expiresInSeconds: nextExpiresIn,
 			resendAvailableInSeconds: nextResendAvailableIn,
 			devCode: payload.devCode ?? "",
@@ -147,12 +154,16 @@ export function VerifyEmailPage() {
 	};
 
 	const formik = useFormik({
-		initialValues: { email: "", code: "" },
+		initialValues: { email, code },
+		enableReinitialize: true,
 		validationSchema: validationSchema.verifyEmail,
 		onSubmit: async (values) => {
+			if (!token) {
+				return;
+			}
 			try {
 				await requestVerify({
-					email: values.email,
+					token,
 					code: values.code,
 				});
 			} catch (error) {
@@ -206,7 +217,9 @@ export function VerifyEmailPage() {
 						<Button
 							type="submit"
 							className="w-full"
-							disabled={!formik.isValid || isLoadingVerify || isLoadingResend}
+							disabled={
+								!token || !formik.isValid || isLoadingVerify || isLoadingResend
+							}
 						>
 							{isLoadingVerify
 								? t("verifyEmail.submitting")
