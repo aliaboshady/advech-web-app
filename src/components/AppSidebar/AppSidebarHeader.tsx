@@ -6,7 +6,7 @@ export function AppSidebarHeader() {
 		<SidebarMenu>
 			<SidebarMenuItem>
 				<div className="flex flex-row items-center gap-3 p-2">
-					<Logo variant="icon" className="size-6 shrink-0" />
+					<Logo variant="icon" alt="" className="size-6 shrink-0" />
 					<Logo
 						variant="wordmark"
 						className="h-4 w-auto group-data-[collapsible=icon]:hidden"

@@ -35,7 +35,6 @@ export type TextInputProps = {
 	className?: string;
 	inputClassName?: string;
 	labelClassName?: string;
-	fontSize?: number;
 	/** Helper text under the field; replaced by the error when there is one. */
 	hint?: string;
 	error?: string;
@@ -63,7 +62,6 @@ const TextInput = ({
 	className,
 	inputClassName,
 	labelClassName,
-	fontSize,
 	hint,
 	error,
 	dir = "ltr",
@@ -133,7 +131,6 @@ const TextInput = ({
 							inputClassName,
 							autoFillStyles,
 						)}
-						style={fontSize ? { fontSize } : undefined}
 						disabled={disabled}
 					/>
 				)}

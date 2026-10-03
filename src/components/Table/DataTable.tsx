@@ -128,6 +128,8 @@ const DataTable = ({
 		checkSelectionState(selected);
 	}, [items]);
 
+	const isEmpty = !items || items.length <= 0;
+
 	return (
 		<div
 			aria-busy={loading || undefined}
@@ -194,7 +196,7 @@ const DataTable = ({
 					</TableHeader>
 
 					<TableBody>
-						{loading && (!items || items.length <= 0) && (
+						{loading && isEmpty && (
 							<TableSkeletonRows
 								columns={
 									columns.length +
@@ -242,7 +244,7 @@ const DataTable = ({
 					</TableBody>
 				</Table>
 
-				{!loading && (!items || items.length <= 0) && <NoDataFound />}
+				{!loading && isEmpty && <NoDataFound />}
 			</div>
 
 			<div className="w-full p-4 flex justify-center sm:justify-end items-center">
@@ -259,7 +261,7 @@ const DataTable = ({
 				)}
 			</div>
 
-			{loading && items && items.length > 0 && (
+			{loading && !isEmpty && (
 				<div
 					role="status"
 					className="absolute inset-0 flex items-center justify-center bg-background/70"

@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 type Props = {
 	variant: "icon" | "wordmark";
 	className?: string;
+	/** Pass "" when the logo sits next to the wordmark, so it is announced once. */
+	alt?: string;
 };
 
 const assets = {
@@ -19,14 +21,14 @@ const assets = {
  * theme. Both assets are rendered and the `dark` class on <html> (set by
  * src/lib/theme.ts) decides which one shows, so no JS state is involved.
  */
-export function Logo({ variant, className }: Props) {
+export function Logo({ variant, className, alt = "Advech" }: Props) {
 	const { light, dark } = assets[variant];
 	return (
 		<>
-			<img src={light} alt="Advech" className={cn("dark:hidden", className)} />
+			<img src={light} alt={alt} className={cn("dark:hidden", className)} />
 			<img
 				src={dark}
-				alt="Advech"
+				alt={alt}
 				className={cn("hidden dark:block", className)}
 			/>
 		</>
