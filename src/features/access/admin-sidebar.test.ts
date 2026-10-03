@@ -111,13 +111,38 @@ describe("visibleAdminSidebarEntries", () => {
 		).toBe(false);
 	});
 
-	it("lists only the home entry from the catalog that ships today", () => {
+	it("lists home and invites from the catalog that ships today", () => {
 		expect(
 			visibleAdminSidebarEntries({
 				isSuperAdmin: true,
 				roles: [{ id: "role-super-admin", name: "Super admin" }],
-				permissions: ["lookups:manage", "roles:manage"],
+				permissions: ["admins:invite"],
+			}).map((entry) => entry.id),
+		).toEqual(["home", "invites"]);
+	});
+
+	it("hides invites from an Admin without admins:invite", () => {
+		expect(
+			visibleAdminSidebarEntries({
+				isSuperAdmin: false,
+				roles: [{ id: "role-lookups", name: "Lookups" }],
+				permissions: ["lookups:manage"],
 			}).map((entry) => entry.id),
 		).toEqual(["home"]);
+	});
+
+	it("opens the invites path only when admins:invite is held", () => {
+		const withInvite = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-invites", name: "Invites" }],
+			permissions: ["admins:invite"],
+		};
+		const withoutInvite = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-lookups", name: "Lookups" }],
+			permissions: ["lookups:manage"],
+		};
+		expect(adminMayOpenPath(withInvite, "/admin/invites")).toBe(true);
+		expect(adminMayOpenPath(withoutInvite, "/admin/invites")).toBe(false);
 	});
 });
