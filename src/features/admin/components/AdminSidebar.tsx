@@ -1,6 +1,7 @@
 import { Link, useLocation, useRouteContext } from "@tanstack/react-router";
 import {
 	Building2,
+	ClipboardList,
 	House,
 	type LucideIcon,
 	Sparkles,
@@ -22,6 +23,7 @@ import { visibleAdminSidebarEntries } from "@/features/access/admin-sidebar";
 
 const entryIcons: Record<string, LucideIcon> = {
 	home: House,
+	advertisers: ClipboardList,
 	objectives: Target,
 	interests: Sparkles,
 	"venue-types": Building2,

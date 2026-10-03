@@ -286,6 +286,7 @@
 		},
 		"sidebar": {
 			"home": "Home",
+			"advertisers": "Advertisers",
 			"objectives": "Objectives",
 			"interests": "Interests",
 			"venueTypes": "Venue types",
@@ -340,6 +341,32 @@
 			"submitting": "Sending invite...",
 			"sent": "Invite sent to {{email}}. It expires {{expiresAt}}.",
 			"devToken": "Dev invite token: {{token}}"
+		},
+		"advertisers": {
+			"title": "Advertiser review",
+			"search": "Search by company or owner email",
+			"loadError": "The Advertiser list could not be loaded.",
+			"detail": {
+				"title": "Advertiser"
+			},
+			"columns": {
+				"companyName": "Company",
+				"country": "Country",
+				"city": "City",
+				"ownerEmail": "Owner email",
+				"status": "Status",
+				"createdAt": "Created"
+			},
+			"statuses": {
+				"ALL": "Every status",
+				"REGISTERED": "Registered",
+				"IN_PROGRESS": "In progress",
+				"PENDING_REVIEW": "Pending review",
+				"NEEDS_CHANGES": "Needs changes",
+				"APPROVED": "Approved",
+				"REJECTED": "Rejected",
+				"SUSPENDED": "Suspended"
+			}
 		},
 		"home": {
 			"title": "Home",
