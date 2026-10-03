@@ -154,6 +154,8 @@
 			"radiusKm": "نصف القطر (كم)",
 			"createZone": "حفظ المنطقة",
 			"zonePointHint": "ابحث أو انقر نقرًا مزدوجًا على الخريطة لتحديد المنطقة.",
+			"zoneSearch": "ابحث عن مكان",
+			"radiusKmValue": "{{radius}} كم",
 			"deliveryMode": "وضع التوصيل",
 			"moving": "متحرك",
 			"fixed": "ثابت",

@@ -128,7 +128,7 @@ export function ZoneFields({
 			setCreateError("");
 		}
 	};
-	const keepZoneDraft = (event: KeyboardEvent<HTMLInputElement>): void => {
+	const preventFormSubmit = (event: KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key === "Enter") {
 			event.preventDefault();
 		}
@@ -146,7 +146,7 @@ export function ZoneFields({
 						onChange={(event) => {
 							setName(event.target.value);
 						}}
-						onKeyDown={keepZoneDraft}
+						onKeyDown={preventFormSubmit}
 						className="@xl:w-96"
 					/>
 					<p className="text-sm text-muted-foreground">
@@ -171,7 +171,7 @@ export function ZoneFields({
 						onChange={(event) => {
 							setRadiusKm(event.target.value);
 						}}
-						onKeyDown={keepZoneDraft}
+						onKeyDown={preventFormSubmit}
 						className="@xl:w-96"
 					/>
 					{createError ? <FieldMessage message={createError} /> : null}

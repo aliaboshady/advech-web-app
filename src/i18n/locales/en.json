@@ -154,6 +154,8 @@
 			"radiusKm": "Radius (km)",
 			"createZone": "Save Zone",
 			"zonePointHint": "Search or double-click the map to place the Zone.",
+			"zoneSearch": "Search for a place",
+			"radiusKmValue": "{{radius}} km",
 			"deliveryMode": "Delivery mode",
 			"moving": "Moving",
 			"fixed": "Fixed",

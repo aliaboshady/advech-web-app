@@ -9,6 +9,11 @@ const METERS_PER_KILOMETER = 1000;
 export const ZONE_MIN_RADIUS_KM = ZONE_MIN_RADIUS_METERS / METERS_PER_KILOMETER;
 export const ZONE_MAX_RADIUS_KM = ZONE_MAX_RADIUS_METERS / METERS_PER_KILOMETER;
 
+/** Rounds a kilometer radius to the nearest meter. */
+export function kilometersToMeters(radiusKm: number): number {
+	return Math.round(radiusKm * METERS_PER_KILOMETER);
+}
+
 /**
  * Converts the kilometer radius shown in the map UI into `radiusMeters`.
  * Returns undefined when the result is outside 50 to 50,000 meters.
@@ -19,7 +24,7 @@ export function radiusMetersFromKilometers(
 	if (!Number.isFinite(radiusKm)) {
 		return undefined;
 	}
-	const radiusMeters = Math.round(radiusKm * METERS_PER_KILOMETER);
+	const radiusMeters = kilometersToMeters(radiusKm);
 	if (
 		radiusMeters < ZONE_MIN_RADIUS_METERS ||
 		radiusMeters > ZONE_MAX_RADIUS_METERS

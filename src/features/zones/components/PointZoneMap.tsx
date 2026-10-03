@@ -6,14 +6,18 @@ import {
 	type MapMouseEvent,
 } from "@vis.gl/react-google-maps";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Place } from "@/components/GoogleMaps/GoogleMaps";
 import { SearchBox } from "@/components/GoogleMaps/SearchBox";
 import { SearchController } from "@/components/GoogleMaps/SearchController";
 import { Slider } from "@/components/ui/slider";
-import { ZONE_MAX_RADIUS_KM, ZONE_MIN_RADIUS_KM } from "../point-zone-radius";
+import {
+	kilometersToMeters,
+	ZONE_MAX_RADIUS_KM,
+	ZONE_MIN_RADIUS_KM,
+} from "../point-zone-radius";
 
 const MAP_ID = import.meta.env.VITE_GOOGLE_MAPS_MAP_ID;
-const METERS_PER_KILOMETER = 1000;
 const RADIUS_KM_STEP = 0.05;
 const CAIRO_CENTER = { lat: 30.0444, lng: 31.2357 };
 
@@ -39,8 +43,9 @@ export function PointZoneMap({
 	onPointChange,
 	onRadiusKmChange,
 }: Props) {
+	const { t } = useTranslation();
 	const [searchedPlace, setSearchedPlace] = useState<Place | null>(null);
-	const previewMeters = radiusKm * METERS_PER_KILOMETER;
+	const previewMeters = kilometersToMeters(radiusKm);
 	const sliderKm = Math.min(
 		ZONE_MAX_RADIUS_KM,
 		Math.max(ZONE_MIN_RADIUS_KM, radiusKm),
@@ -63,11 +68,15 @@ export function PointZoneMap({
 		>
 			<div className="@container/map relative h-80 w-full overflow-hidden rounded-xl border">
 				<div className="absolute inset-s-3 inset-e-3 top-3 z-20">
-					<SearchBox onSelect={choosePlace} onMark={choosePlace} />
+					<SearchBox
+						onSelect={choosePlace}
+						onMark={choosePlace}
+						placeholder={t("campaigns.targeting.zoneSearch")}
+					/>
 				</div>
 				<div className="absolute inset-s-3 bottom-3 z-10 w-48 rounded-lg bg-background/95 p-3 shadow-md backdrop-blur-sm">
 					<p dir="ltr" className="mb-2 text-sm font-medium tabular-nums">
-						{sliderKm} km
+						{t("campaigns.targeting.radiusKmValue", { radius: sliderKm })}
 					</p>
 					<Slider
 						min={ZONE_MIN_RADIUS_KM}

@@ -8,9 +8,11 @@ import { Place } from "./GoogleMaps";
 export function SearchBox({
 	onSelect,
 	onMark,
+	placeholder = "Search for a place...",
 }: {
 	onSelect: (place: Place) => void;
 	onMark: (place: Place) => void;
+	placeholder?: string;
 }) {
 	const { t } = useTranslation();
 	const places = useMapsLibrary("places");
@@ -99,7 +101,7 @@ export function SearchBox({
 							event.preventDefault();
 						}
 					}}
-					placeholder="Search for a place..."
+					placeholder={placeholder}
 					className="w-full rounded-xl border border-input bg-background px-3 py-3 text-base text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
 				/>
 
