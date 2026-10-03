@@ -18,6 +18,7 @@ import { Route as PrivateAdminInterestsRouteImport } from './routes/_private/adm
 import { Route as PrivateAdminInvitesRouteImport } from './routes/_private/admin/invites'
 import { Route as PrivateAdminObjectivesRouteImport } from './routes/_private/admin/objectives'
 import { Route as PrivateAdminRolesRouteRouteImport } from './routes/_private/admin/roles/route'
+import { Route as PrivateAdminSchedulePresetsRouteImport } from './routes/_private/admin/schedule-presets'
 import { Route as PrivateAdminVenueTypesRouteImport } from './routes/_private/admin/venue-types'
 import { Route as PrivateCampaignsIndexRouteImport } from './routes/_private/campaigns/index'
 import { Route as PrivateCampaignsIdRouteRouteImport } from './routes/_private/campaigns/$id/route'
@@ -84,6 +85,12 @@ const PrivateAdminRolesRouteRoute = PrivateAdminRolesRouteRouteImport.update({
   path: '/roles',
   getParentRoute: () => PrivateAdminRouteRoute,
 } as any)
+const PrivateAdminSchedulePresetsRoute =
+  PrivateAdminSchedulePresetsRouteImport.update({
+    id: '/schedule-presets',
+    path: '/schedule-presets',
+    getParentRoute: () => PrivateAdminRouteRoute,
+  } as any)
 const PrivateAdminVenueTypesRoute = PrivateAdminVenueTypesRouteImport.update({
   id: '/venue-types',
   path: '/venue-types',
@@ -214,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/admin/interests': typeof PrivateAdminInterestsRoute
   '/admin/invites': typeof PrivateAdminInvitesRoute
   '/admin/objectives': typeof PrivateAdminObjectivesRoute
+  '/admin/schedule-presets': typeof PrivateAdminSchedulePresetsRoute
   '/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
@@ -243,6 +251,7 @@ export interface FileRoutesByTo {
   '/admin/interests': typeof PrivateAdminInterestsRoute
   '/admin/invites': typeof PrivateAdminInvitesRoute
   '/admin/objectives': typeof PrivateAdminObjectivesRoute
+  '/admin/schedule-presets': typeof PrivateAdminSchedulePresetsRoute
   '/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
@@ -277,6 +286,7 @@ export interface FileRoutesById {
   '/_private/admin/interests': typeof PrivateAdminInterestsRoute
   '/_private/admin/invites': typeof PrivateAdminInvitesRoute
   '/_private/admin/objectives': typeof PrivateAdminObjectivesRoute
+  '/_private/admin/schedule-presets': typeof PrivateAdminSchedulePresetsRoute
   '/_private/admin/venue-types': typeof PrivateAdminVenueTypesRoute
   '/_private/campaigns/new': typeof PrivateCampaignsNewRoute
   '/_public/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
@@ -310,6 +320,7 @@ export interface FileRouteTypes {
     | '/admin/interests'
     | '/admin/invites'
     | '/admin/objectives'
+    | '/admin/schedule-presets'
     | '/admin/venue-types'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
@@ -339,6 +350,7 @@ export interface FileRouteTypes {
     | '/admin/interests'
     | '/admin/invites'
     | '/admin/objectives'
+    | '/admin/schedule-presets'
     | '/admin/venue-types'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
@@ -372,6 +384,7 @@ export interface FileRouteTypes {
     | '/_private/admin/interests'
     | '/_private/admin/invites'
     | '/_private/admin/objectives'
+    | '/_private/admin/schedule-presets'
     | '/_private/admin/venue-types'
     | '/_private/campaigns/new'
     | '/_public/auth/confirm-password-reset'
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/roles'
       fullPath: '/admin/roles'
       preLoaderRoute: typeof PrivateAdminRolesRouteRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/schedule-presets': {
+      id: '/_private/admin/schedule-presets'
+      path: '/schedule-presets'
+      fullPath: '/admin/schedule-presets'
+      preLoaderRoute: typeof PrivateAdminSchedulePresetsRouteImport
       parentRoute: typeof PrivateAdminRouteRoute
     }
     '/_private/admin/venue-types': {
@@ -646,6 +666,7 @@ interface PrivateAdminRouteRouteChildren {
   PrivateAdminInterestsRoute: typeof PrivateAdminInterestsRoute
   PrivateAdminInvitesRoute: typeof PrivateAdminInvitesRoute
   PrivateAdminObjectivesRoute: typeof PrivateAdminObjectivesRoute
+  PrivateAdminSchedulePresetsRoute: typeof PrivateAdminSchedulePresetsRoute
   PrivateAdminVenueTypesRoute: typeof PrivateAdminVenueTypesRoute
   PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
   PrivateAdminAdvertisersIdRoute: typeof PrivateAdminAdvertisersIdRoute
@@ -657,6 +678,7 @@ const PrivateAdminRouteRouteChildren: PrivateAdminRouteRouteChildren = {
   PrivateAdminInterestsRoute: PrivateAdminInterestsRoute,
   PrivateAdminInvitesRoute: PrivateAdminInvitesRoute,
   PrivateAdminObjectivesRoute: PrivateAdminObjectivesRoute,
+  PrivateAdminSchedulePresetsRoute: PrivateAdminSchedulePresetsRoute,
   PrivateAdminVenueTypesRoute: PrivateAdminVenueTypesRoute,
   PrivateAdminIndexRoute: PrivateAdminIndexRoute,
   PrivateAdminAdvertisersIdRoute: PrivateAdminAdvertisersIdRoute,

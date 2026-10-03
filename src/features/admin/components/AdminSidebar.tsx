@@ -2,6 +2,7 @@ import { Link, useLocation, useRouteContext } from "@tanstack/react-router";
 import {
 	Building2,
 	ClipboardList,
+	Clock,
 	House,
 	type LucideIcon,
 	Shield,
@@ -28,6 +29,7 @@ const entryIcons: Record<string, LucideIcon> = {
 	objectives: Target,
 	interests: Sparkles,
 	"venue-types": Building2,
+	"schedule-presets": Clock,
 	roles: Shield,
 	invites: UserPlus,
 };

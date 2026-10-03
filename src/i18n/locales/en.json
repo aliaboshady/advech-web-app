@@ -249,6 +249,7 @@
 		"lookupNameMax": "Name must be at most 100 characters.",
 		"lookupDescriptionMax": "Description must be at most 500 characters.",
 		"lookupSortOrderInvalid": "Sort order must be a whole number from 0 to 100000.",
+		"lookupDayOutOfRange": "Choose a day from Monday to Sunday.",
 		"CAMPAIGN_NOT_FOUND": "Campaign not found",
 		"CAMPAIGN_NOT_EDITABLE": "A Campaign can only be changed while it is a draft or has been returned for changes",
 		"CAMPAIGN_NOT_DELETABLE": "Only a draft Campaign can be deleted; archive it instead",
@@ -339,6 +340,7 @@
 			"objectives": "Objectives",
 			"interests": "Interests",
 			"venueTypes": "Venue types",
+			"schedulePresets": "Schedule presets",
 			"roles": "Roles",
 			"invites": "Invites"
 		},
@@ -363,10 +365,24 @@
 			"inactive": "Inactive",
 			"activate": "Activate",
 			"deactivate": "Deactivate",
+			"daysLabel": "Days",
+			"startTime": "Start time",
+			"endTime": "End time",
+			"crossesMidnight": "Crosses midnight",
+			"days": {
+				"monday": "Mon",
+				"tuesday": "Tue",
+				"wednesday": "Wed",
+				"thursday": "Thu",
+				"friday": "Fri",
+				"saturday": "Sat",
+				"sunday": "Sun"
+			},
 			"columns": {
 				"code": "Code",
 				"name": "Name",
 				"description": "Description",
+				"window": "Window",
 				"sortOrder": "Sort order",
 				"status": "Status",
 				"actions": "Actions"
@@ -382,6 +398,10 @@
 			"venueTypes": {
 				"title": "Venue types",
 				"description": "Venue types an Advertiser can target."
+			},
+			"schedulePresets": {
+				"title": "Schedule presets",
+				"description": "A named Dayparting window. Advertisers pick one of these."
 			}
 		},
 		"invites": {
