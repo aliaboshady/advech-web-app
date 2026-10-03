@@ -264,7 +264,8 @@
 		"CREATIVE_LIMIT_REACHED": "This Campaign already holds the maximum number of Creatives",
 		"ADMIN_INVALID_CREDENTIALS": "That email or password is wrong",
 		"USER_SUSPENDED": "This account is suspended. Contact another Admin",
-		"PERMISSION_DENIED": "You do not have access to this"
+		"PERMISSION_DENIED": "You do not have access to this",
+		"ADMIN_ALREADY_ACTIVE": "This person is already an active Admin"
 	},
 	"admin": {
 		"login": {
@@ -274,7 +275,16 @@
 			"submitting": "Signing in..."
 		},
 		"sidebar": {
-			"home": "Home"
+			"home": "Home",
+			"invites": "Invites"
+		},
+		"invites": {
+			"title": "Invite an Admin",
+			"description": "Send an invite by email so they can join the back-office.",
+			"submit": "Send invite",
+			"submitting": "Sending invite...",
+			"sent": "Invite sent to {{email}}. It expires {{expiresAt}}.",
+			"devToken": "Dev invite token: {{token}}"
 		},
 		"home": {
 			"title": "Home",

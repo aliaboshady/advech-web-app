@@ -14,6 +14,7 @@ import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
 import { Route as PrivateAdminRouteRouteImport } from './routes/_private/admin/route'
 import { Route as PrivateAdminIndexRouteImport } from './routes/_private/admin/index'
+import { Route as PrivateAdminInvitesRouteImport } from './routes/_private/admin/invites'
 import { Route as PrivateCampaignsIndexRouteImport } from './routes/_private/campaigns/index'
 import { Route as PrivateCampaignsIdRouteRouteImport } from './routes/_private/campaigns/$id/route'
 import { Route as PrivateCampaignsNewRouteImport } from './routes/_private/campaigns/new'
@@ -49,6 +50,11 @@ const PrivateAdminRouteRoute = PrivateAdminRouteRouteImport.update({
 const PrivateAdminIndexRoute = PrivateAdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PrivateAdminRouteRoute,
+} as any)
+const PrivateAdminInvitesRoute = PrivateAdminInvitesRouteImport.update({
+  id: '/invites',
+  path: '/invites',
   getParentRoute: () => PrivateAdminRouteRoute,
 } as any)
 const PrivateCampaignsIndexRoute = PrivateCampaignsIndexRouteImport.update({
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
   '/admin': typeof PrivateAdminRouteRouteWithChildren
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
+  '/admin/invites': typeof PrivateAdminInvitesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
+  '/admin/invites': typeof PrivateAdminInvitesRoute
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/auth/login': typeof PublicAuthLoginRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/_private/admin': typeof PrivateAdminRouteRouteWithChildren
   '/_private/': typeof PrivateIndexRoute
   '/_private/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
+  '/_private/admin/invites': typeof PrivateAdminInvitesRoute
   '/_private/campaigns/new': typeof PrivateCampaignsNewRoute
   '/_public/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
   '/_public/auth/login': typeof PublicAuthLoginRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/campaigns/$id'
+    | '/admin/invites'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
     | '/auth/login'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/campaigns/$id'
+    | '/admin/invites'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
     | '/auth/login'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/_private/admin'
     | '/_private/'
     | '/_private/campaigns/$id'
+    | '/_private/admin/invites'
     | '/_private/campaigns/new'
     | '/_public/auth/confirm-password-reset'
     | '/_public/auth/login'
@@ -277,6 +289,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof PrivateAdminIndexRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
+    }
+    '/_private/admin/invites': {
+      id: '/_private/admin/invites'
+      path: '/invites'
+      fullPath: '/admin/invites'
+      preLoaderRoute: typeof PrivateAdminInvitesRouteImport
       parentRoute: typeof PrivateAdminRouteRoute
     }
     '/_private/campaigns/': {
@@ -374,10 +393,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface PrivateAdminRouteRouteChildren {
+  PrivateAdminInvitesRoute: typeof PrivateAdminInvitesRoute
   PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
 }
 
 const PrivateAdminRouteRouteChildren: PrivateAdminRouteRouteChildren = {
+  PrivateAdminInvitesRoute: PrivateAdminInvitesRoute,
   PrivateAdminIndexRoute: PrivateAdminIndexRoute,
 }
 
