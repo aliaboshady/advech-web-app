@@ -73,7 +73,7 @@ export function AdminSidebar(props: React.ComponentProps<typeof Sidebar>) {
 										className={
 											!isActive
 												? "hover:bg-primary/20"
-												: "hover:bg-primary text-white! hover:text-white dark:hover:text-black pointer-events-none"
+												: "hover:bg-primary text-primary-foreground! hover:text-primary-foreground pointer-events-none"
 										}
 									>
 										<Link

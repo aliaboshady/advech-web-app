@@ -39,7 +39,7 @@ const Filter = ({
 						placeholder={t("search")}
 						value={search}
 						setValue={setSearch}
-						icon={<SearchIcon size={15} className="text-neutral-500" />}
+						icon={<SearchIcon size={15} className="text-muted-foreground" />}
 					/>
 
 					<DatePicker
@@ -64,7 +64,7 @@ const Filter = ({
 					onClick={async () => await router.navigate({ to: "/campaigns/new" })}
 					className="h-9 text-lg w-full @lg/pageLayout:w-fit"
 				>
-					<PlusIcon className="text-white" />
+					<PlusIcon />
 					{t("locale:CREATE_CAMPAIGN")}
 				</Button>
 			</div>

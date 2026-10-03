@@ -1,9 +1,9 @@
 import { PencilLineIcon, TrashIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
-import { getStatusColor } from "@/lib/utils";
 import { PaginatedResponse, SortType } from "@/types";
 import { formatMoney } from "../format-money";
 import { Campaign } from "../types";
@@ -45,11 +45,7 @@ const Table = ({
 		{
 			header: () => t("dashboard.table.status"),
 			value: (campaign: Campaign) => (
-				<span
-					className={`rounded-sm text-white ${getStatusColor(campaign.status)} p-1.5 text-xs text-muted`}
-				>
-					{t(`campaigns.statuses.${campaign.status}` as any)}
-				</span>
+				<StatusBadge kind="campaign" status={campaign.status} />
 			),
 		},
 		{
@@ -79,7 +75,7 @@ const Table = ({
 		},
 		{
 			label: t("common.delete"),
-			icon: <TrashIcon className="text-red-600" />,
+			icon: <TrashIcon className="text-destructive" />,
 			dialog: ConfirmationDialog,
 			props: {
 				onAction: async () => {},

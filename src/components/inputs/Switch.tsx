@@ -31,8 +31,10 @@ const Switch = ({ label1, label2, value, setValue }: Props) => {
 					}`}
 				/>
 
-				<p className={`z-10 ${!value && "text-white"}`}>{label1}</p>
-				<p className={`z-10 ${value && "text-white"}`}>{label2}</p>
+				<p className={`z-10 ${!value && "text-primary-foreground"}`}>
+					{label1}
+				</p>
+				<p className={`z-10 ${value && "text-primary-foreground"}`}>{label2}</p>
 			</div>
 		</button>
 	);

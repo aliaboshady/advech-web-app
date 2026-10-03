@@ -59,7 +59,7 @@ function CreativePreview({ creative }: { creative: CampaignCreative }) {
 			<video
 				src={creative.previewUrl}
 				controls
-				className="max-h-64 w-full rounded-md bg-black"
+				className="max-h-64 w-full rounded-md bg-muted"
 			>
 				<track kind="captions" />
 			</video>

@@ -1,17 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { formatDate, getStatusColor } from "@/lib/utils";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
+import { formatDate } from "@/lib/utils";
 import { AdvertiserDetail } from "../advertiser-detail";
-import { AdvertiserStatus } from "../advertiser-summary";
-
-const statusLabelKeys = {
-	REGISTERED: "admin.advertisers.statuses.REGISTERED",
-	IN_PROGRESS: "admin.advertisers.statuses.IN_PROGRESS",
-	PENDING_REVIEW: "admin.advertisers.statuses.PENDING_REVIEW",
-	NEEDS_CHANGES: "admin.advertisers.statuses.NEEDS_CHANGES",
-	APPROVED: "admin.advertisers.statuses.APPROVED",
-	REJECTED: "admin.advertisers.statuses.REJECTED",
-	SUSPENDED: "admin.advertisers.statuses.SUSPENDED",
-} as const satisfies Record<AdvertiserStatus, string>;
 
 type AdvertiserDetailFactsProps = {
 	readonly advertiser: AdvertiserDetail;
@@ -98,11 +88,7 @@ export function AdvertiserDetailFacts({
 					{t("admin.advertisers.columns.status")}
 				</h2>
 				<p>
-					<span
-						className={`inline-flex rounded-sm p-1.5 text-xs text-white ${getStatusColor(advertiser.status)}`}
-					>
-						{t(statusLabelKeys[advertiser.status])}
-					</span>
+					<StatusBadge kind="advertiser" status={advertiser.status} />
 				</p>
 				<h2 className="text-base font-semibold">
 					{t("admin.advertisers.detail.reviewReason")}

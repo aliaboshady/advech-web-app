@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { type ReactNode, useEffect, useState } from "react";
 import Dropdown from "@/components/inputs/Dropdown";
+import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import { Tab } from "@/components/Tabs/Tab";
 import {
 	Avatar,
@@ -93,6 +94,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ADVERTISER_STATUSES } from "@/features/admin/advertisers/advertiser-summary";
+import { CAMPAIGN_STATUSES } from "@/features/campaigns/types";
 
 type Theme = "light" | "dark";
 type Direction = "ltr" | "rtl";
@@ -396,6 +399,19 @@ export default function DesignSystemPage() {
 								aria-label="Disabled slider"
 							/>
 						</div>
+					</Section>
+
+					<Section title="Status badge">
+						<Row>
+							{ADVERTISER_STATUSES.map((status) => (
+								<StatusBadge key={status} kind="advertiser" status={status} />
+							))}
+						</Row>
+						<Row>
+							{CAMPAIGN_STATUSES.map((status) => (
+								<StatusBadge key={status} kind="campaign" status={status} />
+							))}
+						</Row>
 					</Section>
 
 					<Section title="Badge">

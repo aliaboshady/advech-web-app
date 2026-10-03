@@ -110,11 +110,7 @@ export function SearchBox({
 						<Info className="bg-background rounded-full w-7 h-7 p-1" />
 					</TooltipTrigger>
 
-					<TooltipContent
-						sideOffset={5}
-						side="bottom"
-						className="text-white bg-black [&_svg]:bg-black! [&_svg]:fill-black!"
-					>
+					<TooltipContent sideOffset={5} side="bottom">
 						<p>{t("locale:Double click to mark area")}</p>
 					</TooltipContent>
 				</Tooltip>

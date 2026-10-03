@@ -34,11 +34,11 @@ export function DropdownItemsPerPage({
 			<DropdownMenuTrigger asChild className="pointer-events-auto">
 				<Button
 					variant="ghost"
-					className="p-2 text-white hover:text-white font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary data-[state=open]:text-white"
+					className="p-2 text-primary-foreground hover:text-primary-foreground font-medium rounded-md bg-primary hover:bg-primary/80! focus:outline-none focus-visible:outline-none data-[state=open]:bg-primary data-[state=open]:text-primary-foreground"
 				>
 					{t(itemsPerPageList[itemsPerPage?.toString()]?.toString() as any)}
 					<ChevronDownIcon
-						className={`text-white transition-transform ${
+						className={`text-primary-foreground transition-transform ${
 							open ? "rotate-180" : ""
 						}`}
 					/>

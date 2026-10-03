@@ -203,7 +203,7 @@ export default function FileUploadDropzone({
 			<div
 				{...getRootProps()}
 				className={`w-full h-full border-2 border-dashed rounded-lg p-8 flex flex-col justify-center items-center gap-4 text-center cursor-pointer transition-colors relative
-          ${isDragActive ? "border-primary bg-secondary" : "border-gray-300"}
+          ${isDragActive ? "border-primary bg-secondary" : "border-input"}
           ${isUploading ? "opacity-50 cursor-not-allowed" : ""}
         `}
 			>
@@ -211,7 +211,7 @@ export default function FileUploadDropzone({
 				{isUploading ? (
 					<div className="flex flex-col items-center gap-2">
 						<div className="animate-spin rounded-full h-6 w-6 border-t-2 border-primary border-solid" />
-						<p className="text-gray-500 text-xs">
+						<p className="text-muted-foreground text-xs">
 							{t("locale:DRAG_UPLOADING")}
 						</p>
 					</div>
@@ -228,9 +228,9 @@ export default function FileUploadDropzone({
 				)}
 
 				<div
-					className={`${!file && "opacity-0"} flex items-center justify-between w-full max-w-md border rounded-md px-3 py-2 bg-gray-50`}
+					className={`${!file && "opacity-0"} flex items-center justify-between w-full max-w-md border rounded-md px-3 py-2 bg-muted`}
 				>
-					<span className="truncate text-sm text-gray-700">{file?.name}</span>
+					<span className="truncate text-sm text-foreground">{file?.name}</span>
 
 					<button
 						type="button"
@@ -239,7 +239,7 @@ export default function FileUploadDropzone({
 							setFile(null);
 						}}
 						disabled={isUploading}
-						className="text-gray-500 hover:text-red-500 transition-colors text-lg font-bold"
+						className="text-muted-foreground hover:text-destructive transition-colors text-lg font-bold"
 					>
 						<XIcon />
 					</button>

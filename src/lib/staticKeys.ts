@@ -41,11 +41,3 @@ export const mockAdminMe: User = {
 		permissions: [...PERMISSION_KEYS],
 	},
 };
-
-export const statusLabels: Record<string, string> = {
-	Active: "campaigns.status.active",
-	Scheduled: "campaigns.status.scheduled",
-	Paused: "campaigns.status.paused",
-	Completed: "campaigns.status.completed",
-	Cancelled: "campaigns.status.cancelled",
-};

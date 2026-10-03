@@ -54,7 +54,7 @@ export function AdvertiserQueueFilter({
 				placeholder={t("admin.advertisers.search")}
 				value={search}
 				setValue={onSearchChange}
-				icon={<SearchIcon size={15} className="text-neutral-500" />}
+				icon={<SearchIcon size={15} className="text-muted-foreground" />}
 			/>
 			<Dropdown
 				items={statusItems}

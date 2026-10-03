@@ -95,13 +95,6 @@
 		}
 	},
 	"campaigns": {
-		"status": {
-			"active": "Active",
-			"scheduled": "Scheduled",
-			"paused": "Paused",
-			"completed": "Completed",
-			"cancelled": "Cancelled"
-		},
 		"statuses": {
 			"DRAFT": "Draft",
 			"PENDING_REVIEW": "Pending review",

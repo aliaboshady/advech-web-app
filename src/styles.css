@@ -332,6 +332,10 @@ body {
   --toastify-text-color-light: var(--card-foreground);
   --toastify-color-dark: var(--card);
   --toastify-text-color-dark: var(--card-foreground);
+  --toastify-icon-color-success: var(--success);
+  --toastify-icon-color-error: var(--destructive);
+  --toastify-icon-color-warning: var(--warning);
+  --toastify-icon-color-info: var(--info);
   bottom: 1.25rem;
   width: min(100% - 2rem, 25rem);
 }

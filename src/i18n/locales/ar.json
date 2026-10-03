@@ -95,13 +95,6 @@
 		}
 	},
 	"campaigns": {
-		"status": {
-			"active": "نشطة",
-			"scheduled": "مجدولة",
-			"paused": "متوقفة مؤقتًا",
-			"completed": "مكتملة",
-			"cancelled": "ملغاة"
-		},
 		"statuses": {
 			"DRAFT": "مسودة",
 			"PENDING_REVIEW": "قيد المراجعة",

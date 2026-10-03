@@ -9,8 +9,8 @@ import { Dir } from "@/types";
 
 const autoFillStyles = `
 	text-foreground
-	caret-black dark:caret-white
-	bg-white dark:bg-background
+	caret-foreground
+	bg-background
 	[&:-webkit-autofill]:bg-background!
 	[&:-webkit-autofill]:border-[var(--ring-auto-fill)]!
 	[&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_color-mix(in_oklab,var(--input)_2%,var(--background))]!
