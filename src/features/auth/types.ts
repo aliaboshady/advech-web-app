@@ -28,12 +28,17 @@ export type ResendCodeResponse = {
 	token?: string;
 	expiresInSeconds: number;
 	resendAvailableInSeconds: number;
-	devCode: string;
+	devCode?: string;
 };
 
 export type VerifyEmailPayload = {
 	token: string;
 	code: string;
+};
+
+export type VerifyEmailResponse = {
+	accessToken: string;
+	refreshToken: string;
 };
 
 export type RequestPasswordResetPayload = {
