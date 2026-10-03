@@ -1,5 +1,10 @@
 import * as Yup from "yup";
 import { lookupCodeIssue, lookupCodeMessageKey } from "./lookup-code";
+import {
+	isTimeOfDay,
+	scheduleWindowIssue,
+	scheduleWindowMessageKey,
+} from "./schedule-window";
 
 const NAME_MIN_LENGTH = 2;
 const NAME_MAX_LENGTH = 100;
@@ -9,8 +14,44 @@ const WHOLE_NUMBER = /^(0|[1-9]\d*)$/;
 
 export type LookupFormMode = "create" | "edit";
 
+type LookupValidationOptions = {
+	readonly includeWindow?: boolean;
+};
+
+function windowFields() {
+	return {
+		days: Yup.array()
+			.of(Yup.number().required())
+			.test("days", (days, context) => {
+				const list = (days ?? []).filter(
+					(day): day is number => day !== undefined,
+				);
+				const issue = scheduleWindowIssue({
+					days: list,
+					startTime: "00:00",
+					endTime: "00:00",
+				});
+				if (issue === null || issue === "invalid-time") {
+					return true;
+				}
+				return context.createError({
+					message: scheduleWindowMessageKey(issue),
+				});
+			}),
+		startTime: Yup.string().test("startTime", "invalidTime", (value) =>
+			isTimeOfDay(value ?? ""),
+		),
+		endTime: Yup.string().test("endTime", "invalidTime", (value) =>
+			isTimeOfDay(value ?? ""),
+		),
+	};
+}
+
 /** Client-side limits for a Lookup entry, matching the admin contract. */
-export function lookupEntryValidationSchema(mode: LookupFormMode) {
+export function lookupEntryValidationSchema(
+	mode: LookupFormMode,
+	options: LookupValidationOptions = {},
+) {
 	return Yup.object({
 		code:
 			mode === "edit"
@@ -47,5 +88,6 @@ export function lookupEntryValidationSchema(mode: LookupFormMode) {
 				return Number(trimmed) <= SORT_ORDER_MAX;
 			},
 		),
+		...(options.includeWindow ? windowFields() : {}),
 	});
 }

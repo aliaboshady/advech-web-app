@@ -273,6 +273,7 @@
 		"lookupNameMax": "يجب ألا يتجاوز الاسم 100 حرف.",
 		"lookupDescriptionMax": "يجب ألا يتجاوز الوصف 500 حرف.",
 		"lookupSortOrderInvalid": "يجب أن يكون ترتيب العرض عددًا صحيحًا من 0 إلى 100000.",
+		"lookupDayOutOfRange": "اختر يومًا من الإثنين إلى الأحد.",
 		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
 		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
 		"CAMPAIGN_NOT_DELETABLE": "لا يمكن حذف إلا حملة مسودة؛ أرشفتها بدلًا من ذلك",
@@ -363,6 +364,7 @@
 			"objectives": "الأهداف",
 			"interests": "الاهتمامات",
 			"venueTypes": "أنواع الأماكن",
+			"schedulePresets": "الإعدادات المسبقة",
 			"roles": "الأدوار",
 			"invites": "الدعوات"
 		},
@@ -387,10 +389,24 @@
 			"inactive": "غير نشط",
 			"activate": "تفعيل",
 			"deactivate": "تعطيل",
+			"daysLabel": "الأيام",
+			"startTime": "وقت البدء",
+			"endTime": "وقت الانتهاء",
+			"crossesMidnight": "يعبر منتصف الليل",
+			"days": {
+				"monday": "الإثنين",
+				"tuesday": "الثلاثاء",
+				"wednesday": "الأربعاء",
+				"thursday": "الخميس",
+				"friday": "الجمعة",
+				"saturday": "السبت",
+				"sunday": "الأحد"
+			},
 			"columns": {
 				"code": "الرمز",
 				"name": "الاسم",
 				"description": "الوصف",
+				"window": "النافذة",
 				"sortOrder": "ترتيب العرض",
 				"status": "الحالة",
 				"actions": "إجراءات"
@@ -406,6 +422,10 @@
 			"venueTypes": {
 				"title": "أنواع الأماكن",
 				"description": "أنواع الأماكن التي يمكن للمعلن استهدافها."
+			},
+			"schedulePresets": {
+				"title": "الإعدادات المسبقة",
+				"description": "نافذة مسماة لأوقات العرض. يختار المعلنون واحدة منها."
 			}
 		},
 		"invites": {

@@ -125,11 +125,13 @@ describe("visibleAdminSidebarEntries", () => {
 			"objectives",
 			"interests",
 			"venue-types",
+			"schedule-presets",
 			"roles",
 			"invites",
 		]);
 		expect(adminMayOpenPath(superAdmin, "/admin/advertisers")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/objectives")).toBe(true);
+		expect(adminMayOpenPath(superAdmin, "/admin/schedule-presets")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/roles")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/invites")).toBe(true);
 	});
@@ -146,6 +148,7 @@ describe("visibleAdminSidebarEntries", () => {
 		expect(adminMayOpenPath(drivers, "/admin/objectives")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/interests")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/venue-types")).toBe(false);
+		expect(adminMayOpenPath(drivers, "/admin/schedule-presets")).toBe(false);
 	});
 
 	it("hides invites from an Admin without admins:invite", () => {
@@ -161,6 +164,7 @@ describe("visibleAdminSidebarEntries", () => {
 			"objectives",
 			"interests",
 			"venue-types",
+			"schedule-presets",
 		]);
 	});
 

@@ -12,6 +12,7 @@ export type AdminSidebarLabelKey =
 	| "admin.sidebar.objectives"
 	| "admin.sidebar.interests"
 	| "admin.sidebar.venueTypes"
+	| "admin.sidebar.schedulePresets"
 	| "admin.sidebar.roles"
 	| "admin.sidebar.invites";
 

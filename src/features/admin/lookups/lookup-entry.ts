@@ -7,4 +7,7 @@ export type LookupEntry = {
 	readonly isActive: boolean;
 	readonly createdAt: string;
 	readonly updatedAt: string;
+	readonly days?: readonly number[];
+	readonly startTime?: string;
+	readonly endTime?: string;
 };
