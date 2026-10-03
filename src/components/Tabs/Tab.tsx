@@ -31,7 +31,7 @@ export function Tab({
 			<button
 				type="button"
 				onClick={handleOnClick}
-				className={`rounded-full bg-background p-1 w-10 h-10 ${
+				className={`rounded-full bg-background p-1 w-10 h-10 outline-none transition-shadow focus-visible:ring-3 focus-visible:ring-ring/50 ${
 					activeTabId ? "border border-primary shadow-md" : ""
 				} ${disabled || activeTabId ? "" : "cursor-pointer"}`}
 				disabled={disabled || activeTabId}
@@ -48,7 +48,7 @@ export function Tab({
 					} w-full h-full flex justify-center items-center`}
 				>
 					<p
-						className={`${activeTabId ? "text-primary" : done ? "text-white" : disabled ? "text-foreground/30" : "text-foreground"}`}
+						className={`${activeTabId ? "text-primary" : done ? "text-primary-foreground" : disabled ? "text-foreground/30" : "text-foreground"}`}
 					>
 						{done ? "✓" : "!"}
 					</p>
@@ -58,7 +58,7 @@ export function Tab({
 			<p
 				className={`${
 					activeTabId
-						? "text-primary font-bold text-sm"
+						? "text-primary font-semibold text-sm"
 						: done
 							? "text-primary text-xs"
 							: disabled

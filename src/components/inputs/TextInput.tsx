@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Dir } from "@/types";
 
 const autoFillStyles = `
@@ -86,22 +87,20 @@ const TextInput = ({
 				)}
 
 				{isTextArea ? (
-					<textarea
+					<Textarea
 						name={name}
-						className={twMerge(
-							"border-2 rounded-lg focus-visible:outline-none focus-visible:ring-0 p-3 w-full min-h-12 h-48 text-xs sm:text-xs md:text-sm lg:text-base xl:text-base 2xl:text-base transition-colors",
-							textAreaClassName,
-						)}
+						aria-invalid={error ? true : undefined}
+						className={twMerge("h-48 min-h-12", textAreaClassName)}
 						placeholder={placeholder || name}
 						value={value}
-						onChange={(e: any) => {
+						onChange={(e) => {
 							e.preventDefault();
-							if (onChange) onChange(e);
+							if (onChange) onChange(e as any);
 							else if (setValue) setValue(e.target.value);
 						}}
-						onBlur={(e: any) => onBlur?.(e)}
-						onFocus={(e: any) => onFocus?.(e)}
-						onKeyDown={onKeyDown}
+						onBlur={(e) => onBlur?.(e as any)}
+						onFocus={(e) => onFocus?.(e as any)}
+						onKeyDown={onKeyDown as any}
 					/>
 				) : (
 					<Input
