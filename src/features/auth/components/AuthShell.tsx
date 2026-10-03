@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { LanguageAndTheme } from "./LanguageAndTheme";
 
 /** Neutral link style for auth pages (orange is reserved for the primary action). */
@@ -51,7 +52,10 @@ export function AuthFormError({ children, className }: AuthFormErrorProps) {
 	return (
 		<div
 			role="alert"
-			className={`rounded-md bg-destructive-soft px-3 py-2 text-body-md text-destructive-soft-foreground ${className ?? ""}`}
+			className={cn(
+				"rounded-md bg-destructive-soft px-3 py-2 text-body-md text-destructive-soft-foreground",
+				className,
+			)}
 		>
 			{children}
 		</div>

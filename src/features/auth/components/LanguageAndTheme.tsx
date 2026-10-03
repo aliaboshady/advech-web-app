@@ -3,7 +3,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function LanguageAndTheme() {
 	return (
-		<div className="flex items-center justify-between gap-2">
+		<div className="flex items-center justify-center gap-2">
 			<ThemeToggle />
 			<LanguageToggle />
 		</div>
