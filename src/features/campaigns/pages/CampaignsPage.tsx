@@ -5,7 +5,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { useGetPaginated } from "@/hooks/useGetPaginated";
 import Filter from "../components/Filter";
 import Table from "../components/Table";
-import { Campaign, CampaignStatus } from "../types";
+import { Campaign, CampaignFilterStatus } from "../types";
 
 const campaigns: Campaign[] = [
 	{
@@ -103,7 +103,7 @@ const campaigns: Campaign[] = [
 export function CampaignsPage() {
 	const { t } = useTranslation();
 	const [dateRange, setDateRange] = useState<DateRange>();
-	const [status, setStatus] = useState<CampaignStatus | undefined>();
+	const [status, setStatus] = useState<CampaignFilterStatus | undefined>();
 
 	const {
 		fetch,

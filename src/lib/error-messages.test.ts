@@ -1,0 +1,118 @@
+import { FormikHelpers } from "formik";
+import { describe, expect, it, vi } from "vitest";
+import { resolveErrorMessage } from "./error-messages";
+import { handleFormikError } from "./utils";
+
+describe("resolveErrorMessage", () => {
+	it("maps Flight, currency and editability codes to their messages", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "FLIGHT_DATES_INVALID", message: "from the server" },
+				"en",
+			),
+		).toBe("The Flight must end on or after it starts");
+		expect(
+			resolveErrorMessage(
+				{ code: "CURRENCY_NOT_ACCEPTED", message: "from the server" },
+				"en",
+			),
+		).toBe("That currency is not accepted");
+		expect(
+			resolveErrorMessage(
+				{ code: "MONEY_PRECISION_EXCEEDED", message: "from the server" },
+				"en",
+			),
+		).toBe("The amount has more decimal places than the currency allows");
+		expect(
+			resolveErrorMessage(
+				{ code: "CAMPAIGN_NOT_EDITABLE", message: "from the server" },
+				"en",
+			),
+		).toBe(
+			"A Campaign can only be changed while it is a draft or has been returned for changes",
+		);
+	});
+
+	it("keeps the server message when the code is unknown", () => {
+		expect(
+			resolveErrorMessage(
+				{ code: "NOT_A_CAMPAIGN_CODE", message: "Something else failed" },
+				"en",
+			),
+		).toBe("Something else failed");
+	});
+});
+
+describe("handleFormikError", () => {
+	function formikStub(): FormikHelpers<Record<string, string>> & {
+		setFieldError: ReturnType<typeof vi.fn>;
+	} {
+		const setFieldError = vi.fn();
+		return { setFieldError } as unknown as FormikHelpers<
+			Record<string, string>
+		> & {
+			setFieldError: ReturnType<typeof vi.fn>;
+		};
+	}
+
+	it("sets a field error from validation details", () => {
+		const formik = formikStub();
+		handleFormikError(
+			{
+				code: "VALIDATION_ERROR",
+				message: "Request validation failed",
+				details: [
+					{
+						field: "name",
+						constraints: ["name must be longer than or equal to 3 characters"],
+					},
+				],
+			},
+			formik,
+		);
+		expect(formik.setFieldError).toHaveBeenCalledWith(
+			"name",
+			"name must be longer than or equal to 3 characters",
+		);
+	});
+
+	it("accepts domain details that are an object", () => {
+		const formik = formikStub();
+		expect(() =>
+			handleFormikError(
+				{
+					code: "CAMPAIGN_NOT_EDITABLE",
+					message:
+						"A Campaign can only be changed while it is a draft or has been returned for changes",
+					details: { status: "LIVE" },
+				},
+				formik,
+			),
+		).not.toThrow();
+		expect(formik.setFieldError).not.toHaveBeenCalled();
+	});
+
+	it("renames a detail field onto the form field that displays it", () => {
+		const formik = formikStub();
+		handleFormikError(
+			{
+				code: "VALIDATION_ERROR",
+				message: "Request validation failed",
+				details: [
+					{
+						field: "totalBudget.amount",
+						constraints: [
+							"amount must be a non-negative decimal string with at most 4 fractional digits",
+						],
+					},
+				],
+			},
+			formik,
+			{ "totalBudget.amount": "totalAmount" },
+		);
+		expect(formik.setFieldError).toHaveBeenCalledWith(
+			"totalAmount",
+			"amount must be a non-negative decimal string with at most 4 fractional digits",
+		);
+	});
+});

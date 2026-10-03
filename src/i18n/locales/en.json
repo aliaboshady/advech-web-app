@@ -102,6 +102,17 @@
 			"completed": "Completed",
 			"cancelled": "Cancelled"
 		},
+		"identity": {
+			"name": "Campaign name",
+			"objective": "Primary Objective",
+			"flight": "Flight",
+			"totalBudget": "Total budget",
+			"dailyBudget": "Daily budget",
+			"currency": "Currency",
+			"readOnly": "This Campaign can't be edited in its current status.",
+			"saveAndContinue": "Save and continue",
+			"createAndContinue": "Create and continue"
+		},
 		"targeting": {
 			"dates": "Campaign dates",
 			"selectDates": "Select dates",
@@ -110,6 +121,12 @@
 			"cars": "Cars",
 			"totalBudget": "Total budget",
 			"totalImpressions": "Total impressions"
+		},
+		"tabs": {
+			"identity": "Identity",
+			"targeting": "Targeting",
+			"creative": "Creative",
+			"review": "Review"
 		}
 	},
 	"common": {
@@ -137,7 +154,40 @@
 		"confirmPasswordRequired": "Please confirm your password.",
 		"passwordsMustMatch": "Passwords must match.",
 		"codeRequired": "Verification code is required.",
-		"offline": "No internet connection."
+		"offline": "No internet connection.",
+		"nameRequired": "Name is required.",
+		"nameMin": "Name must be at least 3 characters.",
+		"nameMax": "Name must be at most 120 characters.",
+		"objectiveRequired": "Choose an Objective.",
+		"invalidFlightDate": "Enter a real date as YYYY-MM-DD.",
+		"flightDatesInvalid": "The Flight must end on or after it starts.",
+		"invalidAmount": "Amount must be a non-negative decimal with at most 4 decimal places.",
+		"currencyRequired": "Choose a currency for the Budget.",
+		"CAMPAIGN_NOT_FOUND": "Campaign not found",
+		"CAMPAIGN_NOT_EDITABLE": "A Campaign can only be changed while it is a draft or has been returned for changes",
+		"CAMPAIGN_NOT_DELETABLE": "Only a draft Campaign can be deleted; archive it instead",
+		"OBJECTIVE_NOT_AVAILABLE": "That Objective is not available",
+		"FLIGHT_DATES_INVALID": "The Flight must end on or after it starts",
+		"TIME_ZONE_NOT_AVAILABLE": "That time zone is not available",
+		"SCHEDULE_PRESET_NOT_AVAILABLE": "That Schedule Preset is not available",
+		"DAYPARTING_AMBIGUOUS": "Send a Schedule Preset or a custom window, not both",
+		"DAYPART_NAME_NOT_ALLOWED": "A Schedule Preset carries its own name; only a custom window can be named",
+		"DAYPART_NAME_WITHOUT_WINDOW": "Send the custom window the name belongs to",
+		"AGE_RANGE_INVALID": "The age range must end on or after it starts",
+		"INTEREST_NOT_AVAILABLE": "One or more of those Interests is not available",
+		"VENUE_TYPE_NOT_AVAILABLE": "One or more of those Venue Types is not available",
+		"TARGETING_ZONE_NOT_FOUND": "One or more of those Zones is not in your library",
+		"ZONE_ROLE_CONTRADICTION": "A Zone cannot be both included and excluded",
+		"ADVERTISER_NOT_FOUND": "No Advertiser is linked to this account",
+		"ADVERTISER_NOT_APPROVED": "Your Advertiser must be approved before creating Campaigns",
+		"CURRENCY_NOT_ACCEPTED": "That currency is not accepted",
+		"MONEY_PRECISION_EXCEEDED": "The amount has more decimal places than the currency allows",
+		"CREATIVE_NOT_FOUND": "Creative not found",
+		"CREATIVE_TOO_LARGE": "That file is larger than the maximum for its type",
+		"CREATIVE_OBJECT_MISSING": "Upload the file before confirming it",
+		"CREATIVE_ALREADY_CONFIRMED": "This Creative has already been confirmed",
+		"CREATIVE_DURATION_NOT_ALLOWED": "A still image has no duration",
+		"CREATIVE_LIMIT_REACHED": "This Campaign already holds the maximum number of Creatives"
 	},
 	"notFound": {
 		"title": "Page Not Found",

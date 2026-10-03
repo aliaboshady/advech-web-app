@@ -102,6 +102,17 @@
 			"completed": "مكتملة",
 			"cancelled": "ملغاة"
 		},
+		"identity": {
+			"name": "اسم الحملة",
+			"objective": "الهدف الأساسي",
+			"flight": "فترة العرض",
+			"totalBudget": "إجمالي الميزانية",
+			"dailyBudget": "الميزانية اليومية",
+			"currency": "العملة",
+			"readOnly": "لا يمكن تعديل هذه الحملة في حالتها الحالية.",
+			"saveAndContinue": "حفظ ومتابعة",
+			"createAndContinue": "إنشاء ومتابعة"
+		},
 		"targeting": {
 			"dates": "تواريخ الحملة",
 			"selectDates": "اختر التواريخ",
@@ -110,6 +121,12 @@
 			"cars": "السيارات",
 			"totalBudget": "إجمالي الميزانية",
 			"totalImpressions": "إجمالي مرات الظهور"
+		},
+		"tabs": {
+			"identity": "الهوية",
+			"targeting": "الاستهداف",
+			"creative": "الإعلان",
+			"review": "المراجعة"
 		}
 	},
 	"common": {
@@ -137,7 +154,40 @@
 		"confirmPasswordRequired": "يرجى تأكيد كلمة المرور.",
 		"passwordsMustMatch": "يجب أن تتطابق كلمتا المرور.",
 		"codeRequired": "رمز التأكيد مطلوب.",
-		"offline": "لا يوجد اتصال بالإنترنت."
+		"offline": "لا يوجد اتصال بالإنترنت.",
+		"nameRequired": "الاسم مطلوب.",
+		"nameMin": "يجب ألا يقل الاسم عن 3 أحرف.",
+		"nameMax": "يجب ألا يزيد الاسم عن 120 حرفًا.",
+		"objectiveRequired": "اختر هدفًا.",
+		"invalidFlightDate": "أدخل تاريخًا حقيقيًا بالصيغة YYYY-MM-DD.",
+		"flightDatesInvalid": "يجب أن تنتهي فترة العرض في تاريخ بدايتها أو بعده.",
+		"invalidAmount": "يجب أن يكون المبلغ رقمًا عشريًا غير سالب بحد أقصى 4 منازل عشرية.",
+		"currencyRequired": "اختر عملة للميزانية.",
+		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
+		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
+		"CAMPAIGN_NOT_DELETABLE": "لا يمكن حذف إلا حملة مسودة؛ أرشفتها بدلًا من ذلك",
+		"OBJECTIVE_NOT_AVAILABLE": "هذا الهدف غير متاح",
+		"FLIGHT_DATES_INVALID": "يجب أن تنتهي فترة العرض في تاريخ بدايتها أو بعده",
+		"TIME_ZONE_NOT_AVAILABLE": "هذه المنطقة الزمنية غير متاحة",
+		"SCHEDULE_PRESET_NOT_AVAILABLE": "هذا الإعداد المسبق للجدول غير متاح",
+		"DAYPARTING_AMBIGUOUS": "أرسل إعدادًا مسبقًا أو نافذة مخصصة، وليس كليهما",
+		"DAYPART_NAME_NOT_ALLOWED": "الإعداد المسبق يحمل اسمه؛ يمكن تسمية النافذة المخصصة فقط",
+		"DAYPART_NAME_WITHOUT_WINDOW": "أرسل النافذة المخصصة التي ينتمي إليها الاسم",
+		"AGE_RANGE_INVALID": "يجب أن تنتهي الفئة العمرية عند بدايتها أو بعدها",
+		"INTEREST_NOT_AVAILABLE": "واحد أو أكثر من هذه الاهتمامات غير متاح",
+		"VENUE_TYPE_NOT_AVAILABLE": "واحد أو أكثر من أنواع الأماكن هذه غير متاح",
+		"TARGETING_ZONE_NOT_FOUND": "واحدة أو أكثر من هذه المناطق ليست في مكتبتك",
+		"ZONE_ROLE_CONTRADICTION": "لا يمكن أن تكون المنطقة مضمنة ومستبعدة معًا",
+		"ADVERTISER_NOT_FOUND": "لا يوجد معلن مرتبط بهذا الحساب",
+		"ADVERTISER_NOT_APPROVED": "يجب الموافقة على المعلن قبل إنشاء الحملات",
+		"CURRENCY_NOT_ACCEPTED": "هذه العملة غير مقبولة",
+		"MONEY_PRECISION_EXCEEDED": "يحتوي المبلغ على منازل عشرية أكثر مما تسمح به العملة",
+		"CREATIVE_NOT_FOUND": "الإعلان غير موجود",
+		"CREATIVE_TOO_LARGE": "هذا الملف أكبر من الحد الأقصى لنوعه",
+		"CREATIVE_OBJECT_MISSING": "ارفع الملف قبل تأكيده",
+		"CREATIVE_ALREADY_CONFIRMED": "تم تأكيد هذا الإعلان بالفعل",
+		"CREATIVE_DURATION_NOT_ALLOWED": "الصورة الثابتة ليس لها مدة",
+		"CREATIVE_LIMIT_REACHED": "هذه الحملة تحتوي بالفعل على الحد الأقصى من الإعلانات"
 	},
 	"notFound": {
 		"title": "الصفحة غير موجودة",

@@ -1,4 +1,19 @@
 export const CAMPAIGN_STATUSES = [
+	"DRAFT",
+	"PENDING_REVIEW",
+	"NEEDS_CHANGES",
+	"APPROVED",
+	"SCHEDULED",
+	"LIVE",
+	"COMPLETED",
+	"REJECTED",
+	"PAUSED",
+	"ARCHIVED",
+] as const;
+
+export type CampaignStatus = (typeof CAMPAIGN_STATUSES)[number];
+
+export const CAMPAIGN_FILTER_STATUSES = [
 	"campaigns.status.active",
 	"campaigns.status.scheduled",
 	"campaigns.status.paused",
@@ -6,45 +21,84 @@ export const CAMPAIGN_STATUSES = [
 	"campaigns.status.cancelled",
 ] as const;
 
-export type CampaignStatus = (typeof CAMPAIGN_STATUSES)[number];
+export type CampaignFilterStatus = (typeof CAMPAIGN_FILTER_STATUSES)[number];
 
-export const campaignStatuses = CAMPAIGN_STATUSES.map((s) => ({
-	value: s,
-	label: s,
-}));
+export const campaignFilterStatuses = CAMPAIGN_FILTER_STATUSES.map(
+	(status) => ({
+		value: status,
+		label: status,
+	}),
+);
+
+export type Money = {
+	amount: string;
+	currency: string;
+};
+
+export type DeliveryMode = "MOVING" | "FIXED";
+
+export type ZoneRole = "INCLUSION" | "EXCLUSION";
+
+export type LookupRef = {
+	id: string;
+	name: string;
+};
+
+export type CampaignDayparting = {
+	days: number[];
+	startTime: string;
+	endTime: string;
+	schedulePresetCode: string | null;
+	name: string | null;
+};
+
+export type CampaignZone = LookupRef & {
+	role: ZoneRole;
+};
+
+export type CampaignTargeting = {
+	timeZone: LookupRef | null;
+	dayparting: CampaignDayparting | null;
+	age: {
+		minAge: number | null;
+		maxAge: number | null;
+	};
+	interests: LookupRef[];
+	venueTypes: LookupRef[];
+	zones: CampaignZone[];
+	buy: {
+		carsCount: number | null;
+		deliveryMode: DeliveryMode | null;
+	};
+};
+
+export type CampaignCreative = {
+	id: string;
+	originalFilename: string;
+	contentType: string;
+	sizeBytes: number;
+	width: number;
+	height: number;
+	durationMs: number | null;
+	previewUrl: string | null;
+	confirmedAt: string;
+};
 
 export type Campaign = {
 	id: string;
-	status:
-		| "DRAFT"
-		| "PENDING_REVIEW"
-		| "NEEDS_CHANGES"
-		| "APPROVED"
-		| "SCHEDULED"
-		| "LIVE"
-		| "COMPLETED"
-		| "REJECTED"
-		| "PAUSED"
-		| "ARCHIVED";
+	status: CampaignStatus;
 	name: string;
-	objective: {
-		id: string;
-		name: string;
-	};
+	objective: LookupRef;
 	flight: {
-		startDate: string;
-		endDate: string;
-	};
+		startDate: string | null;
+		endDate: string | null;
+	} | null;
 	budget: {
-		total: {
-			amount: string;
-			currency: string;
-		};
-		daily: {
-			amount: string;
-			currency: string;
-		};
-	};
+		total: Money | null;
+		daily: Money | null;
+	} | null;
+	targeting: CampaignTargeting;
+	creatives: CampaignCreative[];
 	completeness: {
 		steps: {
 			details: boolean;
@@ -62,18 +116,16 @@ export type CreateCampaignPayload = {
 	objectiveCode: string;
 };
 
-export type EditCampaignPayload = {
-	id: string;
+/** Fields of `PATCH /campaigns/:id/details`. Amount and currency travel together. */
+export type CampaignDetailsPayload = {
 	name?: string;
 	objectiveCode?: string;
 	startDate?: string;
 	endDate?: string;
-	totalBudget?: {
-		amount?: string;
-		currency?: string;
-	};
-	dailyBudget?: {
-		amount?: string;
-		currency?: string;
-	};
+	totalBudget?: Money;
+	dailyBudget?: Money;
+};
+
+export type EditCampaignPayload = CampaignDetailsPayload & {
+	id: string;
 };

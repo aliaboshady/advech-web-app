@@ -1,40 +1,17 @@
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
+import { getCampaignTabs } from "../campaign-tabs";
+import { CampaignEditableRegion } from "../components/CampaignEditableRegion";
 import { CreativeForm } from "../components/Forms/CreativeForm";
-
-const tabs = [
-	{
-		id: 1,
-		title: "Identity",
-		url: "identity",
-		done: true,
-	},
-	{
-		id: 2,
-		title: "Targeting",
-		url: "targeting",
-		done: true,
-	},
-	{
-		id: 3,
-		title: "Creative",
-		url: "creative",
-		done: false,
-	},
-	{
-		id: 4,
-		title: "Review",
-		url: "review",
-		done: false,
-	},
-];
+import { Campaign } from "../types";
 
 type Props = {
 	id: string;
+	campaign: Campaign;
 };
 
-export function CampaignCreativePage({ id }: Props) {
+export function CampaignCreativePage({ id, campaign }: Props) {
 	const { t } = useTranslation();
 
 	return (
@@ -44,12 +21,18 @@ export function CampaignCreativePage({ id }: Props) {
 					label: t("sidebar.campaigns"),
 					link: "/campaigns",
 				},
-				{ label: id },
+				{ label: campaign.name },
 			]}
 			className="flex flex-col gap-4"
 		>
-			<HeaderTabs url={`/campaigns/${id}`} tabs={tabs} activeTabId={3} />
-			<CreativeForm />
+			<HeaderTabs
+				url={`/campaigns/${id}`}
+				tabs={getCampaignTabs(t, campaign.completeness.steps)}
+				activeTabId={3}
+			/>
+			<CampaignEditableRegion status={campaign.status}>
+				<CreativeForm />
+			</CampaignEditableRegion>
 		</PageLayout>
 	);
 }

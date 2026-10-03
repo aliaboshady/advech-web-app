@@ -1,33 +1,22 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import { getCampaign } from "@/features/campaigns/api/get-campaign";
+import { createFileRoute } from "@tanstack/react-router";
 import { CampaignIdentityPage } from "@/features/campaigns/pages/CampaignIdentityPage";
-import { getObjectives } from "@/features/Objectives/api/get-objectives";
+import { getLookupOptions } from "@/features/lookups/api/get-lookup-options";
 
 export const Route = createFileRoute("/_private/campaigns/$id/identity")({
-	beforeLoad: async ({ params }) => {
-		const objectivesRes = await getObjectives();
-		const campaignRes = await getCampaign(params.id);
-
-		if (!campaignRes.data) {
-			throw notFound();
-		}
-
-		return {
-			objectives: objectivesRes.data,
-			campaign: campaignRes.data,
-		};
+	beforeLoad: async () => {
+		const lookupsResponse = await getLookupOptions();
+		return { lookups: lookupsResponse.data };
 	},
-
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { objectives, campaign } = Route.useRouteContext();
-
+	const { campaign, lookups } = Route.useRouteContext();
 	return (
 		<CampaignIdentityPage
-			id={Route.useParams().id}
-			objectives={objectives || []}
+			id={campaign.id}
+			objectives={lookups?.objectives ?? []}
+			currencies={lookups?.currencies ?? []}
 			campaign={campaign}
 		/>
 	);

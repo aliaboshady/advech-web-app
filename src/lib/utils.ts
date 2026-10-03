@@ -18,15 +18,29 @@ export function isErrorResponse(error: unknown): error is ErrorResponse {
 	);
 }
 
-export function handleFormikError<T>(error: unknown, formik: FormikHelpers<T>) {
+export function handleFormikError<T>(
+	error: unknown,
+	formik: FormikHelpers<T>,
+	fieldNames: Record<string, string> = {},
+	codeFields: Record<string, string> = {},
+) {
 	if (!isErrorResponse(error)) {
 		return;
 	}
-
-	for (const detail of error.details) {
-		if (detail.field && detail.constraints?.[0]) {
-			formik.setFieldError(detail.field, detail.constraints[0]);
+	if (!Array.isArray(error.details)) {
+		// Domain errors carry a code rather than per-field constraints.
+		const field = codeFields[error.code];
+		if (field) {
+			formik.setFieldError(field, error.code);
 		}
+		return;
+	}
+	for (const detail of error.details) {
+		const message = detail.constraints?.[0];
+		if (!detail.field || !message) {
+			continue;
+		}
+		formik.setFieldError(fieldNames[detail.field] ?? detail.field, message);
 	}
 }
 

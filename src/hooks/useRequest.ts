@@ -2,6 +2,7 @@ import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import i18n from "@/i18n";
+import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
 import { ErrorResponse } from "@/types";
 
@@ -77,7 +78,7 @@ const useRequest = <P, R>(
 				onError?.(normalizedError);
 
 				if (showErrorToast) {
-					toast.error(normalizedError.message);
+					toast.error(resolveErrorMessage(normalizedError, i18n.language));
 				}
 
 				throw normalizedError;
