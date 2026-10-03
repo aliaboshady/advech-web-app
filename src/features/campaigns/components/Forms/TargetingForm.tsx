@@ -1,222 +1,368 @@
 import { useRouter } from "@tanstack/react-router";
-import { useFormik } from "formik";
-import { IdCardIcon } from "lucide-react";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
+import { FormikProps, useFormik } from "formik";
 import { useTranslation } from "react-i18next";
-import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
-import { GoogleMaps } from "@/components/GoogleMaps/GoogleMaps";
-import { DatePicker } from "@/components/Inputs/DatePicker";
+import Dropdown from "@/components/Inputs/Dropdown";
+import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { LookupItem, SchedulePresetOption } from "@/features/lookups/types";
+import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
+import { ServerResponse } from "@/types";
+import { updateCampaignTargeting } from "../../api/update-campaign-targeting";
+import {
+	buildCampaignTargetingPayload,
+	initialTimeZoneId,
+	TargetingFormValues,
+} from "../../build-campaign-targeting-payload";
+import { isCampaignEditable } from "../../is-campaign-editable";
+import { TARGETING_ERROR_FIELDS } from "../../targeting-error-fields";
+import { targetingValidationSchema } from "../../targeting-validation";
+import {
+	Campaign,
+	CampaignDayparting,
+	DeliveryMode,
+	LookupRef,
+	UpdateCampaignTargetingPayload,
+} from "../../types";
+import { DaypartingFields } from "./DaypartingFields";
+import { FieldMessage } from "./FieldMessage";
 
-export function TargetingForm() {
+const TARGETING_FIELD_NAMES: Record<string, string> = {
+	"dayparting.days": "days",
+	"dayparting.startTime": "startTime",
+	"dayparting.endTime": "endTime",
+};
+
+type Props = {
+	campaign: Campaign;
+	timeZones: LookupItem[];
+	schedulePresets: SchedulePresetOption[];
+	interests: LookupItem[];
+	venueTypes: LookupItem[];
+};
+
+function formatOptionalNumber(value: number | null): string {
+	if (value === null) {
+		return "";
+	}
+	return String(value);
+}
+
+function initialDaypartingKind(
+	dayparting: CampaignDayparting | null,
+): TargetingFormValues["daypartingKind"] {
+	if (!dayparting) {
+		return "";
+	}
+	if (dayparting.schedulePresetCode) {
+		return "preset";
+	}
+	return "custom";
+}
+
+function toTargetingFormValues(
+	campaign: Campaign,
+	timeZones: LookupItem[],
+): TargetingFormValues {
+	const dayparting = campaign.targeting.dayparting;
+	return {
+		timeZoneId: initialTimeZoneId(
+			campaign.targeting.timeZone?.id,
+			timeZones.map((zone) => zone.id),
+			Intl.DateTimeFormat().resolvedOptions().timeZone,
+		),
+		daypartingEdited: false,
+		daypartingKind: initialDaypartingKind(dayparting),
+		schedulePresetCode: dayparting?.schedulePresetCode ?? "",
+		days: dayparting?.days ?? [],
+		startTime: dayparting?.startTime ?? "",
+		endTime: dayparting?.endTime ?? "",
+		daypartName: dayparting?.name ?? "",
+		minAge: formatOptionalNumber(campaign.targeting.age.minAge),
+		maxAge: formatOptionalNumber(campaign.targeting.age.maxAge),
+		interestsEdited: false,
+		interestCodes: campaign.targeting.interests.map((interest) => interest.id),
+		venueTypesEdited: false,
+		venueTypeCodes: campaign.targeting.venueTypes.map(
+			(venueType) => venueType.id,
+		),
+		carsCount: formatOptionalNumber(campaign.targeting.buy.carsCount),
+		deliveryMode: campaign.targeting.buy.deliveryMode ?? "",
+	};
+}
+
+function withSavedTimeZone(
+	timeZones: LookupItem[],
+	saved: LookupRef | null,
+): LookupItem[] {
+	if (!saved || timeZones.some((zone) => zone.id === saved.id)) {
+		return timeZones;
+	}
+	return [{ id: saved.id, name: saved.name }, ...timeZones];
+}
+
+function visibleFieldError(
+	formik: FormikProps<TargetingFormValues>,
+	name: keyof TargetingFormValues,
+): string {
+	const message = formik.errors[name];
+	if (typeof message !== "string" || !message) {
+		return "";
+	}
+	if (!formik.touched[name] && formik.submitCount === 0) {
+		return "";
+	}
+	return message;
+}
+
+export function TargetingForm({
+	campaign,
+	timeZones,
+	schedulePresets,
+	interests,
+	venueTypes,
+}: Props) {
 	const { t } = useTranslation();
 	const router = useRouter();
-	const [date, setDate] = useState<DateRange | undefined>();
-	const [carCount, setCarCount] = useState([1]);
-	const [coverageAreaKm2, setCoverageAreaKm2] = useState(0);
-
-	const formik = useFormik({
-		initialValues: {
-			campaignName: "",
-			primaryObjective: "",
-			startDate: undefined as Date | undefined,
-			endDate: undefined as Date | undefined,
-			startHour: "",
-			endHour: "",
-			carCount: 1,
-			markerRadiusKm: 5,
-			isMoving: true,
-		},
-		// validationSchema: validationSchema.login,
-		onSubmit: async (_values) => {
+	const isReadOnly = !isCampaignEditable(campaign.status);
+	const { request: requestUpdate, isLoading: isSaving } = useRequest<
+		UpdateCampaignTargetingPayload,
+		ServerResponse<Campaign>
+	>(updateCampaignTargeting);
+	const formik = useFormik<TargetingFormValues>({
+		initialValues: toTargetingFormValues(campaign, timeZones),
+		validationSchema: targetingValidationSchema,
+		onSubmit: async (values) => {
+			if (isReadOnly) {
+				return;
+			}
 			try {
-				// await request({
-				//   email: values.email,
-				//   password: values.password,
-				// });
-				true;
+				await requestUpdate({
+					id: campaign.id,
+					...buildCampaignTargetingPayload(values),
+				});
+				await router.navigate({
+					to: "/campaigns/$id/creative",
+					params: { id: campaign.id },
+				});
 			} catch (error) {
-				handleFormikError(error, formik);
+				handleFormikError(
+					error,
+					formik,
+					TARGETING_FIELD_NAMES,
+					TARGETING_ERROR_FIELDS,
+				);
 			}
 		},
 	});
-
-	const startDate = formik.values.startDate;
-	const endDate = formik.values.endDate;
-	const campaignDays =
-		startDate && endDate
-			? Math.floor(
-					(endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000),
-				) + 1
-			: 0;
-	const startHour = formik.values.startHour
-		? Number(formik.values.startHour.split(":")[0]) +
-			Number(formik.values.startHour.split(":")[1]) / 60
-		: 0;
-	const endHour = formik.values.endHour
-		? Number(formik.values.endHour.split(":")[0]) +
-			Number(formik.values.endHour.split(":")[1]) / 60
-		: 0;
-	const hoursPerDay = endHour > startHour ? endHour - startHour : 0;
-	const totalHours = campaignDays * hoursPerDay;
-	const totalBudget = totalHours * formik.values.carCount * 12;
-	const totalImpressions = Math.round(
-		totalHours * formik.values.carCount * coverageAreaKm2 * 1000,
+	const fieldError = (name: keyof TargetingFormValues): string =>
+		visibleFieldError(formik, name);
+	const zoneError = (formik.errors as Record<string, unknown>).zones;
+	const zoneMessage = typeof zoneError === "string" ? zoneError : "";
+	const timeZoneItems = withSavedTimeZone(
+		timeZones,
+		campaign.targeting.timeZone,
 	);
-
 	return (
-		<div className="@container bg-primary-foreground flex h-full w-full flex-col gap-4 rounded-xl border p-4 shadow-md">
-			<div className="flex min-h-0 w-full flex-1 flex-col gap-4 @4xl:flex-row">
-				<GoogleMaps
-					className="h-100 shrink-0 overflow-hidden rounded-lg @4xl:h-auto @4xl:min-h-0 @4xl:flex-1"
-					markerRadiusKm={formik.values.markerRadiusKm}
-					onMarkerRadiusKmChange={(value) =>
-						formik.setFieldValue("markerRadiusKm", value)
+		<form
+			onSubmit={formik.handleSubmit}
+			className="@container bg-primary-foreground w-full @sm:min-h-[calc(100vh-16rem)] flex flex-col gap-4 shadow-md p-4 border rounded-xl"
+		>
+			<div className="flex flex-col gap-2 @xl:w-96">
+				<Label>{t("campaigns.targeting.timeZone")}</Label>
+				<Dropdown
+					items={timeZoneItems.map((zone) => ({
+						value: zone.id,
+						label: zone.name,
+					}))}
+					selected={formik.values.timeZoneId}
+					setSelected={(value: string) => {
+						formik.setFieldValue("timeZoneId", value);
+						formik.setFieldTouched("timeZoneId", true, false);
+					}}
+					disabled={isReadOnly}
+					placeholder={t("campaigns.targeting.timeZone")}
+					error={
+						fieldError("timeZoneId")
+							? `errors.${fieldError("timeZoneId")}`
+							: undefined
 					}
-					onCoverageAreaChange={setCoverageAreaKm2}
-					onMovementChange={(value) => formik.setFieldValue("isMoving", value)}
-					isMoving={formik.values.isMoving}
 				/>
-				{/* <div className="h-100 shrink-0 overflow-hidden rounded-lg @4xl:h-auto @4xl:min-h-0 @4xl:flex-1 bg-gray-300" /> */}
-
-				<Card className="w-full shrink-0 rounded-lg p-6 transition-colors @4xl:h-auto @4xl:w-100">
-					<CardContent className="p-0">
-						<FormikTextInput
-							formik={formik}
-							label={t("locale:Campaign Name")}
-							placeholder={t("locale:Campaign Name")}
-							name="campaignName"
-							icon={<IdCardIcon size={15} />}
-						/>
-
-						<div className="flex flex-col gap-2">
-							<Label>{t("campaigns.targeting.dates")}</Label>
-							<DatePicker
-								mode="range"
-								localTime
-								date={date as DateRange}
-								setDate={(value: DateRange) => {
-									setDate(value);
-									if (!value) {
-										formik.setValues({
-											...formik.values,
-											startDate: undefined,
-											endDate: undefined,
-										});
-										return;
-									}
-
-									formik.setValues({
-										...formik.values,
-										startDate: value.from,
-										endDate: value.to,
-									});
-								}}
-								placeholder="campaigns.targeting.selectDates"
-							/>
-						</div>
-
-						<div className="grid grid-cols-2 gap-3">
-							<div className="flex flex-col gap-2">
-								<Label htmlFor="startHour">
-									{t("campaigns.targeting.startHour")}
-								</Label>
-								<Input
-									id="startHour"
-									name="startHour"
-									type="time"
-									value={formik.values.startHour}
-									onChange={formik.handleChange}
-								/>
-							</div>
-
-							<div className="flex flex-col gap-2">
-								<Label htmlFor="endHour">
-									{t("campaigns.targeting.endHour")}
-								</Label>
-								<Input
-									id="endHour"
-									name="endHour"
-									type="time"
-									value={formik.values.endHour}
-									onChange={formik.handleChange}
-								/>
-							</div>
-						</div>
-
-						<div className="flex flex-col gap-3">
-							<div className="flex items-center justify-between">
-								<Label htmlFor="carCount">
-									{t("campaigns.targeting.cars")}
-								</Label>
-								<span className="text-sm font-medium tabular-nums">
-									{carCount[0]}
-								</span>
-							</div>
-
-							<Slider
-								id="carCount"
-								min={1}
-								max={30}
-								step={1}
-								value={carCount}
-								onValueChange={(value: number[]) => {
-									setCarCount(value);
-									formik.setFieldValue("carCount", value[0]);
-								}}
-							/>
-						</div>
-
-						<div className="grid grid-cols-2 gap-3 border-t pt-4">
-							<div className="flex flex-col gap-1">
-								<span className="text-muted-foreground text-xs">
-									{t("campaigns.targeting.totalBudget")}
-								</span>
-								<strong className="text-base tabular-nums">
-									{totalBudget.toLocaleString(undefined, {
-										style: "currency",
-										currency: "USD",
-									})}
-								</strong>
-							</div>
-							<div className="flex flex-col gap-1">
-								<span className="text-muted-foreground text-xs">
-									{t("campaigns.targeting.totalImpressions")}
-								</span>
-								<strong className="text-base tabular-nums">
-									{totalImpressions.toLocaleString()}
-								</strong>
-							</div>
-						</div>
-					</CardContent>
-				</Card>
 			</div>
+			<DaypartingFields
+				formik={formik}
+				schedulePresets={schedulePresets}
+				readOnly={isReadOnly}
+				fieldError={fieldError}
+			/>
+			<div className="grid gap-4 @xl:grid-cols-2 @xl:w-[40rem]">
+				<TextInput
+					name="minAge"
+					type="number"
+					label={t("campaigns.targeting.minAge")}
+					placeholder="13"
+					value={formik.values.minAge}
+					disabled={isReadOnly}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					error={fieldError("minAge")}
+				/>
+				<TextInput
+					name="maxAge"
+					type="number"
+					label={t("campaigns.targeting.maxAge")}
+					placeholder="99"
+					value={formik.values.maxAge}
+					disabled={isReadOnly}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					error={fieldError("maxAge")}
+				/>
+			</div>
+			<LookupMultiSelect
+				label={t("campaigns.targeting.interests")}
+				items={interests}
+				selected={formik.values.interestCodes}
+				readOnly={isReadOnly}
+				error={fieldError("interestCodes")}
+				onChange={(codes) => {
+					formik.setFieldValue("interestCodes", codes);
+					formik.setFieldValue("interestsEdited", true);
+				}}
+			/>
+			<LookupMultiSelect
+				label={t("campaigns.targeting.venueTypes")}
+				items={venueTypes}
+				selected={formik.values.venueTypeCodes}
+				readOnly={isReadOnly}
+				error={fieldError("venueTypeCodes")}
+				onChange={(codes) => {
+					formik.setFieldValue("venueTypeCodes", codes);
+					formik.setFieldValue("venueTypesEdited", true);
+				}}
+			/>
+			<TextInput
+				name="carsCount"
+				type="number"
+				label={t("campaigns.targeting.carsCount")}
+				placeholder="1"
+				value={formik.values.carsCount}
+				disabled={isReadOnly}
+				onChange={formik.handleChange}
+				onBlur={formik.handleBlur}
+				error={fieldError("carsCount")}
+				className="@xl:w-96"
+			/>
+			<DeliveryModeField
+				value={formik.values.deliveryMode}
+				readOnly={isReadOnly}
+				onChange={(mode) => {
+					formik.setFieldValue("deliveryMode", mode);
+				}}
+			/>
+			{zoneMessage && formik.submitCount > 0 ? (
+				<FieldMessage message={zoneMessage} />
+			) : null}
+			{isReadOnly ? null : (
+				<div className="w-full flex flex-col-reverse @sm:flex-row gap-2 justify-between items-end">
+					<Button
+						type="button"
+						variant="secondary"
+						className="w-full @sm:w-fit"
+						onClick={() => {
+							router.navigate({
+								to: "/campaigns/$id/identity",
+								params: { id: campaign.id },
+							});
+						}}
+					>
+						{t("campaigns.targeting.back")}
+					</Button>
+					<Button
+						type="submit"
+						className="w-full @sm:w-fit"
+						disabled={isSaving}
+					>
+						{t("campaigns.targeting.saveAndContinue")}
+					</Button>
+				</div>
+			)}
+		</form>
+	);
+}
 
-			<div className="w-full flex flex-col-reverse @sm:flex-row gap-2 justify-between items-end">
-				<Button
-					variant="secondary"
-					onClick={async () =>
-						await router.navigate({ to: "/campaigns/$id/identity" })
-					}
-					className="w-full @sm:w-fit"
-				>
-					{t("Save and go back")}
-				</Button>
+type LookupMultiSelectProps = {
+	label: string;
+	items: LookupItem[];
+	selected: string[];
+	readOnly: boolean;
+	error: string;
+	onChange: (codes: string[]) => void;
+};
 
-				<Button
-					onClick={async () =>
-						await router.navigate({ to: "/campaigns/$id/creative" })
-					}
-					className="w-full @sm:w-fit"
-				>
-					{t("Save and continue")}
-				</Button>
+function LookupMultiSelect({
+	label,
+	items,
+	selected,
+	readOnly,
+	error,
+	onChange,
+}: LookupMultiSelectProps) {
+	return (
+		<div className="flex flex-col gap-2 @xl:w-96">
+			<Label>{label}</Label>
+			<Dropdown
+				multiSelect
+				multiSelectExpandMode="showSome"
+				showNoneOption
+				noneOptionValue="campaigns.targeting.clear"
+				items={items.map((item) => ({ value: item.id, label: item.name }))}
+				selected={selected}
+				setSelected={(codes: string[]) => {
+					onChange(codes);
+				}}
+				disabled={readOnly}
+				placeholder={label}
+				error={error ? `errors.${error}` : undefined}
+			/>
+		</div>
+	);
+}
+
+type DeliveryModeFieldProps = {
+	value: "" | DeliveryMode;
+	readOnly: boolean;
+	onChange: (mode: DeliveryMode) => void;
+};
+
+function DeliveryModeField({
+	value,
+	readOnly,
+	onChange,
+}: DeliveryModeFieldProps) {
+	const { t } = useTranslation();
+	const modes = [
+		{ mode: "MOVING" as const, label: t("campaigns.targeting.moving") },
+		{ mode: "FIXED" as const, label: t("campaigns.targeting.fixed") },
+	];
+	return (
+		<div className="flex flex-col gap-2">
+			<Label>{t("campaigns.targeting.deliveryMode")}</Label>
+			<div className="flex flex-wrap gap-2">
+				{modes.map((option) => (
+					<Button
+						key={option.mode}
+						type="button"
+						variant={value === option.mode ? "default" : "outline"}
+						disabled={readOnly}
+						onClick={() => {
+							onChange(option.mode);
+						}}
+					>
+						{option.label}
+					</Button>
+				))}
 			</div>
 		</div>
 	);

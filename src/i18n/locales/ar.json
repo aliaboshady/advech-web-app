@@ -102,6 +102,23 @@
 			"completed": "مكتملة",
 			"cancelled": "ملغاة"
 		},
+		"statuses": {
+			"DRAFT": "مسودة",
+			"PENDING_REVIEW": "قيد المراجعة",
+			"NEEDS_CHANGES": "تحتاج تعديلات",
+			"APPROVED": "معتمدة",
+			"SCHEDULED": "مجدولة",
+			"LIVE": "مباشرة",
+			"COMPLETED": "مكتملة",
+			"REJECTED": "مرفوضة",
+			"PAUSED": "متوقفة مؤقتًا",
+			"ARCHIVED": "مؤرشفة"
+		},
+		"table": {
+			"objective": "الهدف",
+			"flight": "فترة الحملة",
+			"statusPlaceholder": "كل الحالات"
+		},
 		"identity": {
 			"name": "اسم الحملة",
 			"objective": "الهدف الأساسي",
@@ -114,13 +131,36 @@
 			"createAndContinue": "إنشاء ومتابعة"
 		},
 		"targeting": {
-			"dates": "تواريخ الحملة",
 			"selectDates": "اختر التواريخ",
-			"startHour": "ساعة البدء",
-			"endHour": "ساعة الانتهاء",
-			"cars": "السيارات",
-			"totalBudget": "إجمالي الميزانية",
-			"totalImpressions": "إجمالي مرات الظهور"
+			"timeZone": "المنطقة الزمنية",
+			"dayparting": "أوقات العرض",
+			"schedulePreset": "إعداد مسبق",
+			"customWindow": "نافذة مخصصة",
+			"daypartName": "اسم النافذة",
+			"daypartNamePlaceholder": "اسم اختياري",
+			"window": "النافذة",
+			"startTime": "وقت البدء",
+			"endTime": "وقت الانتهاء",
+			"minAge": "الحد الأدنى للعمر",
+			"maxAge": "الحد الأقصى للعمر",
+			"interests": "الاهتمامات",
+			"venueTypes": "أنواع الأماكن",
+			"carsCount": "عدد السيارات",
+			"deliveryMode": "وضع التوصيل",
+			"moving": "متحرك",
+			"fixed": "ثابت",
+			"clear": "مسح",
+			"back": "رجوع",
+			"saveAndContinue": "حفظ ومتابعة",
+			"days": {
+				"monday": "الإثنين",
+				"tuesday": "الثلاثاء",
+				"wednesday": "الأربعاء",
+				"thursday": "الخميس",
+				"friday": "الجمعة",
+				"saturday": "السبت",
+				"sunday": "الأحد"
+			}
 		},
 		"tabs": {
 			"identity": "الهوية",
@@ -163,6 +203,15 @@
 		"flightDatesInvalid": "يجب أن تنتهي فترة العرض في تاريخ بدايتها أو بعده.",
 		"invalidAmount": "يجب أن يكون المبلغ رقمًا عشريًا غير سالب بحد أقصى 4 منازل عشرية.",
 		"currencyRequired": "اختر عملة للميزانية.",
+		"ageOutOfRange": "يجب أن يكون العمر عددًا صحيحًا من 13 إلى 99.",
+		"ageRangeInvalid": "يجب أن تنتهي الفئة العمرية عند بدايتها أو بعدها.",
+		"carsCountMin": "يجب ألا يقل عدد السيارات عن 1.",
+		"invalidTime": "أدخل الوقت بالصيغة HH:mm.",
+		"daysRequired": "اختر يومًا واحدًا على الأقل.",
+		"schedulePresetRequired": "اختر إعدادًا مسبقًا.",
+		"daypartNameNotAllowed": "الإعداد المسبق يحمل اسمه.",
+		"daypartNameWithoutWindow": "سمِّ نافذة مخصصة، أو امسح الاسم.",
+		"tooManyVenueTypes": "اختر 50 نوع مكان كحد أقصى.",
 		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
 		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
 		"CAMPAIGN_NOT_DELETABLE": "لا يمكن حذف إلا حملة مسودة؛ أرشفتها بدلًا من ذلك",

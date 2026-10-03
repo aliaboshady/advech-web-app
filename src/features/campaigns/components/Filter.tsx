@@ -7,15 +7,15 @@ import { DatePicker } from "@/components/Inputs/DatePicker";
 import Dropdown from "@/components/Inputs/Dropdown";
 import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
-import { CampaignFilterStatus, campaignFilterStatuses } from "../types";
+import { CampaignStatus, campaignStatusItems } from "../types";
 
 type Props = {
 	search?: string;
 	setSearch?: (val: string) => void;
 	date?: DateRange;
 	setDate?: (val: DateRange) => void;
-	status: CampaignFilterStatus;
-	setStatus: (val: CampaignFilterStatus) => void;
+	statuses: CampaignStatus[];
+	setStatuses: (val: CampaignStatus[]) => void;
 };
 
 const Filter = ({
@@ -23,8 +23,8 @@ const Filter = ({
 	setSearch,
 	date,
 	setDate,
-	status,
-	setStatus,
+	statuses,
+	setStatuses,
 }: Props) => {
 	const { t } = useTranslation();
 	const router = useRouter();
@@ -51,11 +51,11 @@ const Filter = ({
 					/>
 
 					<Dropdown
-						items={campaignFilterStatuses}
-						selected={status}
-						placeholder={t("locale:ROLE")}
-						setSelected={setStatus as (val: string) => void}
-						showNoneOption
+						items={campaignStatusItems}
+						selected={statuses}
+						placeholder="campaigns.table.statusPlaceholder"
+						setSelected={setStatuses as (val: string[]) => void}
+						multiSelect
 						className="w-full @lg/pageLayout:w-1/4 @5xl/pageLayout:w-1/4"
 					/>
 				</div>
