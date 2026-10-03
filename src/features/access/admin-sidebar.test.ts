@@ -111,7 +111,7 @@ describe("visibleAdminSidebarEntries", () => {
 		).toBe(false);
 	});
 
-	it("lists home, the Lookup screens and invites from the catalog that ships today", () => {
+	it("lists home, Advertiser review, the Lookup screens and invites", () => {
 		const superAdmin = {
 			isSuperAdmin: true,
 			roles: [{ id: "role-super-admin", name: "Super admin" }],
@@ -119,7 +119,15 @@ describe("visibleAdminSidebarEntries", () => {
 		};
 		expect(
 			visibleAdminSidebarEntries(superAdmin).map((entry) => entry.id),
-		).toEqual(["home", "objectives", "interests", "venue-types", "invites"]);
+		).toEqual([
+			"home",
+			"advertisers",
+			"objectives",
+			"interests",
+			"venue-types",
+			"invites",
+		]);
+		expect(adminMayOpenPath(superAdmin, "/admin/advertisers")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/objectives")).toBe(true);
 		expect(adminMayOpenPath(superAdmin, "/admin/invites")).toBe(true);
 	});
@@ -132,7 +140,7 @@ describe("visibleAdminSidebarEntries", () => {
 		};
 		expect(
 			visibleAdminSidebarEntries(drivers).map((entry) => entry.id),
-		).toEqual(["home"]);
+		).toEqual(["home", "advertisers"]);
 		expect(adminMayOpenPath(drivers, "/admin/objectives")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/interests")).toBe(false);
 		expect(adminMayOpenPath(drivers, "/admin/venue-types")).toBe(false);
@@ -145,7 +153,26 @@ describe("visibleAdminSidebarEntries", () => {
 				roles: [{ id: "role-lookups", name: "Lookups" }],
 				permissions: ["lookups:manage"],
 			}).map((entry) => entry.id),
-		).toEqual(["home", "objectives", "interests", "venue-types"]);
+		).toEqual([
+			"home",
+			"advertisers",
+			"objectives",
+			"interests",
+			"venue-types",
+		]);
+	});
+
+	it("shows Advertiser review to an Admin who holds no review Permission", () => {
+		const access = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-drivers", name: "Drivers" }],
+			permissions: ["drivers:read"],
+		};
+		expect(visibleAdminSidebarEntries(access).map((entry) => entry.id)).toEqual(
+			["home", "advertisers"],
+		);
+		expect(adminMayOpenPath(access, "/admin/advertisers")).toBe(true);
+		expect(adminMayOpenPath(access, "/admin/advertisers/adv-acme")).toBe(true);
 	});
 
 	it("opens the invites path only when admins:invite is held", () => {

@@ -286,6 +286,7 @@
 		},
 		"sidebar": {
 			"home": "الرئيسية",
+			"advertisers": "المعلنون",
 			"objectives": "الأهداف",
 			"interests": "الاهتمامات",
 			"venueTypes": "أنواع الأماكن",
@@ -340,6 +341,32 @@
 			"submitting": "جارٍ إرسال الدعوة...",
 			"sent": "أُرسلت الدعوة إلى {{email}}. تنتهي صلاحيتها {{expiresAt}}.",
 			"devToken": "رمز الدعوة للتطوير: {{token}}"
+		},
+		"advertisers": {
+			"title": "مراجعة المعلنين",
+			"search": "ابحث باسم الشركة أو بريد المالك",
+			"loadError": "تعذر تحميل قائمة المعلنين.",
+			"detail": {
+				"title": "المعلن"
+			},
+			"columns": {
+				"companyName": "الشركة",
+				"country": "الدولة",
+				"city": "المدينة",
+				"ownerEmail": "بريد المالك",
+				"status": "الحالة",
+				"createdAt": "تاريخ الإنشاء"
+			},
+			"statuses": {
+				"ALL": "كل الحالات",
+				"REGISTERED": "مسجّل",
+				"IN_PROGRESS": "قيد الإكمال",
+				"PENDING_REVIEW": "بانتظار المراجعة",
+				"NEEDS_CHANGES": "يحتاج تعديلات",
+				"APPROVED": "موافق عليه",
+				"REJECTED": "مرفوض",
+				"SUSPENDED": "موقوف"
+			}
 		},
 		"home": {
 			"title": "الرئيسية",
