@@ -172,6 +172,14 @@
 				"sunday": "الأحد"
 			}
 		},
+		"creative": {
+			"saveAndContinue": "حفظ ومتابعة",
+			"hint": "jpeg أو png أو gif حتى 10 ميغابايت. mp4 أو mov حتى 50 ميغابايت.",
+			"unsupportedType": "اختر ملف jpeg أو png أو gif أو mp4 أو mov.",
+			"tooLarge": "هذا الملف أكبر من الحد الأقصى لنوعه.",
+			"uploadFailed": "تعذر رفع الإعلان.",
+			"unreadable": "تعذر قراءة الإعلان. اختر ملفًا آخر."
+		},
 		"tabs": {
 			"identity": "الهوية",
 			"targeting": "الاستهداف",

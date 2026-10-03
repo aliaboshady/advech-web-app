@@ -23,6 +23,7 @@ type Props = {
 	setFile: (file: File | null) => void;
 	isUploading?: boolean;
 	type?: FileType;
+	accept?: Accept;
 	resolution?: Resolution;
 	maxSize?: number;
 };
@@ -134,6 +135,7 @@ export default function FileUploadDropzone({
 	setFile,
 	isUploading,
 	type = "all",
+	accept,
 	resolution,
 	maxSize = 5 * 1024 * 1024, // 5Mb
 }: Props) {
@@ -192,7 +194,7 @@ export default function FileUploadDropzone({
 		onDropRejected,
 		multiple: false,
 		maxSize,
-		accept: type === "all" ? allAcceptedTypes : acceptByType[type],
+		accept: accept ?? (type === "all" ? allAcceptedTypes : acceptByType[type]),
 		disabled: isUploading,
 	});
 

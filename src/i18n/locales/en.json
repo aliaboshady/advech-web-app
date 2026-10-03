@@ -172,6 +172,14 @@
 				"sunday": "Sun"
 			}
 		},
+		"creative": {
+			"saveAndContinue": "Save and continue",
+			"hint": "jpeg, png or gif up to 10 MB. mp4 or mov up to 50 MB.",
+			"unsupportedType": "Choose a jpeg, png, gif, mp4 or mov file.",
+			"tooLarge": "That file is larger than the maximum for its type.",
+			"uploadFailed": "The Creative could not be uploaded.",
+			"unreadable": "The Creative could not be read. Choose another file."
+		},
 		"tabs": {
 			"identity": "Identity",
 			"targeting": "Targeting",
