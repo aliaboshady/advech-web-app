@@ -48,7 +48,7 @@ const ConfirmationDialog = ({
 
 				<DialogFooter className="flex flex-row justify-center gap-2">
 					<DialogClose asChild>
-						<Button disabled={isLoading} variant="secondary" className="w-full">
+						<Button disabled={isLoading} variant="secondary" className="flex-1">
 							{t("common.cancel")}
 						</Button>
 					</DialogClose>
@@ -64,7 +64,7 @@ const ConfirmationDialog = ({
 								setOpen(false);
 							}
 						}}
-						className="w-full"
+						className="flex-1"
 					>
 						{confirmLabel ?? t("common.submit")}
 					</Button>

@@ -42,6 +42,8 @@ type Props = {
 	dropdownActions?: DropdownAction[];
 	loading?: boolean;
 	className?: string;
+	/** Extra classes for one row, e.g. to make rows that need action stand out. */
+	rowClassName?: (item: any) => string | undefined;
 };
 
 const DataTable = ({
@@ -61,6 +63,7 @@ const DataTable = ({
 	dropdownActions,
 	loading,
 	className,
+	rowClassName,
 }: Props) => {
 	const { t } = useTranslation();
 	const [selectedAll, setSelectedAll] = useState<"indeterminate" | boolean>(
@@ -206,7 +209,13 @@ const DataTable = ({
 							/>
 						)}
 						{items?.map((item, i) => (
-							<TableRow key={i} className="border-border/60 hover:bg-muted/60">
+							<TableRow
+								key={i}
+								className={twMerge(
+									"border-border/60 hover:bg-muted/60",
+									rowClassName?.(item),
+								)}
+							>
 								{selection && (
 									<TableCell className="w-10 h-10 ps-2! text-center text-foreground">
 										<Checkbox

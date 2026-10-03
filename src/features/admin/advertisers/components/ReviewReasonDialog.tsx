@@ -62,38 +62,49 @@ export function ReviewReasonDialog({
 				}
 			}}
 		>
-			<DialogContent className="sm:max-w-md">
+			<DialogContent className="sm:max-w-106.25 w-[calc(100%-2rem)] gap-6">
 				<DialogHeader>
 					<DialogTitle>
 						{isRejection
 							? t("admin.advertisers.detail.rejectTitle")
 							: t("admin.advertisers.detail.requestChangesTitle")}
 					</DialogTitle>
-					<DialogDescription>
+					<DialogDescription
+						className={
+							isRejection
+								? "rounded-md bg-destructive-soft p-3 text-destructive-soft-foreground"
+								: undefined
+						}
+					>
 						{isRejection
 							? t("admin.advertisers.detail.rejectFinal")
 							: t("admin.advertisers.detail.requestChangesDescription")}
 					</DialogDescription>
 				</DialogHeader>
-				<form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+				<form
+					onSubmit={formik.handleSubmit}
+					className="flex flex-col gap-stack"
+				>
 					<FormikTextInput
 						formik={formik}
 						name="reason"
 						label={t("admin.advertisers.detail.reason")}
+						required
 						isTextArea
 						textAreaClassName="h-28 min-h-28"
 						autoComplete="off"
 					/>
-					<p className="text-xs text-muted-foreground">
+					<p className="text-body-md text-muted-foreground">
 						{t("admin.advertisers.detail.reasonCount", {
 							count: trimmedLength,
 							max: REVIEW_REASON_MAX_LENGTH,
 						})}
 					</p>
-					<DialogFooter>
+					<DialogFooter className="flex flex-row justify-center gap-2">
 						<Button
 							type="button"
-							variant="outline"
+							variant="secondary"
+							className="flex-1"
 							onClick={onClose}
 							disabled={isSubmitting}
 						>
@@ -101,6 +112,7 @@ export function ReviewReasonDialog({
 						</Button>
 						<Button
 							type="submit"
+							className="flex-1"
 							variant={isRejection ? "destructive" : "default"}
 							disabled={isSubmitting}
 						>

@@ -270,7 +270,9 @@
 		"noDataTitle": "Nothing here yet",
 		"noDataDescription": "There is no data to show.",
 		"of": "of",
-		"mapPlaceHint": "Double-click the map to place a Zone."
+		"mapPlaceHint": "Double-click the map to place a Zone.",
+		"required": "Required",
+		"loadErrorTitle": "Something went wrong"
 	},
 	"errors": {
 		"invalidEmail": "Please enter a valid email address.",
@@ -522,7 +524,12 @@
 				"reason": "Reason",
 				"reasonCount": "{{count}} / {{max}}",
 				"suspendTitle": "Suspend this Advertiser",
-				"suspendConfirm": "This signs out all of this Advertiser's Users."
+				"suspendConfirm": "This signs out all of this Advertiser's Users.",
+				"description": "Check the details, then approve, ask for changes or reject.",
+				"actionsDescription": "Choose how to move this Advertiser forward. Reject and suspend cannot be undone from here.",
+				"companyDescription": "Who the Advertiser is and where to reach them.",
+				"contactDescription": "The person responsible for the account.",
+				"backToQueue": "Back to Advertiser review"
 			},
 			"columns": {
 				"companyName": "Company",
@@ -541,7 +548,8 @@
 				"APPROVED": "Approved",
 				"REJECTED": "Rejected",
 				"SUSPENDED": "Suspended"
-			}
+			},
+			"description": "Advertisers waiting for a decision are highlighted. Open one to review and decide."
 		},
 		"home": {
 			"title": "Home",

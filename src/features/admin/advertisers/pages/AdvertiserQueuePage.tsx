@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { LoadErrorState } from "@/components/LoadErrorState";
 import { PageLayout } from "@/components/PageLayout";
+import { TableCard, TableCardToolbar } from "@/components/TableCard";
 import { isPermissionDenied } from "@/features/access/is-permission-denied";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
@@ -23,32 +25,35 @@ export function AdvertiserQueuePage() {
 	return (
 		<PageLayout
 			title={t("admin.advertisers.title")}
-			className="flex flex-col gap-4"
+			description={t("admin.advertisers.description")}
+			className="gap-section"
 		>
-			<AdvertiserQueueFilter
-				search={queue.search}
-				onSearchChange={queue.setSearch}
-				status={queue.status}
-				onStatusChange={queue.setStatus}
-			/>
-			{showError ? (
-				<p className="text-sm text-destructive" role="alert">
-					{errorMessage}
-				</p>
-			) : (
-				<AdvertiserQueueTable
-					data={queue.data}
-					page={queue.page}
-					setPage={queue.setPage}
-					limit={queue.limit}
-					setLimit={queue.setLimit}
-					sortBy={queue.sortBy}
-					setSortBy={queue.setSortBy}
-					sortType={queue.sortType}
-					setSortType={queue.setSortType}
-					loading={queue.isLoading}
-				/>
-			)}
+			<TableCard>
+				<TableCardToolbar>
+					<AdvertiserQueueFilter
+						search={queue.search}
+						onSearchChange={queue.setSearch}
+						status={queue.status}
+						onStatusChange={queue.setStatus}
+					/>
+				</TableCardToolbar>
+				{showError && errorMessage !== null ? (
+					<LoadErrorState description={errorMessage} />
+				) : (
+					<AdvertiserQueueTable
+						data={queue.data}
+						page={queue.page}
+						setPage={queue.setPage}
+						limit={queue.limit}
+						setLimit={queue.setLimit}
+						sortBy={queue.sortBy}
+						setSortBy={queue.setSortBy}
+						sortType={queue.sortType}
+						setSortType={queue.setSortType}
+						loading={queue.isLoading}
+					/>
+				)}
+			</TableCard>
 		</PageLayout>
 	);
 }

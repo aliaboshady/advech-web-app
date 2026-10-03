@@ -5,6 +5,7 @@ import DataTable, { Column } from "@/components/Table/DataTable";
 import { formatDate } from "@/lib/utils";
 import { PaginatedResponse, SortType } from "@/types";
 import { AdvertiserSummary } from "../advertiser-summary";
+import { isProminentQueueRow } from "../queue-row-emphasis";
 
 type AdvertiserQueueTableProps = {
 	readonly data?: PaginatedResponse<AdvertiserSummary> | null;
@@ -57,7 +58,7 @@ export function AdvertiserQueueTable({
 				<Link
 					to="/admin/advertisers/$id"
 					params={{ id: advertiser.id }}
-					className="hover:underline"
+					className="hover:underline focus-visible:underline"
 				>
 					{displayText(advertiser.companyName)}
 				</Link>
@@ -92,7 +93,12 @@ export function AdvertiserQueueTable({
 	];
 	return (
 		<DataTable
-			className="h-[calc(100vh-12rem)]"
+			className="rounded-none border-0"
+			rowClassName={(advertiser: AdvertiserSummary) =>
+				isProminentQueueRow(advertiser.status)
+					? "bg-info-soft/40 hover:bg-info-soft/60 [&>td:first-child]:border-s-2 [&>td:first-child]:border-info"
+					: undefined
+			}
 			items={items}
 			columns={columns}
 			dataPagination={data ?? undefined}

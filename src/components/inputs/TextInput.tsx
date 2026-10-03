@@ -40,6 +40,8 @@ export type TextInputProps = {
 	error?: string;
 	dir?: Dir;
 	disabled?: boolean;
+	/** Shows a required marker next to the label. Validation stays with the form. */
+	required?: boolean;
 	isTextArea?: boolean;
 	textAreaClassName?: string;
 };
@@ -66,6 +68,7 @@ const TextInput = ({
 	error,
 	dir = "ltr",
 	disabled,
+	required,
 	isTextArea = false,
 	textAreaClassName,
 }: TextInputProps) => {
@@ -77,6 +80,14 @@ const TextInput = ({
 			{label && (
 				<Label htmlFor={name} className={labelClassName}>
 					{label}
+					{required ? (
+						<>
+							<span aria-hidden="true" className="text-destructive">
+								*
+							</span>
+							<span className="sr-only">{t("common.required")}</span>
+						</>
+					) : null}
 				</Label>
 			)}
 
@@ -89,8 +100,10 @@ const TextInput = ({
 
 				{isTextArea ? (
 					<Textarea
+						id={name}
 						name={name}
 						aria-invalid={error ? true : undefined}
+						aria-required={required || undefined}
 						className={twMerge("h-48 min-h-12", textAreaClassName)}
 						placeholder={placeholder || name}
 						value={value}
