@@ -140,11 +140,14 @@ export function SearchBox({
 								</div>
 							</button>
 
-							<MapPinPlusIcon
+							<button
+								type="button"
 								aria-label={t("common.mapPlaceHint")}
 								onClick={() => handleMark(prediction)}
-								className="me-2 shrink-0 rounded-md w-7 h-7 p-1 font-medium transition hover:bg-accent text-muted-foreground hover:text-foreground focus:outline-none"
-							/>
+								className="me-2 shrink-0 rounded-md p-1 text-muted-foreground transition hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+							>
+								<MapPinPlusIcon aria-hidden className="size-5" />
+							</button>
 						</div>
 					))}
 				</div>

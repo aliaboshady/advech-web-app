@@ -8,15 +8,12 @@ export type MapTheme = {
 	overlayColor: string;
 };
 
-/** Brand orange, used only if the `--primary` token cannot be read. */
-const FALLBACK_OVERLAY_COLOR = "#ff5001";
-
 function readTheme(): MapTheme {
 	const root = document.documentElement;
 	const token = getComputedStyle(root).getPropertyValue("--primary").trim();
 	return {
 		colorScheme: root.classList.contains("dark") ? "DARK" : "LIGHT",
-		overlayColor: token || FALLBACK_OVERLAY_COLOR,
+		overlayColor: token,
 	};
 }
 

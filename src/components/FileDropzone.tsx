@@ -216,12 +216,12 @@ export default function FileUploadDropzone({
 		disabled: isUploading,
 	});
 
-	const message = error || rejection;
+	const shownError = error || rejection;
 	const state = dropzoneState({
 		isDragActive,
 		isUploading: Boolean(isUploading),
 		hasFile: file !== null,
-		hasError: message !== "",
+		hasError: shownError !== "",
 	});
 	return (
 		<div
@@ -260,7 +260,9 @@ export default function FileUploadDropzone({
 							aria-hidden
 							className={cn(
 								"size-6",
-								state === "dragOver" ? "text-primary" : "text-muted-foreground",
+								state === "dragOver"
+									? "text-foreground"
+									: "text-muted-foreground",
 							)}
 						/>
 					)}
@@ -273,7 +275,7 @@ export default function FileUploadDropzone({
 					</p>
 					{state === "error" ? (
 						<p role="alert" className="text-body-md">
-							{message}
+							{shownError}
 						</p>
 					) : null}
 					{file ? (
@@ -302,7 +304,7 @@ export default function FileUploadDropzone({
 const STATE_STYLES: Record<DropzoneState, string> = {
 	idle: "cursor-pointer border-dashed border-input bg-background text-foreground hover:bg-accent",
 	dragOver:
-		"cursor-copy border-dashed border-primary bg-accent text-foreground",
+		"cursor-copy border-dashed border-foreground bg-accent text-foreground",
 	uploading:
 		"cursor-progress border-dashed border-border bg-background text-foreground",
 	selected:

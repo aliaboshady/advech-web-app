@@ -178,7 +178,7 @@ export function GoogleMaps({
 					/>
 				</div>
 
-				<div className="absolute flex flex-row gap-1 items-center bottom-5 inset-s-0 inset-e-0 z-10 mx-auto w-fit rounded-lg border border-border bg-card/95 p-2 shadow-md backdrop-blur-sm @md/map:inset-s-auto @md/map:inset-e-5 @md/map:mx-0">
+				<div className="absolute flex flex-row gap-1 items-center bottom-5 inset-s-0 inset-e-0 z-10 mx-auto w-fit rounded-lg border border-border bg-card p-2 shadow-md @md/map:inset-s-auto @md/map:inset-e-5 @md/map:mx-0">
 					{isMoving && (
 						<div className="relative group">
 							<p
@@ -188,7 +188,7 @@ export function GoogleMaps({
 								{markerRadiusKm} km
 							</p>
 
-							<div className="pointer-events-none absolute bottom-full inset-s-0 inset-e-0 mx-auto flex w-8 flex-col items-center gap-1 rounded-lg border border-border bg-card/95 p-2 opacity-0 shadow-md transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
+							<div className="pointer-events-none absolute bottom-full inset-s-0 inset-e-0 mx-auto flex w-8 flex-col items-center gap-1 rounded-lg border border-border bg-card p-2 opacity-0 shadow-md transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
 								<Slider
 									id="mapMarkerRadiusKm"
 									orientation="vertical"
