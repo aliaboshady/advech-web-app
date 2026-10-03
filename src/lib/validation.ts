@@ -23,6 +23,10 @@ export const validationSchema = {
 		email: Yup.string().email("invalidEmail").required("emailRequired"),
 	}),
 
+	adminInvite: Yup.object({
+		email: Yup.string().email("invalidEmail").required("emailRequired"),
+	}),
+
 	confirmPasswordReset: Yup.object({
 		email: Yup.string().email("invalidEmail").required("emailRequired"),
 		code: Yup.string().required("codeRequired"),
