@@ -88,6 +88,51 @@ export function sessionNavigation(decision: RouteDecision): SessionNavigation {
 	return { kind: "href", href: signInHref(decision.to, decision.redirectUrl) };
 }
 
+function pathnameFromRedirect(redirectUrl: string): string {
+	const withoutHash = redirectUrl.split("#")[0] ?? redirectUrl;
+	return withoutHash.split("?")[0] ?? withoutHash;
+}
+
+function isSafeRedirect(
+	redirectUrl: string | undefined,
+): redirectUrl is string {
+	return Boolean(redirectUrl?.startsWith("/") && !redirectUrl.startsWith("//"));
+}
+
+/**
+ * Where a signed-in actor goes when they are on a public page.
+ * A saved target is kept only when they may stay in that area.
+ * An Admin otherwise goes to the admin home.
+ */
+export function signedInLeavePublic(input: {
+	readonly actor: Exclude<RouteActor, null>;
+	readonly redirectUrl: string | undefined;
+}): SessionNavigation {
+	const redirectUrl = isSafeRedirect(input.redirectUrl)
+		? input.redirectUrl
+		: undefined;
+	if (redirectUrl !== undefined) {
+		const decision = decideRoute({
+			actor: input.actor,
+			area: routeAreaFromPathname(pathnameFromRedirect(redirectUrl)),
+			redirectTarget: redirectUrl,
+		});
+		if (decision.action === "stay") {
+			return { kind: "href", href: redirectUrl };
+		}
+		return sessionNavigation(decision);
+	}
+	const decision = decideRoute({
+		actor: input.actor,
+		area: "advertiser",
+		redirectTarget: undefined,
+	});
+	if (decision.action === "stay") {
+		return { kind: "to", to: ADVERTISER_HOME };
+	}
+	return sessionNavigation(decision);
+}
+
 function signInHref(path: string, redirectUrl: string | undefined): string {
 	if (redirectUrl === undefined) {
 		return path;

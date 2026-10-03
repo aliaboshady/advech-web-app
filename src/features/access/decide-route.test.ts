@@ -3,6 +3,7 @@ import {
 	decideRoute,
 	routeAreaFromPathname,
 	sessionNavigation,
+	signedInLeavePublic,
 } from "./decide-route";
 
 const admin = { actorType: "ADMIN" as const };
@@ -139,6 +140,59 @@ describe("sessionNavigation", () => {
 			kind: "href",
 			href: "/admin",
 		});
+	});
+});
+
+describe("signedInLeavePublic", () => {
+	it("sends an Admin with no saved page to the admin home", () => {
+		expect(
+			signedInLeavePublic({ actor: admin, redirectUrl: undefined }),
+		).toEqual({ kind: "href", href: "/admin" });
+	});
+
+	it("keeps an Admin's saved admin page, including its query", () => {
+		expect(
+			signedInLeavePublic({
+				actor: admin,
+				redirectUrl: "/admin/advertisers?status=PENDING_REVIEW",
+			}),
+		).toEqual({
+			kind: "href",
+			href: "/admin/advertisers?status=PENDING_REVIEW",
+		});
+	});
+
+	it("sends an Admin whose saved page is an Advertiser page to the admin home", () => {
+		expect(
+			signedInLeavePublic({ actor: admin, redirectUrl: "/campaigns" }),
+		).toEqual({ kind: "href", href: "/admin" });
+	});
+
+	it("sends an Advertiser with no saved page to the Advertiser home", () => {
+		expect(
+			signedInLeavePublic({ actor: advertiser, redirectUrl: undefined }),
+		).toEqual({ kind: "to", to: "/" });
+	});
+
+	it("keeps an Advertiser's saved page, including its query", () => {
+		expect(
+			signedInLeavePublic({
+				actor: advertiser,
+				redirectUrl: "/campaigns?status=draft",
+			}),
+		).toEqual({ kind: "href", href: "/campaigns?status=draft" });
+	});
+
+	it("sends an Advertiser whose saved page is an admin page to the Advertiser home", () => {
+		expect(
+			signedInLeavePublic({ actor: advertiser, redirectUrl: "/admin" }),
+		).toEqual({ kind: "to", to: "/" });
+	});
+
+	it("ignores a redirect that is not a same-app path", () => {
+		expect(
+			signedInLeavePublic({ actor: admin, redirectUrl: "//evil.example" }),
+		).toEqual({ kind: "href", href: "/admin" });
 	});
 });
 

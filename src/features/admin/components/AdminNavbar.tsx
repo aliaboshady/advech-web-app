@@ -5,6 +5,7 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { adminRoleLabels } from "@/features/access/admin-role-labels";
 import { useLogout } from "@/hooks/useLogout";
 
 function adminDisplayName(
@@ -21,8 +22,7 @@ export function AdminNavbar() {
 	const { t } = useTranslation();
 	const { me } = useRouteContext({ from: "__root__" });
 	const { handleLogout } = useLogout();
-	const roleLabels =
-		me?.access?.roles.map((role) => role.name).join(" · ") ?? "";
+	const roleLabels = adminRoleLabels(me?.access ?? null).join(" · ");
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
 			<div className="flex items-center justify-between gap-3 py-3 px-2">

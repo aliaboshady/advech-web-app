@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { visibleAdminSidebarEntries } from "./admin-sidebar";
+import { adminMayOpenPath, visibleAdminSidebarEntries } from "./admin-sidebar";
 
 const home = { id: "home", path: "/admin" };
 const lookups = {
@@ -61,6 +61,54 @@ describe("visibleAdminSidebarEntries", () => {
 				[home, unknown],
 			),
 		).toEqual([home]);
+	});
+
+	it("lets a super-admin open the home path after a refusal is refetched", () => {
+		expect(
+			adminMayOpenPath(
+				{ isSuperAdmin: true, roles: [], permissions: [] },
+				"/admin",
+			),
+		).toBe(true);
+	});
+
+	it("keeps an Admin with no Roles off the home path", () => {
+		expect(
+			adminMayOpenPath(
+				{ isSuperAdmin: false, roles: [], permissions: [] },
+				"/admin",
+			),
+		).toBe(false);
+	});
+
+	it("opens a gated path only when that Permission is held", () => {
+		const lookups = {
+			id: "lookups",
+			path: "/admin/lookups",
+			permissionKey: "lookups:manage",
+		};
+		expect(
+			adminMayOpenPath(
+				{
+					isSuperAdmin: false,
+					roles: [{ id: "role-lookups", name: "Lookup editor" }],
+					permissions: ["lookups:manage"],
+				},
+				"/admin/lookups",
+				[home, lookups],
+			),
+		).toBe(true);
+		expect(
+			adminMayOpenPath(
+				{
+					isSuperAdmin: false,
+					roles: [{ id: "role-drivers", name: "Drivers" }],
+					permissions: ["drivers:read"],
+				},
+				"/admin/lookups",
+				[home, lookups],
+			),
+		).toBe(false);
 	});
 
 	it("lists only the home entry from the catalog that ships today", () => {
