@@ -23,6 +23,7 @@ export type TextInputProps = {
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	type?: HTMLInputTypeAttribute;
 	autoComplete?: React.InputHTMLAttributes<HTMLInputElement>["autoComplete"];
 	label?: string;
@@ -48,6 +49,7 @@ const TextInput = ({
 	onChange,
 	onBlur,
 	onFocus,
+	onKeyDown,
 	type = "text",
 	autoComplete,
 	label,
@@ -99,6 +101,7 @@ const TextInput = ({
 						}}
 						onBlur={(e: any) => onBlur?.(e)}
 						onFocus={(e: any) => onFocus?.(e)}
+						onKeyDown={onKeyDown}
 					/>
 				) : (
 					<Input
@@ -113,6 +116,7 @@ const TextInput = ({
 						}}
 						onBlur={onBlur}
 						onFocus={onFocus}
+						onKeyDown={onKeyDown}
 						autoComplete={
 							autoComplete ?? (enableAutofill ? "" : "new-password")
 						}

@@ -1,9 +1,11 @@
 import * as Yup from "yup";
 import type { DaypartingKind } from "./build-campaign-targeting-payload";
+import { hasZoneRoleContradiction } from "./zone-role";
 
 const AGE_MIN = 13;
 const AGE_MAX = 99;
 const VENUE_TYPE_MAX = 50;
+const ZONE_ID_MAX = 100;
 const CARS_COUNT_MIN = 1;
 const DAY_MIN = 1;
 const DAY_MAX = 7;
@@ -111,6 +113,24 @@ export const targetingValidationSchema = Yup.object({
 			return Number(maxAge) >= Number(minAge);
 		}),
 	venueTypeCodes: Yup.array().max(VENUE_TYPE_MAX, "tooManyVenueTypes"),
+	inclusionZoneIds: Yup.array()
+		.of(Yup.string().required())
+		.max(ZONE_ID_MAX, "tooManyZones"),
+	exclusionZoneIds: Yup.array()
+		.of(Yup.string().required())
+		.max(ZONE_ID_MAX, "tooManyZones")
+		.test(
+			"exclusionZoneIds",
+			"zoneRoleContradiction",
+			function validateZoneRoles(exclusionZoneIds) {
+				const inclusionZoneIds = (this.parent.inclusionZoneIds ??
+					[]) as string[];
+				const exclusion = (exclusionZoneIds ?? []).filter(
+					(zoneId): zoneId is string => Boolean(zoneId),
+				);
+				return !hasZoneRoleContradiction(inclusionZoneIds, exclusion);
+			},
+		),
 	carsCount: Yup.string().test("carsCount", "carsCountMin", (value) => {
 		if (isBlank(value)) {
 			return true;

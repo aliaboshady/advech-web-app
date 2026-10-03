@@ -19,6 +19,10 @@ const untouched: TargetingFormValues = {
 	interestCodes: [],
 	venueTypesEdited: false,
 	venueTypeCodes: [],
+	inclusionZonesEdited: false,
+	inclusionZoneIds: [],
+	exclusionZonesEdited: false,
+	exclusionZoneIds: [],
 	carsCount: "",
 	deliveryMode: "",
 };
@@ -115,6 +119,37 @@ describe("buildCampaignTargetingPayload", () => {
 			carsCount: 4,
 			deliveryMode: "MOVING",
 			interestCodes: ["technology"],
+		});
+		expect(payload).not.toHaveProperty("inclusionZoneIds");
+		expect(payload).not.toHaveProperty("exclusionZoneIds");
+	});
+
+	it("sends inclusion and exclusion Zone ids, and an empty list to clear a side", () => {
+		const sent = buildCampaignTargetingPayload({
+			...untouched,
+			inclusionZonesEdited: true,
+			inclusionZoneIds: ["zone-downtown", "zone-airport"],
+			exclusionZonesEdited: true,
+			exclusionZoneIds: ["zone-industrial"],
+		});
+		expect(sent.inclusionZoneIds).toEqual(["zone-downtown", "zone-airport"]);
+		expect(sent.exclusionZoneIds).toEqual(["zone-industrial"]);
+		const cleared = buildCampaignTargetingPayload({
+			...untouched,
+			inclusionZonesEdited: true,
+			inclusionZoneIds: [],
+			exclusionZonesEdited: true,
+			exclusionZoneIds: [],
+		});
+		expect(cleared.inclusionZoneIds).toEqual([]);
+		expect(cleared.exclusionZoneIds).toEqual([]);
+	});
+
+	it("omits Zone ids that were not edited", () => {
+		const payload = buildCampaignTargetingPayload({
+			...untouched,
+			inclusionZoneIds: ["zone-downtown"],
+			exclusionZoneIds: ["zone-airport"],
 		});
 		expect(payload).not.toHaveProperty("inclusionZoneIds");
 		expect(payload).not.toHaveProperty("exclusionZoneIds");

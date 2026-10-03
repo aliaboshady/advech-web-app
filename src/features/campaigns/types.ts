@@ -128,7 +128,7 @@ export type CustomDayparting = {
 /**
  * Fields of `PATCH /campaigns/:id/targeting`.
  * An absent list is left alone; an empty list clears it.
- * Zone ids are omitted here and attached on the Zones step.
+ * An absent Zone list is left alone; an empty list clears that side.
  */
 export type CampaignTargetingPayload = {
 	timeZoneId?: string;
@@ -139,6 +139,8 @@ export type CampaignTargetingPayload = {
 	maxAge?: number;
 	interestCodes?: string[];
 	venueTypeCodes?: string[];
+	inclusionZoneIds?: string[];
+	exclusionZoneIds?: string[];
 	carsCount?: number;
 	deliveryMode?: DeliveryMode;
 };

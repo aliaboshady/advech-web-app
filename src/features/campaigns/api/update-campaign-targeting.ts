@@ -2,7 +2,7 @@ import { apiClient } from "@/api/apiClient";
 import { ServerResponse } from "@/types";
 import { Campaign, UpdateCampaignTargetingPayload } from "../types";
 
-/** Saves the Targeting step. Zone ids are left untouched. */
+/** Saves the Targeting step, including inclusion and exclusion Zone ids. */
 export const updateCampaignTargeting = async ({
 	id,
 	...payload
