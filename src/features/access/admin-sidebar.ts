@@ -4,6 +4,7 @@ import { mayAdmin } from "./may-admin";
 
 export type AdminSidebarLabelKey =
 	| "admin.sidebar.home"
+	| "admin.sidebar.roles"
 	| "admin.sidebar.invites";
 
 export type AdminSidebarEntry = {
@@ -19,6 +20,12 @@ export type AdminSidebarEntry = {
  */
 export const adminSidebarCatalog: readonly AdminSidebarEntry[] = [
 	{ id: "home", path: "/admin", labelKey: "admin.sidebar.home" },
+	{
+		id: "roles",
+		path: "/admin/roles",
+		permissionKey: "roles:manage",
+		labelKey: "admin.sidebar.roles",
+	},
 	{
 		id: "invites",
 		path: "/admin/invites",
