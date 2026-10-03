@@ -22,8 +22,17 @@ export function handleFormikError<T>(
 	error: unknown,
 	formik: FormikHelpers<T>,
 	fieldNames: Record<string, string> = {},
+	codeFields: Record<string, string> = {},
 ) {
-	if (!isErrorResponse(error) || !Array.isArray(error.details)) {
+	if (!isErrorResponse(error)) {
+		return;
+	}
+	if (!Array.isArray(error.details)) {
+		// Domain errors carry a code rather than per-field constraints.
+		const field = codeFields[error.code];
+		if (field) {
+			formik.setFieldError(field, error.code);
+		}
 		return;
 	}
 	for (const detail of error.details) {

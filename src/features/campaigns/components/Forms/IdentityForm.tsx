@@ -60,6 +60,13 @@ function initialCurrency(
 	return "";
 }
 
+/** Domain error codes from the details endpoint, and the field each one belongs to. */
+const DETAILS_ERROR_FIELDS: Record<string, string> = {
+	FLIGHT_DATES_INVALID: "endDate",
+	CURRENCY_NOT_ACCEPTED: "currency",
+	MONEY_PRECISION_EXCEEDED: "totalAmount",
+};
+
 function fieldMessage(
 	translate: (key: string, options: { defaultValue: string }) => string,
 	message: string | undefined,
@@ -121,7 +128,12 @@ export function IdentityForm({
 					params: { id },
 				});
 			} catch (error) {
-				handleFormikError(error, formik, DETAILS_FIELD_NAMES);
+				handleFormikError(
+					error,
+					formik,
+					DETAILS_FIELD_NAMES,
+					DETAILS_ERROR_FIELDS,
+				);
 			}
 		},
 	});

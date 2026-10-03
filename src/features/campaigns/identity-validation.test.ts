@@ -51,9 +51,6 @@ describe("identity validation", () => {
 		expect((await fieldErrors({ objectiveCode: "" })).objectiveCode).toBe(
 			"objectiveRequired",
 		);
-		expect(
-			(await fieldErrors({ objectiveCode: "Foot Traffic" })).objectiveCode,
-		).toBe("objectiveCodeInvalid");
 	});
 
 	it("rejects a Flight that is not a real calendar day or that ends before it starts", async () => {

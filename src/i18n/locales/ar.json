@@ -109,7 +109,9 @@
 			"totalBudget": "إجمالي الميزانية",
 			"dailyBudget": "الميزانية اليومية",
 			"currency": "العملة",
-			"readOnly": "لا يمكن تعديل هذه الحملة في حالتها الحالية."
+			"readOnly": "لا يمكن تعديل هذه الحملة في حالتها الحالية.",
+			"saveAndContinue": "حفظ ومتابعة",
+			"createAndContinue": "إنشاء ومتابعة"
 		},
 		"targeting": {
 			"dates": "تواريخ الحملة",
@@ -119,6 +121,12 @@
 			"cars": "السيارات",
 			"totalBudget": "إجمالي الميزانية",
 			"totalImpressions": "إجمالي مرات الظهور"
+		},
+		"tabs": {
+			"identity": "الهوية",
+			"targeting": "الاستهداف",
+			"creative": "الإعلان",
+			"review": "المراجعة"
 		}
 	},
 	"common": {
@@ -151,7 +159,6 @@
 		"nameMin": "يجب ألا يقل الاسم عن 3 أحرف.",
 		"nameMax": "يجب ألا يزيد الاسم عن 120 حرفًا.",
 		"objectiveRequired": "اختر هدفًا.",
-		"objectiveCodeInvalid": "يجب أن يكون الهدف رمز Lookup.",
 		"invalidFlightDate": "أدخل تاريخًا حقيقيًا بالصيغة YYYY-MM-DD.",
 		"flightDatesInvalid": "يجب أن تنتهي فترة العرض في تاريخ بدايتها أو بعده.",
 		"invalidAmount": "يجب أن يكون المبلغ رقمًا عشريًا غير سالب بحد أقصى 4 منازل عشرية.",

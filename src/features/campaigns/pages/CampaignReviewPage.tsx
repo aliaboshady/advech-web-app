@@ -26,7 +26,7 @@ export function CampaignReviewPage({ id, campaign }: Props) {
 		>
 			<HeaderTabs
 				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(campaign.completeness.steps)}
+				tabs={getCampaignTabs(t, campaign.completeness.steps)}
 				activeTabId={4}
 			/>
 			<CampaignEditableRegion status={campaign.status}>

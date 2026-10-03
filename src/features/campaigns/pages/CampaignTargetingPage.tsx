@@ -27,7 +27,7 @@ export function CampaignTargetingPage({ id, campaign }: Props) {
 		>
 			<HeaderTabs
 				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(campaign.completeness.steps)}
+				tabs={getCampaignTabs(t, campaign.completeness.steps)}
 				activeTabId={2}
 			/>
 			<CampaignEditableRegion status={campaign.status}>

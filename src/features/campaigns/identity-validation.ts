@@ -4,11 +4,16 @@ import { isRealCalendarDate } from "./build-campaign-details-payload";
 const NAME_MIN_LENGTH = 3;
 const NAME_MAX_LENGTH = 120;
 const MONEY_AMOUNT_PATTERN = /^\d{1,15}(\.\d{1,4})?$/;
-const OBJECTIVE_CODE_PATTERN = /^[a-z0-9]+(?:[-_][a-z0-9]+)*$/;
 const CURRENCY_CODE_PATTERN = /^[A-Za-z]{3}$/;
 
 function isBlank(value: string | undefined): boolean {
 	return !value?.trim();
+}
+
+/** A rule that only applies once the user has typed something. */
+function whenFilled(isValid: (value: string) => boolean) {
+	return (value: string | undefined) =>
+		isBlank(value) || isValid(value?.trim() ?? "");
 }
 
 /** Client-side limits for the Identity step, matching the details contract. */
@@ -20,19 +25,14 @@ export const identityValidationSchema = Yup.object({
 		.max(NAME_MAX_LENGTH, "nameMax"),
 	objectiveCode: Yup.string()
 		.transform((value: string) => value.trim())
-		.required("objectiveRequired")
-		.matches(OBJECTIVE_CODE_PATTERN, "objectiveCodeInvalid"),
+		.required("objectiveRequired"),
 	startDate: Yup.string().test(
 		"startDate",
 		"invalidFlightDate",
-		(value) => isBlank(value) || isRealCalendarDate(value ?? ""),
+		whenFilled(isRealCalendarDate),
 	),
 	endDate: Yup.string()
-		.test(
-			"endDate",
-			"invalidFlightDate",
-			(value) => isBlank(value) || isRealCalendarDate(value ?? ""),
-		)
+		.test("endDate", "invalidFlightDate", whenFilled(isRealCalendarDate))
 		.test(
 			"flightOrder",
 			"flightDatesInvalid",
@@ -53,12 +53,12 @@ export const identityValidationSchema = Yup.object({
 	totalAmount: Yup.string().test(
 		"totalAmount",
 		"invalidAmount",
-		(value) => isBlank(value) || MONEY_AMOUNT_PATTERN.test(value?.trim() ?? ""),
+		whenFilled((value) => MONEY_AMOUNT_PATTERN.test(value)),
 	),
 	dailyAmount: Yup.string().test(
 		"dailyAmount",
 		"invalidAmount",
-		(value) => isBlank(value) || MONEY_AMOUNT_PATTERN.test(value?.trim() ?? ""),
+		whenFilled((value) => MONEY_AMOUNT_PATTERN.test(value)),
 	),
 	currency: Yup.string().test(
 		"currency",

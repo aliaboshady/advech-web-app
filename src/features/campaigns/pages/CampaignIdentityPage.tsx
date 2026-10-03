@@ -35,12 +35,12 @@ export function CampaignIdentityPage({
 		>
 			<HeaderTabs
 				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(campaign.completeness.steps)}
+				tabs={getCampaignTabs(t, campaign.completeness.steps)}
 				activeTabId={1}
 			/>
 			<CampaignEditableRegion status={campaign.status}>
 				<IdentityForm
-					submitButtonTitle="Save and continue"
+					submitButtonTitle={t("campaigns.identity.saveAndContinue")}
 					objectives={objectives}
 					currencies={currencies}
 					campaign={campaign}

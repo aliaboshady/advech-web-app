@@ -109,7 +109,9 @@
 			"totalBudget": "Total budget",
 			"dailyBudget": "Daily budget",
 			"currency": "Currency",
-			"readOnly": "This Campaign can't be edited in its current status."
+			"readOnly": "This Campaign can't be edited in its current status.",
+			"saveAndContinue": "Save and continue",
+			"createAndContinue": "Create and continue"
 		},
 		"targeting": {
 			"dates": "Campaign dates",
@@ -119,6 +121,12 @@
 			"cars": "Cars",
 			"totalBudget": "Total budget",
 			"totalImpressions": "Total impressions"
+		},
+		"tabs": {
+			"identity": "Identity",
+			"targeting": "Targeting",
+			"creative": "Creative",
+			"review": "Review"
 		}
 	},
 	"common": {
@@ -151,7 +159,6 @@
 		"nameMin": "Name must be at least 3 characters.",
 		"nameMax": "Name must be at most 120 characters.",
 		"objectiveRequired": "Choose an Objective.",
-		"objectiveCodeInvalid": "Objective must be a Lookup code.",
 		"invalidFlightDate": "Enter a real date as YYYY-MM-DD.",
 		"flightDatesInvalid": "The Flight must end on or after it starts.",
 		"invalidAmount": "Amount must be a non-negative decimal with at most 4 decimal places.",

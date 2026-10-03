@@ -27,7 +27,7 @@ export function CampaignCreativePage({ id, campaign }: Props) {
 		>
 			<HeaderTabs
 				url={`/campaigns/${id}`}
-				tabs={getCampaignTabs(campaign.completeness.steps)}
+				tabs={getCampaignTabs(t, campaign.completeness.steps)}
 				activeTabId={3}
 			/>
 			<CampaignEditableRegion status={campaign.status}>
