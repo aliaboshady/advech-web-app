@@ -203,7 +203,7 @@ function Switcher<T extends string>({
 					key={option}
 					type="button"
 					size="sm"
-					variant={option === value ? "primary" : "outline"}
+					variant={option === value ? "secondary" : "outline"}
 					aria-pressed={option === value}
 					onClick={() => onChange(option)}
 				>
@@ -231,7 +231,7 @@ export default function DesignSystemPage() {
 	return (
 		<TooltipProvider>
 			<div className="min-h-screen bg-background text-foreground">
-				<header className="glass sticky top-0 z-40 flex flex-wrap items-center justify-between gap-3 border-b px-6 py-3">
+				<header className="sticky top-0 z-40 bg-background flex flex-wrap items-center justify-between gap-3 border-b px-6 py-3">
 					<div>
 						<h1 className="text-headline-lg">Design system</h1>
 						<p className="text-body-md text-muted-foreground">
