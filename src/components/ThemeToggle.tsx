@@ -28,7 +28,9 @@ export function ThemeToggle() {
 			className="inline-flex items-center gap-2 rounded-full"
 		>
 			{isDark ? <SunMedium className="size-4" /> : <Moon className="size-4" />}
-			<span>{isDark ? t("common.lightMode") : t("common.darkMode")}</span>
+			<span className="hidden sm:inline">
+				{isDark ? t("common.lightMode") : t("common.darkMode")}
+			</span>
 		</Button>
 	);
 }

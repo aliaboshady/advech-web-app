@@ -11,8 +11,21 @@ import {
 	Trash2Icon,
 } from "lucide-react";
 import { type ReactNode, useEffect, useState } from "react";
+import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
+import { FormSectionCard } from "@/components/FormSectionCard";
+import TextInput from "@/components/Inputs/TextInput";
 import Dropdown from "@/components/inputs/Dropdown";
+import { Logo } from "@/components/Logo";
+import NoDataFound from "@/components/NoDataFound";
+import { PageLayout } from "@/components/PageLayout";
 import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
+import { TableSkeletonRows } from "@/components/Table/TableSkeletonRows";
+import {
+	TableCard,
+	TableCardFooter,
+	TableCardHeader,
+	TableCardToolbar,
+} from "@/components/TableCard";
 import { Tab } from "@/components/Tabs/Tab";
 import {
 	Avatar,
@@ -228,6 +241,7 @@ export default function DesignSystemPage() {
 	const [multi, setMulti] = useState<string[]>(["one", "two"]);
 	const [date, setDate] = useState<Date | undefined>(new Date());
 	const [slider, setSlider] = useState([40]);
+	const [confirmOpen, setConfirmOpen] = useState(false);
 
 	usePreviewSettings(theme, direction);
 
@@ -496,6 +510,168 @@ export default function DesignSystemPage() {
 								</Table>
 							</CardContent>
 						</Card>
+					</Section>
+
+					<Section title="Logo">
+						<Row label="Icon and wordmark (orange on light, white on dark)">
+							<Logo variant="icon" className="size-8" />
+							<Logo variant="wordmark" className="h-5 w-auto" />
+						</Row>
+					</Section>
+
+					<Section title="Page layout and spacing scale">
+						<p className="text-body-md text-muted-foreground">
+							PageLayout takes title, description and actions. Gutters use
+							p-page, gaps between sections use gap-section, gaps between
+							related items inside a section use gap-stack.
+						</p>
+						<div className="rounded-lg border border-border bg-background">
+							<PageLayout
+								title="Campaigns"
+								description="Every Campaign you have created."
+								actions={<Button>New Campaign</Button>}
+								className="gap-section"
+							>
+								<div className="rounded-lg border border-dashed border-border p-4 text-body-md text-muted-foreground">
+									Section one
+								</div>
+								<div className="rounded-lg border border-dashed border-border p-4 text-body-md text-muted-foreground">
+									Section two
+								</div>
+							</PageLayout>
+						</div>
+						<div className="rounded-lg border border-border bg-background">
+							<PageLayout
+								breadcrumbs={[
+									{ label: "Campaigns", link: "/campaigns" },
+									{ label: "Spring launch" },
+								]}
+							>
+								<div className="rounded-lg border border-dashed border-border p-4 text-body-md text-muted-foreground">
+									Breadcrumb header (detail pages)
+								</div>
+							</PageLayout>
+						</div>
+						<div className="flex flex-wrap gap-4 text-label-caps text-muted-foreground">
+							<span className="rounded-md bg-muted p-page">p-page</span>
+							<span className="flex gap-section rounded-md bg-muted p-4">
+								<span>gap-section</span>
+								<span>gap-section</span>
+							</span>
+							<span className="flex gap-stack rounded-md bg-muted p-4">
+								<span>gap-stack</span>
+								<span>gap-stack</span>
+							</span>
+						</div>
+					</Section>
+
+					<Section title="Table card">
+						<TableCard>
+							<TableCardHeader
+								title="Campaigns"
+								description="Header with a description and actions."
+								actions={<Button size="sm">New Campaign</Button>}
+							/>
+							<TableCardToolbar>
+								<Input className="max-w-60" placeholder="Search" />
+								<Button size="sm" variant="outline">
+									Filter
+								</Button>
+							</TableCardToolbar>
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Name</TableHead>
+										<TableHead>Status</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									<TableRow>
+										<TableCell>Spring launch</TableCell>
+										<TableCell>
+											<StatusBadge kind="campaign" status="APPROVED" />
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell>Summer sale</TableCell>
+										<TableCell>
+											<StatusBadge kind="campaign" status="DRAFT" />
+										</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
+							<TableCardFooter>
+								<span className="text-body-md text-muted-foreground">
+									1 - 2 of 2
+								</span>
+							</TableCardFooter>
+						</TableCard>
+					</Section>
+
+					<Section title="Form section card">
+						<FormSectionCard
+							title="Identity"
+							description="Name and Objective of the Campaign."
+							footer={<Button>Save and continue</Button>}
+						>
+							<TextInput
+								name="ds-name"
+								label="Name"
+								value="Spring launch"
+								setValue={() => undefined}
+								hint="Shown in your Campaign list."
+							/>
+							<TextInput
+								name="ds-budget"
+								label="Budget"
+								value="-1"
+								setValue={() => undefined}
+								error="Amount must be a non-negative number."
+							/>
+						</FormSectionCard>
+					</Section>
+
+					<Section title="Empty state and loading">
+						<div className="grid gap-stack md:grid-cols-2">
+							<TableCard>
+								<NoDataFound />
+							</TableCard>
+							<TableCard>
+								<NoDataFound
+									title="No Campaigns yet"
+									description="Create your first Campaign to start advertising."
+									action={<Button>New Campaign</Button>}
+								/>
+							</TableCard>
+						</div>
+						<TableCard>
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Name</TableHead>
+										<TableHead>Status</TableHead>
+										<TableHead>Budget</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									<TableSkeletonRows columns={3} rows={3} />
+								</TableBody>
+							</Table>
+						</TableCard>
+						<Row label="Confirmation dialog (extended)">
+							<Button variant="outline" onClick={() => setConfirmOpen(true)}>
+								Delete Campaign
+							</Button>
+							<ConfirmationDialog
+								open={confirmOpen}
+								setOpen={setConfirmOpen}
+								item={null}
+								title="Delete this Campaign?"
+								description="This cannot be undone."
+								confirmLabel="Delete"
+								destructive
+							/>
+						</Row>
 					</Section>
 
 					<Section title="Tabs (campaign steps)">

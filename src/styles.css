@@ -74,6 +74,9 @@ body {
 
 @theme inline {
   --shadow-glow: var(--glow);
+  --spacing-page: var(--page-gutter);
+  --spacing-section: var(--section-gap);
+  --spacing-stack: var(--stack-gap);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -128,6 +131,11 @@ body {
 :root {
   color-scheme: light;
   --radius: 0.5rem;
+  /* Spacing scale (see DESIGN.md): p-page for page gutters, gap-section between
+     sections of a page, gap-stack between related items inside a section. */
+  --page-gutter: 1rem;
+  --section-gap: 1.5rem;
+  --stack-gap: 1rem;
   --background: #f6f6f7;
   --foreground: #08090a;
   --scrollbar-track: var(--background);
@@ -241,6 +249,13 @@ body {
   --sidebar-accent-foreground: #f7f8f8;
   --sidebar-border: #f7f8f81a;
   --sidebar-ring: #ff5001;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --page-gutter: 1.5rem;
+    --section-gap: 2rem;
+  }
 }
 
 /* Arabic uses IBM Plex Sans Arabic; Geist stays as the fallback for Latin runs. */

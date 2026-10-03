@@ -220,6 +220,10 @@
 		"switchToLightMode": "التبديل إلى الوضع الفاتح",
 		"switchToDarkMode": "التبديل إلى الوضع الداكن",
 		"searchPlace": "ابحث عن مكان",
+		"breadcrumb": "مسار التنقل",
+		"loading": "جارٍ التحميل",
+		"noDataTitle": "لا يوجد شيء هنا بعد",
+		"noDataDescription": "لا توجد بيانات لعرضها.",
 		"of": "من"
 	},
 	"errors": {

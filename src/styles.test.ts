@@ -76,6 +76,17 @@ describe("design tokens", () => {
 	it("keeps the default radius at 0.5rem", () => {
 		expect(light.get("--radius")).toBe("0.5rem");
 	});
+
+	it("defines the page spacing scale and exposes it as utilities", () => {
+		for (const [token, spacing] of [
+			["page-gutter", "page"],
+			["section-gap", "section"],
+			["stack-gap", "stack"],
+		]) {
+			expect(light.has(`--${token}`)).toBe(true);
+			expect(css).toContain(`--spacing-${spacing}: var(--${token});`);
+		}
+	});
 });
 
 // Contrast (WCAG 2.x) for opaque hex and #rrggbbaa colours.

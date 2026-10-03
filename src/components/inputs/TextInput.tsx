@@ -36,6 +36,8 @@ export type TextInputProps = {
 	inputClassName?: string;
 	labelClassName?: string;
 	fontSize?: number;
+	/** Helper text under the field; replaced by the error when there is one. */
+	hint?: string;
 	error?: string;
 	dir?: Dir;
 	disabled?: boolean;
@@ -61,7 +63,8 @@ const TextInput = ({
 	className,
 	inputClassName,
 	labelClassName,
-	fontSize = 13,
+	fontSize,
+	hint,
 	error,
 	dir = "ltr",
 	disabled,
@@ -130,7 +133,7 @@ const TextInput = ({
 							inputClassName,
 							autoFillStyles,
 						)}
-						style={{ fontSize }}
+						style={fontSize ? { fontSize } : undefined}
 						disabled={disabled}
 					/>
 				)}
@@ -147,11 +150,13 @@ const TextInput = ({
 				)}
 			</div>
 
-			{error && (
-				<p className="text-xs text-destructive font-medium whitespace-nowrap truncate">
+			{error ? (
+				<p role="alert" className="text-body-md font-medium text-destructive">
 					{t(`errors.${error}`, { defaultValue: error })}
 				</p>
-			)}
+			) : hint ? (
+				<p className="text-body-md text-muted-foreground">{hint}</p>
+			) : null}
 		</div>
 	);
 };

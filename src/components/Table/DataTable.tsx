@@ -1,5 +1,6 @@
 import { ChevronDownIcon, ChevronsUpDownIcon, LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -14,6 +15,7 @@ import { PaginatedResponse, SortType } from "@/types";
 import NoDataFound from "../NoDataFound";
 import DropdownActions, { DropdownAction } from "./DropdownActions";
 import Pagination from "./Pagination";
+import { TableSkeletonRows } from "./TableSkeletonRows";
 
 export type Column = {
 	header: (item: any) => React.ReactNode;
@@ -60,6 +62,7 @@ const DataTable = ({
 	loading,
 	className,
 }: Props) => {
+	const { t } = useTranslation();
 	const [selectedAll, setSelectedAll] = useState<"indeterminate" | boolean>(
 		false,
 	);
@@ -127,14 +130,15 @@ const DataTable = ({
 
 	return (
 		<div
+			aria-busy={loading || undefined}
 			className={twMerge(
-				"relative w-full h-full flex flex-col justify-between border border-border rounded-md overflow-hidden bg-card shadow-sm",
+				"relative w-full h-full flex flex-col justify-between border border-border rounded-lg overflow-hidden bg-card",
 				className,
 			)}
 		>
 			<div className="min-h-0 flex-1 overflow-auto">
 				<Table>
-					<TableHeader className="bg-muted/80 h-12 sticky top-0 z-10">
+					<TableHeader className="bg-muted h-12 sticky top-0 z-10">
 						<TableRow className="border-border/60">
 							{selection && (
 								<TableHead className="w-10 h-10 ps-2! text-center text-foreground">
@@ -190,6 +194,15 @@ const DataTable = ({
 					</TableHeader>
 
 					<TableBody>
+						{loading && (!items || items.length <= 0) && (
+							<TableSkeletonRows
+								columns={
+									columns.length +
+									(selection ? 1 : 0) +
+									(dropdownActions ? 1 : 0)
+								}
+							/>
+						)}
 						{items?.map((item, i) => (
 							<TableRow key={i} className="border-border/60 hover:bg-muted/60">
 								{selection && (
@@ -228,6 +241,8 @@ const DataTable = ({
 						))}
 					</TableBody>
 				</Table>
+
+				{!loading && (!items || items.length <= 0) && <NoDataFound />}
 			</div>
 
 			<div className="w-full p-4 flex justify-center sm:justify-end items-center">
@@ -244,19 +259,16 @@ const DataTable = ({
 				)}
 			</div>
 
-			{!loading && (!items || items.length <= 0) && (
-				<div className="@container/notFound absolute top-0 bottom-0 inset-s-0 inset-e-0 flex justify-center items-center">
-					<div className="translate-y-10 sm:translate-y-10 scale-75">
-						<NoDataFound />
-					</div>
-				</div>
-			)}
-
-			{loading && (
-				<div className="absolute top-0 bottom-0 inset-s-0 inset-e-0 bg-background/70 flex justify-center items-center backdrop-blur-[1px]">
-					<div className="absolute top-[30%] inset-s-1/2 -translate-x-1/2">
-						<LoaderIcon className="fill-primary animate-spin w-20 h-20" />
-					</div>
+			{loading && items && items.length > 0 && (
+				<div
+					role="status"
+					className="absolute inset-0 flex items-center justify-center bg-background/70"
+				>
+					<LoaderIcon
+						aria-hidden="true"
+						className="size-6 animate-spin text-primary"
+					/>
+					<span className="sr-only">{t("common.loading")}</span>
 				</div>
 			)}
 		</div>

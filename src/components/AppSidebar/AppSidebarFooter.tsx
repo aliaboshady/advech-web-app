@@ -21,7 +21,8 @@ import { getUserInitials } from "@/lib/utils";
 
 export function AppSidebarFooter() {
 	const { isMobile } = useSidebar();
-	const { t } = useTranslation();
+	const { i18n, t } = useTranslation();
+	const isRtl = i18n.dir() === "rtl";
 	const { handleLogout } = useLogout();
 	const { me } = useRouteContext({ from: "__root__" });
 
@@ -32,7 +33,7 @@ export function AppSidebarFooter() {
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton
 							size="lg"
-							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-primary/20 cursor-pointer"
+							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
 						>
 							<Avatar className="h-8 w-8 rounded-lg">
 								<AvatarImage src={me?.imagePath} alt={me?.firstName} />
@@ -40,17 +41,17 @@ export function AppSidebarFooter() {
 									{getUserInitials(me?.firstName, me?.lastName, me?.email)}
 								</AvatarFallback>
 							</Avatar>
-							<div className="grid flex-1 text-left text-sm leading-tight">
+							<div className="grid flex-1 text-start text-sm leading-tight">
 								<span className="truncate font-medium">{me?.firstName}</span>
 								<span className="truncate text-xs">{me?.email}</span>
 							</div>
-							<ChevronsUpDown className="ml-auto size-4" />
+							<ChevronsUpDown className="ms-auto size-4" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 
 					<DropdownMenuContent
 						className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-						side={isMobile ? "bottom" : "right"}
+						side={isMobile ? "bottom" : isRtl ? "left" : "right"}
 						align="end"
 						sideOffset={4}
 					>

@@ -2,6 +2,7 @@ import { useRouteContext } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -24,11 +25,14 @@ export function AdminNavbar() {
 	const { handleLogout } = useLogout();
 	const roleLabels = adminRoleLabels(me?.access ?? null).join(" · ");
 	return (
-		<header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
+		<header className="glass sticky top-0 z-50 w-full border-b">
 			<div className="flex items-center justify-between gap-3 py-3 px-2">
 				<SidebarTrigger />
+				<span className="shrink-0 md:hidden">
+					<Logo variant="icon" className="size-5" />
+				</span>
 				<div className="flex min-w-0 flex-1 flex-col">
-					<span className="truncate text-sm font-medium">
+					<span className="truncate text-body-md font-medium">
 						{adminDisplayName(me?.firstName, me?.lastName, me?.email)}
 					</span>
 					{roleLabels ? (
@@ -43,12 +47,13 @@ export function AdminNavbar() {
 					<Button
 						type="button"
 						variant="ghost"
+						aria-label={t("common.logout")}
 						onClick={() => {
 							void handleLogout();
 						}}
 					>
 						<LogOut />
-						{t("common.logout")}
+						<span className="hidden sm:inline">{t("common.logout")}</span>
 					</Button>
 				</div>
 			</div>

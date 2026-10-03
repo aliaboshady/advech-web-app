@@ -59,6 +59,15 @@ Elevation is neutral shadows (`shadow-xs` to `shadow-lg`); tables, forms and dia
 
 Under `prefers-reduced-motion` the glow becomes transparent and transitions are effectively instant (functional spinners keep running).
 
+## Shell, logo and page patterns
+
+- Logo: `Logo` (`src/components/Logo.tsx`) shows the Advech icon or wordmark, orange on light and white on dark, switched by the `dark` class. Favicons live in `public/`.
+- Glass is used by the sidebar and navbar only. Active and hover sidebar entries use `sidebar-accent`, not orange.
+- Spacing scale (one scale for the whole app): `p-page` page gutter (1rem, 1.5rem from `md`), `gap-section` between sections of a page (1.5rem, 2rem from `md`), `gap-stack` between related items inside a section (1rem). Tokens: `--page-gutter`, `--section-gap`, `--stack-gap`.
+- `PageLayout` takes `title` or `breadcrumbs`, `description` and `actions`; every page uses it.
+- `TableCard` (+ `TableCardHeader`, `TableCardToolbar`, `TableCardFooter`) frames a table; `FormSectionCard` frames a group of fields. Both are flat.
+- Empty state is `NoDataFound` (title, description, optional action); loading rows are `TableSkeletonRows`; `DataTable` uses both.
+
 ## Do
 
 - Use semantic tokens (`bg-card`, `text-muted-foreground`, `border-border`).
