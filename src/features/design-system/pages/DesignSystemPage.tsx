@@ -108,6 +108,10 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ADVERTISER_STATUSES } from "@/features/admin/advertisers/advertiser-summary";
+import {
+	AuthFormError,
+	authLinkClass,
+} from "@/features/auth/components/AuthShell";
 import { CAMPAIGN_STATUSES } from "@/features/campaigns/types";
 
 type Theme = "light" | "dark";
@@ -812,6 +816,20 @@ export default function DesignSystemPage() {
 								<Separator orientation="vertical" />
 								<span>Two</span>
 							</div>
+						</div>
+					</Section>
+
+					<Section title="Auth shell">
+						<p className="text-muted-foreground">
+							Every page before sign-in uses AuthShell: canvas, wordmark, one
+							card, one primary action, language and theme toggles below. See
+							/auth/login. Shared pieces:
+						</p>
+						<div className="flex max-w-md flex-col gap-stack">
+							<AuthFormError>Incorrect email or password.</AuthFormError>
+							<a href="/design-system" className={authLinkClass}>
+								Neutral auth link
+							</a>
 						</div>
 					</Section>
 

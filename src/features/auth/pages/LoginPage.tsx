@@ -3,23 +3,15 @@ import { useFormik } from "formik";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { useTopLoader } from "nextjs-toploader";
 import { useTranslation } from "react-i18next";
-import logoLockup from "@/assets/logo/lockup/advech-lockup-orange.svg";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { AuthShell, authLinkClass } from "@/features/auth/components/AuthShell";
 import useRequest from "@/hooks/useRequest";
 import { saveTokens } from "@/lib/tokenUtils";
 import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { login } from "../api/login";
-import { LanguageAndTheme } from "../components/LanguageAndTheme";
 import { LoginPayload, LoginResponse } from "../types";
 
 const loginRoute = getRouteApi("/_public/auth/login");
@@ -67,66 +59,48 @@ export function LoginPage() {
 	});
 
 	return (
-		<div className="flex min-h-screen items-center justify-center p-6">
-			<Card className="w-full max-w-md">
-				<CardHeader>
-					<img src={logoLockup} alt="Advech" className="mb-4 h-10 w-auto" />
-					<CardTitle>{t("login.title")}</CardTitle>
-					<CardDescription>{t("login.description")}</CardDescription>
-				</CardHeader>
+		<AuthShell title={t("login.title")} description={t("login.description")}>
+			<form onSubmit={formik.handleSubmit} className="flex flex-col gap-stack">
+				<FormikTextInput
+					formik={formik}
+					label={t("login.email")}
+					placeholder={t("login.emailPlaceholder")}
+					name="email"
+					autoComplete="username"
+					icon={<MailIcon size={15} />}
+				/>
 
-				<CardContent>
-					<form onSubmit={formik.handleSubmit} className="space-y-4">
-						<FormikTextInput
-							formik={formik}
-							label={t("login.email")}
-							placeholder={t("login.emailPlaceholder")}
-							name="email"
-							autoComplete="username"
-							icon={<MailIcon size={15} />}
-						/>
+				<FormikTextInput
+					formik={formik}
+					label={t("login.password")}
+					placeholder={t("login.passwordPlaceholder")}
+					name="password"
+					autoComplete="current-password"
+					icon={<KeyRoundIcon size={15} />}
+					isPassword
+				/>
 
-						<FormikTextInput
-							formik={formik}
-							label={t("login.password")}
-							placeholder={t("login.passwordPlaceholder")}
-							name="password"
-							autoComplete="current-password"
-							icon={<KeyRoundIcon size={15} />}
-							isPassword
-						/>
+				<p className="text-end text-body-md text-muted-foreground">
+					<Link to="/auth/request-password-reset" className={authLinkClass}>
+						{t("login.forgotPassword")}
+					</Link>
+				</p>
 
-						<p className="text-end text-sm text-muted-foreground">
-							<Link
-								to="/auth/request-password-reset"
-								className="font-medium text-primary underline-offset-4 hover:underline"
-							>
-								{t("login.forgotPassword")}
-							</Link>
-						</p>
+				<Button
+					type="submit"
+					className="w-full"
+					disabled={!formik.isValid || isLoading || isSuccess}
+				>
+					{isLoading ? t("login.submitting") : t("login.submit")}
+				</Button>
 
-						<Button
-							type="submit"
-							className="w-full"
-							disabled={!formik.isValid || isLoading || isSuccess}
-						>
-							{isLoading ? t("login.submitting") : t("login.submit")}
-						</Button>
-
-						<p className="text-center text-sm text-muted-foreground">
-							{t("login.noAccount")}{" "}
-							<Link
-								to="/auth/signup"
-								className="font-medium text-primary underline-offset-4 hover:underline"
-							>
-								{t("login.createAccount")}
-							</Link>
-						</p>
-
-						<LanguageAndTheme />
-					</form>
-				</CardContent>
-			</Card>
-		</div>
+				<p className="text-center text-body-md text-muted-foreground">
+					{t("login.noAccount")}{" "}
+					<Link to="/auth/signup" className={authLinkClass}>
+						{t("login.createAccount")}
+					</Link>
+				</p>
+			</form>
+		</AuthShell>
 	);
 }

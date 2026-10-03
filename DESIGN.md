@@ -66,6 +66,7 @@ Under `prefers-reduced-motion` the glow becomes transparent and transitions are 
 - Spacing scale (one scale for the whole app): `p-page` page gutter (1rem, 1.5rem from `md`), `gap-section` between sections of a page (1.5rem, 2rem from `md`), `gap-stack` between related items inside a section (1rem). Tokens: `--page-gutter`, `--section-gap`, `--stack-gap`.
 - `PageLayout` takes `title` or `breadcrumbs`, `description` and `actions`.
 - `TableCard` (+ `TableCardHeader`, `TableCardToolbar`, `TableCardFooter`) frames a table; `FormSectionCard` frames a group of fields. Both are flat.
+- Auth pages (everything before sign-in) use `AuthShell` (`src/features/auth/components/AuthShell.tsx`): canvas, wordmark `Logo`, one card, one primary action, language/theme toggles below. Links use `authLinkClass` (neutral, never orange); server errors use `AuthFormError` (destructive-soft tokens).
 - Empty state is `NoDataFound` (title, description, optional action); loading rows are `TableSkeletonRows`; `DataTable` uses both.
 
 ## Do
