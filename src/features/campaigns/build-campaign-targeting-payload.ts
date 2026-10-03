@@ -17,6 +17,10 @@ export type TargetingFormValues = {
 	interestCodes: string[];
 	venueTypesEdited: boolean;
 	venueTypeCodes: string[];
+	inclusionZonesEdited: boolean;
+	inclusionZoneIds: string[];
+	exclusionZonesEdited: boolean;
+	exclusionZoneIds: string[];
 	carsCount: string;
 	deliveryMode: "" | DeliveryMode;
 };
@@ -84,6 +88,12 @@ export function buildCampaignTargetingPayload(
 	}
 	if (values.venueTypesEdited) {
 		payload.venueTypeCodes = [...values.venueTypeCodes];
+	}
+	if (values.inclusionZonesEdited) {
+		payload.inclusionZoneIds = [...values.inclusionZoneIds];
+	}
+	if (values.exclusionZonesEdited) {
+		payload.exclusionZoneIds = [...values.exclusionZoneIds];
 	}
 	if (carsCount !== undefined) {
 		payload.carsCount = carsCount;

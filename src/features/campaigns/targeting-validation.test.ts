@@ -17,6 +17,8 @@ const validTargeting = {
 	interestCodes: [] as string[],
 	venueTypesEdited: false,
 	venueTypeCodes: [] as string[],
+	inclusionZoneIds: [] as string[],
+	exclusionZoneIds: [] as string[],
 	carsCount: "2",
 	deliveryMode: "MOVING",
 };
@@ -69,5 +71,25 @@ describe("targeting validation", () => {
 	it("allows an empty age range and an age with only one end set", async () => {
 		expect(await fieldErrors({ minAge: "", maxAge: "" })).toEqual({});
 		expect(await fieldErrors({ minAge: "21", maxAge: "" })).toEqual({});
+	});
+
+	it("rejects a Zone that is both included and excluded", async () => {
+		expect(
+			(
+				await fieldErrors({
+					inclusionZoneIds: ["zone-downtown"],
+					exclusionZoneIds: ["zone-downtown"],
+				})
+			).exclusionZoneIds,
+		).toBe("zoneRoleContradiction");
+	});
+
+	it("allows the same library when each Zone is on only one side", async () => {
+		expect(
+			await fieldErrors({
+				inclusionZoneIds: ["zone-downtown"],
+				exclusionZoneIds: ["zone-airport"],
+			}),
+		).toEqual({});
 	});
 });

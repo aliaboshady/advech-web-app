@@ -94,6 +94,11 @@ export function SearchBox({
 				<input
 					value={input}
 					onChange={(e) => handleChange(e.target.value)}
+					onKeyDown={(event) => {
+						if (event.key === "Enter") {
+							event.preventDefault();
+						}
+					}}
 					placeholder="Search for a place..."
 					className="w-full rounded-xl border border-input bg-background px-3 py-3 text-base text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
 				/>

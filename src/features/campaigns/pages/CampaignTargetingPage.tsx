@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { PageLayout } from "@/components/PageLayout";
 import { HeaderTabs } from "@/components/Tabs/HeaderTabs";
 import { LookupItem, SchedulePresetOption } from "@/features/lookups/types";
+import { Zone } from "@/features/zones/types";
 import { getCampaignTabs } from "../campaign-tabs";
 import { CampaignEditableRegion } from "../components/CampaignEditableRegion";
 import { TargetingForm } from "../components/Forms/TargetingForm";
@@ -14,6 +15,7 @@ type Props = {
 	schedulePresets: SchedulePresetOption[];
 	interests: LookupItem[];
 	venueTypes: LookupItem[];
+	zones: Zone[];
 };
 
 export function CampaignTargetingPage({
@@ -23,6 +25,7 @@ export function CampaignTargetingPage({
 	schedulePresets,
 	interests,
 	venueTypes,
+	zones,
 }: Props) {
 	const { t } = useTranslation();
 
@@ -49,6 +52,7 @@ export function CampaignTargetingPage({
 					schedulePresets={schedulePresets}
 					interests={interests}
 					venueTypes={venueTypes}
+					zones={zones}
 				/>
 			</CampaignEditableRegion>
 		</PageLayout>

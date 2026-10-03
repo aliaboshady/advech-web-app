@@ -1,11 +1,13 @@
 import { useRouter } from "@tanstack/react-router";
 import { FormikProps, useFormik } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dropdown from "@/components/Inputs/Dropdown";
 import TextInput from "@/components/Inputs/TextInput";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { LookupItem, SchedulePresetOption } from "@/features/lookups/types";
+import { Zone } from "@/features/zones/types";
 import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
 import { ServerResponse } from "@/types";
@@ -21,12 +23,15 @@ import { targetingValidationSchema } from "../../targeting-validation";
 import {
 	Campaign,
 	CampaignDayparting,
+	CampaignZone,
 	DeliveryMode,
 	LookupRef,
 	UpdateCampaignTargetingPayload,
+	ZoneRole,
 } from "../../types";
 import { DaypartingFields } from "./DaypartingFields";
 import { FieldMessage } from "./FieldMessage";
+import { ZoneFields, ZoneOption } from "./ZoneFields";
 
 const TARGETING_FIELD_NAMES: Record<string, string> = {
 	"dayparting.days": "days",
@@ -40,6 +45,7 @@ type Props = {
 	schedulePresets: SchedulePresetOption[];
 	interests: LookupItem[];
 	venueTypes: LookupItem[];
+	zones: Zone[];
 };
 
 function formatOptionalNumber(value: number | null): string {
@@ -59,6 +65,28 @@ function initialDaypartingKind(
 		return "preset";
 	}
 	return "custom";
+}
+
+function zoneIdsByRole(zones: CampaignZone[], role: ZoneRole): string[] {
+	return zones.filter((zone) => zone.role === role).map((zone) => zone.id);
+}
+
+function mergeZoneOptions(
+	library: readonly ZoneOption[],
+	saved: readonly ZoneOption[],
+): ZoneOption[] {
+	const byId = new Map<string, ZoneOption>();
+	for (const zone of library) {
+		byId.set(zone.id, { id: zone.id, name: zone.name });
+	}
+	for (const zone of saved) {
+		if (!byId.has(zone.id)) {
+			byId.set(zone.id, { id: zone.id, name: zone.name });
+		}
+	}
+	return [...byId.values()].sort((left, right) =>
+		left.name.localeCompare(right.name),
+	);
 }
 
 function toTargetingFormValues(
@@ -87,6 +115,10 @@ function toTargetingFormValues(
 		venueTypeCodes: campaign.targeting.venueTypes.map(
 			(venueType) => venueType.id,
 		),
+		inclusionZonesEdited: false,
+		inclusionZoneIds: zoneIdsByRole(campaign.targeting.zones, "INCLUSION"),
+		exclusionZonesEdited: false,
+		exclusionZoneIds: zoneIdsByRole(campaign.targeting.zones, "EXCLUSION"),
 		carsCount: formatOptionalNumber(campaign.targeting.buy.carsCount),
 		deliveryMode: campaign.targeting.buy.deliveryMode ?? "",
 	};
@@ -122,10 +154,14 @@ export function TargetingForm({
 	schedulePresets,
 	interests,
 	venueTypes,
+	zones,
 }: Props) {
 	const { t } = useTranslation();
 	const router = useRouter();
 	const isReadOnly = !isCampaignEditable(campaign.status);
+	const [zoneLibrary, setZoneLibrary] = useState<ZoneOption[]>(() =>
+		mergeZoneOptions(zones, campaign.targeting.zones),
+	);
 	const { request: requestUpdate, isLoading: isSaving } = useRequest<
 		UpdateCampaignTargetingPayload,
 		ServerResponse<Campaign>
@@ -259,6 +295,27 @@ export function TargetingForm({
 				readOnly={isReadOnly}
 				onChange={(mode) => {
 					formik.setFieldValue("deliveryMode", mode);
+				}}
+			/>
+			<ZoneFields
+				zones={zoneLibrary}
+				inclusionZoneIds={formik.values.inclusionZoneIds}
+				exclusionZoneIds={formik.values.exclusionZoneIds}
+				readOnly={isReadOnly}
+				inclusionError={fieldError("inclusionZoneIds")}
+				exclusionError={fieldError("exclusionZoneIds")}
+				onInclusionChange={(zoneIds) => {
+					formik.setFieldValue("inclusionZoneIds", zoneIds);
+					formik.setFieldValue("inclusionZonesEdited", true);
+				}}
+				onExclusionChange={(zoneIds) => {
+					formik.setFieldValue("exclusionZoneIds", zoneIds);
+					formik.setFieldValue("exclusionZonesEdited", true);
+				}}
+				onZoneCreated={(zone) => {
+					setZoneLibrary((current) =>
+						mergeZoneOptions([...current, zone], campaign.targeting.zones),
+					);
 				}}
 			/>
 			{zoneMessage && formik.submitCount > 0 ? (
