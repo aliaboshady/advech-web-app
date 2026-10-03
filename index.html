@@ -15,9 +15,7 @@
     <script>
       (() => {
         const savedTheme = localStorage.getItem('theme');
-        const isDark = savedTheme
-          ? savedTheme === 'dark'
-          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme ? savedTheme === 'dark' : true;
 
         if (isDark) {
           document.documentElement.classList.add('dark');
@@ -34,12 +32,12 @@
         align-items: center;
         justify-content: center;
         gap: 28px;
-        background: white;
+        background: #f6f6f7;
         z-index: 99999;
       }
 
       .dark #app-splash {
-        background: #0a0a0a;
+        background: #08090a;
       }
 
       #app-splash-logo {
@@ -50,14 +48,14 @@
       #app-splash-spinner {
         width: clamp(32px, 6vmin, 56px);
         height: clamp(32px, 6vmin, 56px);
-        border: clamp(3px, 0.5vmin, 5px) solid #e5e7eb;
+        border: clamp(3px, 0.5vmin, 5px) solid #08090a1a;
         border-top-color: #ff5001;
         border-radius: 50%;
         animation: app-splash-spin 0.8s linear infinite;
       }
 
       .dark #app-splash-spinner {
-        border-color: #27272a;
+        border-color: #f7f8f81a;
         border-top-color: #ff5001;
       }
 

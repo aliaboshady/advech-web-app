@@ -2,7 +2,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/geist";
+@import "@fontsource/jetbrains-mono/latin-400.css";
+@import "@fontsource/jetbrains-mono/latin-500.css";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-400.css";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-500.css";
+@import "@fontsource/ibm-plex-sans-arabic/arabic-600.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -20,9 +25,53 @@ body {
   margin: 0;
 }
 
-@theme inline {
+/* Design tokens. Values for the dark theme are copied from the Advech landing
+   page; the light theme is derived from them. See DESIGN.md. */
+
+@theme {
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-sans);
-  --font-sans: 'Inter Variable', sans-serif;
+  --font-label: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --radius-sm: 0.25rem;
+  --radius-md: var(--radius);
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.75rem;
+  --radius-4xl: 2rem;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 600;
+
+  --text-headline-lg: 1.75rem;
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 1.25rem;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 500;
+
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 0.875rem;
+  --text-body-md--line-height: 1.5;
+  --text-body-md--font-weight: 400;
+
+  --shadow-xs: 0 1px 2px 0 rgb(8 9 10 / 0.06);
+  --shadow-sm: 0 1px 3px 0 rgb(8 9 10 / 0.1), 0 1px 2px -1px rgb(8 9 10 / 0.1);
+  --shadow-md: 0 4px 8px -2px rgb(8 9 10 / 0.12), 0 2px 4px -2px rgb(8 9 10 / 0.08);
+  --shadow-lg: 0 12px 24px -6px rgb(8 9 10 / 0.18), 0 4px 8px -4px rgb(8 9 10 / 0.1);
+}
+
+@theme inline {
+  --shadow-glow: var(--glow);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -41,12 +90,28 @@ body {
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-destructive-soft-foreground: var(--destructive-soft-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-success-soft-foreground: var(--success-soft-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-soft-foreground: var(--warning-soft-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-soft: var(--info-soft);
+  --color-info-soft-foreground: var(--info-soft-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
@@ -55,92 +120,167 @@ body {
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Dark is the default theme (the .dark class is set before first paint). */
 :root {
   color-scheme: light;
-  --background: oklch(1 0 0);
-  --foreground: #08090A;
+  --radius: 0.5rem;
+  --background: #f6f6f7;
+  --foreground: #08090a;
   --scrollbar-track: var(--background);
   --scrollbar-thumb: color-mix(in oklab, var(--foreground) 35%, var(--background));
   --scrollbar-thumb-hover: var(--muted-foreground);
-  --card: oklch(1 0 0);
-  --card-foreground: #08090A;
-  --popover: oklch(1 0 0);
-  --popover-foreground: #08090A;
-  --primary: #FF5001;
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: #FFDCCC;
-  --secondary-foreground: #FF5001;
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --ring-auto-fill: oklch(0.708 0 0);
+  --card: #ffffff;
+  --card-foreground: #08090a;
+  --popover: #ffffff;
+  --popover-foreground: #08090a;
+  --primary: #ff5001;
+  --primary-hover: #e64700;
+  --primary-foreground: #08090a;
+  --secondary: #eceef0;
+  --secondary-foreground: #08090a;
+  --muted: #eef0f2;
+  --muted-foreground: #5b6069;
+  --accent: #eceef0;
+  --accent-foreground: #08090a;
+  --border: #08090a1a;
+  --input: #08090a29;
+  --ring: #ff5001;
+  --ring-auto-fill: #d9dce0;
+
+  --success: #167a43;
+  --success-foreground: #ffffff;
+  --success-soft: #167a431f;
+  --success-soft-foreground: #11683a;
+  --warning: #f5a524;
+  --warning-foreground: #08090a;
+  --warning-soft: #f5a5242e;
+  --warning-soft-foreground: #7a4e00;
+  --info: #1d72d8;
+  --info-foreground: #ffffff;
+  --info-soft: #1d72d81f;
+  --info-soft-foreground: #14529e;
+  --destructive: #d6333a;
+  --destructive-foreground: #ffffff;
+  --destructive-soft: #d6333a1f;
+  --destructive-soft-foreground: #ac1f26;
+
+  --glow: 0 0 20px 0 #ff500140;
+  --glass-bg: #ffffffb8;
+  --glass-border: #08090a1a;
+  --glass-blur: 20px;
+
   --chart-1: color-mix(in oklab, var(--primary) 92%, white);
   --chart-2: color-mix(in oklab, var(--primary) 78%, white);
   --chart-3: color-mix(in oklab, var(--primary) 64%, white);
   --chart-4: color-mix(in oklab, var(--primary) 50%, white);
   --chart-5: color-mix(in oklab, var(--primary) 36%, white);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: #08090A;
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #08090a;
+  --sidebar-primary: #ff5001;
+  --sidebar-primary-foreground: #08090a;
+  --sidebar-accent: #eceef0;
+  --sidebar-accent-foreground: #08090a;
+  --sidebar-border: #08090a1a;
+  --sidebar-ring: #ff5001;
+
+  --label-caps-size: 0.75rem;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #08090A;
-  --foreground: oklch(0.985 0 0);
-  --scrollbar-track: var(--background);
-  --scrollbar-thumb: color-mix(in oklab, var(--foreground) 35%, var(--background));
-  --scrollbar-thumb-hover: var(--muted-foreground);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #FF5001;
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: #50332b;
-  --secondary-foreground: #FFD3BF;
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --ring-auto-fill: oklch(32.998% 0.00139 15.747);
-  --chart-1: color-mix(in oklab, var(--primary) 92%, white);
-  --chart-2: color-mix(in oklab, var(--primary) 78%, white);
-  --chart-3: color-mix(in oklab, var(--primary) 64%, white);
-  --chart-4: color-mix(in oklab, var(--primary) 50%, white);
-  --chart-5: color-mix(in oklab, var(--primary) 36%, white);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #08090a;
+  --foreground: #f7f8f8;
+  --card: #161719;
+  --card-foreground: #f7f8f8;
+  --popover: #161719;
+  --popover-foreground: #f7f8f8;
+  --primary: #ff5001;
+  --primary-hover: #ff6a26;
+  --primary-foreground: #08090a;
+  --secondary: #212226;
+  --secondary-foreground: #f7f8f8;
+  --muted: #212226;
+  --muted-foreground: #9a9fa8;
+  --accent: #212226;
+  --accent-foreground: #f7f8f8;
+  --border: #f7f8f81a;
+  --input: #f7f8f826;
+  --ring: #ff5001;
+  --ring-auto-fill: #212226;
+
+  --success: #3ecf8e;
+  --success-foreground: #08090a;
+  --success-soft: #3ecf8e24;
+  --success-soft-foreground: #6ee7b0;
+  --warning: #f5b73b;
+  --warning-foreground: #08090a;
+  --warning-soft: #f5b73b24;
+  --warning-soft-foreground: #f7c963;
+  --info: #4ea7ff;
+  --info-foreground: #08090a;
+  --info-soft: #4ea7ff24;
+  --info-soft-foreground: #7dbfff;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #08090a;
+  --destructive-soft: #ff6b6b24;
+  --destructive-soft-foreground: #ff9494;
+
+  --glow: 0 0 20px 0 #ff50012e;
+  --glass-bg: #16171980;
+  --glass-border: #f7f8f81a;
+
+  --sidebar: #0f1011;
+  --sidebar-foreground: #f7f8f8;
+  --sidebar-primary: #ff5001;
+  --sidebar-primary-foreground: #08090a;
+  --sidebar-accent: #212226;
+  --sidebar-accent-foreground: #f7f8f8;
+  --sidebar-border: #f7f8f81a;
+  --sidebar-ring: #ff5001;
+}
+
+/* Arabic uses IBM Plex Sans Arabic; Geist stays as the fallback for Latin runs. */
+:lang(ar) {
+  --font-sans: 'IBM Plex Sans Arabic', 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* The one glass surface (shell only) and the small-caps label style. */
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-color: var(--glass-border);
+}
+
+@utility text-label-caps {
+  font-family: var(--font-label);
+  font-size: var(--label-caps-size);
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  text-transform: uppercase;
+  &:lang(ar) {
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --glow: 0 0 0 0 transparent;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 * {
@@ -231,7 +371,7 @@ body {
 }
 
 .app-toast.Toastify__toast--success .Toastify__progress-bar {
-  background: #16a34a;
+  background: var(--success);
 }
 
 .app-toast.Toastify__toast--error .Toastify__progress-bar {

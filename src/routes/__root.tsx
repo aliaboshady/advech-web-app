@@ -19,6 +19,7 @@ import { loadCachedMe } from "@/features/users/load-cached-me";
 import { registerSessionRefresh } from "@/features/users/refresh-session";
 import { User } from "@/features/users/types";
 import { resolveBypassMe } from "@/lib/resolve-bypass-me";
+import { isDarkTheme, THEME_STORAGE_KEY } from "@/lib/theme";
 import { getAccessToken } from "@/lib/tokenUtils";
 
 async function fetchSessionUser(): Promise<User | null> {
@@ -72,10 +73,7 @@ function RootComponent() {
 	}, [router]);
 
 	useEffect(() => {
-		const savedTheme = localStorage.getItem("theme");
-		const isDark = savedTheme
-			? savedTheme === "dark"
-			: window.matchMedia("(prefers-color-scheme: dark)").matches;
+		const isDark = isDarkTheme(localStorage.getItem(THEME_STORAGE_KEY));
 
 		document.documentElement.classList.toggle("dark", isDark);
 		document.getElementById("app-splash")?.remove();
