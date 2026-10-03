@@ -668,6 +668,19 @@
 			"address": "Address (optional)",
 			"addressHint": "Street and area, if you want it on file.",
 			"addressPlaceholder": "12 Tahrir Square, Downtown"
+		},
+		"contact": {
+			"title": "Contact details",
+			"description": "The person at your company we should get in touch with.",
+			"firstName": "First name",
+			"firstNamePlaceholder": "Jane",
+			"lastName": "Last name",
+			"lastNamePlaceholder": "Doe",
+			"mobile": "Mobile",
+			"mobileHint": "For contact only. You do not use it to sign in.",
+			"mobilePlaceholder": "+20 100 123 4567",
+			"titleLabel": "Job title (optional)",
+			"titlePlaceholder": "Marketing Manager"
 		}
 	}
 }

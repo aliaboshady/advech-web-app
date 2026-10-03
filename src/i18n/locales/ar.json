@@ -668,6 +668,19 @@
 			"address": "العنوان (اختياري)",
 			"addressHint": "الشارع والمنطقة إن رغبت في تسجيلهما.",
 			"addressPlaceholder": "12 ميدان التحرير، وسط البلد"
+		},
+		"contact": {
+			"title": "بيانات جهة الاتصال",
+			"description": "الشخص في شركتك الذي ينبغي أن نتواصل معه.",
+			"firstName": "الاسم الأول",
+			"firstNamePlaceholder": "جين",
+			"lastName": "اسم العائلة",
+			"lastNamePlaceholder": "دو",
+			"mobile": "الجوال",
+			"mobileHint": "للتواصل فقط. لا تستخدمه لتسجيل الدخول.",
+			"mobilePlaceholder": "+20 100 123 4567",
+			"titleLabel": "المسمى الوظيفي (اختياري)",
+			"titlePlaceholder": "مدير تسويق"
 		}
 	}
 }
