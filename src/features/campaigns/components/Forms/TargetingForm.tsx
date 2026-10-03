@@ -208,8 +208,8 @@ export function TargetingForm({
 			className="flex w-full flex-col gap-section"
 		>
 			<FormSectionCard
-				title={t("campaigns.targeting.sections.schedule")}
-				description={t("campaigns.targeting.sections.scheduleDescription")}
+				title={t("campaigns.targeting.sections.timing")}
+				description={t("campaigns.targeting.sections.timingDescription")}
 			>
 				<FormField
 					label={t("campaigns.targeting.timeZone")}

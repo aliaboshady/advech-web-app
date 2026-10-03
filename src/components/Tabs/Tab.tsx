@@ -36,11 +36,8 @@ export function Tab({
 		}
 	};
 
-	const stateLabel = activeTabId
-		? t("campaigns.tabs.states.current")
-		: done
-			? t("campaigns.tabs.states.done")
-			: t("campaigns.tabs.states.incomplete");
+	const state = activeTabId ? "current" : done ? "done" : "incomplete";
+	const stateLabel = t(`campaigns.tabs.states.${state}`);
 
 	return (
 		<div className="flex flex-col items-center justify-center gap-2">

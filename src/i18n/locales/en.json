@@ -182,8 +182,8 @@
 			"daysLabel": "Days",
 			"timeZoneHint": "Dayparting is read in this time zone.",
 			"sections": {
-				"schedule": "Schedule",
-				"scheduleDescription": "Time zone and Dayparting.",
+				"timing": "Time and days",
+				"timingDescription": "Time zone and Dayparting.",
 				"audience": "Audience",
 				"audienceDescription": "Age range, interests and venue types.",
 				"delivery": "Delivery",

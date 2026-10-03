@@ -48,12 +48,7 @@ export function CampaignEditableRegion({ status, children }: RegionProps) {
 	return (
 		<>
 			<CampaignReadOnlyNotice status={status} />
-			<div
-				data-read-only={isEditable ? undefined : ""}
-				inert={isEditable ? undefined : true}
-			>
-				{children}
-			</div>
+			<div inert={isEditable ? undefined : true}>{children}</div>
 		</>
 	);
 }

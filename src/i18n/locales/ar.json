@@ -182,8 +182,8 @@
 			"daysLabel": "الأيام",
 			"timeZoneHint": "تُقرأ فترات اليوم حسب هذه المنطقة الزمنية.",
 			"sections": {
-				"schedule": "الجدول",
-				"scheduleDescription": "المنطقة الزمنية وفترات اليوم.",
+				"timing": "الوقت والأيام",
+				"timingDescription": "المنطقة الزمنية وفترات اليوم.",
 				"audience": "الجمهور",
 				"audienceDescription": "الفئة العمرية والاهتمامات وأنواع الأماكن.",
 				"delivery": "التوصيل",
