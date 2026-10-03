@@ -111,14 +111,31 @@ describe("visibleAdminSidebarEntries", () => {
 		).toBe(false);
 	});
 
-	it("lists home and invites from the catalog that ships today", () => {
+	it("lists home, the Lookup screens and invites from the catalog that ships today", () => {
+		const superAdmin = {
+			isSuperAdmin: true,
+			roles: [{ id: "role-super-admin", name: "Super admin" }],
+			permissions: ["lookups:manage", "roles:manage", "admins:invite"],
+		};
 		expect(
-			visibleAdminSidebarEntries({
-				isSuperAdmin: true,
-				roles: [{ id: "role-super-admin", name: "Super admin" }],
-				permissions: ["admins:invite"],
-			}).map((entry) => entry.id),
-		).toEqual(["home", "invites"]);
+			visibleAdminSidebarEntries(superAdmin).map((entry) => entry.id),
+		).toEqual(["home", "objectives", "interests", "venue-types", "invites"]);
+		expect(adminMayOpenPath(superAdmin, "/admin/objectives")).toBe(true);
+		expect(adminMayOpenPath(superAdmin, "/admin/invites")).toBe(true);
+	});
+
+	it("hides the Lookup screens from an Admin without lookups:manage", () => {
+		const drivers = {
+			isSuperAdmin: false,
+			roles: [{ id: "role-drivers", name: "Drivers" }],
+			permissions: ["drivers:read"],
+		};
+		expect(
+			visibleAdminSidebarEntries(drivers).map((entry) => entry.id),
+		).toEqual(["home"]);
+		expect(adminMayOpenPath(drivers, "/admin/objectives")).toBe(false);
+		expect(adminMayOpenPath(drivers, "/admin/interests")).toBe(false);
+		expect(adminMayOpenPath(drivers, "/admin/venue-types")).toBe(false);
 	});
 
 	it("hides invites from an Admin without admins:invite", () => {
@@ -128,7 +145,7 @@ describe("visibleAdminSidebarEntries", () => {
 				roles: [{ id: "role-lookups", name: "Lookups" }],
 				permissions: ["lookups:manage"],
 			}).map((entry) => entry.id),
-		).toEqual(["home"]);
+		).toEqual(["home", "objectives", "interests", "venue-types"]);
 	});
 
 	it("opens the invites path only when admins:invite is held", () => {

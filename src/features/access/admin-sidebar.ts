@@ -1,9 +1,16 @@
+import {
+	LOOKUPS_MANAGE,
+	lookupResources,
+} from "@/features/admin/lookups/lookup-resources";
 import { AdminAccess } from "./admin-access";
 import { adminHasNoRoles } from "./admin-has-no-roles";
 import { mayAdmin } from "./may-admin";
 
 export type AdminSidebarLabelKey =
 	| "admin.sidebar.home"
+	| "admin.sidebar.objectives"
+	| "admin.sidebar.interests"
+	| "admin.sidebar.venueTypes"
 	| "admin.sidebar.invites";
 
 export type AdminSidebarEntry = {
@@ -19,6 +26,12 @@ export type AdminSidebarEntry = {
  */
 export const adminSidebarCatalog: readonly AdminSidebarEntry[] = [
 	{ id: "home", path: "/admin", labelKey: "admin.sidebar.home" },
+	...lookupResources.map((resource) => ({
+		id: resource.sidebarId,
+		path: resource.routePath,
+		permissionKey: LOOKUPS_MANAGE,
+		labelKey: resource.labelKey,
+	})),
 	{
 		id: "invites",
 		path: "/admin/invites",
