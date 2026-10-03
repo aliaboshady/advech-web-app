@@ -26,6 +26,7 @@ import {
 	UpdateCampaignTargetingPayload,
 } from "../../types";
 import { DaypartingFields } from "./DaypartingFields";
+import { FieldMessage } from "./FieldMessage";
 
 const TARGETING_FIELD_NAMES: Record<string, string> = {
 	"dayparting.days": "days",
@@ -113,18 +114,6 @@ function visibleFieldError(
 		return "";
 	}
 	return message;
-}
-
-function FieldMessage({ message }: { message: string }) {
-	const { t } = useTranslation();
-	if (!message) {
-		return null;
-	}
-	return (
-		<p className="text-xs text-destructive font-medium">
-			{t(`errors.${message}`, { defaultValue: message })}
-		</p>
-	);
 }
 
 export function TargetingForm({

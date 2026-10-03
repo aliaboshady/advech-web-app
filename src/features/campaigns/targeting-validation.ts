@@ -1,9 +1,9 @@
 import * as Yup from "yup";
+import type { DaypartingKind } from "./build-campaign-targeting-payload";
 
 const AGE_MIN = 13;
 const AGE_MAX = 99;
-const DAYPART_NAME_MAX_LENGTH = 100;
-const LOOKUP_LIST_MAX = 50;
+const VENUE_TYPE_MAX = 50;
 const CARS_COUNT_MIN = 1;
 const DAY_MIN = 1;
 const DAY_MAX = 7;
@@ -11,19 +11,37 @@ const TIME_OF_DAY_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 
 type DaypartingParent = {
 	daypartingEdited?: boolean;
-	daypartingKind?: string;
+	daypartingKind?: DaypartingKind;
 };
 
 function isBlank(value: string | undefined): boolean {
 	return !value?.trim();
 }
 
+function isWholeNumber(value: string): boolean {
+	return /^\d+$/.test(value);
+}
+
 function isAge(value: string): boolean {
-	if (!/^\d+$/.test(value)) {
+	if (!isWholeNumber(value)) {
 		return false;
 	}
 	const age = Number(value);
 	return age >= AGE_MIN && age <= AGE_MAX;
+}
+
+function isOptionalAge(value: string | undefined): boolean {
+	return isBlank(value) || isAge(value?.trim() ?? "");
+}
+
+/** A time-of-day field that only matters while a custom window is being sent. */
+function customWindowTime(name: string) {
+	return Yup.string().test(name, "invalidTime", function validateTime(value) {
+		if (!isCustomDayparting(this.parent as DaypartingParent)) {
+			return true;
+		}
+		return TIME_OF_DAY_PATTERN.test(value ?? "");
+	});
 }
 
 function isCustomDayparting(parent: DaypartingParent): boolean {
@@ -62,26 +80,8 @@ export const targetingValidationSchema = Yup.object({
 				)
 			);
 		}),
-	startTime: Yup.string().test(
-		"startTime",
-		"invalidTime",
-		function validateStartTime(value) {
-			if (!isCustomDayparting(this.parent as DaypartingParent)) {
-				return true;
-			}
-			return TIME_OF_DAY_PATTERN.test(value ?? "");
-		},
-	),
-	endTime: Yup.string().test(
-		"endTime",
-		"invalidTime",
-		function validateEndTime(value) {
-			if (!isCustomDayparting(this.parent as DaypartingParent)) {
-				return true;
-			}
-			return TIME_OF_DAY_PATTERN.test(value ?? "");
-		},
-	),
+	startTime: customWindowTime("startTime"),
+	endTime: customWindowTime("endTime"),
 	daypartName: Yup.string()
 		.test("daypartName", function validateDaypartName(value) {
 			const parent = this.parent as DaypartingParent;
@@ -95,22 +95,11 @@ export const targetingValidationSchema = Yup.object({
 			if (parent.daypartingKind !== "custom") {
 				return this.createError({ message: "daypartNameWithoutWindow" });
 			}
-			if (name.length > DAYPART_NAME_MAX_LENGTH) {
-				return this.createError({ message: "daypartNameMax" });
-			}
 			return true;
 		}),
-	minAge: Yup.string().test(
-		"minAge",
-		"ageOutOfRange",
-		(value) => isBlank(value) || isAge(value?.trim() ?? ""),
-	),
+	minAge: Yup.string().test("minAge", "ageOutOfRange", isOptionalAge),
 	maxAge: Yup.string()
-		.test(
-			"maxAge",
-			"ageOutOfRange",
-			(value) => isBlank(value) || isAge(value?.trim() ?? ""),
-		)
+		.test("maxAge", "ageOutOfRange", isOptionalAge)
 		.test("ageOrder", "ageRangeInvalid", function validateAgeOrder(maxAge) {
 			const minAge = this.parent.minAge as string | undefined;
 			if (isBlank(minAge) || isBlank(maxAge)) {
@@ -121,14 +110,13 @@ export const targetingValidationSchema = Yup.object({
 			}
 			return Number(maxAge) >= Number(minAge);
 		}),
-	interestCodes: Yup.array().max(LOOKUP_LIST_MAX, "tooManyInterests"),
-	venueTypeCodes: Yup.array().max(LOOKUP_LIST_MAX, "tooManyVenueTypes"),
+	venueTypeCodes: Yup.array().max(VENUE_TYPE_MAX, "tooManyVenueTypes"),
 	carsCount: Yup.string().test("carsCount", "carsCountMin", (value) => {
 		if (isBlank(value)) {
 			return true;
 		}
 		const trimmed = value?.trim() ?? "";
-		return /^\d+$/.test(trimmed) && Number(trimmed) >= CARS_COUNT_MIN;
+		return isWholeNumber(trimmed) && Number(trimmed) >= CARS_COUNT_MIN;
 	}),
 	deliveryMode: Yup.string().oneOf(["", "MOVING", "FIXED"]),
 });

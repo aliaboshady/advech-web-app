@@ -8,6 +8,7 @@ import {
 	DaypartingKind,
 	TargetingFormValues,
 } from "../../build-campaign-targeting-payload";
+import { FieldMessage } from "./FieldMessage";
 
 const WEEKDAYS = [
 	{ day: 1, labelKey: "campaigns.targeting.days.monday" },
@@ -25,18 +26,6 @@ type Props = {
 	readOnly: boolean;
 	fieldError: (name: keyof TargetingFormValues) => string;
 };
-
-function FieldMessage({ message }: { message: string }) {
-	const { t } = useTranslation();
-	if (!message) {
-		return null;
-	}
-	return (
-		<p className="text-xs text-destructive font-medium">
-			{t(`errors.${message}`, { defaultValue: message })}
-		</p>
-	);
-}
 
 function chooseDaypartingKind(
 	formik: FormikProps<TargetingFormValues>,

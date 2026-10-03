@@ -194,8 +194,6 @@
 		"schedulePresetRequired": "Choose a Schedule Preset.",
 		"daypartNameNotAllowed": "A Schedule Preset carries its own name.",
 		"daypartNameWithoutWindow": "Name a custom window, or clear the name.",
-		"daypartNameMax": "The name must be at most 100 characters.",
-		"tooManyInterests": "Choose at most 50 interests.",
 		"tooManyVenueTypes": "Choose at most 50 venue types.",
 		"CAMPAIGN_NOT_FOUND": "Campaign not found",
 		"CAMPAIGN_NOT_EDITABLE": "A Campaign can only be changed while it is a draft or has been returned for changes",

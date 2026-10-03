@@ -194,8 +194,6 @@
 		"schedulePresetRequired": "اختر إعدادًا مسبقًا.",
 		"daypartNameNotAllowed": "الإعداد المسبق يحمل اسمه.",
 		"daypartNameWithoutWindow": "سمِّ نافذة مخصصة، أو امسح الاسم.",
-		"daypartNameMax": "يجب ألا يزيد الاسم عن 100 حرف.",
-		"tooManyInterests": "اختر 50 اهتمامًا كحد أقصى.",
 		"tooManyVenueTypes": "اختر 50 نوع مكان كحد أقصى.",
 		"CAMPAIGN_NOT_FOUND": "الحملة غير موجودة",
 		"CAMPAIGN_NOT_EDITABLE": "لا يمكن تعديل الحملة إلا وهي مسودة أو بعد إعادتها للتعديل",
