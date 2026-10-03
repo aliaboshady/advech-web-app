@@ -48,6 +48,7 @@ export const Route = createRootRoute({
 		if (bypassAuth) {
 			return {
 				me: resolveBypassMe(import.meta.env.VITE_BYPASS_ACTOR),
+				bypassAuth: true,
 			};
 		}
 
@@ -55,6 +56,7 @@ export const Route = createRootRoute({
 		const user = await loadCachedMe(accessToken, fetchSessionUser);
 		return {
 			me: user,
+			bypassAuth: false,
 		};
 	},
 

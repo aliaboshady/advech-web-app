@@ -3,6 +3,7 @@ import {
 	routeAreaFromPathname,
 	sessionNavigation,
 } from "@/features/access/decide-route";
+import { clearCachedOnboarding } from "@/features/onboarding/load-cached-onboarding";
 import { clearCachedMe } from "@/features/users/load-cached-me";
 import { ENV_MODES } from "@/lib/staticKeys";
 import {
@@ -26,6 +27,7 @@ const ENV = import.meta.env.MODE;
 function redirectToLogin(): never {
 	clearTokens();
 	clearCachedMe();
+	clearCachedOnboarding();
 	const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
 	const redirectTarget =
 		window.location.pathname === "/" ? undefined : currentUrl;

@@ -6,6 +6,7 @@ import {
 import { decideRoute, sessionNavigation } from "@/features/access/decide-route";
 import { clearPermissionDenied } from "@/features/access/permission-denied-state";
 import { logoutSession } from "@/features/auth/api/logout-session";
+import { clearCachedOnboarding } from "@/features/onboarding/load-cached-onboarding";
 import { clearCachedMe } from "@/features/users/load-cached-me";
 import { clearTokens } from "@/lib/tokenUtils";
 
@@ -28,6 +29,7 @@ export function useLogout() {
 		}
 		clearTokens();
 		clearCachedMe();
+		clearCachedOnboarding();
 		clearPermissionDenied();
 		await router.invalidate();
 		if (navigation.kind === "href") {

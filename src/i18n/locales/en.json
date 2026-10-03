@@ -604,5 +604,28 @@
 		"tooSmall": "The file is smaller than the minimum size.",
 		"invalidType": "This file type is not supported.",
 		"rejected": "\"{{name}}\" could not be selected. {{reason}}"
+	},
+	"onboarding": {
+		"wizard": {
+			"title": "Set up your Advertiser",
+			"description": "Fill in the details below. Each part saves on its own, in any order."
+		},
+		"waiting": {
+			"title": "Your Advertiser is under review",
+			"description": "We have everything we need. We will review your Advertiser and you can use Advech as soon as it is approved."
+		},
+		"rejected": {
+			"title": "Your Advertiser was not approved",
+			"description": "This decision is final.",
+			"reasonLabel": "Reason"
+		},
+		"suspended": {
+			"title": "Your Advertiser is suspended",
+			"description": "You can sign in, but Campaigns and Zones are not available while it is suspended. Contact Advech support."
+		},
+		"loadError": {
+			"description": "We could not load your Onboarding status.",
+			"retry": "Try again"
+		}
 	}
 }

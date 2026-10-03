@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteRouteImport } from './routes/_onboarding/route'
 import { Route as PrivateRouteRouteImport } from './routes/_private/route'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as OnboardingOnboardingRouteImport } from './routes/_onboarding/onboarding'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
 import { Route as PrivateAdminRouteRouteImport } from './routes/_private/admin/route'
 import { Route as PrivateAdminIndexRouteImport } from './routes/_private/admin/index'
@@ -43,6 +45,10 @@ import { Route as PublicAuthAdminConfirmPasswordResetRouteImport } from './route
 import { Route as PublicAuthAdminLoginRouteImport } from './routes/_public/auth/admin/login'
 import { Route as PublicAuthAdminRequestPasswordResetRouteImport } from './routes/_public/auth/admin/request-password-reset'
 
+const OnboardingRouteRoute = OnboardingRouteRouteImport.update({
+  id: '/_onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivateRouteRoute = PrivateRouteRouteImport.update({
   id: '/_private',
   getParentRoute: () => rootRouteImport,
@@ -55,6 +61,11 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingOnboardingRoute = OnboardingOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => OnboardingRouteRoute,
 } as any)
 const PrivateIndexRoute = PrivateIndexRouteImport.update({
   id: '/',
@@ -223,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
   '/design-system': typeof DesignSystemRoute
   '/admin': typeof PrivateAdminRouteRouteWithChildren
+  '/onboarding': typeof OnboardingOnboardingRoute
   '/admin/roles': typeof PrivateAdminRolesRouteRouteWithChildren
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/admin/interests': typeof PrivateAdminInterestsRoute
@@ -255,6 +267,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
   '/design-system': typeof DesignSystemRoute
+  '/onboarding': typeof OnboardingOnboardingRoute
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/admin/interests': typeof PrivateAdminInterestsRoute
   '/admin/invites': typeof PrivateAdminInvitesRoute
@@ -285,10 +298,12 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_onboarding': typeof OnboardingRouteRouteWithChildren
   '/_private': typeof PrivateRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
   '/design-system': typeof DesignSystemRoute
   '/_private/admin': typeof PrivateAdminRouteRouteWithChildren
+  '/_onboarding/onboarding': typeof OnboardingOnboardingRoute
   '/_private/': typeof PrivateIndexRoute
   '/_private/admin/roles': typeof PrivateAdminRolesRouteRouteWithChildren
   '/_private/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
@@ -325,6 +340,7 @@ export interface FileRouteTypes {
     | '/'
     | '/design-system'
     | '/admin'
+    | '/onboarding'
     | '/admin/roles'
     | '/campaigns/$id'
     | '/admin/interests'
@@ -357,6 +373,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/design-system'
+    | '/onboarding'
     | '/campaigns/$id'
     | '/admin/interests'
     | '/admin/invites'
@@ -386,10 +403,12 @@ export interface FileRouteTypes {
     | '/admin/roles'
   id:
     | '__root__'
+    | '/_onboarding'
     | '/_private'
     | '/_public'
     | '/design-system'
     | '/_private/admin'
+    | '/_onboarding/onboarding'
     | '/_private/'
     | '/_private/admin/roles'
     | '/_private/campaigns/$id'
@@ -422,6 +441,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  OnboardingRouteRoute: typeof OnboardingRouteRouteWithChildren
   PrivateRouteRoute: typeof PrivateRouteRouteWithChildren
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
   DesignSystemRoute: typeof DesignSystemRoute
@@ -429,6 +449,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_onboarding': {
+      id: '/_onboarding'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof OnboardingRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_private': {
       id: '/_private'
       path: ''
@@ -449,6 +476,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_onboarding/onboarding': {
+      id: '/_onboarding/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingOnboardingRouteImport
+      parentRoute: typeof OnboardingRouteRoute
     }
     '/_private/': {
       id: '/_private/'
@@ -663,6 +697,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface OnboardingRouteRouteChildren {
+  OnboardingOnboardingRoute: typeof OnboardingOnboardingRoute
+}
+
+const OnboardingRouteRouteChildren: OnboardingRouteRouteChildren = {
+  OnboardingOnboardingRoute: OnboardingOnboardingRoute,
+}
+
+const OnboardingRouteRouteWithChildren = OnboardingRouteRoute._addFileChildren(
+  OnboardingRouteRouteChildren,
+)
+
 interface PrivateAdminRolesRouteRouteChildren {
   PrivateAdminRolesIdRoute: typeof PrivateAdminRolesIdRoute
   PrivateAdminRolesNewRoute: typeof PrivateAdminRolesNewRoute
@@ -779,6 +825,7 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  OnboardingRouteRoute: OnboardingRouteRouteWithChildren,
   PrivateRouteRoute: PrivateRouteRouteWithChildren,
   PublicRouteRoute: PublicRouteRouteWithChildren,
   DesignSystemRoute: DesignSystemRoute,
