@@ -180,6 +180,30 @@
 			"uploadFailed": "The Creative could not be uploaded.",
 			"unreadable": "The Creative could not be read. Choose another file."
 		},
+		"review": {
+			"missingTitle": "Still missing",
+			"submit": "Submit",
+			"submitUnavailable": "Submission is not available yet.",
+			"file": "File",
+			"dimensions": "Dimensions",
+			"length": "Length",
+			"age": "Age",
+			"noCreative": "No Creative yet.",
+			"lengthSeconds": "{{count}} seconds",
+			"lengthMilliseconds": "{{count}} milliseconds",
+			"missingUnknown": "Still missing: {{code}}",
+			"missing": {
+				"name": "Add a Campaign name",
+				"objective": "Choose an Objective",
+				"flight": "Set the Flight",
+				"totalBudget": "Set the total Budget",
+				"timeZone": "Choose a time zone",
+				"dayparting": "Set the Dayparting",
+				"inclusionZone": "Choose an inclusion Zone",
+				"creative": "Upload a Creative",
+				"singleCreative": "Keep a single Creative"
+			}
+		},
 		"tabs": {
 			"identity": "Identity",
 			"targeting": "Targeting",
