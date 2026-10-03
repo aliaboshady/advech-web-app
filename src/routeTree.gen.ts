@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivateRouteRouteImport } from './routes/_private/route'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as PrivateIndexRouteImport } from './routes/_private/index'
+import { Route as PrivateAdminRouteRouteImport } from './routes/_private/admin/route'
+import { Route as PrivateAdminIndexRouteImport } from './routes/_private/admin/index'
 import { Route as PrivateCampaignsIndexRouteImport } from './routes/_private/campaigns/index'
 import { Route as PrivateCampaignsIdRouteRouteImport } from './routes/_private/campaigns/$id/route'
 import { Route as PrivateCampaignsNewRouteImport } from './routes/_private/campaigns/new'
@@ -24,6 +26,7 @@ import { Route as PrivateCampaignsIdCreativeRouteImport } from './routes/_privat
 import { Route as PrivateCampaignsIdIdentityRouteImport } from './routes/_private/campaigns/$id/identity'
 import { Route as PrivateCampaignsIdReviewRouteImport } from './routes/_private/campaigns/$id/review'
 import { Route as PrivateCampaignsIdTargetingRouteImport } from './routes/_private/campaigns/$id/targeting'
+import { Route as PublicAuthAdminLoginRouteImport } from './routes/_public/auth/admin/login'
 
 const PrivateRouteRoute = PrivateRouteRouteImport.update({
   id: '/_private',
@@ -37,6 +40,16 @@ const PrivateIndexRoute = PrivateIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PrivateRouteRoute,
+} as any)
+const PrivateAdminRouteRoute = PrivateAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => PrivateRouteRoute,
+} as any)
+const PrivateAdminIndexRoute = PrivateAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PrivateAdminRouteRoute,
 } as any)
 const PrivateCampaignsIndexRoute = PrivateCampaignsIndexRouteImport.update({
   id: '/campaigns/',
@@ -104,9 +117,15 @@ const PrivateCampaignsIdTargetingRoute =
     path: '/targeting',
     getParentRoute: () => PrivateCampaignsIdRouteRoute,
   } as any)
+const PublicAuthAdminLoginRoute = PublicAuthAdminLoginRouteImport.update({
+  id: '/auth/admin/login',
+  path: '/auth/admin/login',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
+  '/admin': typeof PrivateAdminRouteRouteWithChildren
   '/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/campaigns/new': typeof PrivateCampaignsNewRoute
   '/auth/confirm-password-reset': typeof PublicAuthConfirmPasswordResetRoute
@@ -114,11 +133,13 @@ export interface FileRoutesByFullPath {
   '/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
   '/auth/signup': typeof PublicAuthSignupRoute
   '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
+  '/admin/': typeof PrivateAdminIndexRoute
   '/campaigns/': typeof PrivateCampaignsIndexRoute
   '/campaigns/$id/creative': typeof PrivateCampaignsIdCreativeRoute
   '/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
+  '/auth/admin/login': typeof PublicAuthAdminLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
@@ -129,16 +150,19 @@ export interface FileRoutesByTo {
   '/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
   '/auth/signup': typeof PublicAuthSignupRoute
   '/auth/verify-email': typeof PublicAuthVerifyEmailRoute
+  '/admin': typeof PrivateAdminIndexRoute
   '/campaigns': typeof PrivateCampaignsIndexRoute
   '/campaigns/$id/creative': typeof PrivateCampaignsIdCreativeRoute
   '/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
+  '/auth/admin/login': typeof PublicAuthAdminLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_private': typeof PrivateRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
+  '/_private/admin': typeof PrivateAdminRouteRouteWithChildren
   '/_private/': typeof PrivateIndexRoute
   '/_private/campaigns/$id': typeof PrivateCampaignsIdRouteRouteWithChildren
   '/_private/campaigns/new': typeof PrivateCampaignsNewRoute
@@ -147,16 +171,19 @@ export interface FileRoutesById {
   '/_public/auth/request-password-reset': typeof PublicAuthRequestPasswordResetRoute
   '/_public/auth/signup': typeof PublicAuthSignupRoute
   '/_public/auth/verify-email': typeof PublicAuthVerifyEmailRoute
+  '/_private/admin/': typeof PrivateAdminIndexRoute
   '/_private/campaigns/': typeof PrivateCampaignsIndexRoute
   '/_private/campaigns/$id/creative': typeof PrivateCampaignsIdCreativeRoute
   '/_private/campaigns/$id/identity': typeof PrivateCampaignsIdIdentityRoute
   '/_private/campaigns/$id/review': typeof PrivateCampaignsIdReviewRoute
   '/_private/campaigns/$id/targeting': typeof PrivateCampaignsIdTargetingRoute
+  '/_public/auth/admin/login': typeof PublicAuthAdminLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/campaigns/$id'
     | '/campaigns/new'
     | '/auth/confirm-password-reset'
@@ -164,11 +191,13 @@ export interface FileRouteTypes {
     | '/auth/request-password-reset'
     | '/auth/signup'
     | '/auth/verify-email'
+    | '/admin/'
     | '/campaigns/'
     | '/campaigns/$id/creative'
     | '/campaigns/$id/identity'
     | '/campaigns/$id/review'
     | '/campaigns/$id/targeting'
+    | '/auth/admin/login'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -179,15 +208,18 @@ export interface FileRouteTypes {
     | '/auth/request-password-reset'
     | '/auth/signup'
     | '/auth/verify-email'
+    | '/admin'
     | '/campaigns'
     | '/campaigns/$id/creative'
     | '/campaigns/$id/identity'
     | '/campaigns/$id/review'
     | '/campaigns/$id/targeting'
+    | '/auth/admin/login'
   id:
     | '__root__'
     | '/_private'
     | '/_public'
+    | '/_private/admin'
     | '/_private/'
     | '/_private/campaigns/$id'
     | '/_private/campaigns/new'
@@ -196,11 +228,13 @@ export interface FileRouteTypes {
     | '/_public/auth/request-password-reset'
     | '/_public/auth/signup'
     | '/_public/auth/verify-email'
+    | '/_private/admin/'
     | '/_private/campaigns/'
     | '/_private/campaigns/$id/creative'
     | '/_private/campaigns/$id/identity'
     | '/_private/campaigns/$id/review'
     | '/_private/campaigns/$id/targeting'
+    | '/_public/auth/admin/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -230,6 +264,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PrivateIndexRouteImport
       parentRoute: typeof PrivateRouteRoute
+    }
+    '/_private/admin': {
+      id: '/_private/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof PrivateAdminRouteRouteImport
+      parentRoute: typeof PrivateRouteRoute
+    }
+    '/_private/admin/': {
+      id: '/_private/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof PrivateAdminIndexRouteImport
+      parentRoute: typeof PrivateAdminRouteRoute
     }
     '/_private/campaigns/': {
       id: '/_private/campaigns/'
@@ -315,8 +363,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateCampaignsIdTargetingRouteImport
       parentRoute: typeof PrivateCampaignsIdRouteRoute
     }
+    '/_public/auth/admin/login': {
+      id: '/_public/auth/admin/login'
+      path: '/auth/admin/login'
+      fullPath: '/auth/admin/login'
+      preLoaderRoute: typeof PublicAuthAdminLoginRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
   }
 }
+
+interface PrivateAdminRouteRouteChildren {
+  PrivateAdminIndexRoute: typeof PrivateAdminIndexRoute
+}
+
+const PrivateAdminRouteRouteChildren: PrivateAdminRouteRouteChildren = {
+  PrivateAdminIndexRoute: PrivateAdminIndexRoute,
+}
+
+const PrivateAdminRouteRouteWithChildren =
+  PrivateAdminRouteRoute._addFileChildren(PrivateAdminRouteRouteChildren)
 
 interface PrivateCampaignsIdRouteRouteChildren {
   PrivateCampaignsIdCreativeRoute: typeof PrivateCampaignsIdCreativeRoute
@@ -339,6 +405,7 @@ const PrivateCampaignsIdRouteRouteWithChildren =
   )
 
 interface PrivateRouteRouteChildren {
+  PrivateAdminRouteRoute: typeof PrivateAdminRouteRouteWithChildren
   PrivateIndexRoute: typeof PrivateIndexRoute
   PrivateCampaignsIdRouteRoute: typeof PrivateCampaignsIdRouteRouteWithChildren
   PrivateCampaignsNewRoute: typeof PrivateCampaignsNewRoute
@@ -346,6 +413,7 @@ interface PrivateRouteRouteChildren {
 }
 
 const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
+  PrivateAdminRouteRoute: PrivateAdminRouteRouteWithChildren,
   PrivateIndexRoute: PrivateIndexRoute,
   PrivateCampaignsIdRouteRoute: PrivateCampaignsIdRouteRouteWithChildren,
   PrivateCampaignsNewRoute: PrivateCampaignsNewRoute,
@@ -362,6 +430,7 @@ interface PublicRouteRouteChildren {
   PublicAuthRequestPasswordResetRoute: typeof PublicAuthRequestPasswordResetRoute
   PublicAuthSignupRoute: typeof PublicAuthSignupRoute
   PublicAuthVerifyEmailRoute: typeof PublicAuthVerifyEmailRoute
+  PublicAuthAdminLoginRoute: typeof PublicAuthAdminLoginRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
@@ -370,6 +439,7 @@ const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicAuthRequestPasswordResetRoute: PublicAuthRequestPasswordResetRoute,
   PublicAuthSignupRoute: PublicAuthSignupRoute,
   PublicAuthVerifyEmailRoute: PublicAuthVerifyEmailRoute,
+  PublicAuthAdminLoginRoute: PublicAuthAdminLoginRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(

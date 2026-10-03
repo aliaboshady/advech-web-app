@@ -261,7 +261,30 @@
 		"CREATIVE_OBJECT_MISSING": "Upload the file before confirming it",
 		"CREATIVE_ALREADY_CONFIRMED": "This Creative has already been confirmed",
 		"CREATIVE_DURATION_NOT_ALLOWED": "A still image has no duration",
-		"CREATIVE_LIMIT_REACHED": "This Campaign already holds the maximum number of Creatives"
+		"CREATIVE_LIMIT_REACHED": "This Campaign already holds the maximum number of Creatives",
+		"ADMIN_INVALID_CREDENTIALS": "That email or password is wrong",
+		"USER_SUSPENDED": "This account is suspended. Contact another Admin",
+		"PERMISSION_DENIED": "You do not have access to this"
+	},
+	"admin": {
+		"login": {
+			"title": "Admin sign-in",
+			"description": "Sign in with your Admin email and password.",
+			"submit": "Sign in",
+			"submitting": "Signing in..."
+		},
+		"sidebar": {
+			"home": "Home"
+		},
+		"home": {
+			"title": "Home",
+			"welcome": "You are signed in to the back-office."
+		},
+		"noAccess": {
+			"title": "No access yet",
+			"noRoles": "You have no Roles yet, so nothing is listed for you. Contact another Admin.",
+			"permissionDenied": "You do not have access to this. Your access has been refreshed."
+		}
 	},
 	"notFound": {
 		"title": "Page Not Found",

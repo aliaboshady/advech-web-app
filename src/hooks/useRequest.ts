@@ -1,6 +1,9 @@
 import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { isPermissionDenied } from "@/features/access/is-permission-denied";
+import { notePermissionDenied } from "@/features/access/permission-denied-state";
+import { requestSessionRefresh } from "@/features/users/refresh-session";
 import i18n from "@/i18n";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
@@ -74,10 +77,13 @@ const useRequest = <P, R>(
 
 				setError(normalizedError);
 				setIsSuccess(false);
-
+				const permissionDenied = isPermissionDenied(normalizedError);
+				if (permissionDenied) {
+					notePermissionDenied();
+					requestSessionRefresh();
+				}
 				onError?.(normalizedError);
-
-				if (showErrorToast) {
+				if (showErrorToast && !permissionDenied) {
 					toast.error(resolveErrorMessage(normalizedError, i18n.language));
 				}
 

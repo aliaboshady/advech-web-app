@@ -1,8 +1,5 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { AppSidebar } from "@/components/AppSidebar/AppSidebar";
-import { Navbar } from "@/components/Navbar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { PrivateShell } from "@/components/PrivateShell";
 import {
 	decideRoute,
 	routeAreaFromPathname,
@@ -33,20 +30,9 @@ export const Route = createFileRoute("/_private")({
 		});
 	},
 
-	component: PrivateLayout,
+	component: PrivateRoute,
 });
 
-function PrivateLayout() {
-	return (
-		<TooltipProvider>
-			<SidebarProvider>
-				<AppSidebar />
-
-				<SidebarInset>
-					<Navbar />
-					<Outlet />
-				</SidebarInset>
-			</SidebarProvider>
-		</TooltipProvider>
-	);
+function PrivateRoute() {
+	return <PrivateShell />;
 }
