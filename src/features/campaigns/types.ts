@@ -129,3 +129,32 @@ export type CampaignDetailsPayload = {
 export type EditCampaignPayload = CampaignDetailsPayload & {
 	id: string;
 };
+
+/** A custom Dayparting window. Days are 1 to 7, Monday = 1. */
+export type CustomDayparting = {
+	days: number[];
+	startTime: string;
+	endTime: string;
+};
+
+/**
+ * Fields of `PATCH /campaigns/:id/targeting`.
+ * An absent list is left alone; an empty list clears it.
+ * Zone ids are omitted here and attached on the Zones step.
+ */
+export type CampaignTargetingPayload = {
+	timeZoneId?: string;
+	schedulePresetCode?: string;
+	dayparting?: CustomDayparting;
+	daypartName?: string;
+	minAge?: number;
+	maxAge?: number;
+	interestCodes?: string[];
+	venueTypeCodes?: string[];
+	carsCount?: number;
+	deliveryMode?: DeliveryMode;
+};
+
+export type UpdateCampaignTargetingPayload = CampaignTargetingPayload & {
+	id: string;
+};
