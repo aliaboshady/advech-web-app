@@ -5,29 +5,43 @@ import {
 	routeAreaFromPathname,
 	sessionNavigation,
 } from "@/features/access/decide-route";
+import { redirectForNavigation } from "@/features/access/redirect-for-navigation";
+import { clearDraftWhenDone } from "@/features/onboarding/draft-lifecycle";
+import { fetchOnboardingState } from "@/features/onboarding/fetch-onboarding-state";
+import { resolveOnboardingGate } from "@/features/onboarding/onboarding-gate";
+import { ONBOARDING_HOME } from "@/features/onboarding/onboarding-view";
+import { getAccessToken } from "@/lib/tokenUtils";
 
 export const Route = createFileRoute("/_private")({
-	beforeLoad: ({ context, location }) => {
-		const navigation = sessionNavigation(
-			decideRoute({
-				actor: context.me,
-				area: routeAreaFromPathname(location.pathname),
-				redirectTarget: location.pathname === "/" ? undefined : location.href,
-			}),
+	beforeLoad: async ({ context, location }) => {
+		redirectForNavigation(
+			sessionNavigation(
+				decideRoute({
+					actor: context.me,
+					area: routeAreaFromPathname(location.pathname),
+					redirectTarget: location.pathname === "/" ? undefined : location.href,
+				}),
+			),
 		);
-		if (navigation.kind === "stay") {
+		if (context.me === null) {
 			return;
 		}
-		if (navigation.kind === "href") {
-			throw redirect({ href: navigation.href });
-		}
-		if (navigation.to === "/") {
-			throw redirect({ to: "/" });
-		}
-		throw redirect({
-			to: "/auth/login",
-			search: navigation.search,
+		const gate = await resolveOnboardingGate({
+			actorType: context.me.actorType,
+			bypassAuth: context.bypassAuth,
+			area: "product",
+			loadState: () => fetchOnboardingState(getAccessToken()),
 		});
+		if (gate.onboarding) {
+			clearDraftWhenDone(
+				window.localStorage,
+				context.me.id,
+				gate.onboarding.status,
+			);
+		}
+		if (gate.decision === "to-onboarding") {
+			throw redirect({ to: ONBOARDING_HOME });
+		}
 	},
 
 	component: PrivateRoute,

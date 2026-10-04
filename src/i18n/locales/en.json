@@ -10,7 +10,8 @@
 		"submitting": "Logging in...",
 		"noAccount": "Don't have an account?",
 		"createAccount": "Create one",
-		"forgotPassword": "Forgot password?"
+		"forgotPassword": "Forgot password?",
+		"suspended": "This account is suspended. Contact Advech support."
 	},
 	"signup": {
 		"title": "Create an account",
@@ -30,7 +31,8 @@
 		"submit": "Verify email",
 		"submitting": "Verifying...",
 		"resend": "Resend code",
-		"sending": "Sending..."
+		"sending": "Sending...",
+		"noHandle": "We have no code on file for this email yet. Request one below."
 	},
 	"passwordReset": {
 		"request": {
@@ -44,7 +46,8 @@
 			"submitting": "Sending...",
 			"resend": "Resend code",
 			"sending": "Sending...",
-			"backToLogin": "Back to login"
+			"backToLogin": "Back to login",
+			"sent": "If that email belongs to a verified Advertiser account, a reset code is on its way."
 		},
 		"confirm": {
 			"title": "Set a new password",
@@ -60,7 +63,8 @@
 			"submit": "Reset password",
 			"submitting": "Resetting...",
 			"resend": "Resend code",
-			"sending": "Sending..."
+			"sending": "Sending...",
+			"success": "Your password was updated. Sign in with the new password."
 		}
 	},
 	"sidebar": {
@@ -335,7 +339,7 @@
 		"TARGETING_ZONE_NOT_FOUND": "One or more of those Zones is not in your library",
 		"ZONE_ROLE_CONTRADICTION": "A Zone cannot be both included and excluded",
 		"ADVERTISER_NOT_FOUND": "No Advertiser is linked to this account",
-		"ADVERTISER_NOT_APPROVED": "Your Advertiser must be approved before creating Campaigns",
+		"ADVERTISER_NOT_APPROVED": "Your Advertiser must be approved before you can do this",
 		"CURRENCY_NOT_ACCEPTED": "That currency is not accepted",
 		"MONEY_PRECISION_EXCEEDED": "The amount has more decimal places than the currency allows",
 		"CREATIVE_NOT_FOUND": "Creative not found",
@@ -360,7 +364,34 @@
 		"roleNameMax": "A Role name must be at most 100 characters.",
 		"roleDescriptionMax": "A description must be at most 500 characters.",
 		"ROLE_NAME_TAKEN": "A Role with this name already exists",
-		"ROLE_NOT_FOUND": "That Role no longer exists"
+		"ROLE_NOT_FOUND": "That Role no longer exists",
+		"companyNameRequired": "Enter the company name.",
+		"companyNameMax": "A company name must be at most 200 characters.",
+		"companyEmailRequired": "Enter a company contact email.",
+		"countryRequired": "Choose a country.",
+		"cityRequired": "Choose a city.",
+		"placeMax": "This must be at most 100 characters.",
+		"telephoneRequired": "Enter a telephone number.",
+		"telephoneInvalid": "Use digits, +, spaces, dashes and parentheses only.",
+		"telephoneMax": "A telephone number must be at most 30 characters.",
+		"addressMax": "An address must be at most 500 characters.",
+		"mobileRequired": "Enter a mobile number.",
+		"mobileInvalid": "Use digits, +, spaces, dashes and parentheses only.",
+		"mobileMax": "A mobile number must be at most 30 characters.",
+		"personNameMax": "A name must be at most 100 characters.",
+		"titleMax": "A title must be at most 100 characters.",
+		"ADVERTISER_TERMS_VERSION_MISMATCH": "The Advertiser terms were updated. Please read and accept the new version",
+		"ADVERTISER_FORM_LOCKED": "Your details can no longer be changed because of your Advertiser's status",
+		"codeInvalid": "Enter the 6-digit code.",
+		"OTP_INVALID": "That code is not correct. Check it and type it again",
+		"OTP_EXPIRED": "That code has expired. Request a new code",
+		"OTP_MAX_ATTEMPTS_EXCEEDED": "Too many wrong attempts. Request a new code",
+		"VERIFICATION_HANDLE_UNKNOWN": "A newer code replaced this one. Use the latest code from your email, or request a new one",
+		"VERIFICATION_HANDLE_CONSUMED": "This email is already verified. Sign in to continue",
+		"VERIFICATION_HANDLE_EXPIRED": "This signup has expired. Please sign up again",
+		"TOO_MANY_REQUESTS": "Too many attempts. Wait a minute, then try again",
+		"ADVERTISER_INVALID_CREDENTIALS": "That email or password is wrong",
+		"ADVERTISER_EMAIL_NOT_VERIFIED": "Verify your email to continue"
 	},
 	"admin": {
 		"login": {
@@ -604,5 +635,86 @@
 		"tooSmall": "The file is smaller than the minimum size.",
 		"invalidType": "This file type is not supported.",
 		"rejected": "\"{{name}}\" could not be selected. {{reason}}"
+	},
+	"onboarding": {
+		"wizard": {
+			"title": "Set up your Advertiser",
+			"description": "Fill in the details below. Each part saves on its own, in any order."
+		},
+		"waiting": {
+			"title": "Your Advertiser is under review",
+			"description": "We have everything we need. We will review your Advertiser and you can use Advech as soon as it is approved."
+		},
+		"rejected": {
+			"title": "Your Advertiser was not approved",
+			"description": "This decision is final.",
+			"reasonLabel": "Reason"
+		},
+		"suspended": {
+			"title": "Your Advertiser is suspended",
+			"description": "You can sign in, but Campaigns and Zones are not available while it is suspended. Contact Advech support."
+		},
+		"loadError": {
+			"description": "We could not load your Onboarding status.",
+			"retry": "Try again"
+		},
+		"save": "Save",
+		"saving": "Saving...",
+		"section": {
+			"complete": "Complete",
+			"incomplete": "Incomplete"
+		},
+		"company": {
+			"title": "Company details",
+			"description": "Tell us about the company you advertise for.",
+			"name": "Company name",
+			"namePlaceholder": "Acme Media Ltd",
+			"email": "Company contact email",
+			"emailHint": "Where we can reach your company. This is not your login email.",
+			"emailPlaceholder": "info@acme.com",
+			"country": "Country",
+			"countryPlaceholder": "Select a country",
+			"countrySearch": "Search countries",
+			"city": "City",
+			"cityPlaceholder": "Select a city",
+			"citySearch": "Search cities",
+			"cityHint": "Choose a country first.",
+			"telephone": "Telephone",
+			"telephonePlaceholder": "+20 22 123 4567",
+			"address": "Address (optional)",
+			"addressHint": "Street and area, if you want it on file.",
+			"addressPlaceholder": "12 Tahrir Square, Downtown"
+		},
+		"contact": {
+			"title": "Contact details",
+			"description": "The person at your company we should get in touch with.",
+			"firstName": "First name",
+			"firstNamePlaceholder": "Jane",
+			"lastName": "Last name",
+			"lastNamePlaceholder": "Doe",
+			"mobile": "Mobile",
+			"mobileHint": "For contact only. You do not use it to sign in.",
+			"mobilePlaceholder": "+20 100 123 4567",
+			"titleLabel": "Job title (optional)",
+			"titlePlaceholder": "Marketing Manager"
+		},
+		"terms": {
+			"title": "Advertiser terms",
+			"description": "Accept version {{version}} of the Advertiser terms. When your details are complete, we start the review right away.",
+			"accept": "Accept terms",
+			"accepted": "You accepted version {{version}} on {{date}}.",
+			"updated": "The terms changed since you accepted version {{acceptedVersion}}. Please read and accept version {{version}}.",
+			"versionChanged": "The terms were updated. Please read the new version and accept it.",
+			"unknownVersion": "These terms are newer than this version of the app. Please refresh the app to read and accept them.",
+			"v1_0": {
+				"title": "Advech Advertiser terms, version 1.0",
+				"body": "TODO: placeholder copy. Replace this with the approved Advertiser terms before launch.\n\nBy accepting, the Advertiser agrees to follow the Advech Advertiser terms."
+			}
+		},
+		"notApprovedYet": "Your Advertiser is not approved yet.",
+		"needsChanges": {
+			"title": "Changes requested",
+			"description": "We reviewed your Advertiser and need a few changes. Update your details and save them. We review it again once everything is complete."
+		}
 	}
 }

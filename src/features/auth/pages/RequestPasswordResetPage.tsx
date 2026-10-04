@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useFormik } from "formik";
 import { MailIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { Button } from "@/components/ui/button";
 import { AuthShell, authLinkClass } from "@/features/auth/components/AuthShell";
@@ -12,34 +13,22 @@ import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { requestPasswordReset } from "../api/request-password-reset";
 import {
+	otpStateFromResponse,
+	RESET_STATE_KEY,
+	readOtpState,
+	writeOtpState,
+} from "../otp-state";
+import {
 	RequestPasswordResetPayload,
 	RequestPasswordResetResponse,
 } from "../types";
 
-type PasswordResetLocationState = {
-	email?: string;
-	expiresInSeconds?: number;
-	resendAvailableInSeconds?: number;
-	devCode?: string;
-};
-
 export function RequestPasswordResetPage() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-	const [email, setEmail] = useState("");
-
-	const updateStoredState = (
-		next: Partial<PasswordResetLocationState> & { email?: string },
-	) => {
-		const storedState = {
-			email: next.email ?? email,
-			expiresInSeconds: next.expiresInSeconds ?? 0,
-			resendAvailableInSeconds: next.resendAvailableInSeconds ?? 0,
-			devCode: next.devCode ?? "",
-		};
-
-		sessionStorage.setItem("password-reset-state", JSON.stringify(storedState));
-	};
+	const [email] = useState(
+		() => readOtpState(window.sessionStorage, RESET_STATE_KEY)?.email ?? "",
+	);
 
 	const { request: requestReset, isLoading: isLoadingReset } = useRequest<
 		RequestPasswordResetPayload,
@@ -52,31 +41,21 @@ export function RequestPasswordResetPage() {
 				return;
 			}
 
-			updateStoredState({
-				email: formik.values.email,
-				expiresInSeconds: Number(payload.expiresInSeconds ?? 0),
-				resendAvailableInSeconds: Number(payload.resendAvailableInSeconds ?? 0),
-				devCode: payload.devCode ?? "",
-			});
+			writeOtpState(
+				window.sessionStorage,
+				RESET_STATE_KEY,
+				otpStateFromResponse({
+					email: formik.values.email,
+					response: payload,
+					nowMs: Date.now(),
+				}),
+			);
 
+			// Always the same words, so the screen never says whether the email exists.
+			toast.success(t("passwordReset.request.sent"));
 			navigate({ to: "/auth/confirm-password-reset" });
 		},
 	});
-
-	useEffect(() => {
-		const rawState = sessionStorage.getItem("password-reset-state");
-
-		if (!rawState) {
-			return;
-		}
-
-		try {
-			const state = JSON.parse(rawState) as PasswordResetLocationState;
-			setEmail(state.email ?? "");
-		} catch {
-			console.error("Failed to parse password reset state from storage");
-		}
-	}, []);
 
 	const formik = useFormik({
 		initialValues: { email },

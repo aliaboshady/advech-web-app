@@ -10,6 +10,11 @@ import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
 import { ServerResponse } from "@/types";
 import { signup } from "../api/signup";
+import {
+	otpStateFromResponse,
+	VERIFY_STATE_KEY,
+	writeOtpState,
+} from "../otp-state";
 import { SignupPayload, SignupResponse } from "../types";
 
 export function SignupPage() {
@@ -27,15 +32,15 @@ export function SignupPage() {
 				return;
 			}
 
-			const nextState = {
-				email: formik.values.email,
-				token: payload.token,
-				expiresInSeconds: payload.expiresInSeconds,
-				resendAvailableInSeconds: payload.resendAvailableInSeconds,
-				devCode: payload.devCode,
-			};
-
-			sessionStorage.setItem("verify-email-state", JSON.stringify(nextState));
+			writeOtpState(
+				window.sessionStorage,
+				VERIFY_STATE_KEY,
+				otpStateFromResponse({
+					email: formik.values.email,
+					response: payload,
+					nowMs: Date.now(),
+				}),
+			);
 
 			navigate({
 				to: "/auth/verify-email",
