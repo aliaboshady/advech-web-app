@@ -12,7 +12,7 @@ import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import {
 	CreatedAdminInvite,
 	createAdminInvite,
@@ -41,7 +41,7 @@ export function AdminInvitesPage() {
 	const [sentInvite, setSentInvite] = useState<CreatedAdminInvite | null>(null);
 	const { request, isLoading, error } = useRequest<
 		{ readonly email: string },
-		ServerResponse<CreatedAdminInvite>
+		BackendResponse<CreatedAdminInvite>
 	>(createAdminInvite, {
 		showErrorToast: false,
 		onSuccess: (response) => {

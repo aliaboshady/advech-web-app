@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { AdvertiserDetail } from "../advertiser-detail";
 import { ReviewAction } from "../offered-review-actions";
 
@@ -30,9 +30,9 @@ function reviewBody(input: ReviewAdvertiserInput): string | undefined {
 /** Applies one Review action and returns the Advertiser's updated detail. */
 export async function reviewAdvertiser(
 	input: ReviewAdvertiserInput,
-): Promise<ServerResponse<AdvertiserDetail>> {
+): Promise<BackendResponse<AdvertiserDetail>> {
 	const body = reviewBody(input);
-	return apiClient<ServerResponse<AdvertiserDetail>>(
+	return apiClient<BackendResponse<AdvertiserDetail>>(
 		`admin/advertisers/${encodeURIComponent(input.id)}/${ACTION_SUFFIX[input.action]}`,
 		{
 			method: "POST",

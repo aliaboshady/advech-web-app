@@ -245,7 +245,9 @@
 			}
 		},
 		"list": {
-			"description": "أنشئ حملاتك وعدّلها وتابعها."
+			"description": "أنشئ حملاتك وعدّلها وتابعها.",
+			"create": "إنشاء حملة",
+			"search": "ابحث في الحملات"
 		},
 		"new": {
 			"title": "حملة جديدة",
@@ -276,7 +278,9 @@
 		"of": "من",
 		"mapPlaceHint": "انقر مرتين على الخريطة لتحديد منطقة.",
 		"required": "مطلوب",
-		"loadErrorTitle": "حدث خطأ ما"
+		"loadErrorTitle": "حدث خطأ ما",
+		"addNewOption": "إضافة خيار جديد",
+		"selectedItems": "المحدد"
 	},
 	"errors": {
 		"invalidEmail": "يرجى إدخال بريد إلكتروني صالح.",

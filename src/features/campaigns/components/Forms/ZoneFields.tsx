@@ -1,14 +1,14 @@
 import { type KeyboardEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Dropdown from "@/components/Inputs/Dropdown";
-import TextInput from "@/components/Inputs/TextInput";
+import Dropdown from "@/components/inputs/Dropdown";
+import TextInput from "@/components/inputs/TextInput";
 import { Button } from "@/components/ui/button";
 import { createZone } from "@/features/zones/api/create-zone";
 import { PointZoneMap } from "@/features/zones/components/PointZoneMap";
 import { radiusMetersFromKilometers } from "@/features/zones/point-zone-radius";
 import { CreatePointZonePayload, Zone } from "@/features/zones/types";
 import useRequest from "@/hooks/useRequest";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { idsWithoutContradiction, optionsForSide } from "../../zone-role";
 import { FieldMessage } from "./FieldMessage";
 import { FormField } from "./FormField";
@@ -67,7 +67,7 @@ export function ZoneFields({
 	const [createError, setCreateError] = useState("");
 	const { request: requestCreate, isLoading: isCreating } = useRequest<
 		CreatePointZonePayload,
-		ServerResponse<Zone>
+		BackendResponse<Zone>
 	>(createZone);
 	const parsedRadiusKm = Number(radiusKm);
 	const radiusKmForMap = Number.isFinite(parsedRadiusKm)

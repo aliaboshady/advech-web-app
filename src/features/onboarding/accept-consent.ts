@@ -1,9 +1,9 @@
-import type { ErrorResponse, ServerResponse } from "@/types";
+import type { BackendResponse, ErrorResponse } from "@/types";
 import type { ConsentRecord, OnboardingState } from "./types";
 
 type Deps = {
-	accept: (version: string) => Promise<ServerResponse<ConsentRecord>>;
-	fetchState: () => Promise<ServerResponse<OnboardingState>>;
+	accept: (version: string) => Promise<BackendResponse<ConsentRecord>>;
+	fetchState: () => Promise<BackendResponse<OnboardingState>>;
 };
 
 export type ConsentOutcome =

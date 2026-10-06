@@ -60,6 +60,8 @@ export function LoginPage() {
 		LoginPayload,
 		BackendResponse<LoginResponse>
 	>(login, {
+		// The screen shows the message itself, next to the form.
+		showErrorToast: false,
 		onSuccess: async (res: BackendResponse<LoginResponse>) => {
 			const { refreshToken, accessToken } = res?.data ?? {};
 			if (refreshToken && accessToken) {

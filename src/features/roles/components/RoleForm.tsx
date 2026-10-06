@@ -9,7 +9,7 @@ import { isPermissionDenied } from "@/features/access/is-permission-denied";
 import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { createRole } from "../api/create-role";
 import { updateRole } from "../api/update-role";
 import {
@@ -32,13 +32,13 @@ export function RoleForm({ permissions, existingRole }: RoleFormProps) {
 	const [formError, setFormError] = useState("");
 	const { request: requestCreate, isLoading: isCreating } = useRequest<
 		RoleFormValues,
-		ServerResponse<Role>
+		BackendResponse<Role>
 	>((values) => createRole(buildCreateRolePayload(values)), {
 		showErrorToast: false,
 	});
 	const { request: requestUpdate, isLoading: isUpdating } = useRequest<
 		UpdateRoleInput,
-		ServerResponse<Role>
+		BackendResponse<Role>
 	>(updateRole, { showErrorToast: false });
 	const isSaving = isCreating || isUpdating;
 	const formik = useFormik<RoleFormValues>({

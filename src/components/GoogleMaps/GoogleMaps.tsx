@@ -6,7 +6,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import Switch from "../Inputs/Switch";
+import Switch from "../inputs/Switch";
 import { Slider } from "../ui/slider";
 import { MapMarker } from "./MapMarker";
 import { SearchBox } from "./SearchBox";

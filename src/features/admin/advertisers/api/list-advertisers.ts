@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import {
 	ADVERTISER_QUEUE_ALL,
 	AdvertiserQueueStatusFilter,
@@ -9,7 +9,7 @@ import {
 /** Lists Advertisers. The backend filters by status only, and does not page. */
 export async function listAdvertisers(
 	status: AdvertiserQueueStatusFilter,
-): Promise<ServerResponse<AdvertiserSummary[]>> {
+): Promise<BackendResponse<AdvertiserSummary[]>> {
 	const params = new URLSearchParams();
 	if (status !== ADVERTISER_QUEUE_ALL) {
 		params.set("status", status);
@@ -19,7 +19,7 @@ export async function listAdvertisers(
 		queryString.length > 0
 			? `admin/advertisers?${queryString}`
 			: "admin/advertisers";
-	return apiClient<ServerResponse<AdvertiserSummary[]>>(path, {
+	return apiClient<BackendResponse<AdvertiserSummary[]>>(path, {
 		method: "GET",
 	});
 }

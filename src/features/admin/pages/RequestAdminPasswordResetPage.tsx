@@ -14,7 +14,7 @@ import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import {
 	RequestAdminPasswordResetPayload,
 	requestAdminPasswordReset,
@@ -25,7 +25,7 @@ export function RequestAdminPasswordResetPage() {
 	const [hasSent, setHasSent] = useState(false);
 	const { request, isLoading, error } = useRequest<
 		RequestAdminPasswordResetPayload,
-		ServerResponse<null>
+		BackendResponse<null>
 	>(requestAdminPasswordReset, {
 		showErrorToast: false,
 		onSuccess: () => {

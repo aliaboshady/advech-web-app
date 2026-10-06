@@ -245,7 +245,9 @@
 			}
 		},
 		"list": {
-			"description": "Create, edit and track your Campaigns."
+			"description": "Create, edit and track your Campaigns.",
+			"create": "Create campaign",
+			"search": "Search campaigns"
 		},
 		"new": {
 			"title": "New Campaign",
@@ -276,7 +278,9 @@
 		"of": "of",
 		"mapPlaceHint": "Double-click the map to place a Zone.",
 		"required": "Required",
-		"loadErrorTitle": "Something went wrong"
+		"loadErrorTitle": "Something went wrong",
+		"addNewOption": "Add new option",
+		"selectedItems": "Selected"
 	},
 	"errors": {
 		"invalidEmail": "Please enter a valid email address.",

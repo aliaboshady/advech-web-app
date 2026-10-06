@@ -6,7 +6,8 @@ import { DateRange } from "react-day-picker";
 import { useTranslation } from "react-i18next";
 import FormikTextInput from "@/components/FormikInputs/FormikTextInput";
 import { FormSectionCard } from "@/components/FormSectionCard";
-import { DatePicker } from "@/components/Inputs/DatePicker";
+import { DatePicker } from "@/components/inputs/DatePicker";
+import Dropdown from "@/components/inputs/Dropdown";
 import { Button } from "@/components/ui/button";
 import { LookupItem } from "@/features/lookups/types";
 import { Objective } from "@/features/Objectives/types";
@@ -30,7 +31,6 @@ import {
 } from "../../types";
 import { FormField } from "./FormField";
 import { PrimaryObjective } from "./PrimaryObjective";
-import Dropdown from "@/components/inputs/Dropdown";
 
 const DETAILS_FIELD_NAMES: Record<string, string> = {
 	"totalBudget.amount": "totalAmount",
@@ -80,7 +80,9 @@ export function IdentityForm({
 	const isReadOnly = campaign ? !isCampaignEditable(campaign.status) : false;
 	const showCurrencyPicker = currencies.length !== 1;
 	const { request: requestCreateCampaign, isLoading: isLoadingCreateCampaign } =
-		useRequest<CreateCampaignPayload, BackendResponse<Campaign>>(createCampaign);
+		useRequest<CreateCampaignPayload, BackendResponse<Campaign>>(
+			createCampaign,
+		);
 	const { request: requestEditCampaign, isLoading: isLoadingEditCampaign } =
 		useRequest<EditCampaignPayload, BackendResponse<Campaign>>(editCampaign);
 	const isSaving = isLoadingCreateCampaign || isLoadingEditCampaign;

@@ -13,7 +13,7 @@ import { isPermissionDenied } from "@/features/access/is-permission-denied";
 import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { AdvertiserDetail } from "../advertiser-detail";
 import {
 	ADVERTISER_INVALID_STATUS_TRANSITION,
@@ -76,7 +76,7 @@ export function AdvertiserReviewActions({
 	const [pendingAction, setPendingAction] = useState<ReviewAction | null>(null);
 	const { request, isLoading } = useRequest<
 		ReviewAdvertiserInput,
-		ServerResponse<AdvertiserDetail>
+		BackendResponse<AdvertiserDetail>
 	>(reviewAdvertiser, { showErrorToast: false });
 	const offers = offeredReviewActions(advertiser.status);
 	const applyAction = async (

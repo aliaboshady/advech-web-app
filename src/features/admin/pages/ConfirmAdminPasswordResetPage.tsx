@@ -12,7 +12,7 @@ import {
 import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { confirmAdminPasswordReset } from "../api/confirm-admin-password-reset";
 import {
 	buildConfirmAdminPasswordResetPayload,
@@ -30,7 +30,7 @@ export function ConfirmAdminPasswordResetPage() {
 	const { t, i18n } = useTranslation();
 	const { request, isLoading, isSuccess, error } = useRequest<
 		ConfirmAdminPasswordResetPayload,
-		ServerResponse<null>
+		BackendResponse<null>
 	>(confirmAdminPasswordReset, {
 		showErrorToast: false,
 		onSuccess: async () => {

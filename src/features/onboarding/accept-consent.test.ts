@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ServerResponse } from "@/types";
+import type { BackendResponse } from "@/types";
 import { acceptCurrentTerms } from "./accept-consent";
 import type { ConsentRecord, OnboardingState } from "./types";
 
@@ -26,8 +26,8 @@ const record: ConsentRecord = {
 };
 
 function deps(input: {
-	accept: ServerResponse<ConsentRecord>;
-	fetch: ServerResponse<OnboardingState>;
+	accept: BackendResponse<ConsentRecord>;
+	fetch: BackendResponse<OnboardingState>;
 }) {
 	const calls: string[] = [];
 	return {

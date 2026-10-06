@@ -1,7 +1,7 @@
 import { SearchIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import Dropdown from "@/components/Inputs/Dropdown";
-import TextInput from "@/components/Inputs/TextInput";
+import Dropdown from "@/components/inputs/Dropdown";
+import TextInput from "@/components/inputs/TextInput";
 import { Item } from "@/types";
 import {
 	ADVERTISER_QUEUE_ALL,

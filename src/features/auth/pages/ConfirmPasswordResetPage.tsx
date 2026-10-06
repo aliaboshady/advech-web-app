@@ -51,7 +51,7 @@ export function ConfirmPasswordResetPage() {
 	// on this screen with the same message the verify screen gives.
 	const { request: requestConfirm, isLoading: isLoadingConfirm } = useRequest<
 		ConfirmPasswordResetPayload,
-		ServerResponse<void>
+		BackendResponse<void>
 	>(confirmPasswordReset, {
 		onSuccess: () => {
 			clearOtpState(window.sessionStorage, RESET_STATE_KEY);

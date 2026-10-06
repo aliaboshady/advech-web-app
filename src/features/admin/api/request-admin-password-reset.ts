@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 
 export type RequestAdminPasswordResetPayload = {
 	readonly email: string;
@@ -11,9 +11,9 @@ export type RequestAdminPasswordResetPayload = {
  */
 export async function requestAdminPasswordReset(
 	payload: RequestAdminPasswordResetPayload,
-): Promise<ServerResponse<null>> {
+): Promise<BackendResponse<null>> {
 	const response = await apiClient<
-		ServerResponse<{ devToken?: string } | null>
+		BackendResponse<{ devToken?: string } | null>
 	>("auth/admin/password-reset/request", {
 		method: "POST",
 		body: JSON.stringify({ email: payload.email }),

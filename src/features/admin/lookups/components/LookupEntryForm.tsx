@@ -14,7 +14,7 @@ import {
 import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
-import { ErrorResponse, ServerResponse } from "@/types";
+import { BackendResponse, ErrorResponse } from "@/types";
 import { createLookupEntry } from "../api/create-lookup-entry";
 import { updateLookupEntry } from "../api/update-lookup-entry";
 import {
@@ -104,11 +104,11 @@ export function LookupEntryForm({
 	const isEditing = editor?.mode === "edit";
 	const { request: requestCreate, isLoading: isCreating } = useRequest<
 		Parameters<typeof createLookupEntry>[0],
-		ServerResponse<LookupEntry>
+		BackendResponse<LookupEntry>
 	>(createLookupEntry, { showErrorToast: false });
 	const { request: requestUpdate, isLoading: isUpdating } = useRequest<
 		Parameters<typeof updateLookupEntry>[0],
-		ServerResponse<LookupEntry>
+		BackendResponse<LookupEntry>
 	>(updateLookupEntry, { showErrorToast: false });
 	const isSaving = isCreating || isUpdating;
 	const formik = useFormik<SchedulePresetFormValues>({

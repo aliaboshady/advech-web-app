@@ -63,7 +63,7 @@ function describeQueueError(
 	language: string,
 	fallback: string,
 ): string | null {
-	if (error === null) {
+	if (error === undefined) {
 		return null;
 	}
 	if (!isErrorResponse(error)) {

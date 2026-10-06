@@ -12,7 +12,7 @@ import {
 import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { acceptAdminInvite } from "../api/accept-admin-invite";
 import {
 	AcceptAdminInvitePayload,
@@ -28,7 +28,7 @@ export function AcceptAdminInvitePage() {
 	const { t, i18n } = useTranslation();
 	const { request, isLoading, isSuccess, error } = useRequest<
 		AcceptAdminInvitePayload,
-		ServerResponse<null>
+		BackendResponse<null>
 	>(acceptAdminInvite, {
 		showErrorToast: false,
 		onSuccess: async () => {

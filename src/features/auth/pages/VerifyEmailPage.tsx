@@ -56,7 +56,7 @@ export function VerifyEmailPage() {
 	const { request: requestResend, isLoading: isLoadingResend } = useRequest<
 		ResendCodePayload,
 		BackendResponse<ResendCodeResponse>
-	>(resendCode, {});
+	>(resendCode, { showErrorToast: false });
 
 	const { request: requestVerify, isLoading: isLoadingVerify } = useRequest<
 		VerifyEmailPayload,

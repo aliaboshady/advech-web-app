@@ -34,10 +34,10 @@ export function CampaignsPage() {
 		setSortBy,
 		sortType,
 		setSortType,
-	} = useGetPaginated<ListCampaignsPayload, Campaign>({
+	} = useGetPaginated<ListCampaignsPayload, Campaign[]>({
 		request: listCampaigns,
 		dependencies: [dateRange?.from, dateRange?.to, statuses],
-		getExtraPayload: () => ({
+		requestExtraPayload: () => ({
 			status: statuses,
 			flightFrom: dateRange?.from && toCalendarDay(dateRange.from),
 			flightTo: dateRange?.to && toCalendarDay(dateRange.to),
@@ -63,7 +63,7 @@ export function CampaignsPage() {
 					onClick={async () => await router.navigate({ to: "/campaigns/new" })}
 				>
 					<PlusIcon />
-					{t("locale:CREATE_CAMPAIGN")}
+					{t("campaigns.list.create")}
 				</Button>
 			}
 		>

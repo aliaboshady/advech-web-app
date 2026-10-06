@@ -25,7 +25,7 @@ function describeLoadError(
 	fallback: string,
 	notFound: string,
 ): string | null {
-	if (error === null) {
+	if (error === undefined) {
 		return null;
 	}
 	if (!isErrorResponse(error)) {

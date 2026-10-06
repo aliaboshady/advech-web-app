@@ -3,14 +3,14 @@ import { FormikProps, useFormik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormSectionCard } from "@/components/FormSectionCard";
-import Dropdown from "@/components/Inputs/Dropdown";
-import TextInput from "@/components/Inputs/TextInput";
+import Dropdown from "@/components/inputs/Dropdown";
+import TextInput from "@/components/inputs/TextInput";
 import { Button } from "@/components/ui/button";
 import { LookupItem, SchedulePresetOption } from "@/features/lookups/types";
 import { Zone } from "@/features/zones/types";
 import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { updateCampaignTargeting } from "../../api/update-campaign-targeting";
 import {
 	buildCampaignTargetingPayload,
@@ -166,7 +166,7 @@ export function TargetingForm({
 	);
 	const { request: requestUpdate, isLoading: isSaving } = useRequest<
 		UpdateCampaignTargetingPayload,
-		ServerResponse<Campaign>
+		BackendResponse<Campaign>
 	>(updateCampaignTargeting);
 	const formik = useFormik<TargetingFormValues>({
 		initialValues: toTargetingFormValues(campaign, timeZones),

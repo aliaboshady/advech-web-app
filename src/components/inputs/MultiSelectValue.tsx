@@ -77,7 +77,7 @@ export function MultiSelectValue({
 		>
 			{expandMode === "countOnly" && (
 				<p>
-					{t("locale:SELECTED_ITEMS")} {items.length}
+					{t("common.selectedItems")} {items.length}
 				</p>
 			)}
 

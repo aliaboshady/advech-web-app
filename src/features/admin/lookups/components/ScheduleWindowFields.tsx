@@ -1,7 +1,7 @@
 import { FormikProps } from "formik";
 import { CheckIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import TextInput from "@/components/Inputs/TextInput";
+import TextInput from "@/components/inputs/TextInput";
 import { Button } from "@/components/ui/button";
 import { SchedulePresetFormValues } from "../build-schedule-preset-request";
 import {

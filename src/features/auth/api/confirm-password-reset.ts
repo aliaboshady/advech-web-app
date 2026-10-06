@@ -11,8 +11,8 @@ export const confirmPasswordReset = async ({
 	email,
 	code,
 	newPassword,
-}: ConfirmPasswordResetPayload): Promise<void> => {
-	await apiClient<BackendResponse<void>>(
+}: ConfirmPasswordResetPayload): Promise<BackendResponse<void>> => {
+	const res = await apiClient<BackendResponse<void>>(
 		"auth/advertiser/password-reset/confirm", // TODO: Remove "advertiser" from the endpoint later
 		{
 			method: "POST",

@@ -7,7 +7,7 @@ import { FormSectionCard } from "@/components/FormSectionCard";
 import { Button } from "@/components/ui/button";
 import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { listCities } from "../api/list-cities";
 import { listCountries } from "../api/list-countries";
 import { buildFormPayload } from "../build-onboarding-payload";
@@ -57,11 +57,11 @@ export function CompanyDetailsCard({
 }: Props) {
 	const { t } = useTranslation();
 	const save = useSaveOnboardingForm();
-	const countriesRequest = useRequest<void, ServerResponse<PlaceOption[]>>(
+	const countriesRequest = useRequest<void, BackendResponse<PlaceOption[]>>(
 		listCountries,
 		{ fetchOnMount: true, showTopLoader: false },
 	);
-	const citiesRequest = useRequest<string, ServerResponse<PlaceOption[]>>(
+	const citiesRequest = useRequest<string, BackendResponse<PlaceOption[]>>(
 		listCities,
 		{ showTopLoader: false },
 	);
