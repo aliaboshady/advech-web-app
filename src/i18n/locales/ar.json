@@ -160,13 +160,8 @@
 			"zones": "المناطق",
 			"inclusionZones": "مناطق التضمين",
 			"exclusionZones": "مناطق الاستبعاد",
-			"zoneName": "اسم المنطقة",
-			"zoneNamePlaceholder": "سمِّ هذه المنطقة",
-			"radiusKm": "نصف القطر (كم)",
-			"createZone": "حفظ المنطقة",
-			"zonePointHint": "ابحث أو انقر نقرًا مزدوجًا على الخريطة لتحديد المنطقة.",
+			"zonePointHint": "ابحث، أو انقر على الخريطة أو على مكان فيها، لإضافة نقطة. مرّر المؤشر فوق الدبوس لتغيير نصف القطر، وانقر عليه لحذفه. تُحفظ كل نقطة كمنطقة مستقلة.",
 			"zoneSearch": "ابحث عن مكان",
-			"radiusKmValue": "{{radius}} كم",
 			"deliveryMode": "وضع التوصيل",
 			"moving": "متحرك",
 			"fixed": "ثابت",
@@ -194,7 +189,12 @@
 				"deliveryDescription": "عدد السيارات ونمط التوصيل. يُحفظان ولا يُفرضان.",
 				"zonesDescription": "اختر أين تعمل الحملة وأين يجب ألا تعمل. احفظ منطقة جديدة في مكتبتك من الخريطة."
 			},
-			"newZone": "منطقة جديدة"
+			"newZones": "مناطق جديدة",
+			"pointsCount": "النقاط: {{count}}",
+			"radiusFor": "نصف قطر {{place}}",
+			"removePoint": "حذف {{place}}",
+			"meters": "م",
+			"saveZones": "حفظ المناطق ({{count}})"
 		},
 		"creative": {
 			"saveAndContinue": "حفظ ومتابعة",
@@ -276,7 +276,7 @@
 		"noDataTitle": "لا يوجد شيء هنا بعد",
 		"noDataDescription": "لا توجد بيانات لعرضها.",
 		"of": "من",
-		"mapPlaceHint": "انقر مرتين على الخريطة لتحديد منطقة.",
+		"mapPlaceHint": "انقر على الخريطة أو على مكان فيها لإضافة نقطة.",
 		"required": "مطلوب",
 		"loadErrorTitle": "حدث خطأ ما",
 		"addNewOption": "إضافة خيار جديد",

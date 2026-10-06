@@ -20,6 +20,7 @@ const STATIONARY_MARKER_RADIUS_KM = 0.1;
 export type Place = {
 	id: string;
 	name: string;
+	address?: string;
 	lat: number;
 	lng: number;
 };
