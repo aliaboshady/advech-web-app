@@ -29,6 +29,8 @@ export function DraftPointMarker({
 }: Props) {
 	const { t } = useTranslation();
 	const [isHovered, setIsHovered] = useState(false);
+	const [hasFocus, setHasFocus] = useState(false);
+	const isPanelOpen = isHovered || hasFocus;
 	const label = draftPointLabel(point);
 	const position = { lat: point.lat, lng: point.lng };
 	return (
@@ -36,30 +38,48 @@ export function DraftPointMarker({
 			<AdvancedMarker
 				position={position}
 				title={label}
-				zIndex={isHighlighted || isHovered ? HIGHLIGHTED_Z_INDEX : undefined}
-				onMouseEnter={() => setIsHovered(true)}
-				onMouseLeave={() => setIsHovered(false)}
+				zIndex={isPanelOpen || isHighlighted ? HIGHLIGHTED_Z_INDEX : undefined}
+				// A clickable marker lets Google move focus between markers, which
+				// pulls focus out of the radius input. The content handles its own
+				// pointer events instead.
+				clickable={false}
 			>
-				<div className="relative flex flex-col items-center">
+				<div
+					role="group"
+					aria-label={label}
+					className="pointer-events-auto relative flex flex-col items-center"
+					{...{ [MAP_CONTROL_ATTRIBUTE]: "" }}
+					onMouseEnter={() => setIsHovered(true)}
+					onMouseLeave={() => setIsHovered(false)}
+					onFocus={() => setHasFocus(true)}
+					onBlur={(event) => {
+						if (!event.currentTarget.contains(event.relatedTarget)) {
+							setHasFocus(false);
+						}
+					}}
+				>
+					{/* The bottom padding bridges the pin and the panel, so moving
+					    the pointer up to the panel keeps the hover. */}
 					<div
 						className={twMerge(
-							"absolute bottom-full mb-1 rounded-md border border-border bg-card p-2 text-card-foreground shadow-md transition-opacity duration-150",
-							isHovered
+							"absolute bottom-full pb-1 transition-opacity duration-150",
+							isPanelOpen
 								? "pointer-events-auto opacity-100"
 								: "pointer-events-none opacity-0",
 						)}
 					>
-						<RadiusMetersInput
-							label={t("campaigns.targeting.radiusFor", { place: label })}
-							radiusMeters={point.radiusMeters}
-							onRadiusChange={onRadiusChange}
-						/>
+						<div className="rounded-md border border-border bg-card p-2 text-card-foreground shadow-md">
+							<RadiusMetersInput
+								label={t("campaigns.targeting.radiusFor", { place: label })}
+								radiusMeters={point.radiusMeters}
+								onRadiusChange={onRadiusChange}
+							/>
+						</div>
 					</div>
 					<button
 						type="button"
 						aria-label={t("campaigns.targeting.removePoint", { place: label })}
 						className="cursor-pointer border-0 bg-transparent p-0"
-						{...{ [MAP_CONTROL_ATTRIBUTE]: "" }}
 						onClick={(event) => {
 							event.stopPropagation();
 							onRemove();
