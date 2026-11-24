@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   sync:
+    if: github.repository == 'advech/advech-web-app'
     runs-on: ubuntu-latest
 
     steps:
