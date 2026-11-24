@@ -1,13 +1,13 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { Role, UpdateRoleInput } from "../types";
 
 /** Replaces a Role's name, description and Permissions. */
 export async function updateRole({
 	id,
 	payload,
-}: UpdateRoleInput): Promise<ServerResponse<Role>> {
-	return apiClient<ServerResponse<Role>>(`admin/roles/${id}`, {
+}: UpdateRoleInput): Promise<BackendResponse<Role>> {
+	return apiClient<BackendResponse<Role>>(`admin/roles/${id}`, {
 		method: "PATCH",
 		body: JSON.stringify(payload),
 	});

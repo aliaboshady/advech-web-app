@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import {
 	RequestPasswordResetPayload,
 	RequestPasswordResetResponse,
@@ -8,9 +8,9 @@ import {
 export const requestPasswordReset = async ({
 	email,
 }: RequestPasswordResetPayload): Promise<
-	ServerResponse<RequestPasswordResetResponse>
+	BackendResponse<RequestPasswordResetResponse>
 > => {
-	const res = await apiClient<ServerResponse<RequestPasswordResetResponse>>(
+	const res = await apiClient<BackendResponse<RequestPasswordResetResponse>>(
 		"auth/advertiser/password-reset/request", // TODO: Remove "advertiser" from the endpoint later
 		{
 			method: "POST",

@@ -8,7 +8,7 @@ import { AuthShell, authLinkClass } from "@/features/auth/components/AuthShell";
 import useRequest from "@/hooks/useRequest";
 import { handleFormikError } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { signup } from "../api/signup";
 import {
 	otpStateFromResponse,
@@ -23,7 +23,7 @@ export function SignupPage() {
 
 	const { request, isLoading, isSuccess } = useRequest<
 		SignupPayload,
-		ServerResponse<SignupResponse>
+		BackendResponse<SignupResponse>
 	>(signup, {
 		onSuccess: (res) => {
 			const payload = res.data;

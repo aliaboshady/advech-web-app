@@ -11,7 +11,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { PaginatedResponse, SortType } from "@/types";
+import { PaginationMeta, SortType } from "@/types";
 import NoDataFound from "../NoDataFound";
 import DropdownActions, { DropdownAction } from "./DropdownActions";
 import Pagination from "./Pagination";
@@ -26,7 +26,7 @@ export type Column = {
 };
 
 type Props = {
-	items: any[];
+	items?: any[];
 	columns: Column[];
 	selection?: boolean;
 	setSelectedRows?: (val: string[]) => void;
@@ -38,7 +38,7 @@ type Props = {
 	setPage?: (val: number) => void;
 	itemsPerPage?: number;
 	setItemsPerPage?: (val: number) => void;
-	dataPagination?: PaginatedResponse<any>;
+	paginationMeta?: PaginationMeta;
 	dropdownActions?: DropdownAction[];
 	loading?: boolean;
 	className?: string;
@@ -59,7 +59,7 @@ const DataTable = ({
 	setPage,
 	itemsPerPage,
 	setItemsPerPage,
-	dataPagination,
+	paginationMeta,
 	dropdownActions,
 	loading,
 	className,
@@ -92,8 +92,8 @@ const DataTable = ({
 
 	const handleSelectAllRows = (checked: boolean) => {
 		if (checked) {
-			const allIds = items.map((item) => String(item.id));
-			setSelected(allIds);
+			const allIds = items?.map((item) => String(item.id));
+			setSelected(allIds || []);
 			setSelectedAll(true);
 		} else {
 			setSelected([]);
@@ -259,11 +259,11 @@ const DataTable = ({
 			<div className="w-full p-4 flex justify-center sm:justify-end items-center">
 				{/* {selection && <div className="text-sm">Selected {selected.length}</div>} */}
 
-				{page && setPage && dataPagination && (
+				{page && setPage && paginationMeta && (
 					<Pagination
 						currentPage={page}
 						setPage={setPage}
-						dataPagination={dataPagination}
+						paginationMeta={paginationMeta}
 						itemsPerPage={itemsPerPage}
 						setItemsPerPage={setItemsPerPage}
 					/>

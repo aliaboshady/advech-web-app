@@ -1,12 +1,12 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { CampaignCreative } from "../types";
 
 /** Lists every Creative on the Campaign, confirmed or not. */
 export async function listCreatives(
 	campaignId: string,
-): Promise<ServerResponse<CampaignCreative[]>> {
-	return apiClient<ServerResponse<CampaignCreative[]>>(
+): Promise<BackendResponse<CampaignCreative[]>> {
+	return apiClient<BackendResponse<CampaignCreative[]>>(
 		`campaigns/${campaignId}/creatives`,
 		{ method: "GET" },
 	);

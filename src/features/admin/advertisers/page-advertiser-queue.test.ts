@@ -49,8 +49,8 @@ describe("pageAdvertiserQueue", () => {
 			...baseQuery,
 			search: "  aCmE  ",
 		});
-		expect(page.docs.map((advertiser) => advertiser.id)).toEqual(["adv-acme"]);
-		expect(page.totalItems).toBe(1);
+		expect(page.data.map((advertiser) => advertiser.id)).toEqual(["adv-acme"]);
+		expect(page.meta.total).toBe(1);
 	});
 
 	it("finds an Advertiser by owner email", () => {
@@ -58,7 +58,7 @@ describe("pageAdvertiserQueue", () => {
 			...baseQuery,
 			search: "hello@beta",
 		});
-		expect(page.docs.map((advertiser) => advertiser.id)).toEqual(["adv-beta"]);
+		expect(page.data.map((advertiser) => advertiser.id)).toEqual(["adv-beta"]);
 	});
 
 	it("does not match country or city", () => {
@@ -66,8 +66,8 @@ describe("pageAdvertiserQueue", () => {
 			...baseQuery,
 			search: "Cairo",
 		});
-		expect(page.docs).toEqual([]);
-		expect(page.totalItems).toBe(0);
+		expect(page.data).toEqual([]);
+		expect(page.meta.total).toBe(0);
 	});
 
 	it("sorts by created date so the oldest request can come first", () => {
@@ -76,7 +76,7 @@ describe("pageAdvertiserQueue", () => {
 			orderBy: "createdAt",
 			orderType: "asc",
 		});
-		expect(page.docs.map((advertiser) => advertiser.id)).toEqual([
+		expect(page.data.map((advertiser) => advertiser.id)).toEqual([
 			"adv-beta",
 			"adv-acme",
 			"adv-blank",
@@ -89,7 +89,7 @@ describe("pageAdvertiserQueue", () => {
 			orderBy: "companyName",
 			orderType: "desc",
 		});
-		expect(page.docs.map((advertiser) => advertiser.id)).toEqual([
+		expect(page.data.map((advertiser) => advertiser.id)).toEqual([
 			"adv-beta",
 			"adv-acme",
 			"adv-blank",
@@ -102,7 +102,7 @@ describe("pageAdvertiserQueue", () => {
 			orderBy: "status",
 			orderType: "asc",
 		});
-		expect(page.docs.map((advertiser) => advertiser.id)).toEqual([
+		expect(page.data.map((advertiser) => advertiser.id)).toEqual([
 			"adv-beta",
 			"adv-acme",
 			"adv-blank",
@@ -117,14 +117,12 @@ describe("pageAdvertiserQueue", () => {
 			orderBy: "createdAt",
 			orderType: "asc",
 		});
-		expect(page.docs.map((advertiser) => advertiser.id)).toEqual(["adv-acme"]);
-		expect(page).toMatchObject({
+		expect(page.data.map((advertiser) => advertiser.id)).toEqual(["adv-acme"]);
+		expect(page.meta).toEqual({
 			page: 2,
 			limit: 1,
-			totalItems: 3,
+			total: 3,
 			totalPages: 3,
-			hasPreviousPage: true,
-			hasNextPage: true,
 		});
 	});
 
@@ -134,13 +132,8 @@ describe("pageAdvertiserQueue", () => {
 			search: "missing-company",
 		});
 		expect(page).toEqual({
-			docs: [],
-			limit: 10,
-			totalItems: 0,
-			page: 1,
-			totalPages: 0,
-			hasPreviousPage: false,
-			hasNextPage: false,
+			data: [],
+			meta: { page: 1, limit: 10, total: 0, totalPages: 0 },
 		});
 	});
 
@@ -150,13 +143,11 @@ describe("pageAdvertiserQueue", () => {
 			page: 4,
 			limit: 1,
 		});
-		expect(page.docs).toEqual([]);
-		expect(page).toMatchObject({
+		expect(page.data).toEqual([]);
+		expect(page.meta).toMatchObject({
 			page: 4,
-			totalItems: 2,
+			total: 2,
 			totalPages: 2,
-			hasPreviousPage: true,
-			hasNextPage: false,
 		});
 	});
 });

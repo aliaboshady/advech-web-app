@@ -36,10 +36,12 @@ const useRequest = <P, R>(
 		showErrorToast = true,
 	}: RequestOptions<R> = {},
 ) => {
-	const [data, setData] = useState<R | null>(null);
+	const [data, setData] = useState<R | undefined>(undefined);
 	const [isLoading, setIsLoading] = useState(fetchOnMount);
 	const [isSuccess, setIsSuccess] = useState(false);
-	const [error, setError] = useState<Error | ErrorResponse | null>(null);
+	const [error, setError] = useState<Error | ErrorResponse | undefined>(
+		undefined,
+	);
 
 	const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
 
@@ -60,7 +62,7 @@ const useRequest = <P, R>(
 
 		setIsLoading(true);
 		setIsSuccess(false);
-		setError(null);
+		setError(undefined);
 		onStart?.();
 
 		try {
@@ -140,8 +142,8 @@ const useRequest = <P, R>(
 	};
 
 	const reset = () => {
-		setData(null);
-		setError(null);
+		setData(undefined);
+		setError(undefined);
 		setIsLoading(false);
 		setIsSuccess(false);
 	};

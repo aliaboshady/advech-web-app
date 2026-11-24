@@ -6,7 +6,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import Switch from "../Inputs/Switch";
+import Switch from "../inputs/Switch";
 import { Slider } from "../ui/slider";
 import { MapMarker } from "./MapMarker";
 import { SearchBox } from "./SearchBox";
@@ -20,6 +20,7 @@ const STATIONARY_MARKER_RADIUS_KM = 0.1;
 export type Place = {
 	id: string;
 	name: string;
+	address?: string;
 	lat: number;
 	lng: number;
 };

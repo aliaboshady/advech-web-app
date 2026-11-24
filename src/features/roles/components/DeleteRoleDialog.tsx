@@ -2,7 +2,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
 import useRequest from "@/hooks/useRequest";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { deleteRole } from "../api/delete-role";
 import { Role } from "../types";
 
@@ -20,7 +20,7 @@ export function DeleteRoleDialog({
 }: DeleteRoleDialogProps) {
 	const { t } = useTranslation();
 	const router = useRouter();
-	const { request } = useRequest<string, ServerResponse<null>>(deleteRole);
+	const { request } = useRequest<string, BackendResponse<null>>(deleteRole);
 	async function confirmDelete(): Promise<void> {
 		if (!role) {
 			return;

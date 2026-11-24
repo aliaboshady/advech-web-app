@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { SaveOnboardingFormPayload } from "../build-onboarding-payload";
 import { OnboardingState } from "../types";
 
@@ -9,8 +9,8 @@ import { OnboardingState } from "../types";
  */
 export const saveOnboardingForm = async (
 	payload: SaveOnboardingFormPayload,
-): Promise<ServerResponse<OnboardingState>> => {
-	const res = await apiClient<ServerResponse<OnboardingState>>(
+): Promise<BackendResponse<OnboardingState>> => {
+	const res = await apiClient<BackendResponse<OnboardingState>>(
 		"advertiser/onboarding/form",
 		{ method: "PUT", body: JSON.stringify(payload) },
 	);

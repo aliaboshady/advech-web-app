@@ -4,12 +4,12 @@ import ConfirmationDialog from "@/components/Dialogs/ConfirmationDialog";
 import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { DropdownAction } from "@/components/Table/DropdownActions";
-import { PaginatedResponse, SortType } from "@/types";
+import { BackendResponse, SortType } from "@/types";
 import { formatMoney } from "../format-money";
 import { Campaign } from "../types";
 
 type Props = {
-	data?: PaginatedResponse<Campaign> | null;
+	data?: BackendResponse<Campaign[]>;
 	setPage?: (val: number) => void;
 	page?: number;
 	setLimit?: (val: number) => void;
@@ -34,7 +34,7 @@ const Table = ({
 	loading,
 }: Props) => {
 	const { t, i18n } = useTranslation();
-	const items = data?.data?.docs ?? [];
+	const items = data?.data ?? [];
 
 	const columns: Column[] = [
 		{
@@ -88,7 +88,7 @@ const Table = ({
 			className="rounded-none border-0"
 			items={items}
 			columns={columns}
-			dataPagination={data ?? undefined}
+			paginationMeta={data?.meta}
 			page={page}
 			setPage={setPage}
 			setItemsPerPage={setLimit}

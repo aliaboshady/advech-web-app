@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import useRequest from "@/hooks/useRequest";
-import {
-	ErrorResponse,
-	PaginatedResponse,
-	ServerResponse,
-	SortType,
-} from "@/types";
+import { BackendResponse, ErrorResponse, SortType } from "@/types";
 import {
 	AdvertiserQueueStatusFilter,
 	AdvertiserSummary,
@@ -42,7 +37,7 @@ export function useAdvertiserQueue() {
 		error,
 	} = useRequest<
 		AdvertiserQueueStatusFilter,
-		ServerResponse<AdvertiserSummary[]>
+		BackendResponse<AdvertiserSummary[]>
 	>(listAdvertisers);
 	const refetch = async (): Promise<void> => {
 		const result = await fetchList(status);
@@ -85,12 +80,12 @@ export function useAdvertiserQueue() {
 		SEARCH_DELAY_MS,
 		[search],
 	);
-	const data: PaginatedResponse<AdvertiserSummary> | null =
+	const data: BackendResponse<AdvertiserSummary[]> | undefined =
 		advertisers === null
-			? null
+			? undefined
 			: {
 					success: true,
-					data: pageAdvertiserQueue(advertisers, {
+					...pageAdvertiserQueue(advertisers, {
 						page,
 						limit,
 						search: debouncedSearch,
@@ -98,7 +93,8 @@ export function useAdvertiserQueue() {
 						orderType: sortType,
 					}),
 				};
-	const isQueueLoading = isLoading || (advertisers === null && error === null);
+	const isQueueLoading =
+		isLoading || (advertisers === null && error === undefined);
 	return {
 		fetch: fetchList,
 		refetch,
@@ -121,4 +117,4 @@ export function useAdvertiserQueue() {
 	};
 }
 
-export type AdvertiserQueueError = Error | ErrorResponse | null;
+export type AdvertiserQueueError = Error | ErrorResponse | undefined;

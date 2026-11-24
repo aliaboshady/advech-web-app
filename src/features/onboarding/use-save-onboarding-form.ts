@@ -1,7 +1,7 @@
 import { useRouter } from "@tanstack/react-router";
 import useRequest from "@/hooks/useRequest";
 import { getAccessToken } from "@/lib/tokenUtils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { saveOnboardingForm } from "./api/save-onboarding-form";
 import type { SaveOnboardingFormPayload } from "./build-onboarding-payload";
 import {
@@ -18,23 +18,23 @@ import type { OnboardingState } from "./types";
  */
 export function useSaveOnboardingForm() {
 	const router = useRouter();
-	return useRequest<SaveOnboardingFormPayload, ServerResponse<OnboardingState>>(
-		saveOnboardingForm,
-		{
-			onError: (error) => {
-				if ("code" in error && isFormLocked(error)) {
-					// The status locked the form meanwhile: reload the state so the
-					// status screen replaces the form.
-					clearCachedOnboarding();
-					void router.invalidate();
-				}
-			},
-			onSuccess: async (res) => {
-				if (res.data) {
-					storeOnboarding(getAccessToken(), res.data);
-					await router.invalidate();
-				}
-			},
+	return useRequest<
+		SaveOnboardingFormPayload,
+		BackendResponse<OnboardingState>
+	>(saveOnboardingForm, {
+		onError: (error) => {
+			if ("code" in error && isFormLocked(error)) {
+				// The status locked the form meanwhile: reload the state so the
+				// status screen replaces the form.
+				clearCachedOnboarding();
+				void router.invalidate();
+			}
 		},
-	);
+		onSuccess: async (res) => {
+			if (res.data) {
+				storeOnboarding(getAccessToken(), res.data);
+				await router.invalidate();
+			}
+		},
+	});
 }

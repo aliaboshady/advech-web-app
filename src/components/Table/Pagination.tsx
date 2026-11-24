@@ -2,13 +2,13 @@ import { ChevronLastIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
-import { PaginatedResponse } from "@/types";
+import { PaginationMeta } from "@/types";
 import { DropdownItemsPerPage } from "./DropdownItemsPerPage";
 
 type Props = {
 	currentPage: number;
 	setPage: (val: number) => void;
-	dataPagination: PaginatedResponse<any>;
+	paginationMeta: PaginationMeta;
 	itemsPerPage?: number;
 	setItemsPerPage?: (val: number) => void;
 	className?: string;
@@ -18,7 +18,7 @@ type Props = {
 const Pagination = ({
 	currentPage,
 	setPage,
-	dataPagination,
+	paginationMeta,
 	itemsPerPage,
 	setItemsPerPage,
 	className,
@@ -28,10 +28,10 @@ const Pagination = ({
 	const [totalPages, setTotalPages] = useState(0);
 
 	useEffect(() => {
-		if (dataPagination) {
-			setTotalPages(dataPagination?.data?.totalPages ?? 0);
+		if (paginationMeta) {
+			setTotalPages(paginationMeta?.totalPages ?? 0);
 		}
-	}, [dataPagination]);
+	}, [paginationMeta]);
 
 	const startPage = Math.max(
 		Math.min(
@@ -46,8 +46,8 @@ const Pagination = ({
 		(_, i) => startPage + i + 1,
 	);
 
-	const totalItems = dataPagination?.data?.totalItems ?? 0;
-	const limit = dataPagination?.data?.limit ?? 0;
+	const totalItems = paginationMeta?.total ?? 0;
+	const limit = paginationMeta?.limit ?? 0;
 	const startItem = (currentPage - 1) * limit + (totalItems > 0 ? 1 : 0);
 	const endItem = Math.min(currentPage * limit, totalItems);
 

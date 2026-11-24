@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { ConfirmPasswordResetPayload } from "../types";
 
 /**
@@ -11,8 +11,8 @@ export const confirmPasswordReset = async ({
 	email,
 	code,
 	newPassword,
-}: ConfirmPasswordResetPayload): Promise<ServerResponse<void>> => {
-	const res = await apiClient<ServerResponse<void>>(
+}: ConfirmPasswordResetPayload): Promise<BackendResponse<void>> => {
+	const res = await apiClient<BackendResponse<void>>(
 		"auth/advertiser/password-reset/confirm", // TODO: Remove "advertiser" from the endpoint later
 		{
 			method: "POST",

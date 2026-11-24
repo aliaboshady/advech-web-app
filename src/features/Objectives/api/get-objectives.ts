@@ -1,9 +1,11 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { Objective } from "../types";
 
-export const getObjectives = async (): Promise<ServerResponse<Objective[]>> => {
-	const res = await apiClient<ServerResponse<Objective[]>>("objectives", {
+export const getObjectives = async (): Promise<
+	BackendResponse<Objective[]>
+> => {
+	const res = await apiClient<BackendResponse<Objective[]>>("objectives", {
 		method: "GET",
 	});
 

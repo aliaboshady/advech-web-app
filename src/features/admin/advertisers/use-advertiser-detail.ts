@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useRequest from "@/hooks/useRequest";
-import { ErrorResponse, ServerResponse } from "@/types";
+import { BackendResponse, ErrorResponse } from "@/types";
 import { AdvertiserDetail } from "./advertiser-detail";
 import { getAdvertiser } from "./api/get-advertiser";
 
@@ -12,7 +12,7 @@ export function useAdvertiserDetail(advertiserId: string) {
 	const [advertiser, setAdvertiser] = useState<AdvertiserDetail | null>(null);
 	const { request, isLoading, error } = useRequest<
 		string,
-		ServerResponse<AdvertiserDetail>
+		BackendResponse<AdvertiserDetail>
 	>(getAdvertiser, { showErrorToast: false });
 	const reload = async (): Promise<void> => {
 		const result = await request(advertiserId);
@@ -39,4 +39,4 @@ export function useAdvertiserDetail(advertiserId: string) {
 	return { advertiser, setAdvertiser, reload, isLoading, error };
 }
 
-export type AdvertiserDetailError = Error | ErrorResponse | null;
+export type AdvertiserDetailError = Error | ErrorResponse | undefined;

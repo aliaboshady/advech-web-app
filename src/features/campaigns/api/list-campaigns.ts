@@ -1,13 +1,9 @@
 import { apiClient } from "@/api/apiClient";
-import { Paginated, PaginatedResponse, ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { Campaign, ListCampaignsPayload } from "../types";
 
 /** The backend's search needs at least two characters. */
 const MIN_SEARCH_LENGTH = 2;
-
-type CampaignListResponse = ServerResponse<Campaign[]> & {
-	meta?: { page: number; limit: number; total: number; totalPages: number };
-};
 
 const toQuery = (payload: ListCampaignsPayload): string => {
 	const params = new URLSearchParams();
@@ -37,29 +33,10 @@ const toQuery = (payload: ListCampaignsPayload): string => {
 	return params.toString();
 };
 
-/** Lists the Advertiser's Campaigns, reshaping the backend's `meta` into `Paginated`. */
+/** Lists the Advertiser's Campaigns, one page at a time. */
 export const listCampaigns = async (
 	payload: ListCampaignsPayload,
-): Promise<PaginatedResponse<Campaign>> => {
-	const res = await apiClient<CampaignListResponse>(
-		`campaigns?${toQuery(payload)}`,
-		{ method: "GET" },
-	);
-
-	if (res.error || !res.data || !res.meta) {
-		return { error: res.error };
-	}
-
-	const { page, limit, total, totalPages } = res.meta;
-	const paginated: Paginated<Campaign> = {
-		docs: res.data,
-		limit,
-		totalItems: total,
-		page,
-		totalPages,
-		hasPreviousPage: page > 1,
-		hasNextPage: page < totalPages,
-	};
-
-	return { success: res.success, data: paginated };
-};
+): Promise<BackendResponse<Campaign[]>> =>
+	apiClient<BackendResponse<Campaign[]>>(`campaigns?${toQuery(payload)}`, {
+		method: "GET",
+	});

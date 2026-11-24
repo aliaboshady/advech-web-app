@@ -17,7 +17,7 @@ import { resolveErrorMessage } from "@/lib/error-messages";
 import { saveTokens } from "@/lib/tokenUtils";
 import { handleFormikError, isErrorResponse } from "@/lib/utils";
 import { validationSchema } from "@/lib/validation";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { loginAdmin } from "../api/login-admin";
 
 const adminLoginRoute = getRouteApi("/_public/auth/admin/login");
@@ -29,10 +29,10 @@ export function AdminLoginPage() {
 	const { start: startTopLoader } = useTopLoader();
 	const { request, isLoading, isSuccess, error } = useRequest<
 		LoginPayload,
-		ServerResponse<LoginResponse>
+		BackendResponse<LoginResponse>
 	>(loginAdmin, {
 		showErrorToast: false,
-		onSuccess: async (res: ServerResponse<LoginResponse>) => {
+		onSuccess: async (res: BackendResponse<LoginResponse>) => {
 			const { refreshToken, accessToken } = res?.data ?? {};
 			if (refreshToken && accessToken) {
 				startTopLoader();

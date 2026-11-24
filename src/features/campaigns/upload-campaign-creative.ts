@@ -1,4 +1,4 @@
-import { ErrorResponse, ServerResponse } from "@/types";
+import { BackendResponse, ErrorResponse } from "@/types";
 import {
 	CreativeFileError,
 	gateCreativeFile,
@@ -17,14 +17,14 @@ import {
 export type CreativeUploadClient = {
 	deleteCreative: (
 		payload: DeleteCreativePayload,
-	) => Promise<ServerResponse<never>>;
+	) => Promise<BackendResponse<never>>;
 	createUploadIntent: (
 		payload: CreateCreativeUploadIntentPayload,
-	) => Promise<ServerResponse<CreativeUploadIntent>>;
+	) => Promise<BackendResponse<CreativeUploadIntent>>;
 	putCreativeFile: (payload: PutCreativeFilePayload) => Promise<void>;
 	confirmCreative: (
 		payload: ConfirmCreativePayload,
-	) => Promise<ServerResponse<CampaignCreative>>;
+	) => Promise<BackendResponse<CampaignCreative>>;
 };
 
 export type MeasuredCreativeFile = {
@@ -41,7 +41,7 @@ export type UploadCampaignCreativeInput = MeasuredCreativeFile & {
 	onExistingCreativeRemoved?: () => void;
 };
 
-function unwrap<T>(response: ServerResponse<T>): T {
+function unwrap<T>(response: BackendResponse<T>): T {
 	if (response.error) {
 		throw response.error;
 	}

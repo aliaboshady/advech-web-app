@@ -1,7 +1,7 @@
 import { FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
-import Dropdown from "@/components/Inputs/Dropdown";
-import TextInput from "@/components/Inputs/TextInput";
+import Dropdown from "@/components/inputs/Dropdown";
+import TextInput from "@/components/inputs/TextInput";
 import { SchedulePresetOption } from "@/features/lookups/types";
 import {
 	DaypartingKind,

@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { StatusBadge } from "@/components/StatusBadge/StatusBadge";
 import DataTable, { Column } from "@/components/Table/DataTable";
 import { formatDate } from "@/lib/utils";
-import { PaginatedResponse, SortType } from "@/types";
+import { BackendResponse, SortType } from "@/types";
 import { AdvertiserSummary } from "../advertiser-summary";
 import { isProminentQueueRow } from "../queue-row-emphasis";
 
 type AdvertiserQueueTableProps = {
-	readonly data?: PaginatedResponse<AdvertiserSummary> | null;
+	readonly data?: BackendResponse<AdvertiserSummary[]>;
 	readonly page?: number;
 	readonly setPage?: (page: number) => void;
 	readonly limit?: number;
@@ -49,7 +49,7 @@ export function AdvertiserQueueTable({
 	loading,
 }: AdvertiserQueueTableProps) {
 	const { t } = useTranslation();
-	const items = data?.data?.docs ?? [];
+	const items = data?.data ?? [];
 	const columns: Column[] = [
 		{
 			header: () => t("admin.advertisers.columns.companyName"),
@@ -101,7 +101,7 @@ export function AdvertiserQueueTable({
 			}
 			items={items}
 			columns={columns}
-			dataPagination={data ?? undefined}
+			paginationMeta={data?.meta}
 			page={page}
 			setPage={setPage}
 			setItemsPerPage={setLimit}

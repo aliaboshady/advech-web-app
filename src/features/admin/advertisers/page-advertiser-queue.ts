@@ -1,4 +1,4 @@
-import { Paginated, SortType } from "@/types";
+import { PaginationMeta, SortType } from "@/types";
 import { AdvertiserSummary } from "./advertiser-summary";
 
 export type AdvertiserQueueQuery = {
@@ -57,7 +57,7 @@ function compareAdvertisers(
 export function pageAdvertiserQueue(
 	advertisers: readonly AdvertiserSummary[],
 	query: AdvertiserQueueQuery,
-): Paginated<AdvertiserSummary> {
+): { data: AdvertiserSummary[]; meta: PaginationMeta } {
 	const direction = query.orderType === "asc" ? 1 : -1;
 	const matched = advertisers
 		.filter((advertiser) => matchesSearch(advertiser, query.search))
@@ -66,20 +66,15 @@ export function pageAdvertiserQueue(
 				direction * compareAdvertisers(left, right, query.orderBy),
 		);
 	const pageSize = query.limit;
-	const totalItems = matched.length;
-	const totalPages = pageSize > 0 ? Math.ceil(totalItems / pageSize) : 0;
+	const total = matched.length;
+	const totalPages = pageSize > 0 ? Math.ceil(total / pageSize) : 0;
 	const start = (query.page - 1) * pageSize;
-	const docs =
+	const data =
 		pageSize > 0 && query.page >= 1
 			? matched.slice(start, start + pageSize)
 			: [];
 	return {
-		docs,
-		limit: pageSize,
-		totalItems,
-		page: query.page,
-		totalPages,
-		hasPreviousPage: query.page > 1,
-		hasNextPage: query.page < totalPages,
+		data,
+		meta: { page: query.page, limit: pageSize, total, totalPages },
 	};
 }

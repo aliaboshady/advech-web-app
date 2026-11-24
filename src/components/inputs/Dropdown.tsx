@@ -286,7 +286,7 @@ export default function Dropdown({
 							className="w-full justify-center truncate hover:bg-secondary/30! hover:text-primary!"
 						>
 							<div className="flex flex-row items-center gap-2">
-								<p className="truncate">{t("locale:ADD_NEW_OPTION")}</p>
+								<p className="truncate">{t("common.addNewOption")}</p>
 								<PlusIcon />
 							</div>
 						</DropdownMenuItem>

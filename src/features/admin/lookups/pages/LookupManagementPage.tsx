@@ -10,7 +10,7 @@ import { AdminNoAccess } from "@/features/admin/components/AdminNoAccess";
 import useRequest from "@/hooks/useRequest";
 import { resolveErrorMessage } from "@/lib/error-messages";
 import { isErrorResponse } from "@/lib/utils";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { listLookupEntries } from "../api/list-lookup-entries";
 import { setLookupEntryActive } from "../api/set-lookup-entry-active";
 import { LookupEditor, LookupEntryForm } from "../components/LookupEntryForm";
@@ -24,10 +24,10 @@ type LookupManagementPageProps = {
 
 function readListError(
 	entries: readonly LookupEntry[],
-	error: Error | { code: string; message: string } | null,
+	error: Error | { code: string; message: string } | undefined,
 	language: string,
 ): string | null {
-	if (entries.length > 0 || error === null) {
+	if (entries.length > 0 || error === undefined) {
 		return null;
 	}
 	if (isErrorResponse(error)) {
@@ -59,13 +59,13 @@ function LookupManagementScreen({ resource }: LookupManagementPageProps) {
 		data,
 		isLoading,
 		error,
-	} = useRequest<void, ServerResponse<LookupEntry[]>>(
+	} = useRequest<void, BackendResponse<LookupEntry[]>>(
 		() => listLookupEntries(resource.collectionPath),
 		{ fetchOnMount: true, showErrorToast: false },
 	);
 	const { request: requestActive, isLoading: isUpdating } = useRequest<
 		Parameters<typeof setLookupEntryActive>[0],
-		ServerResponse<LookupEntry>
+		BackendResponse<LookupEntry>
 	>(setLookupEntryActive);
 	const entries = data?.data ?? [];
 	const listError = readListError(entries, error, i18n.language);

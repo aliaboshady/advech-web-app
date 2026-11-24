@@ -1,12 +1,12 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { AdvertiserDetail } from "../advertiser-detail";
 
 /** Loads one Advertiser so an Admin can judge it. */
 export async function getAdvertiser(
 	advertiserId: string,
-): Promise<ServerResponse<AdvertiserDetail>> {
-	return apiClient<ServerResponse<AdvertiserDetail>>(
+): Promise<BackendResponse<AdvertiserDetail>> {
+	return apiClient<BackendResponse<AdvertiserDetail>>(
 		`admin/advertisers/${encodeURIComponent(advertiserId)}`,
 		{ method: "GET" },
 	);

@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/apiClient";
-import { ServerResponse } from "@/types";
+import { BackendResponse } from "@/types";
 import { AdminInviteRequest } from "../build-admin-invite-request";
 
 /** Invite the backend created. `devToken` is only present in dev. */
@@ -12,8 +12,8 @@ export type CreatedAdminInvite = {
 /** Sends an Admin invite. The backend still enforces `admins:invite`. */
 export async function createAdminInvite(
 	request: AdminInviteRequest,
-): Promise<ServerResponse<CreatedAdminInvite>> {
-	return apiClient<ServerResponse<CreatedAdminInvite>>("admin/invites", {
+): Promise<BackendResponse<CreatedAdminInvite>> {
+	return apiClient<BackendResponse<CreatedAdminInvite>>("admin/invites", {
 		method: "POST",
 		body: JSON.stringify(request),
 	});
