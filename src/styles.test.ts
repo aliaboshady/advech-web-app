@@ -6,7 +6,7 @@ const css = readFileSync(new URL("./styles.css", import.meta.url), "utf8");
 /** Custom properties declared directly inside the first `selector { ... }` block. */
 function tokens(selector: string): Map<string, string> {
 	const start = css.indexOf(`\n${selector} {`);
-	if (start === -1) throw new Error(`No ${selector} block in styles.css`);
+	if (start === -1) throw new Error(`No ${selector} block in file styles.css`);
 	const end = css.indexOf("\n}", start);
 	const body = css.slice(start, end);
 	const map = new Map<string, string>();
